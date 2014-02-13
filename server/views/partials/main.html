@@ -1,0 +1,17 @@
+<div class="container">
+    <div class="jumbotron"><h1>Mosaic Groups</h1>
+        <p>A listing of all of the groups available this semester</p>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading text-center">Mosaic Groups</div>
+                <div class="panel-body">
+                    <div ng-repeat="group in groups" class="row">
+                        <div class="col-md-12">{{group.name}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
