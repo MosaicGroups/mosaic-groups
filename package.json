@@ -1,0 +1,14 @@
+{
+  "name": "MosaicGroups",
+  "version": "0.0.0",
+  "description": "A website for managing Mosaic groups",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Patrick Blair and Shawn Wallis",
+  "license": "ISC",
+  "dependencies": {
+    "express": "~3.4.8"
+  }
+}
