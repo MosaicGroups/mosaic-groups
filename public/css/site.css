@@ -19,3 +19,9 @@ footer {
 footer p {
   border-top: 1px solid #d7e0e2;
 }
+.navbar-form .form-group {
+  margin-left: 10px;
+}
+.navbar-form .button {
+  margin-left: 10px;
+}
