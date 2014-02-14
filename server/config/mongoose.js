@@ -21,8 +21,6 @@ module.exports = function(env, config) {
 
   userSchema.methods = {
     authenticate: function(passwordToMatch) {
-      console.log('hashPwd = %s', hashPwd(this.salt, passwordToMatch));
-      console.log('this.hash_pwd = %s', this.hashed_pwd);
       return hashPwd(this.salt, passwordToMatch) === this.hashed_pwd;
     }
   }
