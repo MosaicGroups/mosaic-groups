@@ -1,7 +1,8 @@
-angular.module('app').factory('moIdentity', function($window) {
+angular.module('app').factory('moIdentity', function($window, moUser) {
   var currentUser;
   if ($window.bootstrappedUserObject) {
-    currentUser = $window.bootstrappedUserObject;
+    currentUser = new moUser();
+    angular.extend(currentUser, $window.bootstrappedUserObject);
   }
   return {
     currentUser: currentUser,
@@ -11,6 +12,9 @@ angular.module('app').factory('moIdentity', function($window) {
         console.log(" current user: " + this.currentUser.username);
       }
       return !!this.currentUser;
+    },
+    isAuthorized: function(role) {
+      return !!currentUser && this.currentUser.roles.indexOf('admin') > -1;
     }
   }
 })
