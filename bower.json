@@ -15,6 +15,7 @@
     "angular-resource": "~1.2.12",
     "angular-route": "~1.2.12",
     "bootstrap": "~3.1.1",
-    "jade": "~1.1.5"
+    "jade": "~1.1.5",
+    "angular-mocks": "1.2.12"
   }
 }
