@@ -1,0 +1,35 @@
+.container
+  .well
+    form.form-horizontal(name="userCreateFormForm")
+      fieldset
+        legend Create User
+        .form-group
+          label.col-md-2.control-label(for="username") Email
+          .col-md-10
+            input.form-control(name="username", type="email", placeholder="Email", ng-model="username", required, autocomplete="off" )
+        .form-group
+          label.col-md-2.control-label(for="firstName") First Name
+          .col-md-10
+            input.form-control(name="firstName", type="text", placeholder="First Name", ng-model="firstName", required, autocomplete="off" )
+        .form-group
+          label.col-md-2.control-label(for="lastName") Last Name
+          .col-md-10
+            input.form-control(name="lastName", type="text", placeholder="Last Name", ng-model="lastName", required, autocomplete="off" )
+        .form-group
+          label.col-md-2.control-label(for="password") Password
+          .col-md-10
+            input.form-control(name="password", type="password", placeholder="Password", ng-model="password", autocomplete="off" )
+        .form-group(ng-if="identity.isAdmin()")
+          label.col-md-2.control-label(for="adminRole") Admin
+          .col-md-10
+            input(name="adminRole", type="checkbox", ng-model="roles[0]", ng-true-value="admin", ng-false-value="")
+        .form-group(ng-if="identity.isSuperAdmin()")
+          label.col-md-2.control-label(for="superAdminRole") Super Admin
+          .col-md-10
+            input(name="superAdminRole", type="checkbox", ng-model="roles[1]", ng-true-value="superadmin", ng-false-value="")
+        .form-group
+          .col-md-10.col-md-offset-2
+            .pull-right
+              button.btn.btn-primary(ng-click="createUser()", ng-disabled="userCreateFormForm.$invalid") Submit
+              | &nbsp;
+              a.btn.btn-default(href="/") Cancel

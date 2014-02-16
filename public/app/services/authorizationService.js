@@ -1,12 +1,12 @@
-angular.module('app').factory('moAuth', function($http, moIdentity, $q, moUser) {
+angular.module('app').factory('authorizationService', function($http, $q, identityService, User) {
   return {
     authenticateUser: function(username, password) {
       var deferred = $q.defer();
       $http.post('/login', {username: username, password: password}).then(function(response) {
         if (response.data.success) {
-          var user = new moUser();
+          var user = new User();
           angular.extend(user, response.data.user);
-          moIdentity.currentUser = user;
+          identityService.currentUser = user;
           deferred.resolve(true);
         } else {
           deferred.resolve(false);
@@ -16,7 +16,7 @@ angular.module('app').factory('moAuth', function($http, moIdentity, $q, moUser) 
     },
 
     createUser: function(newUserData) {
-      var newUser = new moUser(newUserData);
+      var newUser = new User(newUserData);
       var dfd = $q.defer();
 
       newUser.$save().then(function() {
@@ -31,10 +31,10 @@ angular.module('app').factory('moAuth', function($http, moIdentity, $q, moUser) 
     updateCurrentUser: function(newUserData) {
       var deferred = $q.defer();
 
-      var clone = angular.copy(moIdentity.currentUser);
+      var clone = angular.copy(identityService.currentUser);
       angular.extend(clone, newUserData);
       clone.$update().then(function() {
-        moIdentity.currentUser = clone;
+        identityService.currentUser = clone;
         deferred.resolve();
       }, function(response) {
         deferred.reject(response.data.reason);
@@ -45,20 +45,22 @@ angular.module('app').factory('moAuth', function($http, moIdentity, $q, moUser) 
     logoutUser: function() {
       var deferred = $q.defer();
       $http.post('/logout', {logout:true}).then(function() {
-        moIdentity.currentUser = undefined;
+        identityService.currentUser = undefined;
         deferred.resolve();
       });
       return deferred.promise;
     },
+
     authorizeAuthorizedUserForRoute: function(role) {
-      if (moIdentity.isAuthorized('admin')) {
+      if (identityService.isAuthorized(role)) {
         return true;
       } else {
         return $q.reject('not authorized');
       }
     },
+
     authorizeAuthenticatedUserForRoute: function() {
-      if (moIdentity.isAuthenticated()) {
+      if (identityService.isAuthenticated()) {
         return true;
       } else {
         return $q.reject('not authorized');

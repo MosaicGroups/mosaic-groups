@@ -9,7 +9,8 @@ module.exports = function(app, config) {
   app.put('/api/users', auth.requiresApiLogin, users.updateUser);
 
   app.get('/partials/*', function(req, res) {
-    res.render('../../public/app/' + req.params);
+    console.log("trying to render: " + '../../public/app/views/' + req.params)
+    res.render('../../public/app/views/' + req.params);
   });
 
   app.post('/login', auth.authenticate);

@@ -1,4 +1,4 @@
-angular.module('app').controller('moMainCtrl', function($scope) {
+angular.module('app').controller('homeCtrl', function($scope) {
   $scope.groups = [
     { dayOfWeek: 'Monday', location: 'Halethorpe', semester: 'Spring 2014', name: 'All In' },
     { dayOfWeek: 'Monday', location: 'Regional', semester: 'Spring 2014', name: 'Coffee & Cocoa' },

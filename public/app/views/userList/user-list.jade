@@ -1,0 +1,14 @@
+.container
+  table.table
+    thead
+      tr
+        th Username (Email)
+        th Name
+        th Admin
+        th(ng-if="identity.isSuperAdmin()") Super Admin
+    tbody
+      tr(ng-repeat="user in users")
+        td {{user.username}}
+        td {{user.firstName + " " + user.lastName}}
+        td {{user.isAdmin()}}
+        td(ng-if="identity.isSuperAdmin()") {{user.isSuperAdmin()}}

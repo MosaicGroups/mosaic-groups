@@ -35,10 +35,10 @@ function createDefaultUsers() {
   User.find({}).exec(function(err, collection) {
     if(collection.length === 0) {
       console.log("creating default users");
-      var salt, hash; 
+      var salt, hash;
       salt = encrypt.createSalt();
       hash = encrypt.hashPwd(salt, 'pblair12@gmail.com');
-      User.create({firstName:'Pat',lastName:'Blair',username:'pblair12@gmail.com', salt: salt, hashed_pwd: hash, roles: ['admin']});
+      User.create({firstName:'Pat',lastName:'Blair',username:'pblair12@gmail.com', salt: salt, hashed_pwd: hash, roles: ['admin', 'superadmin']});
     } else {
       console.log("not creating default users because %s users already exist", collection.length);
     }

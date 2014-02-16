@@ -2,31 +2,40 @@ angular.module('app', ['ngResource', 'ngRoute']);
 
 angular.module('app').config(function($routeProvider, $locationProvider) {
   var routeRoleChecks = {
-    admin: {auth: function(moAuth) {
-      return moAuth.authorizeAuthorizedUserForRoute('admin')
+    admin: { auth: function(authorizationService) {
+      return authorizationService.authorizeAuthorizedUserForRoute('admin')
     }},
-    user: {auth: function(moAuth) {
-      return moAuth.authorizeAuthenticatedUserForRoute()
+    user: { auth: function(authorizationService) {
+      return authorizationService.authorizeAuthenticatedUserForRoute()
     }}
   }
 
   $locationProvider.html5Mode(true);
+
+  // configure the available routes
   $routeProvider
-    .when('/', { templateUrl: '/partials/main/main',
-      controller: 'moMainCtrl'
+    // home page
+    .when('/', { templateUrl: '/partials/home/home',
+      controller: 'homeCtrl'
     })
-    .when('/admin/users', { templateUrl: '/partials/admin/user-list',
-      controller: 'moUserListCtrl', resolve: routeRoleChecks.admin
+    // profile page (logged in users only)
+    .when('/views/profile/profile', { templateUrl: '/partials/profile/profile',
+      controller: 'profileCtrl', resolve: routeRoleChecks.user
     })
-    .when('/admin/user/create', { templateUrl: '/partials/admin/user-create',
-      controller: 'moUserCreateCtrl', resolve: routeRoleChecks.admin
+    // list users page (admins only)
+    .when('/views/userList/user-list', { templateUrl: '/partials/userList/user-list',
+      controller: 'userListCtrl', resolve: routeRoleChecks.admin
     })
-    .when('/profile', { templateUrl: '/partials/account/profile',
-      controller: 'moProfileCtrl', resolve: routeRoleChecks.user
+    // create users page (admins only)
+    .when('/views/userCreate/user-create', { templateUrl: '/partials/userCreate/user-create',
+      controller: 'userCreateCtrl', resolve: routeRoleChecks.admin
     });
 });
 
-// runs after module is configured
+/**
+ * If any route is attempted that the user is not authorized for then send
+ * the user back to the home page
+ */
 angular.module('app').run(function($rootScope, $location) {
   $rootScope.$on('$routeChangeError', function(evt, current, previous, rejection) {
     if (rejection === 'not authorized') {
