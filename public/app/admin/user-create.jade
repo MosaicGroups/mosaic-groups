@@ -1,8 +1,8 @@
 .container
   .well
-    form.form-horizontal(name="profileForm")
+    form.form-horizontal(name="userCreateForm")
       fieldset
-        legend User Profile
+        legend Create User
         .form-group
           label.col-md-2.control-label(for="username") Email
           .col-md-10
@@ -22,6 +22,6 @@
         .form-group
           .col-md-10.col-md-offset-2
             .pull-right
-              button.btn.btn-primary(ng-click="update()", ng-disabled="profileForm.$invalid") Submit
+              button.btn.btn-primary(ng-click="update()", ng-disabled="userCreateFormForm.$invalid") Submit
               | &nbsp;
               a.btn.btn-default(href="/") Cancel

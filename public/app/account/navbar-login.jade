@@ -15,7 +15,9 @@
         b.caret
       ul.dropdown-menu
         li(ng-show="identity.currentUser.isAdmin()")
-          a(href="/admin/users") User Admin
+          a(href="/admin/users") List Users
+        li(ng-show="identity.currentUser.isAdmin()")
+          a(href="/admin/user/create") Create User
         li
           a(href="/profile") Profile
         li

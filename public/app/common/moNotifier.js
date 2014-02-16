@@ -5,6 +5,10 @@ angular.module('app').factory('moNotifier', function(moToastr) {
     notify: function(msg) {
       moToastr.success(msg);
       console.log(msg);
+    },
+    error: function(msg) {
+      moToastr.error(msg);
+      console.log(msg);
     }
   }
 })

@@ -1,13 +1,13 @@
 angular.module('app').controller('moProfileCtrl', function($scope, moAuth, moIdentity, moNotifier) {
-  $scope.email = moIdentity.currentUser.username;
-  $scope.fname = moIdentity.currentUser.firstName;
-  $scope.lname = moIdentity.currentUser.lastName;
+  $scope.username = moIdentity.currentUser.username;
+  $scope.firstName = moIdentity.currentUser.firstName;
+  $scope.lastName = moIdentity.currentUser.lastName;
 
   $scope.update = function() {
     var newUserData = {
-      username: $scope.email,
-      firstName: $scope.fname,
-      lastName: $scope.lname
+      username: $scope.username,
+      firstName: $scope.firstName,
+      lastName: $scope.lastName
     }
     if($scope.password && $scope.password.length > 0) {
       newUserData.password = $scope.password;

@@ -15,6 +15,19 @@ angular.module('app').factory('moAuth', function($http, moIdentity, $q, moUser) 
       return deferred.promise;
     },
 
+    createUser: function(newUserData) {
+      var newUser = new moUser(newUserData);
+      var dfd = $q.defer();
+
+      newUser.$save().then(function() {
+        dfd.resolve();
+      }, function(response) {
+        dfd.reject(response.data.reason);
+      });
+
+      return dfd.promise;
+    },
+
     updateCurrentUser: function(newUserData) {
       var deferred = $q.defer();
 
