@@ -14,6 +14,21 @@ angular.module('app').factory('moAuth', function($http, moIdentity, $q, moUser) 
       });
       return deferred.promise;
     },
+
+    updateCurrentUser: function(newUserData) {
+      var deferred = $q.defer();
+
+      var clone = angular.copy(moIdentity.currentUser);
+      angular.extend(clone, newUserData);
+      clone.$update().then(function() {
+        moIdentity.currentUser = clone;
+        deferred.resolve();
+      }, function(response) {
+        deferred.reject(response.data.reason);
+      });
+      return deferred.promise;
+    },
+
     logoutUser: function() {
       var deferred = $q.defer();
       $http.post('/logout', {logout:true}).then(function() {
@@ -22,8 +37,15 @@ angular.module('app').factory('moAuth', function($http, moIdentity, $q, moUser) 
       });
       return deferred.promise;
     },
-    authorizeCurrentUserForRoute: function(role) {
+    authorizeAuthorizedUserForRoute: function(role) {
       if (moIdentity.isAuthorized('admin')) {
+        return true;
+      } else {
+        return $q.reject('not authorized');
+      }
+    },
+    authorizeAuthenticatedUserForRoute: function() {
+      if (moIdentity.isAuthenticated()) {
         return true;
       } else {
         return $q.reject('not authorized');

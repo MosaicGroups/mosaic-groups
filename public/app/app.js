@@ -3,7 +3,10 @@ angular.module('app', ['ngResource', 'ngRoute']);
 angular.module('app').config(function($routeProvider, $locationProvider) {
   var routeRoleChecks = {
     admin: {auth: function(moAuth) {
-      return moAuth.authorizeCurrentUserForRoute('admin')
+      return moAuth.authorizeAuthorizedUserForRoute('admin')
+    }},
+    admin: {auth: function(moAuth) {
+      return moAuth.authorizeAuthenticatedUserForRoute()
     }}
   }
 
@@ -14,6 +17,9 @@ angular.module('app').config(function($routeProvider, $locationProvider) {
     })
     .when('/admin/users', { templateUrl: '/partials/admin/user-list',
       controller: 'moUserListCtrl', resolve: routeRoleChecks.admin
+    })
+    .when('/profile', { templateUrl: '/partials/account/profile',
+      controller: 'moProfileCtrl', resolve: routeRoleChecks.user
     });
 });
 
