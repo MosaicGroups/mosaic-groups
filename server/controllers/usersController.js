@@ -11,6 +11,7 @@ exports.createUser = function(req, res, next) {
   var userData = req.body;
   userData.salt = encrypt.createSalt();
   userData.hashed_pwd = encrypt.hashPwd(userData.salt, userData.password);
+
   User.create(userData, function(err, user) {
     if(err) {
       if(err.toString().indexOf('E11000') > -1) {
@@ -19,10 +20,7 @@ exports.createUser = function(req, res, next) {
       res.status(400);
       return res.send({reason:err.toString()});
     }
-    req.logIn(user, function(err) {
-      if(err) {return next(err);}
-      res.send(user);
-    })
+    res.send(user);
   })
 };
 
@@ -46,3 +44,31 @@ exports.updateUser = function(req, res) {
     res.send(req.user);
   });
 };
+
+exports.deleteUser = function(req, res) {
+  // get the user object from the request body that is to be deleted
+  var userDeleteId = req.query._id;
+
+  // only admins can delete users
+  if(!req.user.hasRole('admin')) {
+    res.status(403);
+    return res.end();
+  }
+  // if there was no user object in the request then return bad request
+  else if (userDeleteId === undefined) {
+    res.status(400);
+    return res.end();
+  }
+  // otherwise, get the user from the database then delete them
+  else {
+    userDelete = User.findById(userDeleteId).exec(function(err, collection) {
+      // if not found then return 404
+      if(err) { res.status(404); return res.send({reason:err.toString()});}
+      // if found then delete
+      collection.remove(function(err) {
+        if(err) { res.status(400); return res.send({reason:err.toString()});}
+        return res.end();
+      });
+    });
+  }
+}

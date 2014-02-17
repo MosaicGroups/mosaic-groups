@@ -28,6 +28,20 @@ angular.module('app').factory('authorizationService', function($http, $q, identi
       return dfd.promise;
     },
 
+    deleteUser: function(user) {
+      var dfd = $q.defer();
+
+      var userToDelete = new User();
+      angular.extend(userToDelete, user);
+      userToDelete.$delete().then(function() {
+        dfd.resolve();
+      }, function(response) {
+        dfd.reject(response.data.reason);
+      })
+
+      return dfd.promise;
+    },
+
     updateCurrentUser: function(newUserData) {
       var deferred = $q.defer();
 
