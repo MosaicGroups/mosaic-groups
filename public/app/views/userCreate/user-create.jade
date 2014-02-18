@@ -1,10 +1,20 @@
 .container
   .well
-    form.form-horizontal(name="userCreateFormForm")
+    form.form-horizontal(name="userCreateForm")
       fieldset
         legend Create User
+
+        h5 Quick User Create
         .form-group
-          label.col-md-2.control-label(for="username") Email
+          label.col-md-2.control-label(for="username") User
+          .col-md-10
+            input.form-control(name="user", type="text", placeholder='FirstName LastName <Email>', ng-model="user", ng-blur="userOnBlur()", autocomplete="off" )
+            i Enter a user in the format: FirstName LastName &lt;Email&gt;
+        hr
+
+        h5 User Create
+        .form-group
+          label.col-md-2.control-label(for="username") Email / Username
           .col-md-10
             input.form-control(name="username", type="email", placeholder="Email", ng-model="username", required, autocomplete="off" )
         .form-group
@@ -18,7 +28,7 @@
         .form-group
           label.col-md-2.control-label(for="password") Password
           .col-md-10
-            input.form-control(name="password", type="password", placeholder="Password", ng-model="password", autocomplete="off" )
+            input.form-control(name="password", type="password", placeholder="Password", ng-model="password", required, autocomplete="off" )
         .form-group(ng-if="identity.isAdmin()")
           label.col-md-2.control-label(for="adminRole") Admin
           .col-md-10
@@ -30,6 +40,6 @@
         .form-group
           .col-md-10.col-md-offset-2
             .pull-right
-              button.btn.btn-primary(ng-click="createUser()", ng-disabled="userCreateFormForm.$invalid") Submit
+              button.btn.btn-primary(ng-click="createUser()") Submit
               | &nbsp;
               a.btn.btn-default(href="/") Cancel

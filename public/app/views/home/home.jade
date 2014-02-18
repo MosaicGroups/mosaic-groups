@@ -1,12 +1,11 @@
 .container
   .jumbotron
     h1 Mosaic Groups
-    p Manage Mosaic Groups
 
   .row
     .col-md-12
       .panel.panel-primary
-        .panel-heading.text-center Groups
+        .panel-heading.text-center Available Groups
         .panel-body
           .row(ng-repeat="group in groups")
             .col-md-12 {{group.name}}

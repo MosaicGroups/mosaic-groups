@@ -61,14 +61,29 @@ exports.deleteUser = function(req, res) {
   }
   // otherwise, get the user from the database then delete them
   else {
-    userDelete = User.findById(userDeleteId).exec(function(err, collection) {
+    User.findById(userDeleteId).exec(function(err, collection) {
+      var userToDelete = collection;
+
       // if not found then return 404
-      if(err) { res.status(404); return res.send({reason:err.toString()});}
+      if(err) {
+        res.status(404);
+        return res.send({reason: err.toString()});
+      }
+      // if the user is a superadmin then they cannot be deleted
+      else if (userToDelete.hasRole('superadmin')) {
+        res.status(403);
+        return res.send({reason: 'superadmin users cannot be deleted'});
+      }
       // if found then delete
-      collection.remove(function(err) {
-        if(err) { res.status(400); return res.send({reason:err.toString()});}
-        return res.end();
-      });
+      else {
+        userToDelete.remove(function(err) {
+          if(err) {
+            res.status(400);
+            return res.send({reason:err.toString()});
+          }
+          return res.end();
+        });
+      }
     });
   }
 }

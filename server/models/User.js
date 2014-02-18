@@ -29,7 +29,7 @@ userSchema.methods = {
     return this.roles.indexOf(role) > -1;
   }
 };
-var User = mongoose.model('User', userSchema);
+var User = mongoose.model('User', userSchema); 
 
 function createDefaultUsers() {
   User.find({}).exec(function(err, collection) {
@@ -37,7 +37,7 @@ function createDefaultUsers() {
       console.log("creating default users");
       var salt, hash;
       salt = encrypt.createSalt();
-      hash = encrypt.hashPwd(salt, 'pblair12@gmail.com');
+      hash = encrypt.hashPwd(salt, 'p');
       User.create({firstName:'Pat',lastName:'Blair',username:'pblair12@gmail.com', salt: salt, hashed_pwd: hash, roles: ['admin', 'superadmin']});
     } else {
       console.log("not creating default users because %s users already exist", collection.length);

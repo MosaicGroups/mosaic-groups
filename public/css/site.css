@@ -28,7 +28,8 @@ footer p {
   margin-left: 10px;
 }
 .toast-top-right {
-  top: 75px;
+  top: 10px;
+  right: 175px;
 }
 .toast-success {
   background-color: #ef6839;
