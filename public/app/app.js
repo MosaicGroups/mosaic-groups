@@ -22,6 +22,10 @@ angular.module('app').config(function($routeProvider, $locationProvider) {
     .when('/views/profile/profile', { templateUrl: '/partials/profile/profile',
       controller: 'profileCtrl', resolve: routeRoleChecks.user
     })
+    // profile page (logged in users only)
+    .when('/views/groupCreate/group-create', { templateUrl: '/partials/groupCreate/group-create',
+      controller: 'groupCreateCtrl', resolve: routeRoleChecks.user
+    })
     // list users page (admins only)
     .when('/views/userList/user-list', { templateUrl: '/partials/userList/user-list',
       controller: 'userListCtrl', resolve: routeRoleChecks.admin

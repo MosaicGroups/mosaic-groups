@@ -29,7 +29,7 @@ userSchema.methods = {
     return this.roles.indexOf(role) > -1;
   }
 };
-var User = mongoose.model('User', userSchema); 
+var User = mongoose.model('User', userSchema);
 
 function createDefaultUsers() {
   User.find({}).exec(function(err, collection) {
