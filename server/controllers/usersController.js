@@ -2,9 +2,20 @@ var User = require('mongoose').model('User'),
   encrypt = require('../utilities/encryption');
 
 exports.getUsers = function(req, res) {
+  console.log("finding all users")
   User.find({}).exec(function(err, collection) {
     res.send(collection);
-  })
+  });
+};
+
+exports.getUser = function(req, res) {
+  var userId = req.params.id;
+  if (userId) {
+    console.log("finding one user")
+    User.findOne({_id: userId}).exec(function(err, user) {
+      res.send(user);
+    });
+  }
 };
 
 exports.createUser = function(req, res, next) {
@@ -32,17 +43,37 @@ exports.updateUser = function(req, res) {
     return res.end();
   }
 
-  req.user.firstName = userUpdates.firstName;
-  req.user.lastName = userUpdates.lastName;
-  req.user.username = userUpdates.username;
-  if(userUpdates.password && userUpdates.password.length > 0) {
-    req.user.salt = encrypt.createSalt();
-    req.user.hashed_pwd = encrypt.hashPwd(req.user.salt, userUpdates.password);
+  // if updating self
+  if (req.user._id == userUpdates._id) {
+    req.user.firstName = userUpdates.firstName;
+    req.user.lastName = userUpdates.lastName;
+    req.user.username = userUpdates.username;
+    if(userUpdates.password && userUpdates.password.length > 0) {
+      req.user.salt = encrypt.createSalt();
+      req.user.hashed_pwd = encrypt.hashPwd(req.user.salt, userUpdates.password);
+    }
+    req.user.save(function(err) {
+      if(err) { res.status(400); return res.send({reason:err.toString()});}
+      res.send(req.user);
+    });
   }
-  req.user.save(function(err) {
-    if(err) { res.status(400); return res.send({reason:err.toString()});}
-    res.send(req.user);
-  });
+  // if admin and updating another user
+  else if (req.user.hasRole('admin')) {
+    var user = {
+      firstName: userUpdates.firstName,
+      lastName: userUpdates.lastName,
+      username: userUpdates.username,
+      roles: userUpdates.roles
+    }
+    if(userUpdates.password && userUpdates.password.length > 0) {
+      user.salt = encrypt.createSalt();
+      user.hashed_pwd = encrypt.hashPwd(user.salt, userUpdates.password);
+    }
+    User.findByIdAndUpdate(userUpdates._id, user, undefined, function(err) {
+      if(err) { res.status(400); return res.send({reason:err.toString()});}
+      res.send(user);
+    });
+  }
 };
 
 exports.deleteUser = function(req, res) {

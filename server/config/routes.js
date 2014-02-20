@@ -5,6 +5,7 @@ var auth = require('./auth'),
 
 module.exports = function(app, config) {
   app.get('/api/users', auth.requiresRole('admin'), users.getUsers);
+  app.get('/api/users/:id', auth.requiresRole('admin'), users.getUser);
   app.post('/api/users', auth.requiresRole('admin'), users.createUser);
   app.delete('/api/users', auth.requiresRole('admin'), users.deleteUser);
   app.put('/api/users', auth.requiresApiLogin, users.updateUser);

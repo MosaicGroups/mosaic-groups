@@ -27,6 +27,10 @@ angular.module('app').config(function($routeProvider, $locationProvider) {
       controller: 'groupCreateCtrl', resolve: routeRoleChecks.user
     })
     // list users page (admins only)
+    .when('/views/userEdit/user-edit/:id', { templateUrl: '/partials/userEdit/user-edit',
+      controller: 'userEditCtrl', resolve: routeRoleChecks.admin
+    })
+    // list users page (admins only)
     .when('/views/userList/user-list', { templateUrl: '/partials/userList/user-list',
       controller: 'userListCtrl', resolve: routeRoleChecks.admin
     })
