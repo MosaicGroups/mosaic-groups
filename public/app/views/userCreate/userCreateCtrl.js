@@ -1,4 +1,4 @@
-angular.module('app').controller('userCreateCtrl', function($scope, authorizationService, notifierService, identityService) {
+angular.module('app').controller('userCreateCtrl', function($scope, userService, notifierService, identityService) {
   $scope.identity = identityService; 
 
   $scope.user = "";
@@ -39,7 +39,7 @@ angular.module('app').controller('userCreateCtrl', function($scope, authorizatio
     $scope.user = $scope.firstName + " " + $scope.lastName + " <" + newVal + ">"
   });
 
-  $scope.createUser = function() {
+  $scope.saveUserData = function() {
     // if the form is valid then submit to the server
     if (userCreateForm.checkValidity()) {
       var newUserData = {
@@ -52,7 +52,7 @@ angular.module('app').controller('userCreateCtrl', function($scope, authorizatio
         newUserData.password = $scope.password;
       }
 
-      authorizationService.createUser(newUserData).then(function() {
+      userService.saveUserData(newUserData).then(function() {
         notifierService.notify('User ' + newUserData.username + ' has been created');
       }, function(reason) {
         notifierService.error(reason);

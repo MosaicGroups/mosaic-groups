@@ -2,13 +2,14 @@ var User = require('mongoose').model('User'),
   encrypt = require('../utilities/encryption');
 
 exports.getUsers = function(req, res) {
-  console.log("finding all users")
+  console.log("getUsers")
   User.find({}).exec(function(err, collection) {
     res.send(collection);
   });
 };
 
 exports.getUser = function(req, res) {
+  console.log("getUser")
   var userId = req.params.id;
   if (userId) {
     console.log("finding one user")
@@ -18,7 +19,8 @@ exports.getUser = function(req, res) {
   }
 };
 
-exports.createUser = function(req, res, next) {
+exports.saveUser = function(req, res, next) {
+  console.log("saveUser")
   var userData = req.body;
   userData.salt = encrypt.createSalt();
   userData.hashed_pwd = encrypt.hashPwd(userData.salt, userData.password);
@@ -78,7 +80,7 @@ exports.updateUser = function(req, res) {
 
 exports.deleteUser = function(req, res) {
   // get the user object from the request body that is to be deleted
-  var userDeleteId = req.query._id;
+  var userDeleteId = req.params.id;
 
   // only admins can delete users
   if(!req.user.hasRole('admin')) {

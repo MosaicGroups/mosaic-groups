@@ -1,9 +1,9 @@
-angular.module('app').controller('profileCtrl', function($scope, authorizationService, notifierService, identityService) {
+angular.module('app').controller('profileCtrl', function($scope, userService, notifierService, identityService) {
   $scope.username = identityService.currentUser.username;
   $scope.firstName = identityService.currentUser.firstName;
   $scope.lastName = identityService.currentUser.lastName;
 
-  $scope.update = function() {
+  $scope.saveUser = function() {
     var newUserData = {
       username: $scope.username,
       firstName: $scope.firstName,
@@ -13,7 +13,13 @@ angular.module('app').controller('profileCtrl', function($scope, authorizationSe
       newUserData.password = $scope.password;
     }
 
-    authorizationService.updateCurrentUser(newUserData).then(function() {
+    // create a new User resource from the current user
+    var user = angular.copy(identityService.currentUser)
+    // copy the new data from the Form to this new User
+    angular.extend(user, newUserData)
+
+    // save the User resource
+    userService.saveUser(user).then(function() {
       notifierService.notify('Your user account has been updated');
     }, function(reason) {
       notifierService.error(reason);

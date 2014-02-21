@@ -1,4 +1,4 @@
-angular.module('app').controller('userListCtrl', function($scope, $location, userService, identityService, authorizationService, notifierService) {
+angular.module('app').controller('userListCtrl', function($scope, $location, userService, identityService, userService, notifierService) {
   $scope.identity = identityService;
   $scope.users = userService.getUsers();
 
@@ -7,7 +7,7 @@ angular.module('app').controller('userListCtrl', function($scope, $location, use
   }
 
   $scope.deleteUser = function(user) {
-    authorizationService.deleteUser(user).then(function() {
+    userService.deleteUser(user).then(function() {
       notifierService.notify('User ' + user.username + ' has been deleted');
       $scope.users = userService.getUsers();
     }, function(reason) {

@@ -4,11 +4,16 @@ var auth = require('./auth'),
   User = mongoose.model('User');
 
 module.exports = function(app, config) {
+  // getUsers
   app.get('/api/users', auth.requiresRole('admin'), users.getUsers);
+  // getUser
   app.get('/api/users/:id', auth.requiresRole('admin'), users.getUser);
-  app.post('/api/users', auth.requiresRole('admin'), users.createUser);
-  app.delete('/api/users', auth.requiresRole('admin'), users.deleteUser);
-  app.put('/api/users', auth.requiresApiLogin, users.updateUser);
+  // createUser
+  app.post('/api/users', auth.requiresRole('admin'), users.saveUser);
+  // deleteUser
+  app.delete('/api/users/:id', auth.requiresRole('admin'), users.deleteUser);
+  // updateUser
+  app.post('/api/users/:id', auth.requiresRole('admin'), users.updateUser);
 
   app.get('/partials/*', function(req, res) {
     console.log("trying to render: " + '../../public/app/views/' + req.params)

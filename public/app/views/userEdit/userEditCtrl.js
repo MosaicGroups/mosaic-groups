@@ -3,8 +3,8 @@ angular.module('app').controller('userEditCtrl', function($scope, $route, notifi
 
   $scope.userToEdit = userService.getUser($route.current.params.id);
 
-  $scope.update = function() {
-    userService.updateUserToEdit($scope.userToEdit).then(function() {
+  $scope.saveUser = function() {
+    userService.saveUser($scope.userToEdit).then(function() {
       notifierService.notify('User has been updated');
     }, function(reason) {
       notifierService.error(reason);
