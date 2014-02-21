@@ -20,6 +20,7 @@ angular.module('app').controller('profileCtrl', function($scope, userService, no
 
     // save the User resource
     userService.saveUser(user).then(function() {
+      angular.extend(identityService.currentUser, user);
       notifierService.notify('Your user account has been updated');
     }, function(reason) {
       notifierService.error(reason);
