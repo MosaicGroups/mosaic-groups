@@ -1,16 +1,16 @@
-angular.module('app').factory('userService', function($q, User) {
+angular.module('app').factory('groupService', function($q, Group) {
   return {
-    getUsers: function() {
-      return User.query();
+    getGroups: function() {
+      return Group.query();
     },
 
-    getUser: function(id) {
-      return User.get({id: id});
+    getGroup: function(id) {
+      return Group.get({id: id});
     },
 
-    deleteUser: function(user) {
+    deleteGroup: function(group) {
       var dfd = $q.defer();
-      user.$delete().then(function() {
+      group.$delete().then(function() {
         dfd.resolve();
       }, function(response) {
         dfd.reject(response.data.reason);
@@ -18,10 +18,10 @@ angular.module('app').factory('userService', function($q, User) {
       return dfd.promise;
     },
 
-    saveUserDataAsNewUser: function(userData) {
-      var user = new User(userData);
+    saveGroupDataAsNewGroup: function(groupData) {
+      var group = new Group(groupData);
       var dfd = $q.defer();
-      user.$save().then(function() {
+      group.$save().then(function() {
         dfd.resolve();
       }, function(response) {
         dfd.reject(response.data.reason);
@@ -30,9 +30,9 @@ angular.module('app').factory('userService', function($q, User) {
       return dfd.promise;
     },
 
-    saveUser: function(user) {
+    saveGroup: function(group) {
       var deferred = $q.defer();
-      user.$save().then(function() {
+      group.$save().then(function() {
         deferred.resolve();
       }, function(response) {
         deferred.reject(response.data.reason);

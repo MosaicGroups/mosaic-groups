@@ -10,7 +10,7 @@ exports.getUsers = function(req, res) {
 
 exports.getUser = function(req, res) {
   console.log("getUser")
-  var userId = req.params.id;
+  var userId = req.params._id;
   if (userId) {
     console.log("finding one user")
     User.findOne({_id: userId}).exec(function(err, user) {
@@ -80,7 +80,7 @@ exports.updateUser = function(req, res) {
 
 exports.deleteUser = function(req, res) {
   // get the user object from the request body that is to be deleted
-  var userDeleteId = req.params.id;
+  var userDeleteId = req.params._id;
 
   // only admins can delete users
   if(!req.user.hasRole('admin')) {

@@ -1,5 +1,6 @@
 var mongoose = require('mongoose'),
-  userModel = require('../models/User');
+  userModel = require('../models/User')
+  groupModel = require('../models/Group');
 
 module.exports = function(env, config) {
   console.log("connecting to '" + env + "' mongo instance");

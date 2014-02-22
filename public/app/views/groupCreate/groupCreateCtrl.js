@@ -1,32 +1,32 @@
-angular.module('app').controller('groupCreateCtrl', function($scope, notifierService) {
+angular.module('app').controller('groupCreateCtrl', function($scope, groupService, notifierService) {
   $scope.frequencies = [
-    {value: "weekly"},
-    {value: "bi-weekly"},
-    {value: "monthly"},
-    {value: "various"}
+    "weekly",
+    "bi-weekly",
+    "monthly",
+    "various"
   ];
   $scope.genderTypes = [
-    {value: "men"},
-    {value: "women"},
-    {value: "co-ed"}
+    "men",
+    "women",
+    "co-ed"
   ];
   $scope.daysOfTheWeek = [
-    {value: "Sunday"},
-    {value: "Monday"},
-    {value: "Tuesday"},
-    {value: "Wednesday"},
-    {value: "Thursday"},
-    {value: "Friday"},
-    {value: "Saturday"}
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
   ]
-  $scope.topics = [
-    {value: "sports"},
-    {value: "book/bible study"},
-    {value: "food"},
-    {value: "discussion"},
-    {value: "hobby/interest(such as board games)"},
-    {value: "service"},
-    {value: "finance"}
+  $scope.availableTopics = [
+    "sports",
+    "book/bible study",
+    "food",
+    "discussion",
+    "hobby/interest(such as board games)",
+    "service",
+    "finance"
   ];
 
   $scope.title = "";
@@ -35,9 +35,25 @@ angular.module('app').controller('groupCreateCtrl', function($scope, notifierSer
   $scope.frequency = "";
   $scope.genderType = "";
   $scope.childcare = true;
-  $scope.topic = [];
+  $scope.topics = [];
 
-  $scope.createGroup = function() {
-    notifierService.notify("not yet implementd")
+  $scope.saveGroupDataAsNewGroup = function() {
+    // if the form is valid then submit to the server
+    if (groupCreateForm.checkValidity()) {
+      var newGroupData = {
+        title: $scope.title,
+        location: $scope.location,
+        dayOfTheWeek: $scope.dayOfTheWeek,
+        frequency: $scope.frequency,
+        genderType: $scope.genderType,
+        childcare: $scope.childcare,
+        topics: $scope.topics
+      }
+      groupService.saveGroupDataAsNewGroup(newGroupData).then(function() {
+        notifierService.notify('Group ' + newGroupData.title + ' has been created');
+      }, function(reason) {
+        notifierService.error(reason);
+      })
+    }
   }
-})
+});

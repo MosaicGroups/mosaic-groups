@@ -1,11 +1,9 @@
 .container
   .jumbotron
     h1 Mosaic Groups
-
   .row
     .col-md-12
       .panel.panel-primary
         .panel-heading.text-center Available Groups
         .panel-body
-          .row(ng-repeat="group in groups")
-            .col-md-12 {{group.name}}
+          div(ng-controller="groupListCtrl" ng-include="'/partials/groupList/group-list'")

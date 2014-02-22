@@ -12,17 +12,17 @@
           .col-md-10
             input.form-control(name="location", type="text", placeholder="County", ng-model="location", required, autocomplete="off" )
         .form-group
-          label.col-md-2.control-label(for="dayOfWeek") Day Of The Week
+          label.col-md-2.control-label(for="dayOfTheWeek") Day Of The Week
           .col-md-10
-            select.form-control(name="dayOfWeek", ng-options="dayOfTheWeek.value for dayOfTheWeek in daysOfTheWeek", ng-model="dayOfWeek", required)
+            select.form-control(name="dayOfTheWeek", ng-options="item for item in daysOfTheWeek", ng-model="dayOfTheWeek", required)
         .form-group
           label.col-md-2.control-label(for="frequency") Frequency
           .col-md-10
-            select.form-control(name="frequency", ng-options="item.value for item in frequencies", ng-model="frequency", required)
+            select.form-control(name="frequency", ng-options="item for item in frequencies", ng-model="frequency", required)
         .form-group
           label.col-md-2.control-label(for="genderType") Gender Type
           .col-md-10
-            select.form-control(name="genderType", ng-options="item.value for item in genderTypes", ng-model="genderType", required)
+            select.form-control(name="genderType", ng-options="item for item in genderTypes", ng-model="genderType", required)
         .form-group
           label.col-md-2.control-label(for="childcare") Childcare
           .col-md-10
@@ -30,10 +30,10 @@
         .form-group
           label.col-md-2.control-label(for="topic") Topics <br/> (select one or more)
           .col-md-10
-            select.form-control(name="topic", ng-options="item.value for item in topics", ng-model="topic", multiple, size="7", required)
+            select.form-control(name="topics", ng-options="item for item in availableTopics", ng-model="topics", multiple, size="7", required)
         .form-group
           .col-md-10.col-md-offset-2
             .pull-right
-              button.btn.btn-primary(ng-click="createGroup()") Submit
+              button.btn.btn-primary(ng-click="saveGroupDataAsNewGroup()") Submit
               | &nbsp;
               a.btn.btn-default(href="/") Cancel

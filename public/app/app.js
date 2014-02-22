@@ -22,7 +22,7 @@ angular.module('app').config(function($routeProvider, $locationProvider) {
     .when('/views/profile/profile', { templateUrl: '/partials/profile/profile',
       controller: 'profileCtrl', resolve: routeRoleChecks.user
     })
-    // profile page (logged in users only)
+    // group create page (logged in users only)
     .when('/views/groupCreate/group-create', { templateUrl: '/partials/groupCreate/group-create',
       controller: 'groupCreateCtrl', resolve: routeRoleChecks.user
     })
@@ -37,6 +37,10 @@ angular.module('app').config(function($routeProvider, $locationProvider) {
     // create users page (admins only)
     .when('/views/userCreate/user-create', { templateUrl: '/partials/userCreate/user-create',
       controller: 'userCreateCtrl', resolve: routeRoleChecks.admin
+    })
+    // group list page is for anyone
+    .when('/views/groupList/group-list', { templateUrl: '/partials/groupList/group-list',
+      controller: 'groupListCtrl'
     });
 });
 
