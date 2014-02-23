@@ -10,7 +10,7 @@ exports.getUsers = function(req, res) {
 
 exports.getUser = function(req, res) {
   console.log("getUser")
-  var userId = req.params._id;
+  var userId = req.params.id;
   if (userId) {
     console.log("finding one user")
     User.findOne({_id: userId}).exec(function(err, user) {
@@ -18,6 +18,7 @@ exports.getUser = function(req, res) {
     });
   }
 };
+
 
 exports.saveUser = function(req, res, next) {
   console.log("saveUser")
@@ -38,49 +39,37 @@ exports.saveUser = function(req, res, next) {
 };
 
 exports.updateUser = function(req, res) {
+  console.log("updateUser")
   var userUpdates = req.body;
 
+  // if not updating self or if this is an not admin user
   if(req.user._id != userUpdates._id && !req.user.hasRole('admin')) {
     res.status(403);
     return res.end();
   }
-
-  // if updating self
-  if (req.user._id == userUpdates._id) {
-    req.user.firstName = userUpdates.firstName;
-    req.user.lastName = userUpdates.lastName;
-    req.user.username = userUpdates.username;
-    if(userUpdates.password && userUpdates.password.length > 0) {
-      req.user.salt = encrypt.createSalt();
-      req.user.hashed_pwd = encrypt.hashPwd(req.user.salt, userUpdates.password);
-    }
-    req.user.save(function(err) {
-      if(err) { res.status(400); return res.send({reason:err.toString()});}
-      res.send(req.user);
-    });
+  var user = {
+    firstName: userUpdates.firstName,
+    lastName: userUpdates.lastName,
+    username: userUpdates.username,
+    roles: userUpdates.roles
   }
-  // if admin and updating another user
-  else if (req.user.hasRole('admin')) {
-    var user = {
-      firstName: userUpdates.firstName,
-      lastName: userUpdates.lastName,
-      username: userUpdates.username,
-      roles: userUpdates.roles
-    }
-    if(userUpdates.password && userUpdates.password.length > 0) {
-      user.salt = encrypt.createSalt();
-      user.hashed_pwd = encrypt.hashPwd(user.salt, userUpdates.password);
-    }
-    User.findByIdAndUpdate(userUpdates._id, user, undefined, function(err) {
-      if(err) { res.status(400); return res.send({reason:err.toString()});}
-      res.send(user);
-    });
+  if(userUpdates.password && userUpdates.password.length > 0) {
+    user.salt = encrypt.createSalt();
+    user.hashed_pwd = encrypt.hashPwd(user.salt, userUpdates.password);
   }
+  User.findByIdAndUpdate(userUpdates._id, user, undefined, function(err) {
+    if(err) { res.status(400); return res.send({reason:err.toString()});}
+    if (req.user._id == user._id) {
+      // if updating self then set self to the newly updated user object
+      req.user = user;
+    }
+    res.send(user);
+  });
 };
 
 exports.deleteUser = function(req, res) {
   // get the user object from the request body that is to be deleted
-  var userDeleteId = req.params._id;
+  var userDeleteId = req.params.id;
 
   // only admins can delete users
   if(!req.user.hasRole('admin')) {

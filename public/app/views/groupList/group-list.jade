@@ -12,7 +12,9 @@ table.table.table-hover.table-striped.table-condensed
     tbody
       tr(ng-repeat="group in groups")
         td {{group.title}}
-        td {{group.leader}}
+        td
+          div(ng-repeat="leader in group.leaders")
+            {{leader.firstName}} {{leader.lastName}} <br/>
         td {{group.location}}
         td {{group.dayOfTheWeek}}
         td {{group.frequency}}

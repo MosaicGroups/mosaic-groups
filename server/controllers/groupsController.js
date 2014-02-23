@@ -1,8 +1,9 @@
-var Group = require('mongoose').model('Group');
+var Group = require('mongoose').model('Group'),
+  User = require('mongoose').model('User');
 
 exports.getGroups = function(req, res) {
   console.log("getGroups")
-  Group.find({}).exec(function(err, collection) {
+  Group.find({}).populate('leaders').exec(function(err, collection) {
     res.send(collection);
   });
 };
@@ -12,7 +13,7 @@ exports.getGroup = function(req, res) {
   var groupId = req.params._id;
   if (groupId) {
     console.log("finding one group")
-    Group.findOne({_id: groupId}).exec(function(err, group) {
+    Group.findOne({_id: groupId}).populate('leaders').exec(function(err, group) {
       res.send(group);
     });
   }
@@ -21,6 +22,13 @@ exports.getGroup = function(req, res) {
 exports.saveGroup = function(req, res, next) {
   console.log("saveGroup")
   var groupData = req.body;
+
+  // if the leaderId is not set, or if this is not an admin user
+  // then set the leaderId to the current user
+  if (!groupData.leader || !req.user.hasRole('admin')) {
+    groupData.leader = req.user._id;
+  }
+
   Group.create(groupData, function(err, group) {
     if(err) {
       if(err.toString().indexOf('E11000') > -1) {
@@ -35,7 +43,7 @@ exports.saveGroup = function(req, res, next) {
 
 exports.updateGroup = function(req, res) {
   var groupUpdates = req.body;
-  if(req.user._id != groupUpdates.leader._id && !req.user.hasRole('admin')) {
+  if(req.user._id != groupUpdates.leader && !req.user.hasRole('admin')) {
     res.status(403);
     return res.end();
   }

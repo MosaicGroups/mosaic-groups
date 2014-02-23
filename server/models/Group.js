@@ -14,18 +14,21 @@ var groupSchema = mongoose.Schema({
     required: '{PATH} is required!',
     unique:true},
   dayOfTheWeek: {
-    type:String,
+    type: String,
     required:'{PATH} is required!'},
   frequency: { // weekly, bi-weekly, monthly, various
-    type:String,
+    type: String,
     required:'{PATH} is required!'},
   genderType: { //men, women, co-ed (mutually exclusive)
-    type:String,
+    type: String,
     required:'{PATH} is required!'},
   childcare: {
     type: Boolean,
     default: false},
-  topics: [String] // sports, book/bible study, food, discussion, hobby/interest(such as board games), service, finance (any that apply are allowed)
+  topics: [String], // sports, book/bible study, food, discussion, hobby/interest(such as board games), service, finance (any that apply are allowed)
+  description: {
+    type: String,
+    required:'{PATH} is required!'}
 });
 
 var Group = mongoose.model('Group', groupSchema);
