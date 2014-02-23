@@ -23,9 +23,13 @@
         li(ng-if="identityService.currentUser.isAdmin()")
           a(href="/views/userCreate/user-create") Create User
         li.divider(ng-if="identityService.currentUser.isAdmin()")
+        <!-- list groups -->
+        li
+          a(href="/views/groupList/group-list") List Groups
         <!-- create a group -->
         li
           a(href="/views/groupCreate/group-create") Create Group
+        li.divider
         <!-- update profile -->
         li
           a(href="/views/profile/profile") Profile

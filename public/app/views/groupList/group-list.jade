@@ -1,23 +1,29 @@
-table.table.table-hover.table-striped.table-condensed
-  thead
-    tr
-      th Title
-      th Leader
-      th Location
-      th Day Of The Week
-      th Frequency
-      th Gender Type
-      th Childcare
-      th Topics
-    tbody
-      tr(ng-repeat="group in groups")
-        td {{group.title}}
-        td
-          div(ng-repeat="leader in group.leaders")
-            {{leader.firstName}} {{leader.lastName}} <br/>
-        td {{group.location}}
-        td {{group.dayOfTheWeek}}
-        td {{group.frequency}}
-        td {{group.genderType}}
-        td {{group.childcare}}
-        td {{group.topics}}
+.container
+  table.table.table-hover.table-striped.table-condensed
+    thead
+      tr
+        th Title
+        th Leader
+        th Location
+        th Day Of The Week
+        th Frequency
+        th Gender Type
+        th Childcare
+        th Topics
+        th(ng-if="identity.isAuthenticated()") Actions
+      tbody
+        tr(ng-repeat="group in groups")
+          td {{group.title}}
+          td
+            div(ng-repeat="leader in group.leaders")
+              {{leader.firstName}} {{leader.lastName}} <br/>
+          td {{group.location}}
+          td {{group.dayOfTheWeek}}
+          td {{group.frequency}}
+          td {{group.genderType}}
+          td {{group.childcare}}
+          td {{group.topics}}
+          td
+            button.btn(ng-if="canEdit(group)", ng-click="editGroup(group)") Edit
+            | &nbsp;
+            button.btn(ng-if="canEdit(group)", ng-click="deleteGroup(group)") Delete
