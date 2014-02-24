@@ -5,7 +5,7 @@ angular.module('app').controller('groupCreateCtrl', function($scope, groupServic
   if (identityService.isAdmin()) {
     $scope.users = userService.getUsers();
     $scope.identity = identityService;
-    $scope.leaderId = "";
+    $scope.leaderIds = "";
   }
 
   $scope.frequencies = [
@@ -62,7 +62,9 @@ angular.module('app').controller('groupCreateCtrl', function($scope, groupServic
         description: $scope.description
       }
       if (identityService.isAdmin()) {
-        newGroupData.leaders.push($scope.leaderId);
+        for (var i = 0; i < $scope.leaderIds.length; i++) {
+          newGroupData.leaders.push($scope.leaderIds[i]);
+        }
       }
       groupService.saveGroupDataAsNewGroup(newGroupData).then(function() {
         notifierService.notify('Group ' + newGroupData.title + ' has been created');

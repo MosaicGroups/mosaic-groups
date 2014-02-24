@@ -8,9 +8,9 @@
           .col-md-10
             input.form-control(name="title", type="text", placeholder="Title", ng-model="title", required, autocomplete="off" )
         .form-group(ng-show="identity.isAdmin()")
-          label.col-md-2.control-label(for="groupLeader") Group Leader
+          label.col-md-2.control-label(for="groupLeader") Group Leader(s)
           .col-md-10
-            select.form-control(name="groupLeader", ng-options="item._id as item.username for item in users", ng-model="leaderId", required)
+            select.form-control(name="groupLeader", ng-options="item._id as item.username for item in users", ng-model="leaderIds", multiple, required)
         .form-group
           label.col-md-2.control-label(for="location") Location
           .col-md-10

@@ -3,13 +3,13 @@
     thead
       tr
         th Title
-        th Leader
+        th Leader(s)
         th Location
         th Day Of The Week
         th Frequency
         th Gender Type
         th Childcare
-        th Topics
+        th Topic(s)
         th(ng-if="identity.isAuthenticated()") Actions
       tbody
         tr(ng-repeat="group in groups")
@@ -22,7 +22,9 @@
           td {{group.frequency}}
           td {{group.genderType}}
           td {{group.childcare}}
-          td {{group.topics}}
+          td
+            div(ng-repeat="topic in group.topics")
+              {{topic}} <br/>
           td
             button.btn(ng-if="canEdit(group)", ng-click="editGroup(group)") Edit
             | &nbsp;
