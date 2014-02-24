@@ -34,4 +34,8 @@ angular.module('app').controller('groupListCtrl', function($scope, groupService,
     }
     return canEditGroup;
   }
+
+  $scope.showDescription = function(group) {
+
+  }
 });

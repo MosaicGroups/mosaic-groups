@@ -1,5 +1,5 @@
 .container
-  table.table.table-hover.table-striped.table-condensed
+  table.table.table-hover.table-striped
     thead
       tr
         th Title
@@ -10,6 +10,7 @@
         th Gender Type
         th Childcare
         th Topic(s)
+        th Description
         th(ng-if="identity.isAuthenticated()") Actions
       tbody
         tr(ng-repeat="group in groups")
@@ -25,6 +26,8 @@
           td
             div(ng-repeat="topic in group.topics")
               {{topic}} <br/>
+          td
+            button.btn(popover="{{group.description}}" popover-placement="left") Description
           td
             button.btn(ng-if="canEdit(group)", ng-click="editGroup(group)") Edit
             | &nbsp;
