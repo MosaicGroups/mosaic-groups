@@ -2,10 +2,25 @@
 
 ##Features
 * Gives people at Mosaic the ability to sign up and recieve more information about different Growth Groups
-* Gives "Growth Group" leaders the ability to see who is interested in their groups
+* Gives "Growth Group" leaders the ability to:
+ * Create a new group
+ * Edit any group they have created
+ * See who is interested in their groups
+ * Receive email alerts when a person signs up for their group
+ * Export a list of group members in a format that can be copy/pasted into their email client
+ * Edit their own profile
+* Gives admins the ability to:
+ * Create new group leaders as new users
+ * Edit all user profiles
+ * Delete users
+ * Edit all groups
+ * See the group members for all groups
+ * Delete groups
 
 ##How to set up on you local environment
 * Install Node.js
-* Install the dependencies - run `$ npm install`
-
+ * Install the dependencies - run `$ npm install`
+* Install bower
+ * Install bower dependencies
+ 
 If you have any questions about this tool please email pblair12@gmail.com
