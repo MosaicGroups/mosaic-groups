@@ -1,7 +1,9 @@
 # Mosaic Growth Group Tool v 0.1
 
 ##Features
-* Gives people at Mosaic the ability to sign up and recieve more information about different Growth Groups
+* Gives people at Mosaic the ability to:
+ * View a list of all the groups for the next sememster
+ * Sign up and receive more information about different Growth Groups
 * Gives "Growth Group" leaders the ability to:
  * Create a new group
  * Edit any group they have created
@@ -22,5 +24,5 @@
  * Install the dependencies - run `$ npm install`
 * Install bower
  * Install bower dependencies
- 
+
 If you have any questions about this tool please email pblair12@gmail.com
