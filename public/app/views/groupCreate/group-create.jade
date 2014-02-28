@@ -10,7 +10,8 @@
         .form-group(ng-if="identity.isAdmin()")
           label.col-md-2.control-label(for="groupLeaders") Group Leader(s)
           .col-md-10
-            select.form-control(name="groupLeaders", ng-options="item._id as item.name for item in users", ng-model="leaderIds", multiple, required)
+            {{group.leaderIds}}
+            select.form-control(name="groupLeaders", ng-options="item._id as item.name for item in users", ng-model="group.leaderIds", multiple, required)
         .form-group
           label.col-md-2.control-label(for="location") Location
           .col-md-10

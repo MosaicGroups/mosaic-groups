@@ -5,9 +5,9 @@ angular.module('app').controller('groupCreateCtrl', function($scope, $route, gro
   if (groupId) {
     groupService.getGroup($route.current.params.id).$promise.then(function(data) {
       $scope.group = data;
-      $scope.leaderIds = [];
+      $scope.group.leaderIds = [];
       for (var i = 0; i < data.leaders.length; i++) {
-        $scope.leaderIds.push(data.leaders[i]._id);
+        $scope.group.leaderIds.push(data.leaders[i]._id);
       }
     });
   } else {
@@ -19,7 +19,7 @@ angular.module('app').controller('groupCreateCtrl', function($scope, $route, gro
     $scope.group.childcare = true;
     $scope.group.topics = [];
     $scope.group.description = "";
-    $scope.leaderIds = [];
+    $scope.group.leaderIds = [];
   }
 
   // if the current user is an admin then they have the ability to create a group
@@ -71,8 +71,8 @@ angular.module('app').controller('groupCreateCtrl', function($scope, $route, gro
     if (groupCreateForm.checkValidity()) {
       $scope.group.leaders = [];
       if (identityService.isAdmin()) {
-        for (var i = 0; i < $scope.leaderIds.length; i++) {
-          $scope.group.leaders.push($scope.leaderIds[i]);
+        for (var i = 0; i < $scope.group.leaderIds.length; i++) {
+          $scope.group.leaders.push($scope.group.leaderIds[i]);
         }
       } else {
         $scope.group.leaders.push($scope.identity.currentUser._id);
