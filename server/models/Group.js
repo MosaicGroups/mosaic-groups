@@ -4,15 +4,17 @@ var mongoose = require('mongoose'),
 var groupSchema = mongoose.Schema({
   title: {
     type: String,
-    required:'{PATH} is required!'},
+    required:'{PATH} is required!',
+    unique:true
+  },
   leaders: [{
     type: Schema.Types.ObjectId,
     ref: 'User'
   }],
   location: {
     type: String,
-    required: '{PATH} is required!',
-    unique:true},
+    required: '{PATH} is required!'
+  },
   dayOfTheWeek: {
     type: String,
     required:'{PATH} is required!'},

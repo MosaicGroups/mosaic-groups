@@ -1,0 +1,47 @@
+.container
+  .well
+    form.form-horizontal(name="groupEditForm")
+      fieldset
+        legend Edit Group
+        .form-group
+          label.col-md-2.control-label(for="title") Title
+          .col-md-10
+            input.form-control(name="title", type="text", placeholder="Title", ng-model="groupToEdit.title", required, autocomplete="off" )
+        .form-group(ng-show="identity.isAdmin()")
+          label.col-md-2.control-label(for="groupLeader") Group Leader(s)
+          .col-md-10
+            select.form-control(name="groupLeader", ng-options="item._id as item.username for item in users", ng-model="groupToEdit.leaderIds", multiple, required)
+        .form-group
+          label.col-md-2.control-label(for="location") Location
+          .col-md-10
+            input.form-control(name="location", type="text", placeholder="County", ng-model="groupToEdit.location", required, autocomplete="off" )
+        .form-group
+          label.col-md-2.control-label(for="dayOfTheWeek") Day Of The Week
+          .col-md-10
+            select.form-control(name="dayOfTheWeek", ng-options="item for item in daysOfTheWeek", ng-model="groupToEdit.dayOfTheWeek", required)
+        .form-group
+          label.col-md-2.control-label(for="frequency") Frequency
+          .col-md-10
+            select.form-control(name="frequency", ng-options="item for item in frequencies", ng-model="groupToEdit.frequency", required)
+        .form-group
+          label.col-md-2.control-label(for="genderType") Gender Type
+          .col-md-10
+            select.form-control(name="genderType", ng-options="item for item in genderTypes", ng-model="groupToEdit.genderType", required)
+        .form-group
+          label.col-md-2.control-label(for="childcare") Childcare
+          .col-md-10
+            input(name="childcare", type="checkbox", ng-model="groupToEdit.childcare")
+        .form-group
+          label.col-md-2.control-label(for="topic") Topics
+          .col-md-10
+            select.form-control(name="topics", ng-options="item for item in availableTopics", ng-model="groupToEdit.topics", multiple, size="7", required)
+        .form-group
+          label.col-md-2.control-label(for="description") Description
+          .col-md-10
+            textarea.form-control(name="description", ng-model="groupToEdit.description", required)
+        .form-group
+          .col-md-10.col-md-offset-2
+            .pull-right
+              button.btn.btn-primary(ng-click="saveGroupDataAsNewGroup()") Submit
+              | &nbsp;
+              a.btn.btn-default(href="/") Cancel

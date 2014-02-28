@@ -39,31 +39,29 @@ exports.saveUser = function(req, res, next) {
 };
 
 exports.updateUser = function(req, res) {
-  console.log("updateUser")
+  console.log("updateUser");
+
   var userUpdates = req.body;
+  var userId = userUpdates._id;
+  delete userUpdates["_id"];
 
   // if not updating self or if this is an not admin user
-  if(req.user._id != userUpdates._id && !req.user.hasRole('admin')) {
+  if(req.user._id != userId && !req.user.hasRole('admin')) {
     res.status(403);
     return res.end();
   }
-  var user = {
-    firstName: userUpdates.firstName,
-    lastName: userUpdates.lastName,
-    username: userUpdates.username,
-    roles: userUpdates.roles
-  }
   if(userUpdates.password && userUpdates.password.length > 0) {
-    user.salt = encrypt.createSalt();
-    user.hashed_pwd = encrypt.hashPwd(user.salt, userUpdates.password);
+    userUpdates.salt = encrypt.createSalt();
+    userUpdates.hashed_pwd = encrypt.hashPwd(user.salt, userUpdates.password);
   }
-  User.findByIdAndUpdate(userUpdates._id, user, undefined, function(err) {
+  User.findByIdAndUpdate(userId, userUpdates, undefined, function(err) {
     if(err) { res.status(400); return res.send({reason:err.toString()});}
-    if (req.user._id == user._id) {
+    if (req.user._id === userId) {
       // if updating self then set self to the newly updated user object
-      req.user = user;
+      req.user = userUpdates;
     }
-    res.send(user);
+    userUpdates._id = userId;
+    res.send(userUpdates);
   });
 };
 

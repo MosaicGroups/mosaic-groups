@@ -1,9 +1,9 @@
-angular.module('app').controller('groupListCtrl', function($scope, groupService, identityService, notifierService) {
+angular.module('app').controller('groupListCtrl', function($scope, $location, groupService, identityService, notifierService) {
   $scope.groups = groupService.getGroups();
   $scope.identity = identityService;
 
   $scope.editGroup = function(group) {
-    notifierService.notify("Not yet implemented");
+    $location.path('/views/groupCreate/group-create/' + group._id);
   }
 
   $scope.deleteGroup = function(group) {

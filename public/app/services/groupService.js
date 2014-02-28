@@ -18,21 +18,15 @@ angular.module('app').factory('groupService', function($q, Group) {
       return dfd.promise;
     },
 
-    saveGroupDataAsNewGroup: function(groupData) {
-      var group = new Group(groupData);
-      var dfd = $q.defer();
-      group.$save().then(function() {
-        dfd.resolve();
-      }, function(response) {
-        dfd.reject(response.data.reason);
-      });
-
-      return dfd.promise;
-    },
-
     saveGroup: function(group) {
       var deferred = $q.defer();
-      group.$save().then(function() {
+      var groupToSave;
+      if (!group._id) {
+        groupToSave = new Group(group);
+      } else {
+        groupToSave = group;
+      }
+      groupToSave.$save().then(function() {
         deferred.resolve();
       }, function(response) {
         deferred.reject(response.data.reason);

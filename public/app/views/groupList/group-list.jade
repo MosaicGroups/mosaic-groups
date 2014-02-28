@@ -16,16 +16,16 @@
         tr(ng-repeat="group in groups")
           td {{group.title}}
           td
-            div(ng-repeat="leader in group.leaders")
-              {{leader.firstName}} {{leader.lastName}} <br/>
+            div(ng-repeat="leader in group.leaders") {{leader.firstName}} {{leader.lastName}}
+            <br/>
           td {{group.location}}
           td {{group.dayOfTheWeek}}
           td {{group.frequency}}
           td {{group.genderType}}
           td {{group.childcare}}
           td
-            div(ng-repeat="topic in group.topics")
-              {{topic}} <br/>
+            div(ng-repeat="topic in group.topics") {{topic}}
+            <br/>
           td
             button.btn(popover="{{group.description}}" popover-placement="left") Description
           td

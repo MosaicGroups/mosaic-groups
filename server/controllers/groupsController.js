@@ -10,7 +10,7 @@ exports.getGroups = function(req, res) {
 
 exports.getGroup = function(req, res) {
   console.log("getGroup")
-  var groupId = req.params._id;
+  var groupId = req.params.id;
   if (groupId) {
     console.log("finding one group")
     Group.findOne({_id: groupId}).populate('leaders').exec(function(err, group) {
@@ -42,13 +42,19 @@ exports.saveGroup = function(req, res, next) {
 };
 
 exports.updateGroup = function(req, res) {
+  console.log("updateGroup");
+
   var groupUpdates = req.body;
+  var groupId = groupUpdates._id;
+  delete groupUpdates["_id"];
+
   if(req.user._id != groupUpdates.leader && !req.user.hasRole('admin')) {
     res.status(403);
     return res.end();
   }
-  Group.findByIdAndUpdate(groupUpdates._id, groupUpdates, undefined, function(err) {
+  Group.findByIdAndUpdate(groupId, groupUpdates, undefined, function(err) {
     if(err) { res.status(400); return res.send({reason:err.toString()});}
+    groupUpdates._id = groupId;
     res.send(groupUpdates);
   });
 };
