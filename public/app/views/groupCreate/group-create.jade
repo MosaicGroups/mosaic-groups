@@ -7,7 +7,7 @@
           label.col-md-2.control-label(for="title") Title
           .col-md-10
             input.form-control(name="title", type="text", placeholder="Title", ng-model="group.title", required, autocomplete="off" )
-        .form-group(ng-show="identity.isAdmin()")
+        .form-group(ng-if="identity.isAdmin()")
           label.col-md-2.control-label(for="groupLeaders") Group Leader(s)
           .col-md-10
             select.form-control(name="groupLeaders", ng-options="item._id as item.name for item in users", ng-model="leaderIds", multiple, required)

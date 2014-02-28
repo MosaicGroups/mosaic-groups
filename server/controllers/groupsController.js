@@ -26,7 +26,7 @@ exports.saveGroup = function(req, res, next) {
   // if the leaderId is not set, or if this is not an admin user
   // then set the leaderId to the current user
   if (!groupData.leader || !req.user.hasRole('admin')) {
-    groupData.leader = req.user._id;
+    groupData.leaders = [req.user._id];
   }
 
   Group.create(groupData, function(err, group) {
@@ -48,7 +48,7 @@ exports.updateGroup = function(req, res) {
   var groupId = groupUpdates._id;
   delete groupUpdates["_id"];
 
-  if(req.user._id != groupUpdates.leader && !req.user.hasRole('admin')) {
+  if(req.user.id !== groupUpdates.leaders[0] && !req.user.hasRole('admin')) {
     res.status(403);
     return res.end();
   }

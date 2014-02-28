@@ -1,5 +1,6 @@
 angular.module('app').controller('groupCreateCtrl', function($scope, $route, groupService, notifierService, identityService, userService) {
   var groupId = $route.current.params.id;
+  $scope.identity = identityService;
   $scope.group = {};
   if (groupId) {
     groupService.getGroup($route.current.params.id).$promise.then(function(data) {
@@ -33,7 +34,6 @@ angular.module('app').controller('groupCreateCtrl', function($scope, $route, gro
         $scope.users[i]._id = data[i]._id;
       }
     });
-    $scope.identity = identityService;
   }
 
   $scope.frequencies = [
@@ -69,11 +69,13 @@ angular.module('app').controller('groupCreateCtrl', function($scope, $route, gro
   $scope.saveGroup = function() {
     // if the form is valid then submit to the server
     if (groupCreateForm.checkValidity()) {
+      $scope.group.leaders = [];
       if (identityService.isAdmin()) {
-        $scope.group.leaders = [];
         for (var i = 0; i < $scope.leaderIds.length; i++) {
           $scope.group.leaders.push($scope.leaderIds[i]);
         }
+      } else {
+        $scope.group.leaders.push($scope.identity.currentUser._id);
       }
       groupService.saveGroup($scope.group).then(function() {
         if ($scope.group._id) {
