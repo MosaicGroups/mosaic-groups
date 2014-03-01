@@ -20,11 +20,11 @@ angular.module('app').config(function($routeProvider, $locationProvider) {
     .when('/views/profile/profile', { templateUrl: '/partials/profile/profile',
       controller: 'profileCtrl', resolve: routeRoleChecks.user
     })
-    .when('/views/groupCreate/group-create', { templateUrl: '/partials/groupCreate/group-create',
-      controller: 'groupCreateCtrl', resolve: routeRoleChecks.user
+    .when('/views/groupCreateOrEdit/group-create-or-edit', { templateUrl: '/partials/groupCreateOrEdit/group-create-or-edit',
+      controller: 'groupCreateOrEditCtrl', resolve: routeRoleChecks.user
     })
-    .when('/views/groupCreate/group-create/:id', { templateUrl: '/partials/groupCreate/group-create',
-      controller: 'groupCreateCtrl', resolve: routeRoleChecks.user
+    .when('/views/groupCreateOrEdit/group-create-or-edit/:id', { templateUrl: '/partials/groupCreateOrEdit/group-create-or-edit',
+      controller: 'groupCreateOrEditCtrl', resolve: routeRoleChecks.user
     })
     .when('/views/userEdit/user-edit/:id', { templateUrl: '/partials/userEdit/user-edit',
       controller: 'userEditCtrl', resolve: routeRoleChecks.admin

@@ -1,4 +1,4 @@
-angular.module('app').controller('groupCreateCtrl', function($scope, $route, groupService, notifierService, identityService, userService) {
+angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $route, groupService, notifierService, identityService, userService) {
   var groupId = $route.current.params.id;
   $scope.identity = identityService;
   $scope.group = {};
@@ -58,17 +58,17 @@ angular.module('app').controller('groupCreateCtrl', function($scope, $route, gro
   ]
   $scope.availableTopics = [
     "Sports",
-    "Book/bible study",
+    "Book/Bible Study",
     "Food",
     "Discussion",
-    "Hobby/interest(such as board games)",
+    "Hobby/Interest",
     "Service",
     "Finance"
   ];
 
   $scope.saveGroup = function() {
     // if the form is valid then submit to the server
-    if (groupCreateForm.checkValidity()) {
+    if (groupCreateOrEditForm.checkValidity()) {
       $scope.group.leaders = [];
       if (identityService.isAdmin()) {
         for (var i = 0; i < $scope.group.leaderIds.length; i++) {

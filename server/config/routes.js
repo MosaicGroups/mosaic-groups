@@ -16,6 +16,7 @@ module.exports = function(app, config) {
   app.get('/api/groups', groups.getGroups);
   app.post('/api/groups', auth.requiresApiLogin, groups.saveGroup);
   app.post('/api/groups/:id', auth.requiresApiLogin, groups.updateGroup);
+  app.delete('/api/groups/:id', auth.requiresApiLogin, groups.deleteGroup);
 
   app.get('/partials/*', function(req, res) {
     console.log("rendering: " + '../../public/app/views/' + req.params)

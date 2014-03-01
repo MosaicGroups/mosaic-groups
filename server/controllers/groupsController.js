@@ -32,12 +32,13 @@ exports.saveGroup = function(req, res, next) {
   Group.create(groupData, function(err, group) {
     if(err) {
       if(err.toString().indexOf('E11000') > -1) {
-        err = new Error('Duplicate group title');
+        err = new Error('There is already a group with that title.  Choose a different title.');
       }
       res.status(400);
-      return res.send({reason:err.toString()});
+      res.send({reason:err.toString()});
+    } else {
+      res.send(group);
     }
-    res.send(group);
   })
 };
 
@@ -61,7 +62,7 @@ exports.updateGroup = function(req, res) {
 
 exports.deleteGroup = function(req, res) {
   // get the group object from the request body that is to be deleted
-  var groupDeleteId = req.params._id;
+  var groupDeleteId = req.params.id;
   // only admins can delete groups
   if(!req.user.hasRole('admin')) {
     res.status(403);

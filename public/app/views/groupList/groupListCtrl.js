@@ -3,11 +3,16 @@ angular.module('app').controller('groupListCtrl', function($scope, $location, gr
   $scope.identity = identityService;
 
   $scope.editGroup = function(group) {
-    $location.path('/views/groupCreate/group-create/' + group._id);
+    $location.path('/views/groupCreateOrEdit/group-create-or-edit/' + group._id);
   }
 
   $scope.deleteGroup = function(group) {
-    notifierService.notify("Not yet implemented");
+    groupService.deleteGroup(group).then(function() {
+      notifierService.notify('Group \'' + group.title + '\' has been deleted');
+      $scope.groups = groupService.getGroups();
+    }, function(reason) {
+      notifierService.error(reason);
+    })
   }
 
   $scope.canEdit = function(group) {
@@ -33,9 +38,5 @@ angular.module('app').controller('groupListCtrl', function($scope, $location, gr
       }
     }
     return canEditGroup;
-  }
-
-  $scope.showDescription = function(group) {
-
   }
 });

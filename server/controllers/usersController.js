@@ -29,12 +29,13 @@ exports.saveUser = function(req, res, next) {
   User.create(userData, function(err, user) {
     if(err) {
       if(err.toString().indexOf('E11000') > -1) {
-        err = new Error('Duplicate Username');
+        err = new Error('There is already a user with that name in the system.  Please choose a different name.');
       }
       res.status(400);
-      return res.send({reason:err.toString()});
+      res.send({reason:err.toString()});
+    } else {
+      res.send(user);
     }
-    res.send(user);
   })
 };
 
