@@ -21,8 +21,7 @@ var memberSchema = mongoose.Schema({
 var groupSchema = mongoose.Schema({
   title: {
     type: String,
-    required:'{PATH} is required!',
-    unique:true
+    required:'{PATH} is required!'
   },
   leaders: [{
     type: Schema.Types.ObjectId,
@@ -36,9 +35,6 @@ var groupSchema = mongoose.Schema({
     required: '{PATH} is required!'
   },
   dayOfTheWeek: {
-    type: String,
-    required:'{PATH} is required!'},
-  frequency: { // weekly, bi-weekly, monthly, various
     type: String,
     required:'{PATH} is required!'},
   genderType: { //men, women, co-ed (mutually exclusive)
