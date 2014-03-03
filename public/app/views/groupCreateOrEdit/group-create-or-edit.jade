@@ -1,48 +1,68 @@
 .container
   .well
     form.form-horizontal(name="groupCreateOrEditForm")
-      fieldset
-        legend Create Group
-        .form-group
-          label.col-md-2.control-label(for="title") Title
-          .col-md-10
-            input.form-control(name="title", type="text", placeholder="Title", ng-model="group.title", required, autocomplete="off" )
-        .form-group(ng-if="identity.isAdmin()")
-          label.col-md-2.control-label(for="groupLeaders") Group Leader(s)
-          .col-md-10
-            select.form-control(name="groupLeaders", ng-options="item._id as item.name for item in users", ng-model="group.leaderIds", multiple, required)
-        .form-group
-          label.col-md-2.control-label(for="location") Location
-          .col-md-10
-            input.form-control(name="location", type="text", placeholder="County", ng-model="group.location", required, autocomplete="off" )
-        .form-group
-          label.col-md-2.control-label(for="dayOfTheWeek") Day Of The Week
-          .col-md-10
-            select.form-control(name="dayOfTheWeek", ng-options="item for item in daysOfTheWeek", ng-model="group.dayOfTheWeek", required)
-        .form-group
-          label.col-md-2.control-label(for="frequency") Frequency
-          .col-md-10
-            select.form-control(name="frequency", ng-options="item for item in frequencies", ng-model="group.frequency", required)
-        .form-group
-          label.col-md-2.control-label(for="genderType") Gender Type
-          .col-md-10
-            select.form-control(name="genderType", ng-options="item for item in genderTypes", ng-model="group.genderType", required)
-        .form-group
-          label.col-md-2.control-label(for="childcare") Childcare
-          .col-md-10
-            input(name="childcare", type="checkbox", ng-model="group.childcare")
-        .form-group
-          label.col-md-2.control-label(for="topic") Topics
-          .col-md-10
-            select.form-control(name="topics", ng-options="item for item in availableTopics", ng-model="group.topics", multiple, size="7", required)
-        .form-group
-          label.col-md-2.control-label(for="description") Description
-          .col-md-10
-            textarea.form-control(name="description", ng-model="group.description", required)
-        .form-group
-          .col-md-10.col-md-offset-2
-            .pull-right
-              button.btn.btn-primary(ng-if="!group._id" ng-click="saveGroup()") Create
-              button.btn.btn-primary(ng-if="group._id" ng-click="saveGroup()") Update
-              | &nbsp;
-              a.btn.btn-default(href="/") Cancel
+      h3 Create/Edit Group
+      .form-group
+        label.col-md-2.control-label(for="title") Title
+        .col-md-10
+          input.form-control(name="title", type="text", placeholder="Title", ng-model="group.title", required, autocomplete="off" )
+      .form-group(ng-if="identity.isAdmin()")
+        label.col-md-2.control-label(for="groupLeaders") Group Leader(s)
+        .col-md-10
+          select.form-control(name="groupLeaders", ng-options="item._id as item.name for item in users", ng-model="group.leaderIds", multiple, required)
+      .form-group
+        label.col-md-2.control-label(for="location") Location
+        .col-md-10
+          input.form-control(name="location", type="text", placeholder="County", ng-model="group.location", required, autocomplete="off" )
+      .form-group
+        label.col-md-2.control-label(for="dayOfTheWeek") Day Of The Week
+        .col-md-10
+          select.form-control(name="dayOfTheWeek", ng-options="item for item in daysOfTheWeek", ng-model="group.dayOfTheWeek", required)
+      .form-group
+        label.col-md-2.control-label(for="frequency") Frequency
+        .col-md-10
+          select.form-control(name="frequency", ng-options="item for item in frequencies", ng-model="group.frequency", required)
+      .form-group
+        label.col-md-2.control-label(for="genderType") Gender Type
+        .col-md-10
+          select.form-control(name="genderType", ng-options="item for item in genderTypes", ng-model="group.genderType", required)
+      .form-group
+        label.col-md-2.control-label(for="childcare") Childcare
+        .col-md-10
+          input(name="childcare", type="checkbox", ng-model="group.childcare")
+      .form-group
+        label.col-md-2.control-label(for="topic") Topics
+        .col-md-10
+          select.form-control(name="topics", ng-options="item for item in availableTopics", ng-model="group.topics", multiple, size="7", required)
+      .form-group
+        label.col-md-2.control-label(for="description") Description
+        .col-md-10
+          textarea.form-control(name="description", ng-model="group.description", required)
+      .form-group
+        label.col-md-2.control-label(for="members") Members
+        .col-md-10
+          table.table.table-hover.table-striped(name="members")
+            thead
+              tr
+                th Name
+                th Email
+                th Status
+                th Actions
+            tbody
+              tr(ng-repeat="member in group.members")
+                td {{member.firstName}} {{member.lastName}}
+                td {{member.email}}
+                td {{member.status}}
+                td
+                  button.btn.btn-primary(ng-click="approveMember(member)") Approve
+                  | &nbsp;
+                  button.btn.btn-default(ng-click="removeMember(member)") Remove
+                  | &nbsp;
+                  button.btn.btn-default(ng-click="pendingMember(member)") Pending
+      .form-group
+        .col-md-10.col-md-offset-2
+          .pull-right
+            button.btn.btn-primary(ng-if="!group._id" ng-click="saveGroup()") Create
+            button.btn.btn-primary(ng-if="group._id" ng-click="saveGroup()") Update
+            | &nbsp;
+            a.btn.btn-default(href="/") Cancel

@@ -12,7 +12,7 @@ var memberSchema = mongoose.Schema({
     type: String,
     required: '{PATH} is required!'
   },
-  status: { // status is either CONFIRMED, PENDING, or REMOVED
+  status: { // status is either PENDING, APPROVED, or REMOVED
     type: String,
     required: '{PATH} is required!'
   }

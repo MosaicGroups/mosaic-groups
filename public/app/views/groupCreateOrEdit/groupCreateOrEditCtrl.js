@@ -66,6 +66,18 @@ angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $rout
     "Finance"
   ];
 
+  $scope.pendingMember = function(member) {
+    member.status = "PENDING";
+  }
+
+  $scope.approveMember = function(member) {
+    member.status = "APPROVED";
+  }
+
+  $scope.removeMember = function(member) {
+    member.status = "REMOVED";
+  }
+
   $scope.saveGroup = function() {
     // if the form is valid then submit to the server
     if (groupCreateOrEditForm.checkValidity()) {
