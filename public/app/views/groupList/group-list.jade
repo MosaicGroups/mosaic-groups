@@ -9,6 +9,8 @@
             strong {{group.value}}
       tr(ng-hide="group.$hideRows" ng-repeat="mosaicGroup in group.data")
         td(data-title="'Title'") {{mosaicGroup.title}}
+        td(data-title="'Details'")
+          button.btn(popover="{{mosaicGroup.description}}" popover-placement="right") Details...
         td(data-title="'Leader(s)'")
           div(ng-repeat="leader in mosaicGroup.leaders") {{leader.firstName}} {{leader.lastName}}
         td(data-title="'Location'") {{mosaicGroup.location}}
@@ -17,8 +19,6 @@
         td(data-title="'Childcare'") {{(mosaicGroup.childcare) ? "yes" : "no"}}
         td(data-title="'Topic(s)'")
           div(ng-repeat="topic in mosaicGroup.topics") {{topic}}
-        td(data-title="'Details'")
-          button.btn(popover="{{mosaicGroup.description}}" popover-placement="left") details...
         td(data-title="'Join'")
           button.btn(ng-click="joinGroup(mosaicGroup)") Join
         td(ng-if="identity.isAuthenticated()")
