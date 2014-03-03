@@ -1,21 +1,27 @@
 .container
   table.table.table-hover.table-striped(ng-table="tableParams")
-    tr(ng-repeat="group in $data")
-      td(data-title="'Title'", sortable="'title'") {{group.title}}
-      td(data-title="'Leader(s)'")
-        div(ng-repeat="leader in group.leaders") {{leader.firstName}} {{leader.lastName}}
-      td(data-title="'Location'", sortable="'location'") {{group.location}}
-      td(data-title="'Day'", sortable="'dayOfTheWeek'") {{group.dayOfTheWeek}}
-      td(data-title="'Frequency'", sortable="'frequency'") {{group.frequency}}
-      td(data-title="'Type'", sortable="'genderType'") {{group.genderType}}
-      td(data-title="'Childcare'", sortable="'childcare'") {{group.childcare}}
-      td(data-title="'Topic(s)'")
-        div(ng-repeat="topic in group.topics") {{topic}}
-      td(data-title="'Details'")
-        button.btn(popover="{{group.description}}" popover-placement="left") details...
-      td(data-title="'Join'")
-        button.btn(ng-click="joinGroup(group)") Join
-      td(ng-if="identity.isAuthenticated()")
-        button.btn(ng-if="canEdit(group)", ng-click="editGroup(group)") Edit
-        | &nbsp;
-        button.btn(ng-if="canEdit(group)", ng-click="deleteGroup(group)") Delete
+    tbody(ng-repeat="group in $groups")
+      tr.ng-table-group
+        td(colspan="{{$columns.length}}")
+          a(href="", ng-click="group.$hideRows=!group.$hideRows")
+            span.glyphicon(ng-class="{ 'glyphicon-chevron-right': group.$hideRows, 'glyphicon-chevron-down': !group.$hideRows }")
+            | &nbsp;
+            strong {{group.value}}
+      tr(ng-hide="group.$hideRows" ng-repeat="mosaicGroup in group.data")
+        td(data-title="'Title'") {{mosaicGroup.title}}
+        td(data-title="'Leader(s)'")
+          div(ng-repeat="leader in mosaicGroup.leaders") {{leader.firstName}} {{leader.lastName}}
+        td(data-title="'Location'") {{mosaicGroup.location}}
+        td(data-title="'Frequency'") {{mosaicGroup.frequency}}
+        td(data-title="'Type'") {{mosaicGroup.genderType}}
+        td(data-title="'Childcare'") {{(mosaicGroup.childcare) ? "yes" : "no"}}
+        td(data-title="'Topic(s)'")
+          div(ng-repeat="topic in mosaicGroup.topics") {{topic}}
+        td(data-title="'Details'")
+          button.btn(popover="{{mosaicGroup.description}}" popover-placement="left") details...
+        td(data-title="'Join'")
+          button.btn(ng-click="joinGroup(mosaicGroup)") Join
+        td(ng-if="identity.isAuthenticated()")
+          button.btn(ng-if="canEdit(mosaicGroup)", ng-click="editGroup(mosaicGroup)") Manage
+          | &nbsp;
+          button.btn(ng-if="canEdit(mosaicGroup)", ng-click="deleteGroup(mosaicGroup)") Delete

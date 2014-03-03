@@ -4,18 +4,33 @@ angular.module('app').controller('groupListCtrl', function($scope, $location, $f
   $scope.tableParams = new ngTableParams({
     page: 1,            // show first page
     count: 10,          // count per page
-    sorting: {
-      title: 'asc'     // initial sorting
+    sorting: function(data) {
+      switch(data.dayOfTheWeek) {
+        case "Sunday":
+          return 1; break;
+        case "Monday":
+          return 2; break;
+        case "Tuesday":
+          return 3; break;
+        case "Wednesday":
+          return 4; break;
+        case "Thursday":
+          return 5; break;
+        case "Friday":
+          return 6; break;
+        case "Saturday":
+          return 7; break;
+      }
     }
   }, {
     total: 0, // length of $scope.groups
+    groupBy: 'dayOfTheWeek',
     getData: function($defer, params) {
       groupService.getGroups().$promise.then(function(data) {
         params.total(data.total);
-        var orderedData =
-          params.sorting() ?
-            $filter('orderBy')(data, params.orderBy()) :
-            data;
+        var orderedData = params.sorting() ?
+          $filter('orderBy')(data, $scope.tableParams.sorting()) :
+          data;
         $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
       });
     }
@@ -32,7 +47,7 @@ angular.module('app').controller('groupListCtrl', function($scope, $location, $f
   $scope.deleteGroup = function(group) {
     groupService.deleteGroup(group).then(function() {
       notifierService.notify('Group \'' + group.title + '\' has been deleted');
-      $scope.groups = groupService.getGroups();
+      $scope.tableParams.reload();
     }, function(reason) {
       notifierService.error(reason);
     });
