@@ -1,35 +1,21 @@
 .container
-  table.table.table-hover.table-striped
-    thead
-      tr
-        th Title
-        th Leader(s)
-        th Location
-        th Day Of The Week
-        th Frequency
-        th Gender Type
-        th Childcare
-        th Topic(s)
-        th Details
-        th Join
-        th(ng-if="identity.isAuthenticated()") Actions
-      tbody
-        tr(ng-repeat="group in groups")
-          td {{group.title}}
-          td
-            div(ng-repeat="leader in group.leaders") {{leader.firstName}} {{leader.lastName}}
-          td {{group.location}}
-          td {{group.dayOfTheWeek}}
-          td {{group.frequency}}
-          td {{group.genderType}}
-          td {{group.childcare}}
-          td
-            div(ng-repeat="topic in group.topics") {{topic}}
-          td
-            button.btn(popover="{{group.description}}" popover-placement="left") details...
-          td
-            button.btn(ng-click="joinGroup(group)") Join
-          td(ng-if="identity.isAuthenticated()")
-            button.btn(ng-if="canEdit(group)", ng-click="editGroup(group)") Edit
-            | &nbsp;
-            button.btn(ng-if="canEdit(group)", ng-click="deleteGroup(group)") Delete
+  table.table.table-hover.table-striped(ng-table="tableParams")
+    tr(ng-repeat="group in $data")
+      td(data-title="'Title'", sortable="'title'") {{group.title}}
+      td(data-title="'Leader(s)'")
+        div(ng-repeat="leader in group.leaders") {{leader.firstName}} {{leader.lastName}}
+      td(data-title="'Location'", sortable="'location'") {{group.location}}
+      td(data-title="'Day'", sortable="'dayOfTheWeek'") {{group.dayOfTheWeek}}
+      td(data-title="'Frequency'", sortable="'frequency'") {{group.frequency}}
+      td(data-title="'Type'", sortable="'genderType'") {{group.genderType}}
+      td(data-title="'Childcare'", sortable="'childcare'") {{group.childcare}}
+      td(data-title="'Topic(s)'")
+        div(ng-repeat="topic in group.topics") {{topic}}
+      td(data-title="'Details'")
+        button.btn(popover="{{group.description}}" popover-placement="left") details...
+      td(data-title="'Join'")
+        button.btn(ng-click="joinGroup(group)") Join
+      td(ng-if="identity.isAuthenticated()")
+        button.btn(ng-if="canEdit(group)", ng-click="editGroup(group)") Edit
+        | &nbsp;
+        button.btn(ng-if="canEdit(group)", ng-click="deleteGroup(group)") Delete
