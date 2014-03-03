@@ -1,4 +1,4 @@
-angular.module('app').controller('userCreateCtrl', function($scope, userService, notifierService, identityService) {
+angular.module('app').controller('userCreateCtrl', function($scope, $location, userService, notifierService, identityService) {
   $scope.identity = identityService; 
 
   $scope.user = "";
@@ -54,6 +54,7 @@ angular.module('app').controller('userCreateCtrl', function($scope, userService,
 
       userService.saveUserDataAsNewUser(newUserData).then(function() {
         notifierService.notify('User ' + newUserData.username + ' has been created');
+        $location.path('/views/userList/user-list');
       }, function(reason) {
         notifierService.error(reason);
       })

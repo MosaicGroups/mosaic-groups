@@ -12,8 +12,10 @@ module.exports = function(app, config) {
   app.post('/api/users', auth.requiresRole('admin'), users.saveUser);
   app.delete('/api/users/:id', auth.requiresRole('admin'), users.deleteUser);
 
-  app.get('/api/groups/:id', auth.requiresApiLogin, groups.getGroup);
+  app.get('/api/groups/:id', groups.getGroup);
   app.get('/api/groups', groups.getGroups);
+  app.post('/api/groups/:id/add-member', groups.addMember);
+
   app.post('/api/groups', auth.requiresApiLogin, groups.saveGroup);
   app.post('/api/groups/:id', auth.requiresApiLogin, groups.updateGroup);
   app.delete('/api/groups/:id', auth.requiresApiLogin, groups.deleteGroup);

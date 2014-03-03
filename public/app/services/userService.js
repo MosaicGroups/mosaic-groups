@@ -21,8 +21,8 @@ angular.module('app').factory('userService', function($q, User) {
     saveUserDataAsNewUser: function(userData) {
       var user = new User(userData);
       var dfd = $q.defer();
-      user.$save().then(function() {
-        dfd.resolve();
+      user.$save().then(function(user) {
+        dfd.resolve(user);
       }, function(response) {
         dfd.reject(response.data.reason);
       });
@@ -32,8 +32,8 @@ angular.module('app').factory('userService', function($q, User) {
 
     saveUser: function(user) {
       var deferred = $q.defer();
-      user.$save().then(function() {
-        deferred.resolve();
+      user.$save().then(function(user) {
+        deferred.resolve(user);
       }, function(response) {
         deferred.reject(response.data.reason);
       });

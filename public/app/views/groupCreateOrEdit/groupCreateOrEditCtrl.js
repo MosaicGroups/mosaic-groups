@@ -1,9 +1,9 @@
-angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $route, groupService, notifierService, identityService, userService) {
+angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $route, $location, groupService, notifierService, identityService, userService) {
   var groupId = $route.current.params.id;
   $scope.identity = identityService;
   $scope.group = {};
   if (groupId) {
-    groupService.getGroup($route.current.params.id).$promise.then(function(data) {
+    groupService.getGroup(groupId).$promise.then(function(data) {
       $scope.group = data;
       $scope.group.leaderIds = [];
       for (var i = 0; i < data.leaders.length; i++) {
@@ -77,11 +77,13 @@ angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $rout
       } else {
         $scope.group.leaders.push($scope.identity.currentUser._id);
       }
-      groupService.saveGroup($scope.group).then(function() {
+      groupService.saveGroup($scope.group).then(function(group) {
         if ($scope.group._id) {
           notifierService.notify('Group ' + $scope.group.title + ' has been updated');
+          $location.path('/views/groupList/group-list');
         } else {
           notifierService.notify('Group ' + $scope.group.title + ' has been created');
+          $location.path('/views/groupList/group-list');
         }
       }, function(reason) {
         notifierService.error(reason);

@@ -18,7 +18,8 @@
     "mongoose": "~3.8.7",
     "passport": "~0.2.0",
     "passport-local": "~0.1.6",
-    "jade": "~1.1.5"
+    "jade": "~1.1.5",
+    "nodemailer": "~0.6.1"
   },
   "devDependencies": {
     "karma-mocha": "~0.1.0",

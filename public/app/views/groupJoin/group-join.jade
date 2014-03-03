@@ -1,0 +1,22 @@
+.container
+  .well
+    h3 Join Group: "{{group.title}}"
+    form.form-horizontal(name="groupJoinForm")
+      .form-group
+        label.col-md-2.control-label(for="firstName") First Name
+        .col-md-10
+          input.form-control(name="firstName", type="text", placeholder="First Name", ng-model="group.newMember.firstName", required, autocomplete="off" )
+      .form-group
+        label.col-md-2.control-label(for="lastName") Last Name
+        .col-md-10
+          input.form-control(name="lastName", type="text", placeholder="Last Name", ng-model="group.newMember.lastName", required, autocomplete="off" )
+      .form-group
+        label.col-md-2.control-label(for="email") Email
+        .col-md-10
+          input.form-control(name="email", type="email", placeholder="Email", ng-model="group.newMember.email", required, autocomplete="off" )
+      .form-group
+        .col-md-10.col-md-offset-2
+          .pull-right
+            button.btn.btn-primary(ng-disabled="disableJoin", ng-click="joinGroup()") Join
+            | &nbsp;
+            a.btn.btn-default(href="/") Cancel

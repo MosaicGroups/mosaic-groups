@@ -1,5 +1,6 @@
 var Group = require('mongoose').model('Group'),
-  User = require('mongoose').model('User');
+  User = require('mongoose').model('User'),
+  emailer = require('../utilities/emailer');
 
 exports.getGroups = function(req, res) {
   console.log("getGroups")
@@ -60,6 +61,35 @@ exports.updateGroup = function(req, res) {
   });
 };
 
+/**
+ * Add a member to a group.  The member is stored in the group.newMember property and it
+ * has the properties firstName, lastName, and email.
+ *
+ * Note: to remove all members from a group from the mongo command line, use the command:
+ * db.groups.update({"title":"<group-title>"}, {$pull:{"members":{}}})
+ *
+ * @param req
+ * @param res
+ */
+exports.addMember = function(req, res) {
+  console.log("addMember");
+
+  var memberData = req.body.newMember;
+  memberData.status = "PENDING";
+
+  var groupId = req.params.id;
+
+  Group.findOne({_id: groupId}).populate('leaders').exec(function(err, group) {
+    if(err) { res.status(400); return res.send({reason:err.toString()});}
+    group.members.push(memberData);
+    group.save(function(err) {
+      if(err) { res.status(400); return res.send({reason:err.toString()});}
+      emailer.sendMail(group, memberData);
+      return res.end();
+    });
+  });
+};
+
 exports.deleteGroup = function(req, res) {
   // get the group object from the request body that is to be deleted
   var groupDeleteId = req.params.id;
@@ -95,4 +125,4 @@ exports.deleteGroup = function(req, res) {
       }
     });
   }
-}
+};

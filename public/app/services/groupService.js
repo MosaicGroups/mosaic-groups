@@ -26,7 +26,17 @@ angular.module('app').factory('groupService', function($q, Group) {
       } else {
         groupToSave = group;
       }
-      groupToSave.$save().then(function() {
+      groupToSave.$save().then(function(group) {
+        deferred.resolve(group);
+      }, function(response) {
+        deferred.reject(response.data.reason);
+      });
+      return deferred.promise;
+    },
+
+    addMember: function(group) {
+      var deferred = $q.defer();
+      group.$addMember().then(function() {
         deferred.resolve();
       }, function(response) {
         deferred.reject(response.data.reason);

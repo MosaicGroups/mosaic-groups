@@ -33,3 +33,6 @@ footer p {
 .toast-success {
   background-color: #ef6839;
 }
+a {
+  cursor: pointer;
+}

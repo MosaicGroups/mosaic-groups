@@ -1,6 +1,23 @@
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
+var memberSchema = mongoose.Schema({
+  firstName: {
+    type:String,
+    required:'{PATH} is required!'},
+  lastName: {
+    type:String,
+    required:'{PATH} is required!'},
+  email: {
+    type: String,
+    required: '{PATH} is required!'
+  },
+  status: { // status is either CONFIRMED, PENDING, or REMOVED
+    type: String,
+    required: '{PATH} is required!'
+  }
+});
+
 var groupSchema = mongoose.Schema({
   title: {
     type: String,
@@ -11,6 +28,9 @@ var groupSchema = mongoose.Schema({
     type: Schema.Types.ObjectId,
     ref: 'User'
   }],
+  members: [
+    memberSchema
+  ],
   location: {
     type: String,
     required: '{PATH} is required!'

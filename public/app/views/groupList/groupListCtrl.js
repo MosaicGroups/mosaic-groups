@@ -2,6 +2,10 @@ angular.module('app').controller('groupListCtrl', function($scope, $location, gr
   $scope.groups = groupService.getGroups();
   $scope.identity = identityService;
 
+  $scope.joinGroup = function(group) {
+    $location.path('/views/groupJoin/group-join/' + group._id);
+  }
+
   $scope.editGroup = function(group) {
     $location.path('/views/groupCreateOrEdit/group-create-or-edit/' + group._id);
   }
@@ -12,7 +16,7 @@ angular.module('app').controller('groupListCtrl', function($scope, $location, gr
       $scope.groups = groupService.getGroups();
     }, function(reason) {
       notifierService.error(reason);
-    })
+    });
   }
 
   $scope.canEdit = function(group) {

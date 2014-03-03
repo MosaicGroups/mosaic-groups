@@ -37,6 +37,9 @@ angular.module('app').config(function($routeProvider, $locationProvider) {
     })
     .when('/views/groupList/group-list', { templateUrl: '/partials/groupList/group-list',
       controller: 'groupListCtrl'
+    })
+    .when('/views/groupJoin/group-join/:id', { templateUrl: '/partials/groupJoin/group-join',
+      controller: 'groupJoinCtrl'
     });
 });
 

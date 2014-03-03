@@ -10,14 +10,14 @@
         th Gender Type
         th Childcare
         th Topic(s)
-        th Description
+        th Details
+        th Join
         th(ng-if="identity.isAuthenticated()") Actions
       tbody
         tr(ng-repeat="group in groups")
           td {{group.title}}
           td
             div(ng-repeat="leader in group.leaders") {{leader.firstName}} {{leader.lastName}}
-            <br/>
           td {{group.location}}
           td {{group.dayOfTheWeek}}
           td {{group.frequency}}
@@ -25,10 +25,11 @@
           td {{group.childcare}}
           td
             div(ng-repeat="topic in group.topics") {{topic}}
-            <br/>
           td
-            button.btn(popover="{{group.description}}" popover-placement="left") Description
+            button.btn(popover="{{group.description}}" popover-placement="left") details...
           td
+            button.btn(ng-click="joinGroup(group)") Join
+          td(ng-if="identity.isAuthenticated()")
             button.btn(ng-if="canEdit(group)", ng-click="editGroup(group)") Edit
             | &nbsp;
             button.btn(ng-if="canEdit(group)", ng-click="deleteGroup(group)") Delete
