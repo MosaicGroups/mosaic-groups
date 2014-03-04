@@ -19,12 +19,27 @@ exports.getUser = function(req, res) {
   }
 };
 
-
 exports.saveUser = function(req, res, next) {
   console.log("saveUser")
   var userData = req.body;
   userData.salt = encrypt.createSalt();
   userData.hashed_pwd = encrypt.hashPwd(userData.salt, userData.password);
+
+  // only current admins can create new admins
+  if (!req.user || !req.user.hasRole('admin')) {
+    if (userData.roles && userData.roles.indexOf('admin') >= 0) {
+      res.status(403);
+      return res.send("You cannot create an 'admin' user");
+    }
+  }
+
+  // only current superadmins can create superadmins
+  if (!req.user || !req.user.hasRole('superadmin')) {
+    if (userData.roles && userData.roles.indexOf('superadmin') >= 0) {
+      res.status(403);
+      return res.send("You cannot create a 'superadmin' user");
+    }
+  }
 
   User.create(userData, function(err, user) {
     if(err) {

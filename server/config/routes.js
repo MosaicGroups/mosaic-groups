@@ -9,7 +9,6 @@ module.exports = function(app, config) {
   app.get('/api/users/:id', auth.requiresRole('admin'), users.getUser);
   app.get('/api/users', auth.requiresRole('admin'), users.getUsers);
   app.post('/api/users/:id', auth.requiresApiLogin, users.updateUser);
-  app.post('/api/users', auth.requiresRole('admin'), users.saveUser);
   app.delete('/api/users/:id', auth.requiresRole('admin'), users.deleteUser);
 
   app.get('/api/groups/:id', groups.getGroup);
@@ -19,6 +18,7 @@ module.exports = function(app, config) {
   app.post('/api/groups', auth.requiresApiLogin, groups.saveGroup);
   app.post('/api/groups/:id', auth.requiresApiLogin, groups.updateGroup);
   app.delete('/api/groups/:id', auth.requiresApiLogin, groups.deleteGroup);
+  app.post('/api/users', users.saveUser);
 
   app.get('/partials/*', function(req, res) {
     console.log("rendering: " + '../../public/app/views/' + req.params)

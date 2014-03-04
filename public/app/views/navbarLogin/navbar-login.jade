@@ -1,13 +1,4 @@
 .navbar-right(ng-controller="navbarLoginCtrl")
-
-  <!-- if the user is NOT logged in then show them this section -->
-  form.navbar-form(ng-hide="identityService.isAuthenticated()")
-    .form-group
-      input.form-control(placeholder="Email", ng-model="username")
-    .form-group
-      input.form-control(type="password", placeholder="Password", ng-model="password")
-    button.btn.btn-primary(ng-click="signin(username, password)") Sign In
-
   <!-- if the user is logged in then show them this section -->
   ul.nav.navbar-nav.navbar-right(ng-if="identityService.isAuthenticated()")
     li.dropdown

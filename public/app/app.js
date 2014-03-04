@@ -17,6 +17,12 @@ angular.module('app').config(function($routeProvider, $locationProvider) {
     .when('/', { templateUrl: '/partials/home/home',
       controller: 'homeCtrl'
     })
+    .when('/login', { templateUrl: '/partials/login/login',
+      controller: 'loginCtrl'
+    })
+    .when('/views/login/login', { templateUrl: '/partials/login/login',
+      controller: 'loginCtrl'
+    })
     .when('/views/profile/profile', { templateUrl: '/partials/profile/profile',
       controller: 'profileCtrl', resolve: routeRoleChecks.user
     })
@@ -47,10 +53,11 @@ angular.module('app').config(function($routeProvider, $locationProvider) {
  * If any route is attempted that the user is not authorized for then send
  * the user back to the home page
  */
-angular.module('app').run(function($rootScope, $location) {
+angular.module('app').run(function($rootScope, $location, notifierService) {
   $rootScope.$on('$routeChangeError', function(evt, current, previous, rejection) {
     if (rejection === 'not authorized') {
-      $location.path('/');
+      $location.path('/views/login/login');
+      notifierService.error('You do not have access to that page, please login first');
     }
   });
 });
