@@ -112,6 +112,10 @@ angular.module('app').controller('groupListCtrl', function($scope, $location, $f
       'id': "Men",
       'title': "Men"
     });
+    genderTypes.push({
+      'id': "Co-ed",
+      'title': "Co-ed"
+    });
     def.resolve(genderTypes);
     return def;
   };
