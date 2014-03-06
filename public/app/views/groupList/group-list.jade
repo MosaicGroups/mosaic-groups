@@ -1,26 +1,29 @@
+.container(ng-if="!identityService.isAuthenticated()")
+  .jumbotron
+    h1 Join a Mosaic Growth Group!
 .container
-  table.table.table-hover.table-striped(ng-table="tableParams")
+  table.groups-table.table(ng-table="tableParams" show-filter="true")
     tbody(ng-repeat="group in $groups")
-      tr.ng-table-group
-        td(colspan="{{$columns.length}}")
-          a(href="", ng-click="group.$hideRows=!group.$hideRows")
+      tr.ng-table-group.groups-group-row
+        td.groups-group-cell(colspan="{{$columns.length}}" ng-click="group.$hideRows=!group.$hideRows")
+          span.groups-group-title
             span.glyphicon(ng-class="{ 'glyphicon-chevron-right': group.$hideRows, 'glyphicon-chevron-down': !group.$hideRows }")
             | &nbsp;
-            strong {{group.value}}
-      tr(ng-hide="group.$hideRows" ng-repeat="mosaicGroup in group.data")
-        td(data-title="'Title'") {{mosaicGroup.title}}
+            span {{group.value}}
+      tr.groups-data-row(ng-hide="group.$hideRows" ng-repeat="mosaicGroup in group.data")
+        td(data-title="'Title'" filter="{ 'title': 'text' }") {{mosaicGroup.title}}
         td(data-title="'Details'")
           button.btn(popover="{{mosaicGroup.description}}" popover-placement="right") Details...
-        td(data-title="'Leader(s)'")
+        td(data-title="'Leader(s)'" )
           div(ng-repeat="leader in mosaicGroup.leaders") {{leader.firstName}} {{leader.lastName}}
-        td(data-title="'Location'") {{mosaicGroup.location}}
-        td(data-title="'Type'") {{mosaicGroup.genderType}}
-        td(data-title="'Childcare'") {{(mosaicGroup.childcare) ? "yes" : "no"}}
+        td(data-title="'Location'" filter="{ 'location': 'text' }") {{mosaicGroup.location}}
+        td(data-title="'Type'" filter="{'genderType': 'select'}" filter-data="genderTypes($column)") {{mosaicGroup.genderType}}
+        td(data-title="'Childcare'" filter="{'childcare': 'select'}" filter-data="childcareTypes($column)") {{(mosaicGroup.childcare) ? "yes" : "no"}}
         td(data-title="'Topic(s)'")
           div(ng-repeat="topic in mosaicGroup.topics") {{topic}}
         td(data-title="'Join'")
           button.btn(ng-click="joinGroup(mosaicGroup)") Join
-        td(ng-if="identity.isAuthenticated()")
+        td(ng-if="identityService.isAuthenticated()")
           button.btn(ng-if="canEdit(mosaicGroup)", ng-click="editGroup(mosaicGroup)") Manage
           | &nbsp;
           button.btn(ng-if="canEdit(mosaicGroup)", ng-click="deleteGroup(mosaicGroup)") Delete
