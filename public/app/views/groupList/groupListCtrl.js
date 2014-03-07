@@ -1,7 +1,14 @@
-angular.module('app').controller('groupListCtrl', function($scope, $location, $filter, $q, ngTableParams, groupService, identityService, notifierService) {
+angular.module('app').controller('groupListCtrl', function($scope, $location, $filter, $q, ngTableParams, genderTypes, daysOfTheWeek, availableTopics, groupService, identityService, notifierService) {
   $scope.identityService = identityService;
   $scope.data = undefined;
-  $scope.genderTypes = undefined;
+
+  $scope.genderTypes = genderTypes;
+  $scope.genderTypes.unshift("-");
+  $scope.daysOfTheWeek = daysOfTheWeek;
+  $scope.daysOfTheWeek.unshift("-");
+  $scope.availableTopics = availableTopics;
+  $scope.availableTopics.unshift("-");
+  $scope.childcareTypes = ["-", "yes", "no"];
 
   $scope.tableParams = new ngTableParams({
     page: 1,            // show first page
@@ -37,10 +44,10 @@ angular.module('app').controller('groupListCtrl', function($scope, $location, $f
           $filter('orderBy')(data, $scope.tableParams.sorting()) :
           data;
 
-        // apply filtering/searching
-        orderedData = params.filter() ?
-          $filter('filter')(orderedData, params.filter()) :
-          orderedData;
+//        // apply filtering/searching
+//        orderedData = params.filter() ?
+//          $filter('filter')(orderedData, params.filter()) :
+//          orderedData;
         $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
       });
     }
@@ -99,77 +106,4 @@ angular.module('app').controller('groupListCtrl', function($scope, $location, $f
       }
       return -1;
     }
-
-  $scope.genderTypes = function($column) {
-    var def = $q.defer(),
-      arr = [],
-      genderTypes = [];
-    genderTypes.push({
-      'id': "Women",
-      'title': "Women"
-    });
-    genderTypes.push({
-      'id': "Men",
-      'title': "Men"
-    });
-    genderTypes.push({
-      'id': "Co-ed",
-      'title': "Co-ed"
-    });
-    def.resolve(genderTypes);
-    return def;
-  };
-
-  $scope.childcareTypes = function($column) {
-    var def = $q.defer(),
-      arr = [],
-      childcareTypes = [];
-    childcareTypes.push({
-      'id': true,
-      'title': "yes"
-    });
-    childcareTypes.push({
-      'id': false,
-      'title': "no"
-    });
-    def.resolve(childcareTypes);
-    return def;
-  };
-
-  $scope.topicTypes = function($column) {
-    var def = $q.defer(),
-      arr = [],
-      topicTypes = [];
-    topicTypes.push({
-      'id': "Sports",
-      'title': "Sports"
-    });
-    topicTypes.push({
-      'id': "Book/Bible Study",
-      'title': "Book/Bible Study"
-    });
-    topicTypes.push({
-      'id': "Food",
-      'title': "Food"
-    });
-    topicTypes.push({
-      'id': "Discussion",
-      'title': "Discussion"
-    });
-    topicTypes.push({
-      'id': "Hobby/Interest",
-      'title': "Hobby/Interest"
-    });
-    topicTypes.push({
-      'id': "Service",
-      'title': "Service"
-    });
-    topicTypes.push({
-      'id': "Finance",
-      'title': "Finance"
-    });
-
-    def.resolve(topicTypes);
-    return def;
-  };
 });
