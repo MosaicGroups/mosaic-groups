@@ -8,46 +8,32 @@
         .col-md-4
           label.control-label(for="titleFilter") Title
         .col-md-8
-          input.form-control(name="titleFilter", type="text", ng-model="titleFilter", autocomplete="off", ng-change="updateFilter('title', titleFilter)")
+          input.form-control(name="titleFilter", placeholder="Filter Title", type="text", ng-model="titleFilter", autocomplete="off", ng-change="updateFilter('title', titleFilter)")
       .row
         .col-md-4
           label.control-label(for="locationFilter") Location
         .col-md-8
-          input.form-control(name="locationFilter", type="text", ng-model="locationFilter", autocomplete="off", ng-change="updateFilter('location', locationFilter)")
+          input.form-control(name="locationFilter", placeholder="Filter Location", type="text", ng-model="locationFilter", autocomplete="off", ng-change="updateFilter('location', locationFilter)")
       .row
         .col-md-4
           label.control-label(for="dayOfWeekFilter") Day
         .col-md-8
-          select.form-control(name="dayOfWeekFilter", ng-options="item for item in daysOfTheWeek", ng-model="dayOfTheWeekFilter",  ng-change="updateFilter('dayOfTheWeek', dayOfTheWeekFilter)")
+          select.form-control(name="dayOfWeekFilter", placeholder="Filter Day", ng-options="item for item in daysOfTheWeek", ng-model="dayOfTheWeekFilter",  ng-change="updateFilter('dayOfTheWeek', dayOfTheWeekFilter)")
       .row
         .col-md-4
           label.control-label(for="genderTypesFilter") Genders
         .col-md-8
-          select.form-control(name="genderTypesFilter", ng-options="item for item in genderTypes", ng-model="genderTypesFilter" value="genderTypesFilter", ng-change="updateFilter('genderType', genderTypesFilter)")
+          select.form-control(name="genderTypesFilter", placeholder="Filter Gender", ng-options="item for item in genderTypes", ng-model="genderTypesFilter" value="genderTypesFilter", ng-change="updateFilter('genderType', genderTypesFilter)")
       .row
         .col-md-4
           label.control-label(for="childcareFilter") Childcare
         .col-md-8
-          .row
-            .col-md-6
-              label.control-label(for="childcareFilter") EITHER
-            .col-md-6
-              input.form-control(name="childcareFilter", type="radio", ng-model="childcareFilter", value="EITHER", ng-change="updateFilter('childcare', childcareFilter)")
-          .row
-            .col-md-6
-              label.control-label(for="childcareFilter") yes
-            .col-md-6
-              input.form-control(name="childcareFilter", type="radio", ng-model="childcareFilter", value="true", ng-change="updateFilter('childcare', childcareFilter)")
-          .row
-            .col-md-6
-              label.control-label(for="childcareFilter") no
-            .col-md-6
-              input.form-control(name="childcareFilter", type="radio", ng-model="childcareFilter", value="false", ng-change="updateFilter('childcare', childcareFilter)")
+          select.form-control(name="childcareFilter", placeholder="Filter Childcare", ng-options="item.value as item.label for item in childcareTypes", ng-model="childcareFilter", ng-change="updateFilter('childcare', childcareFilter)")
       .row
         .col-md-4
           label.control-label(for="topicsFilter") Topics
         .col-md-8
-          select.form-control(name="topicsFilter", ng-options="item for item in availableTopics", ng-model="topicsFilter", ng-change="updateFilter('topics', topicsFilter)")
+          select.form-control(name="topicsFilter", placeholder="Filter Topics", ng-options="item for item in availableTopics", ng-model="topicsFilter", ng-change="updateFilter('topics', topicsFilter)")
   .col-md-9
     .well.well-sm
       table.groups-table.table(ng-table="tableParams")

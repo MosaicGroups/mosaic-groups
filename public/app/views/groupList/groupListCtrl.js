@@ -3,18 +3,22 @@ angular.module('app').controller('groupListCtrl', function($scope, $location, $f
   $scope.data = undefined;
 
   $scope.genderTypes = angular.copy(genderTypes, $scope.genderTypes);
-  $scope.genderTypes.unshift("ALL");
+  $scope.genderTypes.unshift("");
   $scope.genderTypesFilter = $scope.genderTypes[0];
 
   $scope.daysOfTheWeek = angular.copy(daysOfTheWeek, $scope.daysOfTheWeek)
-  $scope.daysOfTheWeek.unshift("ALL");
+  $scope.daysOfTheWeek.unshift("");
   $scope.dayOfTheWeekFilter = $scope.daysOfTheWeek[0];
 
   $scope.availableTopics = angular.copy(availableTopics, $scope.availableTopics);
-  $scope.availableTopics.unshift("ALL");
+  $scope.availableTopics.unshift("");
   $scope.topicsFilter = $scope.availableTopics[0];
 
-  $scope.childcareTypes = ["EITHER", "yes", "no"];
+  $scope.childcareTypes = [
+    {label:"", value:""},
+    {label: "yes", value: true},
+    {label: "no", value: false}
+  ];
   $scope.childcareFilter = $scope.childcareTypes[0];
 
   $scope.tableFilter = {};
@@ -63,7 +67,7 @@ angular.module('app').controller('groupListCtrl', function($scope, $location, $f
 
         // apply filtering/searching
         orderedData = params.filter() ?
-          $filter('filter')(orderedData, $scope.tableFilter) :
+          $filter('filter')(orderedData, $scope.tableFilter, "false") :
           orderedData;
         $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
       });
