@@ -1,6 +1,12 @@
+.container(ng-if="!identityService.isAuthenticated()")
+  .jumbotron
+    h1 Joining the Group: "{{group.title}}"
 .container
   .well
-    h3 Joining Group: "{{group.title}}"
+    .row
+      label.col-md-2 Group Name:
+      .col-md-10
+        {{group.title}}
     .row
       label.col-md-2 Leader(s):
       .col-md-10
