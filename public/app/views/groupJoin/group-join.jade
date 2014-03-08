@@ -1,6 +1,37 @@
 .container
   .well
-    h3 Join Group: "{{group.title}}"
+    h3 Joining Group: "{{group.title}}"
+    .row
+      label.col-md-2 Leader(s):
+      .col-md-10
+        span(ng-repeat="leader in group.leaders")
+          {{leader.firstName}} {{leader.lastName}}
+    .row
+      label.col-md-2 Location:
+      .col-md-10
+        {{group.location}}
+    .row
+      label.col-md-2 Day Of The Week:
+      .col-md-10
+        {{group.dayOfTheWeek}}
+    .row
+      label.col-md-2 Gender Type:
+      .col-md-10
+        {{group.genderType}}
+    .row
+      label.col-md-2 Childcare:
+      .col-md-10
+        {{group.childcare}}
+    .row
+      label.col-md-2 Topic(s):
+      .col-md-10
+        span(ng-repeat="topic in group.topics")
+          {{topic}}
+    .row
+      label.col-md-2 Description:
+      .col-md-10
+        {{group.description}}
+  .well
     form.form-horizontal(name="groupJoinForm")
       .form-group
         label.col-md-2.control-label(for="firstName") First Name
