@@ -1,8 +1,8 @@
 .navbar.navbar-inverse.navbar-fixed-top(ng-controller="navbarLoginCtrl")
-  .container(ng-if="identityService.isAuthenticated()")
+  .container
     .navbar-header
       a.navbar-brand(href="/") Mosaic Groups
-    .navbar-collapse.collapse
+    .navbar-collapse.collapse(ng-if="identityService.isAuthenticated()")
       .navbar-right
         <!-- if the user is logged in then show them this section -->
         ul.nav.navbar-nav.navbar-right
