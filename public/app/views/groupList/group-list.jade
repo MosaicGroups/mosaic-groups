@@ -70,7 +70,7 @@
             td(data-title="'Topic(s)'")
               div(ng-repeat="topic in mosaicGroup.topics") {{topic}}
             td
-              a(href="", ng-click="joinGroup(mosaicGroup)") Click to Join
+              a(href="", ng-click="joinGroup(mosaicGroup)") Join
             td(ng-if="identityService.isAuthenticated()")
               button.btn(ng-if="canEdit(mosaicGroup)", ng-click="editGroup(mosaicGroup)") Manage
               | &nbsp;
