@@ -1,5 +1,6 @@
 var User = require('mongoose').model('User'),
-  encrypt = require('../utilities/encryption');
+  encrypt = require('../utilities/encryption'),
+  emailer = require('../utilities/emailer');
 
 exports.getUsers = function(req, res) {
   console.log("getUsers")
@@ -49,6 +50,7 @@ exports.saveUser = function(req, res, next) {
       res.status(400);
       res.send({reason:err.toString()});
     } else {
+      emailer.sendAuditMessageEMail(req.user, "User: " + user.username + " was created by: " + req.user.username);
       res.send(user);
     }
   })
@@ -77,6 +79,7 @@ exports.updateUser = function(req, res) {
       req.user = userUpdates;
     }
     userUpdates._id = userId;
+    emailer.sendAuditMessageEMail(req.user, "User: " + userUpdates.username + " was updated by: " + req.user.username);
     res.send(userUpdates);
   });
 };
@@ -117,6 +120,7 @@ exports.deleteUser = function(req, res) {
             res.status(400);
             return res.send({reason:err.toString()});
           }
+          emailer.sendAuditMessageEMail(req.user, "User: " + userToDelete.username + " was deleted by: " + req.user.username);
           return res.end();
         });
       }

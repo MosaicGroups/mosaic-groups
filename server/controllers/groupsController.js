@@ -38,6 +38,7 @@ exports.saveGroup = function(req, res, next) {
       res.status(400);
       res.send({reason:err.toString()});
     } else {
+      emailer.sendAuditMessageEMail(req.user, "Group: " + groupData.title + " was created by: " + req.user.username);
       res.send(group);
     }
   })
@@ -57,6 +58,7 @@ exports.updateGroup = function(req, res) {
   Group.findByIdAndUpdate(groupId, groupUpdates, undefined, function(err) {
     if(err) { res.status(400); return res.send({reason:err.toString()});}
     groupUpdates._id = groupId;
+    emailer.sendAuditMessageEMail(req.user, "Group: " + groupUpdates.title + " was updated by: " + req.user.username);
     res.send(groupUpdates);
   });
 };
@@ -84,7 +86,7 @@ exports.addMember = function(req, res) {
     group.members.push(memberData);
     group.save(function(err) {
       if(err) { res.status(400); return res.send({reason:err.toString()});}
-      emailer.sendMail(group, memberData);
+      emailer.sendAddedMemberEMail(group, memberData);
       return res.end();
     });
   });
@@ -120,6 +122,7 @@ exports.deleteGroup = function(req, res) {
             res.status(400);
             return res.send({reason:err.toString()});
           }
+          emailer.sendAuditMessageEMail(req.user, "Group: " + groupToDelete.title + " was deleted by: " + req.user.username);
           return res.end();
         });
       }
