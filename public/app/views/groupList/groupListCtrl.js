@@ -3,12 +3,29 @@ angular.module('app').controller('groupListCtrl', function($scope, $location, $f
   $scope.data = undefined;
 
   $scope.genderTypes = angular.copy(genderTypes, $scope.genderTypes);
-  $scope.genderTypes.unshift("-");
+  $scope.genderTypes.unshift("ALL");
+  $scope.genderTypesFilter = $scope.genderTypes[0];
+
   $scope.daysOfTheWeek = angular.copy(daysOfTheWeek, $scope.daysOfTheWeek)
-  $scope.daysOfTheWeek.unshift("-");
+  $scope.daysOfTheWeek.unshift("ALL");
+  $scope.dayOfTheWeekFilter = $scope.daysOfTheWeek[0];
+
   $scope.availableTopics = angular.copy(availableTopics, $scope.availableTopics);
-  $scope.availableTopics.unshift("-");
-  $scope.childcareTypes = ["-", "yes", "no"];
+  $scope.availableTopics.unshift("ALL");
+  $scope.topicsFilter = $scope.availableTopics[0];
+
+  $scope.childcareTypes = ["EITHER", "yes", "no"];
+  $scope.childcareFilter = $scope.childcareTypes[0];
+
+  $scope.tableFilter = {};
+  $scope.updateFilter = function(filterName, filterValue) {
+    if (filterValue === "" || filterValue === "ALL" || filterValue === "EITHER") {
+      delete $scope.tableFilter[filterName];
+    } else {
+      $scope.tableFilter[filterName] = filterValue;
+    }
+    $scope.tableParams.reload();
+  }
 
   $scope.tableParams = new ngTableParams({
     page: 1,            // show first page
@@ -44,10 +61,10 @@ angular.module('app').controller('groupListCtrl', function($scope, $location, $f
           $filter('orderBy')(data, $scope.tableParams.sorting()) :
           data;
 
-//        // apply filtering/searching
-//        orderedData = params.filter() ?
-//          $filter('filter')(orderedData, params.filter()) :
-//          orderedData;
+        // apply filtering/searching
+        orderedData = params.filter() ?
+          $filter('filter')(orderedData, $scope.tableFilter) :
+          orderedData;
         $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
       });
     }

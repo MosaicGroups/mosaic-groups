@@ -1,65 +1,77 @@
-.container(ng-if="!identityService.isAuthenticated()")
-  .jumbotron
-    h1 Select a Mosaic Growth Group to Join!
-.container
-  .row
-    .col-md-3
-      .well.well-sm
-        .h3 Filters
-        .row
-          .col-md-6
-            label.control-label(for="titleFilter") Title
-          .col-md-6
-            input.form-control(name="titleFilter", type="text", ng-model="titleFilter", autocomplete="off" )
-        .row
-          .col-md-6
-            label.control-label(for="locationFilter") Location
-          .col-md-6
-            input.form-control(name="locationFilter", type="text", ng-model="locationFilter", autocomplete="off" )
-        .row
-          .col-md-6
-            label.control-label(for="dayOfWeekFilter") Day Of Week
-          .col-md-6
-            select.form-control(name="dayOfWeekFilter", ng-options="item for item in daysOfTheWeek", ng-model="dayOfTheWeekFilter")
-        .row
-          .col-md-6
-            label.control-label(for="genderTypesFilter") Gender Types
-          .col-md-6
-            select.form-control(name="genderTypesFilter", ng-options="item for item in genderTypes", ng-model="genderTypesFilter")
-        .row
-          .col-md-6
-            label.control-label(for="childcareFilter") Childcare
-          .col-md-6
-            select.form-control(name="childcareFilter", ng-options="item for item in childcareTypes", ng-model="childcareFilter")
-        .row
-          .col-md-6
-            label.control-label(for="topicsFilter") Topics
-          .col-md-6
-            select.form-control(name="topicsFilter", ng-options="item for item in availableTopics", ng-model="topicsFilter")
-    .col-md-9
-      .well.well-sm
-        table.groups-table.table(ng-table="tableParams")
-          tbody(ng-repeat="group in $groups")
-            tr.ng-table-group.groups-group-row
-              td.groups-group-cell(colspan="{{$columns.length}}" ng-click="group.$hideRows=!group.$hideRows")
-                span.groups-group-title
-                  span.glyphicon(ng-class="{ 'glyphicon-chevron-right': group.$hideRows, 'glyphicon-chevron-down': !group.$hideRows }")
-                  | &nbsp;
-                  span {{group.value}}
-            tr.groups-data-row(ng-hide="group.$hideRows" ng-repeat="mosaicGroup in group.data")
-              td(data-title="'Title'") {{mosaicGroup.title}}
-              td(data-title="'Details'")
-                a(href="", popover="{{mosaicGroup.description}}" popover-placement="right") Details...
-              td(data-title="'Leader(s)'" )
-                div(ng-repeat="leader in mosaicGroup.leaders") {{leader.firstName}} {{leader.lastName}}
-              td(data-title="'Location'") {{mosaicGroup.location}}
-              td(data-title="'Type'") {{mosaicGroup.genderType}}
-              td(data-title="'Childcare'") {{(mosaicGroup.childcare) ? "yes" : "no"}}
-              td(data-title="'Topic(s)'")
-                div(ng-repeat="topic in mosaicGroup.topics") {{topic}}
-              td
-                a(href="", ng-click="joinGroup(mosaicGroup)") Click to Join
-              td(ng-if="identityService.isAuthenticated()")
-                button.btn(ng-if="canEdit(mosaicGroup)", ng-click="editGroup(mosaicGroup)") Manage
+.jumbotron(ng-if="!identityService.isAuthenticated()")
+  h1 Select a Mosaic Growth Group to Join!
+.row
+  .col-md-3
+    .well.well-sm
+      .h3 Filters
+      .row
+        .col-md-4
+          label.control-label(for="titleFilter") Title
+        .col-md-8
+          input.form-control(name="titleFilter", type="text", ng-model="titleFilter", autocomplete="off", ng-change="updateFilter('title', titleFilter)")
+      .row
+        .col-md-4
+          label.control-label(for="locationFilter") Location
+        .col-md-8
+          input.form-control(name="locationFilter", type="text", ng-model="locationFilter", autocomplete="off", ng-change="updateFilter('location', locationFilter)")
+      .row
+        .col-md-4
+          label.control-label(for="dayOfWeekFilter") Day
+        .col-md-8
+          select.form-control(name="dayOfWeekFilter", ng-options="item for item in daysOfTheWeek", ng-model="dayOfTheWeekFilter",  ng-change="updateFilter('dayOfTheWeek', dayOfTheWeekFilter)")
+      .row
+        .col-md-4
+          label.control-label(for="genderTypesFilter") Genders
+        .col-md-8
+          select.form-control(name="genderTypesFilter", ng-options="item for item in genderTypes", ng-model="genderTypesFilter" value="genderTypesFilter", ng-change="updateFilter('genderType', genderTypesFilter)")
+      .row
+        .col-md-4
+          label.control-label(for="childcareFilter") Childcare
+        .col-md-8
+          .row
+            .col-md-6
+              label.control-label(for="childcareFilter") EITHER
+            .col-md-6
+              input.form-control(name="childcareFilter", type="radio", ng-model="childcareFilter", value="EITHER", ng-change="updateFilter('childcare', childcareFilter)")
+          .row
+            .col-md-6
+              label.control-label(for="childcareFilter") yes
+            .col-md-6
+              input.form-control(name="childcareFilter", type="radio", ng-model="childcareFilter", value="true", ng-change="updateFilter('childcare', childcareFilter)")
+          .row
+            .col-md-6
+              label.control-label(for="childcareFilter") no
+            .col-md-6
+              input.form-control(name="childcareFilter", type="radio", ng-model="childcareFilter", value="false", ng-change="updateFilter('childcare', childcareFilter)")
+      .row
+        .col-md-4
+          label.control-label(for="topicsFilter") Topics
+        .col-md-8
+          select.form-control(name="topicsFilter", ng-options="item for item in availableTopics", ng-model="topicsFilter", ng-change="updateFilter('topics', topicsFilter)")
+  .col-md-9
+    .well.well-sm
+      table.groups-table.table(ng-table="tableParams")
+        tbody(ng-repeat="group in $groups")
+          tr.ng-table-group.groups-group-row
+            td.groups-group-cell(colspan="{{$columns.length}}" ng-click="group.$hideRows=!group.$hideRows")
+              span.groups-group-title
+                span.glyphicon(ng-class="{ 'glyphicon-chevron-right': group.$hideRows, 'glyphicon-chevron-down': !group.$hideRows }")
                 | &nbsp;
-                button.btn(ng-if="canEdit(mosaicGroup)", ng-click="deleteGroup(mosaicGroup)") Delete
+                span {{group.value}}
+          tr.groups-data-row(ng-hide="group.$hideRows" ng-repeat="mosaicGroup in group.data")
+            td(data-title="'Title'") {{mosaicGroup.title}}
+            td(data-title="'Details'")
+              a(href="", popover="{{mosaicGroup.description}}" popover-placement="right") Details...
+            td(data-title="'Leader(s)'" )
+              div(ng-repeat="leader in mosaicGroup.leaders") {{leader.firstName}} {{leader.lastName}}
+            td(data-title="'Location'") {{mosaicGroup.location}}
+            td(data-title="'Type'") {{mosaicGroup.genderType}}
+            td(data-title="'Childcare'") {{(mosaicGroup.childcare) ? "yes" : "no"}}
+            td(data-title="'Topic(s)'")
+              div(ng-repeat="topic in mosaicGroup.topics") {{topic}}
+            td
+              a(href="", ng-click="joinGroup(mosaicGroup)") Click to Join
+            td(ng-if="identityService.isAuthenticated()")
+              button.btn(ng-if="canEdit(mosaicGroup)", ng-click="editGroup(mosaicGroup)") Manage
+              | &nbsp;
+              button.btn(ng-if="canEdit(mosaicGroup)", ng-click="deleteGroup(mosaicGroup)") Delete
