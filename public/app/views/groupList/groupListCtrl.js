@@ -2,11 +2,11 @@ angular.module('app').controller('groupListCtrl', function($scope, $location, $f
   $scope.identityService = identityService;
   $scope.data = undefined;
 
-  $scope.genderTypes = genderTypes;
+  $scope.genderTypes = angular.copy(genderTypes, $scope.genderTypes);
   $scope.genderTypes.unshift("-");
-  $scope.daysOfTheWeek = daysOfTheWeek;
+  $scope.daysOfTheWeek = angular.copy(daysOfTheWeek, $scope.daysOfTheWeek)
   $scope.daysOfTheWeek.unshift("-");
-  $scope.availableTopics = availableTopics;
+  $scope.availableTopics = angular.copy(availableTopics, $scope.availableTopics);
   $scope.availableTopics.unshift("-");
   $scope.childcareTypes = ["-", "yes", "no"];
 

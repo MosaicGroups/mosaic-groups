@@ -26,7 +26,7 @@ exports.saveGroup = function(req, res, next) {
 
   // if the leaderId is not set, or if this is not an admin user
   // then set the leaderId to the current user
-  if (!groupData.leader || !req.user.hasRole('admin')) {
+  if (!groupData.leaders || groupData.leaders.length <= 0 || !req.user.hasRole('admin')) {
     groupData.leaders = [req.user._id];
   }
 
