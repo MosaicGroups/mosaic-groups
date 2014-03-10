@@ -21,7 +21,7 @@
           select.form-control(name="dayOfWeekFilter", placeholder="Filter Day", ng-options="item for item in daysOfTheWeek", ng-model="dayOfTheWeekFilter",  ng-change="updateFilter('dayOfTheWeek', dayOfTheWeekFilter)")
       .row
         .col-md-4
-          label.control-label(for="genderTypesFilter") Genders
+          label.control-label(for="genderTypesFilter") Gender
         .col-md-8
           select.form-control(name="genderTypesFilter", placeholder="Filter Gender", ng-options="item for item in genderTypes", ng-model="genderTypesFilter" value="genderTypesFilter", ng-change="updateFilter('genderType', genderTypesFilter)")
       .row
