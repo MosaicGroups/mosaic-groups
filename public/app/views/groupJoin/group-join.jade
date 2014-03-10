@@ -23,13 +23,14 @@
           .col-md-8
             {{group.dayOfTheWeek}}
         .row
-          label.col-md-4 Gender Type:
+          label.col-md-4 Gender:
           .col-md-8
             {{group.genderType}}
         .row
           label.col-md-4 Childcare:
           .col-md-8
-            {{group.childcare}}
+            span(ng-if="group.childcare") Yes
+            span(ng-if="!group.childcare") No
         .row
           label.col-md-4 Topic(s):
           .col-md-8

@@ -1,9 +1,9 @@
 angular.module('app').value('availableTopics', [
-  "Sports",
-  "Book/Bible Study",
-  "Food",
-  "Discussion",
-  "Hobby/Interest",
+  "Care",
+  "Bible/Book Study",
+  "Finance",
+  "General Interests",
+  "Marriage/Relationship",
   "Service",
-  "Finance"
+  "Social"
 ]);
