@@ -4,10 +4,12 @@ var mongoose = require('mongoose'),
 var memberSchema = mongoose.Schema({
   firstName: {
     type:String,
-    required:'{PATH} is required!'},
+    required:'{PATH} is required!'
+  },
   lastName: {
     type:String,
-    required:'{PATH} is required!'},
+    required:'{PATH} is required!'
+  },
   email: {
     type: String,
     required: '{PATH} is required!'
@@ -36,17 +38,25 @@ var groupSchema = mongoose.Schema({
   },
   dayOfTheWeek: {
     type: String,
-    required:'{PATH} is required!'},
+    required:'{PATH} is required!'
+  },
+  meetingTime: {
+    type: String,
+    required:'{PATH} is required!'
+  },
   genderType: { //men, women, co-ed (mutually exclusive)
     type: String,
-    required:'{PATH} is required!'},
+    required:'{PATH} is required!'
+  },
   childcare: {
     type: Boolean,
-    default: false},
+    default: false
+  },
   topics: [String], // sports, book/bible study, food, discussion, hobby/interest(such as board games), service, finance (any that apply are allowed)
   description: {
     type: String,
-    required:'{PATH} is required!'}
+    required:'{PATH} is required!'
+  }
 });
 
 var Group = mongoose.model('Group', groupSchema);

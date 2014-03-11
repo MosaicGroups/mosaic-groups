@@ -1,4 +1,4 @@
-angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $route, $location, genderTypes, daysOfTheWeek, availableTopics, groupService, notifierService, identityService, userService) {
+angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $route, $location, genderTypes, daysOfTheWeek, availableTopics, groupService, notifierService, identityService, userService, meetingTimes) {
   var groupId = $route.current.params.id;
   $scope.identity = identityService;
   $scope.group = {};
@@ -14,6 +14,7 @@ angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $rout
     $scope.group.title = "";
     $scope.group.location = "";
     $scope.group.dayOfWeek = "";
+    $scope.group.meetingTime = "";
     $scope.group.genderType = "";
     $scope.group.childcare = true;
     $scope.group.topics = [];
@@ -38,6 +39,7 @@ angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $rout
   $scope.genderTypes = genderTypes;
   $scope.daysOfTheWeek = daysOfTheWeek;
   $scope.availableTopics = availableTopics;
+  $scope.meetingTimes = meetingTimes;
 
   $scope.pendingMember = function(member) {
     member.status = "PENDING";

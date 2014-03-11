@@ -19,6 +19,10 @@
         .col-md-10
           select.form-control(name="dayOfTheWeek", ng-options="item for item in daysOfTheWeek", ng-model="group.dayOfTheWeek", required)
       .form-group
+        label.col-md-2.control-label(for="meetingTime") Time
+        .col-md-10
+          select.form-control(name="meetingTime", ng-options="item for item in meetingTimes", ng-model="group.meetingTime", required)
+      .form-group
         label.col-md-2.control-label(for="genderType") Gender
         .col-md-10
           select.form-control(name="genderType", ng-options="item for (itemKey, item) in genderTypes", ng-model="group.genderType", required)
