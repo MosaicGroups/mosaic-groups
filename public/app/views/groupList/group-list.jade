@@ -34,6 +34,10 @@
           label.control-label(for="topicsFilter") Topics
         .col-md-8
           select.form-control(name="topicsFilter", placeholder="Filter Topics", ng-options="item for item in availableTopics", ng-model="topicsFilter", ng-change="updateFilter('topics', topicsFilter)")
+    .well.well-sm
+      .row
+        .col-md-12
+          iframe(src="//player.vimeo.com/video/16977707" width="100%" height="200" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen)
   .col-md-9
     .well.well-sm
       table.groups-table.table(ng-table="tableParams")
