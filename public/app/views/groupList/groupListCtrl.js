@@ -33,23 +33,24 @@ angular.module('app').controller('groupListCtrl', function($scope, $location, $f
 
   $scope.tableParams = new ngTableParams({
     page: 1,            // show first page
-    count: 10,          // count per page
-    sorting: function(data) {
-      switch(data.dayOfTheWeek) {
-        case "Sunday":
-          return 1; break;
-        case "Monday":
-          return 2; break;
-        case "Tuesday":
-          return 3; break;
-        case "Wednesday":
-          return 4; break;
-        case "Thursday":
-          return 5; break;
-        case "Friday":
-          return 6; break;
-        case "Saturday":
-          return 7; break;
+    count: 100,          // count per page
+    sorting:
+      function(data) {
+        switch(data.dayOfTheWeek) {
+          case "Sunday":
+            return 1 + data.title; break;
+          case "Monday":
+            return 2 + data.title; break;
+          case "Tuesday":
+            return 3 + data.title; break;
+          case "Wednesday":
+            return 4 + data.title; break;
+          case "Thursday":
+            return 5 + data.title; break;
+          case "Friday":
+            return 6 + data.title; break;
+          case "Saturday":
+            return 7 + data.title; break;
       }
     }
   }, {

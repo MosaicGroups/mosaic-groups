@@ -25,4 +25,7 @@
 * Install bower
  * Install bower dependencies
 
+##How to push to heroku
+* http://therubyway.wordpress.com/2008/12/11/using-heroku-and-windows/
+
 If you have any questions about this tool please email pblair12@gmail.com
