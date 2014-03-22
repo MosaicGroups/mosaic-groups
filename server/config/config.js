@@ -7,8 +7,8 @@ module.exports = {
     port: process.env.PORT || 3030,
     scheduler: {
       enabled: false,
-      hour: 4,
-      minute: 10
+      hour: 14,
+      minute: 50
     }
   },
   production: {
