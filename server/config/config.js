@@ -7,7 +7,7 @@ module.exports = {
     port: process.env.PORT || 3030,
     scheduler: {
       enabled: false,
-      hour: 14,
+      hour: 14, // 10am EST on the heroku server
       minute: 50
     }
   },
@@ -17,8 +17,8 @@ module.exports = {
     port: process.env.PORT || 80,
     scheduler: {
       enabled: true,
-      hour: 8,
-      minute: 00
+      hour: 14, // 10am EST on the heroku server
+      minute: 50
     }
   }
 }
