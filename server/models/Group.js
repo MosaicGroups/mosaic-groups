@@ -17,6 +17,11 @@ var memberSchema = mongoose.Schema({
   status: { // status is either PENDING, APPROVED, or REMOVED
     type: String,
     required: '{PATH} is required!'
+  },
+  joinDate: {
+    type: Date,
+    default: Date.now,
+    required: '{PATH} is required!'
   }
 });
 
