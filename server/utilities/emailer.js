@@ -13,7 +13,7 @@ var smtpTransport = nodemailer.createTransport("SMTP",{
 // if you don't want to use this transport object anymore, uncomment following line
 // smtpTransport.close(); // shut down the connection pool, no more messages
 
-exports.sendAddedMemberEMail = function(mailOptionsTos, group, newMemberData) {
+exports.sendAddedMemberEMail = function(group, newMemberData) {
   User.find({'roles': 'superadmin'}).exec(function(err, superadmins) {
     var mailOptionsTos = "";
     for (var i = 0; i < superadmins.length; i++) {
@@ -43,7 +43,7 @@ exports.sendAddedMemberEMail = function(mailOptionsTos, group, newMemberData) {
   });
 };
 
-exports.sendAuditMessageEMail = function(mailOptionsTos, message) {
+exports.sendAuditMessageEMail = function(message) {
   User.find({'roles': 'superadmin'}).exec(function(err, superadmins) {
     var mailOptionsTos = "";
     for (var i = 0; i < superadmins.length; i++) {

@@ -7,6 +7,7 @@ exports.emailGroupReportToSelf = function(req, res) {
   Group.find({}).populate('leaders').exec(function(err, collection) {
     var report = reportGenerator.createDailyReport(collection);
     emailer.sendCurrUserGroupsReport(req.user, report);
+    emailer.sendAuditMessageEMail(req.user.username + " requested an on demand daily report email");
   });
   return res.end();
 };
@@ -96,7 +97,7 @@ exports.addMember = function(req, res) {
     group.members.push(memberData);
     group.save(function(err) {
       if(err) { res.status(400); return res.send({reason:err.toString()});}
-      emailer.sendAddedMemberEMail(mailOptionsTos, group, memberData);
+      emailer.sendAddedMemberEMail(group, memberData);
       return res.end();
     });
   });
