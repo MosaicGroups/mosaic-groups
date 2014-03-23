@@ -22,10 +22,16 @@ angular.module('app').controller('groupListCtrl', function($scope, $location, $f
   $scope.childcareFilter = $scope.childcareTypes[0];
 
   $scope.tableFilter = {};
+  $scope.tableFilterStrict = {};
   $scope.updateFilter = function(filterName, filterValue) {
     if (filterValue === "" || filterValue === "ALL" || filterValue === "EITHER") {
       delete $scope.tableFilter[filterName];
-    } else {
+      delete $scope.tableFilterStrict[filterName];
+    }
+    else if (filterName === "dayOfTheWeek" || filterName === "genderType" || filterName === "childcare" || filterName === "topics") {
+      $scope.tableFilterStrict[filterName] = filterValue;
+    }
+    else {
       $scope.tableFilter[filterName] = filterValue;
     }
     $scope.tableParams.reload();
@@ -66,9 +72,13 @@ angular.module('app').controller('groupListCtrl', function($scope, $location, $f
           $filter('orderBy')(data, $scope.tableParams.sorting()) :
           data;
 
-        // apply filtering/searching
+        // apply filtering/searching based on any text in the given column
         orderedData = params.filter() ?
           $filter('filter')(orderedData, $scope.tableFilter, "false") :
+          orderedData;
+        // apply the strict filters
+        orderedData = params.filter() ?
+          $filter('filter')(orderedData, $scope.tableFilterStrict, function(a, e) {return a === e}):
           orderedData;
         $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
       });
