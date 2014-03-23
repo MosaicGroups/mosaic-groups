@@ -13,16 +13,15 @@ var smtpTransport = nodemailer.createTransport("SMTP",{
 // if you don't want to use this transport object anymore, uncomment following line
 // smtpTransport.close(); // shut down the connection pool, no more messages
 
-exports.sendAddedMemberEMail = function(group, newMemberData) {
-  var mailOptionsTos = "";
+exports.sendAddedMemberEMail = function(mailOptionsTos, group, newMemberData) {
   User.find({'roles': 'superadmin'}).exec(function(err, superadmins) {
+    var mailOptionsTos = "";
     for (var i = 0; i < superadmins.length; i++) {
       mailOptionsTos += (mailOptionsTos.length === 0) ? superadmins[i].username : "," + superadmins[i].username;
     }
     for (var i = 0; i < group.leaders.length; i++) {
       mailOptionsTos += (mailOptionsTos.length === 0) ? group.leaders[i].username : "," + group.leaders[i].username;
     }
-
     var message = "Your group: " + group.title + " has a new member request from: \"" + newMemberData.firstName + " " + newMemberData.lastName + " <" + newMemberData.email + ">\"";
 
     // setup e-mail data with unicode symbols
@@ -44,13 +43,12 @@ exports.sendAddedMemberEMail = function(group, newMemberData) {
   });
 };
 
-exports.sendAuditMessageEMail = function(message) {
-  var mailOptionsTos = "";
+exports.sendAuditMessageEMail = function(mailOptionsTos, message) {
   User.find({'roles': 'superadmin'}).exec(function(err, superadmins) {
+    var mailOptionsTos = "";
     for (var i = 0; i < superadmins.length; i++) {
       mailOptionsTos += (mailOptionsTos.length === 0) ? superadmins[i].username : "," + superadmins[i].username;
     }
-
     // setup e-mail data with unicode symbols
     var mailOptions = {
       from: "mosaic.groups@gmail.com", // sender address
@@ -96,3 +94,21 @@ exports.sendGroupsReport = function(message) {
   });
 };
 
+exports.sendCurrUserGroupsReport = function(currUser, message) {
+  // setup e-mail data with unicode symbols
+  var mailOptions = {
+    from: "mosaic.groups@gmail.com", // sender address
+    to: currUser.username, // list of receivers
+    subject: "Mosaic Group Daily Report", // Subject line
+    html: message
+  }
+
+  // send mail with defined transport object
+  smtpTransport.sendMail(mailOptions, function(error, response){
+    if(error){
+      console.log(error);
+    }else{
+      console.log("Email message sent: " + response.message);
+    }
+  })
+};

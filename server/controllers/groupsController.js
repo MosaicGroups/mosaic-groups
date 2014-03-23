@@ -1,6 +1,15 @@
 var Group = require('mongoose').model('Group'),
   User = require('mongoose').model('User'),
-  emailer = require('../utilities/emailer');
+  emailer = require('../utilities/emailer'),
+  reportGenerator = require('../utilities/reportGenerator');
+
+exports.emailGroupReportToSelf = function(req, res) {
+  Group.find({}).populate('leaders').exec(function(err, collection) {
+    var report = reportGenerator.createDailyReport(collection);
+    emailer.sendCurrUserGroupsReport(req.user, report);
+  });
+  return res.end();
+};
 
 exports.getGroups = function(req, res) {
   console.log("getGroups")
@@ -87,7 +96,7 @@ exports.addMember = function(req, res) {
     group.members.push(memberData);
     group.save(function(err) {
       if(err) { res.status(400); return res.send({reason:err.toString()});}
-      emailer.sendAddedMemberEMail(group, memberData);
+      emailer.sendAddedMemberEMail(mailOptionsTos, group, memberData);
       return res.end();
     });
   });

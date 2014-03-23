@@ -117,6 +117,10 @@ angular.module('app').controller('groupListCtrl', function($scope, $location, $f
     return canEditGroup;
   }
 
+  $scope.emailGroupReportToSelf = function() {
+    groupService.emailGroupReportToSelf();
+  }
+
   var inArray = Array.prototype.indexOf ?
     function (val, arr) {
       return arr.indexOf(val)

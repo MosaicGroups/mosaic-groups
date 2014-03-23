@@ -2,6 +2,11 @@
   h1 Select a Mosaic Growth Group to Join!
 .row
   .col-md-3
+    .well.well-sm(ng-if="identityService.isAdmin()")
+      .h3 Admin
+      .row
+        .col-md-12
+          button.btn(ng-click="emailGroupReportToSelf()") Email Me Group Report
     .well.well-sm
       .h3 Filters
       .row

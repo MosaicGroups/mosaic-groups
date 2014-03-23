@@ -8,7 +8,13 @@ exports.createDailyReport = function(groups) {
   report += "<ul>";
   for (var i = 0; i < groups.length; i++) {
     var group = groups[i];
-    report += "<li>" + group.title + " " + group.location + " " + group.dayOfTheWeek + "</li>";
+    report += "<li>" + group.title + " on " + group.dayOfTheWeek + " in " + group.location + " by ";
+    for (var j = 0; j < group.leaders; j++) {
+      var learder = group.leaders[j];
+      report += leader.firstName + " " + leader.lastName + " &lt;" + leader.username + "&gt; ";
+    }
+    report += "</li>";
+
     report += "<ul>";
     for (var j = 0; j < group.members.length; j++) {
       var member = groups[i].members[j];

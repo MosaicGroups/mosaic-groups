@@ -1,5 +1,9 @@
 angular.module('app').factory('groupService', function($q, Group) {
   return {
+    emailGroupReportToSelf: function() {
+      return Group.emailGroupReportToSelf();
+    },
+
     getGroups: function() {
       return Group.query();
     },

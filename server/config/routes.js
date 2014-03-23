@@ -15,9 +15,11 @@ module.exports = function(app, config) {
   app.get('/api/groups', groups.getGroups);
   app.post('/api/groups/:id/add-member', groups.addMember);
 
+  app.post('/api/groups/emailGroupReportToSelf', auth.requiresRole('admin'), groups.emailGroupReportToSelf);
   app.post('/api/groups', auth.requiresApiLogin, groups.saveGroup);
   app.post('/api/groups/:id', auth.requiresApiLogin, groups.updateGroup);
   app.delete('/api/groups/:id', auth.requiresApiLogin, groups.deleteGroup);
+
   app.post('/api/users', users.saveUser);
 
   app.get('/partials/*', function(req, res) {
