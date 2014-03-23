@@ -128,7 +128,12 @@ angular.module('app').controller('groupListCtrl', function($scope, $location, $f
   }
 
   $scope.emailGroupReportToSelf = function() {
-    groupService.emailGroupReportToSelf();
+    groupService.emailGroupReportToSelf().$promise.then(function() {
+      notifierService.notify('Group Report email sent');
+      $scope.tableParams.reload();
+    }, function(reason) {
+      notifierService.error(reason);
+    });;
   }
 
   var inArray = Array.prototype.indexOf ?
