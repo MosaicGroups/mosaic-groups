@@ -2,7 +2,10 @@ var path = require('path');
 var rootPath = path.normalize(__dirname + '/../../');
 module.exports = {
   development: {
-    db: 'mongodb://localhost:27017/mosaicgroups',
+    db: {
+      url: 'mongodb://localhost:27017/mosaicgroups',
+      debugMode: true
+    },
     rootPath: rootPath,
     port: process.env.PORT || 3030,
     scheduler: {
@@ -12,7 +15,10 @@ module.exports = {
     }
   },
   production: {
-    db: 'mongodb://mosaicadmin:ilovemosiac!@ds027489.mongolab.com:27489/mosaicgroups',
+    db: {
+      url: 'mongodb://mosaicadmin:ilovemosiac!@ds027489.mongolab.com:27489/mosaicgroups',
+      debugMode: false
+    },
     rootPath: rootPath,
     port: process.env.PORT || 80,
     scheduler: {

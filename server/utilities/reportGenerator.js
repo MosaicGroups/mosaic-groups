@@ -2,6 +2,7 @@ exports.createDailyReport = function(groups) {
   var today = new Date();
   var yesterday = new Date();
   var report = "<h3>Mosaic Groups Daily Report for " + today.toDateString() + "</h3>";
+  report += "<p>The names highlighted in <span style='color:green'>green</span> are from people who signed up in the past 24hrs</p>";
 
   yesterday.setDate(today.getDate()-1);
 

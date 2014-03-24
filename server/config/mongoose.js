@@ -3,9 +3,9 @@ var mongoose = require('mongoose'),
   groupModel = require('../models/Group');
 
 module.exports = function(env, config) {
-  mongoose.set('debug', true)
+  mongoose.set('debug', config.db.debugMode)
   console.log("connecting to '" + env + "' mongo instance");
-  mongoose.connect(config.db)
+  mongoose.connect(config.db.url)
   console.log("connected...");
 
   var db = mongoose.connection;

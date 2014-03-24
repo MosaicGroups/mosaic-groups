@@ -1,7 +1,5 @@
-var Group = require('mongoose').model('Group'),
-  schedule = require('node-schedule'),
-  emailer = require('../utilities/emailer'),
-  reportGenerator = require('../utilities/reportGenerator');
+var schedule = require('node-schedule'),
+  emailer = require('../utilities/emailer');
 
 module.exports = function(config) {
   if (config.scheduler.enabled) {
@@ -13,11 +11,7 @@ module.exports = function(config) {
 
     var j = schedule.scheduleJob(rule, function() {
       console.log('Sending Mosaic Groups Report');
-
-      Group.find({}).populate('leaders').exec(function(err, collection) {
-        var report = reportGenerator.createDailyReport(collection);
-        emailer.sendGroupsReport(report);
-      })
+      emailer.sendGroupsReport();
     });
   }
 };

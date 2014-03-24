@@ -20,7 +20,6 @@ var memberSchema = mongoose.Schema({
   },
   joinDate: {
     type: Date,
-    default: Date.now,
     required: '{PATH} is required!'
   }
 });
