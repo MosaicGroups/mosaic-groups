@@ -24,7 +24,7 @@ module.exports = {
     scheduler: {
       enabled: true,
       hour: 8, // 12 noon == 8am EST on the heroku server because it is +4hrs
-      minute: 07
+      minute: 9
     }
   }
 }
