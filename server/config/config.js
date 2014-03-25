@@ -23,8 +23,8 @@ module.exports = {
     port: process.env.PORT || 80,
     scheduler: {
       enabled: true,
-      hour: 8, // 12 noon == 8am EST on the heroku server because it is +4hrs
-      minute: 9
+      hour: 11, // 11 noon == 7am EST on the heroku server because it is +4hrs
+      minute: 59
     }
   }
 }
