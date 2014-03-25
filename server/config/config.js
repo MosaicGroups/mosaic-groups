@@ -9,9 +9,9 @@ module.exports = {
     rootPath: rootPath,
     port: process.env.PORT || 3030,
     scheduler: {
-      enabled: false,
-      hour: 12, // 12 noon == 8am EST on the heroku server because it is +4hrs
-      minute: 00
+      enabled: false
+//      hour: 12, // 12 noon == 8am EST on the heroku server because it is +4hrs
+//      minute: 00
     }
   },
   production: {
@@ -23,8 +23,8 @@ module.exports = {
     port: process.env.PORT || 80,
     scheduler: {
       enabled: true,
-      hour: 12, // 12 noon == 8am EST on the heroku server because it is +4hrs
-      minute: 00
+      hour: 8, // 12 noon == 8am EST on the heroku server because it is +4hrs
+      minute: 07
     }
   }
 }
