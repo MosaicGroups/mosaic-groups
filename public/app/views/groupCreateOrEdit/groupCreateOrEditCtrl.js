@@ -50,8 +50,9 @@ angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $rout
     member.status = "APPROVED";
   }
 
-  $scope.removeMember = function(member) {
-    member.status = "REMOVED";
+  $scope.removeMember = function(group, member) {
+    var index = group.members.indexOf(member);
+    group.members.splice(index, 1);
   }
 
   $scope.saveGroup = function() {
