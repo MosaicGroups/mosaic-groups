@@ -15,6 +15,7 @@ angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $rout
     $scope.group.location = "";
     $scope.group.dayOfWeek = "";
     $scope.group.meetingTime = "";
+    $scope.group.memberLimit = "";
     $scope.group.genderType = "";
     $scope.group.childcare = true;
     $scope.group.topics = [];

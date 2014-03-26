@@ -36,6 +36,10 @@ var groupSchema = mongoose.Schema({
   members: [
     memberSchema
   ],
+  memberLimit: {
+    type: Number,
+    required: '{PATH} is required!'
+  },
   location: {
     type: String,
     required: '{PATH} is required!'

@@ -23,6 +23,10 @@
         .col-md-10
           select.form-control(name="meetingTime", ng-options="item for item in meetingTimes", ng-model="group.meetingTime", required)
       .form-group
+        label.col-md-2.control-label(for="memberLimit") Member Limit
+        .col-md-10
+          input.form-control(name="memberLimit", type="number", placeholder="20", ng-model="group.memberLimit", required, autocomplete="off" )
+      .form-group
         label.col-md-2.control-label(for="genderType") Gender
         .col-md-10
           select.form-control(name="genderType", ng-options="item for (itemKey, item) in genderTypes", ng-model="group.genderType", required)

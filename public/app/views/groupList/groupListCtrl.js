@@ -116,6 +116,10 @@ angular.module('app').controller('groupListCtrl', function($scope, $location, $f
     return canEditGroup;
   }
 
+  $scope.groupIsFull = function(group) {
+    return group.members.length >= group.memberLimit
+  }
+
   $scope.userIsLeaderOfGroup = function(user, group) {
     var canEditGroup = false;
     for (var i = 0; i < group.leaders.length; i++) {
