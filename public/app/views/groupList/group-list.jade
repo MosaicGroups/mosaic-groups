@@ -75,12 +75,12 @@
                 b Join
               span(ng-if="groupIsFull(mosaicGroup)")
                 b Group Is Full
-            td(ng-if="identityService.isAuthenticated()", data-title="'Capacity'") {{mosaicGroup.members.length}} of {{mosaicGroup.memberLimit}}
-            td(ng-if="identityService.isAuthenticated()", data-title="'Actions'")
+            td(ng-if="identityService.isAuthenticated()") {{mosaicGroup.members.length}} of {{mosaicGroup.memberLimit}} spots taken
+            td(ng-if="identityService.isAuthenticated()")
               span(ng-if="canEdit(mosaicGroup)")
                 a(ng-click="editGroup(mosaicGroup)", href="")
                   b Manage
-                | &nbsp; | &nbsp;
+                br
                 a(ng-click="deleteGroup(mosaicGroup)", href="")
                   b Delete
               span(ng-if="!canEdit(mosaicGroup)") N/A
