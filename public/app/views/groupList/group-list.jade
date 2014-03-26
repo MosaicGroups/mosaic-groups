@@ -70,12 +70,17 @@
             td(data-title="'Childcare'") {{(mosaicGroup.childcare) ? "yes" : "no"}}
             td(data-title="'Topic(s)'")
               div(ng-repeat="topic in mosaicGroup.topics") {{topic}}
-            td
+            td(data-title="'Join'")
               a(ng-if="!groupIsFull(mosaicGroup)", href="", ng-click="joinGroup(mosaicGroup)")
                 b Join
               span(ng-if="groupIsFull(mosaicGroup)")
                 b Group Is Full
-            td(ng-if="identityService.isAuthenticated()")
-              button.btn(ng-if="canEdit(mosaicGroup)", ng-click="editGroup(mosaicGroup)") Manage
-              | &nbsp;
-              button.btn(ng-if="canEdit(mosaicGroup)", ng-click="deleteGroup(mosaicGroup)") Delete
+            td(ng-if="identityService.isAuthenticated()", data-title="'Capacity'") {{mosaicGroup.members.length}} of {{mosaicGroup.memberLimit}}
+            td(ng-if="identityService.isAuthenticated()", data-title="'Actions'")
+              span(ng-if="canEdit(mosaicGroup)")
+                a(ng-click="editGroup(mosaicGroup)", href="")
+                  b Manage
+                | &nbsp; | &nbsp;
+                a(ng-click="deleteGroup(mosaicGroup)", href="")
+                  b Delete
+              span(ng-if="!canEdit(mosaicGroup)") N/A
