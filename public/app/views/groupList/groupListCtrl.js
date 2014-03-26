@@ -60,6 +60,7 @@ angular.module('app').controller('groupListCtrl', function($scope, $location, $f
       }
     }
   }, {
+    counts: [],
     total: 0, // length of $scope.groups
     groupBy: 'dayOfTheWeek',
     getData: function($defer, params) {
