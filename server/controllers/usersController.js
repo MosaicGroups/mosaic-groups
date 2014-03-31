@@ -50,7 +50,7 @@ exports.saveUser = function(req, res, next) {
       res.status(400);
       res.send({reason:err.toString()});
     } else {
-      emailer.sendAuditMessageEMail("User: " + user.username + " was created by: " + req.user.username);
+      emailer.sendAuditMessageEMail("User: " + user.username + " was created");
       res.send(user);
     }
   })
