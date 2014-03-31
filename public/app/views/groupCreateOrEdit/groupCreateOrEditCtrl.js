@@ -96,15 +96,11 @@ angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $rout
   }
 });
 
-var listEmailsCtrl = function($scope, title, group) {
+var listEmailsCtrl = function($scope, $modalInstance, title, group) {
   $scope.title = title;
   $scope.group = group;
 
   $scope.ok = function () {
     $modalInstance.close();
-  };
-
-  $scope.cancel = function () {
-    $modalInstance.dismiss('cancel');
   };
 };
