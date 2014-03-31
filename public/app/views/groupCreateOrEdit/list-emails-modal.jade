@@ -1,0 +1,7 @@
+div
+  .modal-header
+    h3 {{title}}
+    i Copy and paste this list of email addresses to create an email that can be sent to all the members of our group.
+  .modal-body
+    span(ng-repeat="member in group.members" style="border-width:1px") "{{member.firstName}} {{member.lastName}}" &lt;{{member.email}}&gt;{{$last ? '' : ', '}}
+

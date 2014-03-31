@@ -8,28 +8,23 @@
         .row
           label.col-md-4 Group Name:
           .col-md-8
-            {{group.title}}
+            span {{group.title}}
         .row
           label.col-md-4 Leader(s):
           .col-md-8
-            span(ng-repeat="leader in group.leaders")
-              {{leader.firstName}} {{leader.lastName}}
+            span(ng-repeat="leader in group.leaders") {{leader.firstName}} {{leader.lastName}}
         .row
           label.col-md-4 Location:
-          .col-md-8
-            {{group.location}}
+          .col-md-8 {{group.location}}
         .row
           label.col-md-4 Day Of The Week:
-          .col-md-8
-            {{group.dayOfTheWeek}}
+          .col-md-8 {{group.dayOfTheWeek}}
         .row
           label.col-md-4 Time:
-          .col-md-8
-            {{group.meetingTime}}
+          .col-md-8 {{group.meetingTime}}
         .row
           label.col-md-4 Gender:
-          .col-md-8
-            {{group.genderType}}
+          .col-md-8 {{group.genderType}}
         .row
           label.col-md-4 Childcare:
           .col-md-8
@@ -38,12 +33,10 @@
         .row
           label.col-md-4 Topic(s):
           .col-md-8
-            span(ng-repeat="topic in group.topics")
-              {{topic}}
+            span(ng-repeat="topic in group.topics") {{topic}}
         .row
           label.col-md-4 Description:
-          .col-md-8
-            {{group.description}}
+          .col-md-8 {{group.description}}
     .col-md-6
       .well
         form.form-horizontal(name="groupJoinForm")

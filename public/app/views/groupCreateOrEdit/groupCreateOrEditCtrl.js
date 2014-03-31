@@ -1,4 +1,4 @@
-angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $route, $location, genderTypes, daysOfTheWeek, availableTopics, groupService, notifierService, identityService, userService, meetingTimes) {
+angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $route, $location, $modal, genderTypes, daysOfTheWeek, availableTopics, groupService, notifierService, identityService, userService, meetingTimes) {
   var groupId = $route.current.params.id;
   $scope.identity = identityService;
   $scope.group = {};
@@ -79,4 +79,32 @@ angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $rout
       })
     }
   }
+
+  $scope.listMemberEmails = function() {
+    var modalInstance = $modal.open({
+      templateUrl: '/partials/groupCreateOrEdit/list-emails-modal',
+      controller: listEmailsCtrl,
+      resolve: {
+        group: function () {
+          return $scope.group;
+        },
+        title: function() {
+          return "Group Member Emails"
+        }
+      }
+    });
+  }
 });
+
+var listEmailsCtrl = function($scope, title, group) {
+  $scope.title = title;
+  $scope.group = group;
+
+  $scope.ok = function () {
+    $modalInstance.close();
+  };
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+};
