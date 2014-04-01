@@ -50,8 +50,17 @@ exports.saveUser = function(req, res, next) {
       res.status(400);
       res.send({reason:err.toString()});
     } else {
-      emailer.sendAuditMessageEMail("User: " + user.username + " was created");
-      res.send(user);
+      // if this request to create a user was not made by a current user then log the new user in
+      if (!req.user) {
+        req.user = user;
+        emailer.sendAuditMessageEMail("User: " + user.username + " was created");
+        next();
+      }
+      // otherwise keep the current user logged in and return success
+      else {
+        emailer.sendAuditMessageEMail("User: " + user.username + " was created by " + req.user.username);
+        res.send(user);
+      }
     }
   })
 };

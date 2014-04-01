@@ -20,7 +20,7 @@ module.exports = function(app, config) {
   app.post('/api/groups/:id', auth.requiresApiLogin, groups.updateGroup);
   app.delete('/api/groups/:id', auth.requiresApiLogin, groups.deleteGroup);
 
-  app.post('/api/users', users.saveUser);
+  app.post('/api/users', users.saveUser, auth.authenticateUser);
 
   app.get('/partials/*', function(req, res) {
     console.log("rendering: " + '../../public/app/views/' + req.params)

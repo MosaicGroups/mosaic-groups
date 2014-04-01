@@ -6,7 +6,7 @@ angular.module('app').controller('loginCtrl', function($scope, $location, userSe
         notifierService.notify('You have successfully signed in!');
         $location.path('/');
       } else {
-        notifierService.notify('Username/Password combination incorrect');
+        notifierService.error('Username/Password combination incorrect');
       }
     });
   }
