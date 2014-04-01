@@ -1,16 +1,17 @@
 .navbar.navbar-inverse.navbar-fixed-top(ng-controller="navbarLoginCtrl")
   .container
     .navbar-header
-      a.navbar-brand(href="/") Mosaic Groups
+      a.navbar-brand(href="/")
+        Mosaic Groups
     .navbar-collapse.collapse(ng-if="identityService.isAuthenticated()")
       .navbar-right
         <!-- if the user is logged in then show them this section -->
         ul.nav.navbar-nav.navbar-right
           li.dropdown
             <!-- show the first and last name of the user who is currently logged in -->
-            a.dropdown-toggle(href="", data-toggle="dropdown")
-              | {{identityService.currentUser.firstName + " " + identityService.currentUser.lastName}}
-              b.caret
+            a.logged-in.dropdown-toggle(href="", data-toggle="dropdown")
+              b.logged-in {{identityService.currentUser.firstName + " " + identityService.currentUser.lastName}}
+                .caret
             ul.dropdown-menu
               <!-- if current user is an admin, show all users -->
               li(ng-if="identityService.currentUser.isAdmin()")

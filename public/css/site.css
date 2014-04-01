@@ -63,3 +63,11 @@ footer p {
 .navbar-inverse .navbar-brand {
   color: #fff;
 }
+
+.logged-in {
+  color: #fff;
+}
+.logged-in:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
