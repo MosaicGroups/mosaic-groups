@@ -1,56 +1,57 @@
-.jumbotron(ng-if="!identityService.isAuthenticated()")
-  h1 Select a Mosaic Growth Group to Join!
-.row
-  .col-md-3
-    .well.well-sm(ng-if="identityService.isAdmin()")
-      .h3 Admin
-      .row
-        .col-md-12
-          button.btn(ng-click="emailGroupReportToSelf()") Email Me Group Report
-    .well.well-sm
-      .h3 Filters
-      .row
-        .col-md-4
-          label.control-label(for="titleFilter") Title
-        .col-md-8
-          input.form-control(name="titleFilter", placeholder="Filter Title", type="text", ng-model="titleFilter", autocomplete="off", ng-change="updateFilter('title', titleFilter)")
-      .row
-        .col-md-4
-          label.control-label(for="locationFilter") Location
-        .col-md-8
-          input.form-control(name="locationFilter", placeholder="Filter Location", type="text", ng-model="locationFilter", autocomplete="off", ng-change="updateFilter('location', locationFilter)")
-      .row
-        .col-md-4
-          label.control-label(for="dayOfWeekFilter") Day
-        .col-md-8
-          select.form-control(name="dayOfWeekFilter", placeholder="Filter Day", ng-options="item for item in daysOfTheWeek", ng-model="dayOfTheWeekFilter",  ng-change="updateFilter('dayOfTheWeek', dayOfTheWeekFilter)")
-      .row
-        .col-md-4
-          label.control-label(for="genderTypesFilter") Gender
-        .col-md-8
-          select.form-control(name="genderTypesFilter", placeholder="Filter Gender", ng-options="item for item in genderTypes", ng-model="genderTypesFilter" value="genderTypesFilter", ng-change="updateFilter('genderType', genderTypesFilter)")
-      .row
-        .col-md-4
-          label.control-label(for="childcareFilter") Childcare
-        .col-md-8
-          select.form-control(name="childcareFilter", placeholder="Filter Childcare", ng-options="item.value as item.label for item in childcareTypes", ng-model="childcareFilter", ng-change="updateFilter('childcare', childcareFilter)")
-      .row
-        .col-md-4
-          label.control-label(for="topicsFilter") Topics
-        .col-md-8
-          select.form-control(name="topicsFilter", placeholder="Filter Topics", ng-options="item for item in availableTopics", ng-model="topicsFilter", ng-change="updateFilter('topics', topicsFilter)")
-    .well.well-sm
-      .row
-        .col-md-12
-          p Ever been to a small group like this?
-          iframe(src="//player.vimeo.com/video/16977707" width="100%" height="200" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen)
-          p
-            a(href="http://vimeo.com/16977707" target="_blank") Awkward Small Groups Promo
-            &nbsp; by &nbsp;
-            a(href="http://vimeo.com/thefrance" target="_blank") Christopher Francis
-  .col-md-9
-    div
-      table.groups-table.table(ng-table="tableParams")
+.jumbotron
+  h1 Join a Mosaic Growth Group!
+.container-fluid
+  .row
+    .col-md-2
+      .well.well-sm(ng-if="identityService.isAdmin()")
+        .h3 Admin
+        .row
+          .col-md-12
+            button.btn(ng-click="emailGroupReportToSelf()") Email Me Group Report
+      .well.well-sm
+        .h3 Filter The Groups By:
+        br
+        .row
+          .col-md-4
+            label.control-label(for="titleFilter") Title
+          .col-md-8
+            input.form-control(name="titleFilter", placeholder="Filter Title", type="text", ng-model="titleFilter", autocomplete="off", ng-change="updateFilter('title', titleFilter)")
+        .row
+          .col-md-4
+            label.control-label(for="locationFilter") Location
+          .col-md-8
+            input.form-control(name="locationFilter", placeholder="Filter Location", type="text", ng-model="locationFilter", autocomplete="off", ng-change="updateFilter('location', locationFilter)")
+        .row
+          .col-md-4
+            label.control-label(for="dayOfWeekFilter") Day
+          .col-md-8
+            select.form-control(name="dayOfWeekFilter", placeholder="Filter Day", ng-options="item for item in daysOfTheWeek", ng-model="dayOfTheWeekFilter",  ng-change="updateFilter('dayOfTheWeek', dayOfTheWeekFilter)")
+        .row
+          .col-md-4
+            label.control-label(for="genderTypesFilter") Gender
+          .col-md-8
+            select.form-control(name="genderTypesFilter", placeholder="Filter Gender", ng-options="item for item in genderTypes", ng-model="genderTypesFilter" value="genderTypesFilter", ng-change="updateFilter('genderType', genderTypesFilter)")
+        .row
+          .col-md-4
+            label.control-label(for="childcareFilter") Childcare
+          .col-md-8
+            select.form-control(name="childcareFilter", placeholder="Filter Childcare", ng-options="item.value as item.label for item in childcareTypes", ng-model="childcareFilter", ng-change="updateFilter('childcare', childcareFilter)")
+        .row
+          .col-md-4
+            label.control-label(for="topicsFilter") Topic
+          .col-md-8
+            select.form-control(name="topicsFilter", placeholder="Filter Topics", ng-options="item for item in availableTopics", ng-model="topicsFilter", ng-change="updateFilter('topics', topicsFilter)")
+      .well.well-sm
+        .row
+          .col-md-12
+            p Ever been to a small group like this?
+            iframe(src="//player.vimeo.com/video/16977707" width="100%" height="200" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen)
+            p
+              a(href="http://vimeo.com/16977707" target="_blank") Awkward Small Groups Promo
+              &nbsp; by &nbsp;
+              a(href="http://vimeo.com/thefrance" target="_blank") Christopher Francis
+    .col-md-10
+      table.groups-table.table.table-condensed.table-bordered(ng-table="tableParams")
         tbody(ng-repeat="group in $groups")
           tr.ng-table-group.groups-group-row
             td.groups-group-cell(colspan="{{$columns.length}}" ng-click="group.$hideRows=!group.$hideRows")
@@ -62,25 +63,32 @@
             td(data-title="'Title'") {{mosaicGroup.title}}
             td(data-title="'Details'")
               a(href="", popover="{{mosaicGroup.description}}" popover-placement="right") Details...
-            td(data-title="'Leader(s)'" )
+            td(data-title="'Leader'" )
               div(ng-repeat="leader in mosaicGroup.leaders") {{leader.firstName}} {{leader.lastName}}
             td(data-title="'Location'") {{mosaicGroup.location}}
             td(data-title="'Time'") {{mosaicGroup.meetingTime}}
             td(data-title="'Type'") {{mosaicGroup.genderType}}
             td(data-title="'Childcare'") {{(mosaicGroup.childcare) ? "yes" : "no"}}
-            td(data-title="'Topic(s)'")
+            td(data-title="'Topic'")
               div(ng-repeat="topic in mosaicGroup.topics") {{topic}}
-            td(data-title="'Join'")
-              a(ng-if="!groupIsFull(mosaicGroup)", href="", ng-click="joinGroup(mosaicGroup)")
-                b Join
+            td(data-title="'Action'")
+              // join group
+              span(ng-if="!groupIsFull(mosaicGroup)")
+                // show spots taken
+                span(ng-if="canEdit(mosaicGroup)")
+                  {{mosaicGroup.members.length}} of {{mosaicGroup.memberLimit}} spots taken
+                  br
+                a(href="", ng-click="joinGroup(mosaicGroup)")
+                  b Join
               span(ng-if="groupIsFull(mosaicGroup)")
+                br
                 b Group Is Full
-            td(ng-if="identityService.isAuthenticated()") {{mosaicGroup.members.length}} of {{mosaicGroup.memberLimit}} spots taken
-            td(ng-if="identityService.isAuthenticated()")
+              // manage group
               span(ng-if="canEdit(mosaicGroup)")
                 a(ng-click="editGroup(mosaicGroup)", href="")
+                  br
                   b Manage
-                br
                 a(ng-if="identityService.isAdmin()", ng-click="deleteGroup(mosaicGroup)", href="")
+                  br
                   b Delete
-              span(ng-if="!canEdit(mosaicGroup)") N/A
+

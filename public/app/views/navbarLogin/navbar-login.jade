@@ -1,34 +1,32 @@
 .navbar.navbar-inverse.navbar-fixed-top(ng-controller="navbarLoginCtrl")
-  .container
+  .container-fluid
     .navbar-header
-      a.navbar-brand(href="/")
-        Mosaic Groups
-    .navbar-collapse.collapse(ng-if="identityService.isAuthenticated()")
-      .navbar-right
-        <!-- if the user is logged in then show them this section -->
-        ul.nav.navbar-nav.navbar-right
-          li.dropdown
-            <!-- show the first and last name of the user who is currently logged in -->
-            a.logged-in.dropdown-toggle(href="", data-toggle="dropdown")
-              b.logged-in {{identityService.currentUser.firstName + " " + identityService.currentUser.lastName}}
-                .caret
-            ul.dropdown-menu
-              <!-- if current user is an admin, show all users -->
-              li(ng-if="identityService.currentUser.isAdmin()")
-                a(href="/views/userList/user-list") List Users
-              <!-- if current user is an admin, create a new user -->
-              li(ng-if="identityService.currentUser.isAdmin()")
-                a(href="/views/userCreate/user-create") Create User
-              li.divider(ng-if="identityService.currentUser.isAdmin()")
-              <!-- list groups -->
-              li
-                a(href="/views/groupList/group-list") List Groups
-              <!-- create a group -->
-              li
-                a(href="/views/groupCreateOrEdit/group-create-or-edit") Create Group
-              li.divider
-              <!-- update profile -->
-              li
-                a(href="/views/profile/profile") Profile
-              li
-                a(href="", ng-click="signout()") Sign Out
+      a.navbar-brand(href="/") Mosaic Growth Groups
+    .navbar-right(ng-if="identityService.isAuthenticated()")
+      <!-- if the user is logged in then show them this section -->
+      ul.nav.navbar-nav.navbar-right
+        li.dropdown
+          <!-- show the first and last name of the user who is currently logged in -->
+          a.logged-in.dropdown-toggle(href="", data-toggle="dropdown")
+            b.logged-in {{identityService.currentUser.firstName + " " + identityService.currentUser.lastName}}
+              .caret
+          ul.dropdown-menu
+            <!-- if current user is an admin, show all users -->
+            li(ng-if="identityService.currentUser.isAdmin()")
+              a(href="/views/userList/user-list") List Users
+            <!-- if current user is an admin, create a new user -->
+            li(ng-if="identityService.currentUser.isAdmin()")
+              a(href="/views/userCreate/user-create") Create User
+            li.divider(ng-if="identityService.currentUser.isAdmin()")
+            <!-- list groups -->
+            li
+              a(href="/views/groupList/group-list") List Groups
+            <!-- create a group -->
+            li
+              a(href="/views/groupCreateOrEdit/group-create-or-edit") Create Group
+            li.divider
+            <!-- update profile -->
+            li
+              a(href="/views/profile/profile") Profile
+            li
+              a(href="", ng-click="signout()") Sign Out
