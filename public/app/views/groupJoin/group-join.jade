@@ -12,7 +12,7 @@
         .row
           label.col-md-4 Leader(s):
           .col-md-8
-            span(ng-repeat="leader in group.leaders") {{leader.firstName}} {{leader.lastName}}
+            div(ng-repeat="leader in group.leaders") {{leader.firstName}} {{leader.lastName}} &lt;{{leader.username}}&gt;{{$last ? '' : ', '}}
         .row
           label.col-md-4 Location:
           .col-md-8 {{group.location}}
@@ -33,10 +33,16 @@
         .row
           label.col-md-4 Topic(s):
           .col-md-8
-            span(ng-repeat="topic in group.topics") {{topic}}
+            span(ng-repeat="topic in group.topics") {{topic}}{{$last ? '' : ', '}}
         .row
           label.col-md-4 Description:
           .col-md-8 {{group.description}}
+        .row
+          .col-md-12
+            br
+            i
+              div If you have any questions about this group send an email to:
+              div(ng-repeat="leader in group.leaders") "{{leader.firstName}} {{leader.lastName}}" &lt;{{leader.username}}&gt;{{$last ? '' : ', '}}
     .col-md-6
       .well
         form.form-horizontal(name="groupJoinForm")
