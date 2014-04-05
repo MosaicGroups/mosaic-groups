@@ -1,10 +1,5 @@
-@font-face {
-  font-family: MetricNavy;
-  src: url("/font/MetricNavy-Thin.otf") format("opentype");
-}
 body {
   padding-top: 80px;
-  font-family: MetricNavy;
 }
 a,
 a:visited {
