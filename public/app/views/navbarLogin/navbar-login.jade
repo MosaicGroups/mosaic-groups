@@ -1,7 +1,8 @@
 .navbar.navbar-inverse.navbar-fixed-top(ng-controller="navbarLoginCtrl")
   .container-fluid
     .navbar-header
-      a.navbar-brand(href="/") Mosaic Growth Groups
+      a.navbar-brand(href="/")
+        img(src="/img/navbarBrand.png")
     .navbar-right(ng-if="identityService.isAuthenticated()")
       <!-- if the user is logged in then show them this section -->
       ul.nav.navbar-nav.navbar-right
