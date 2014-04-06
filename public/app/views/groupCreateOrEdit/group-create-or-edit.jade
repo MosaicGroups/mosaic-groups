@@ -25,7 +25,7 @@
       .form-group
         label.col-md-2.control-label(for="memberLimit") Member Limit
         .col-md-10
-          input.form-control(name="memberLimit", type="number", placeholder="20", ng-model="group.memberLimit", required, autocomplete="off" )
+          input.form-control(name="memberLimit", type="number", placeholder="20", ng-model="group.memberLimit", min="0", required, autocomplete="off" )
       .form-group
         label.col-md-2.control-label(for="genderType") Gender
         .col-md-10
@@ -37,7 +37,6 @@
       .form-group
         label.col-md-2.control-label(for="topic") Topics
         .col-md-10
-          {{availableTopics.length}}
           select.form-control(name="topics", ng-options="item for (itemKey, item) in availableTopics", ng-model="group.topics", multiple, ng-size="{{availableTopics.length}}", required)
       .form-group
         label.col-md-2.control-label(for="description") Description

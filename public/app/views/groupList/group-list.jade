@@ -67,22 +67,23 @@
             td(data-title="'Topic'")
               div(ng-repeat="topic in mosaicGroup.topics") {{topic}}
             td(data-title="'Action'")
-              // join group
+              // either show join group link
               span(ng-if="!groupIsFull(mosaicGroup)")
-                // show spots taken
-                span(ng-if="canEdit(mosaicGroup)")
-                  {{mosaicGroup.members.length}} of {{mosaicGroup.memberLimit}} spots taken
-                  br
                 a(href="", ng-click="joinGroup(mosaicGroup)")
                   b Join
+              // or show group is full text
               span(ng-if="groupIsFull(mosaicGroup)")
-                br
-                b Group Is Full
+                b Group Is Closed
               // manage group
               span(ng-if="canEdit(mosaicGroup)")
+                // show spots take
+                br
+                {{mosaicGroup.members.length}} of {{mosaicGroup.memberLimit}} spots taken
+                // show manage link
                 a(ng-click="editGroup(mosaicGroup)", href="")
                   br
                   b Manage
+                // show delete link
                 a(ng-if="identityService.isAdmin()", ng-click="deleteGroup(mosaicGroup)", href="")
                   br
                   b Delete
