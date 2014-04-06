@@ -60,7 +60,7 @@ var groupSchema = mongoose.Schema({
     type: Boolean,
     default: false
   },
-  topics: [String], // sports, book/bible study, food, discussion, hobby/interest(such as board games), service, finance (any that apply are allowed)
+  topics: [String], // see complete list in public/app/constants/availableTopics.js
   description: {
     type: String,
     required:'{PATH} is required!'

@@ -37,7 +37,8 @@
       .form-group
         label.col-md-2.control-label(for="topic") Topics
         .col-md-10
-          select.form-control(name="topics", ng-options="item for (itemKey, item) in availableTopics", ng-model="group.topics", multiple, size="7", required)
+          {{availableTopics.length}}
+          select.form-control(name="topics", ng-options="item for (itemKey, item) in availableTopics", ng-model="group.topics", multiple, ng-size="{{availableTopics.length}}", required)
       .form-group
         label.col-md-2.control-label(for="description") Description
         .col-md-10
