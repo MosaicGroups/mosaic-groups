@@ -1,4 +1,4 @@
-angular.module('app').controller('groupListCtrl', function($scope, $location, $filter, $q, ngTableParams, genderTypes, daysOfTheWeek, availableTopics, groupService, identityService, notifierService) {
+angular.module('app').controller('groupListCtrl', function($scope, $location, $filter, $q, $modal, ngTableParams, genderTypes, daysOfTheWeek, availableTopics, groupService, identityService, notifierService) {
   $scope.identityService = identityService;
   $scope.data = undefined;
 
@@ -95,11 +95,19 @@ angular.module('app').controller('groupListCtrl', function($scope, $location, $f
   }
 
   $scope.deleteGroup = function(group) {
-    groupService.deleteGroup(group).then(function() {
-      notifierService.notify('Group \'' + group.title + '\' has been deleted');
-      $scope.tableParams.reload();
-    }, function(reason) {
-      notifierService.error(reason);
+    $scope.group = group;
+
+    var modalInstance = $modal.open({
+      templateUrl: '/partials/groupList/confirm-delete-group-modal',
+      controller: confirmDeleteGroupCtrl,
+      resolve: {
+        group: function () {
+          return $scope.group;
+        },
+        tableParams: function() {
+          return $scope.tableParams;
+        }
+      }
     });
   }
 
@@ -153,3 +161,23 @@ angular.module('app').controller('groupListCtrl', function($scope, $location, $f
       return -1;
     }
 });
+
+var confirmDeleteGroupCtrl = function($scope, $modalInstance, groupService, notifierService, group, tableParams) {
+  $scope.group = group;
+  $scope.tableParams = tableParams;
+
+  $scope.confirm = function () {
+    groupService.deleteGroup(group).then(function() {
+      notifierService.notify('Group \'' + group.title + '\' has been deleted');
+      $scope.tableParams.reload();
+    }, function(reason) {
+      notifierService.error(reason);
+    });
+
+    $modalInstance.close();
+  };
+
+  $scope.cancel = function () {
+    $modalInstance.close();
+  };
+}

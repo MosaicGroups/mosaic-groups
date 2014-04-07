@@ -50,11 +50,6 @@ angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $rout
     member.status = "APPROVED";
   }
 
-  $scope.removeMember = function(group, member) {
-    var index = group.members.indexOf(member);
-    group.members.splice(index, 1);
-  }
-
   $scope.saveGroup = function() {
     // if the form is valid then submit to the server
     if (groupCreateOrEditForm.checkValidity()) {
@@ -94,6 +89,24 @@ angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $rout
       }
     });
   }
+
+  $scope.removeMember = function(group, memberToRemove) {
+    $scope.group = group;
+    $scope.memberToRemove = memberToRemove;
+
+    var modalInstance = $modal.open({
+      templateUrl: '/partials/groupCreateOrEdit/confirm-remove-member-modal',
+      controller: confirmRemoveMemberCtrl,
+      resolve: {
+        group: function () {
+          return $scope.group;
+        },
+        memberToRemove: function () {
+          return $scope.memberToRemove;
+        }
+      }
+    });
+  }
 });
 
 var listEmailsCtrl = function($scope, $modalInstance, title, group) {
@@ -104,3 +117,17 @@ var listEmailsCtrl = function($scope, $modalInstance, title, group) {
     $modalInstance.close();
   };
 };
+
+var confirmRemoveMemberCtrl = function($scope, $modalInstance, group, memberToRemove) {
+  $scope.memberToRemove = memberToRemove;
+
+  $scope.confirm = function () {
+    var index = group.members.indexOf(memberToRemove);
+    group.members.splice(index, 1);
+    $modalInstance.close();
+  };
+
+  $scope.cancel = function () {
+    $modalInstance.close();
+  };
+}

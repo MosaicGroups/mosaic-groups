@@ -1,0 +1,9 @@
+div
+  .modal-header
+    h3 Confirm Delete
+  .modal-body
+    p Are you sure you want to delete "{{memberToRemove.firstName}} {{memberToRemove.lastName}}" &lt;{{memberToRemove.email}}&gt; from your group?
+  .modal-footer
+    button.btn.btn-primary(ng-click="confirm()") Yes
+    button.btn(ng-click="cancel()") Cancel
+
