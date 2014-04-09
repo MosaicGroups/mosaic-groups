@@ -1,6 +1,7 @@
 var mongoose = require('mongoose'),
   userModel = require('../models/User')
-  groupModel = require('../models/Group');
+  groupModel = require('../models/Group'),
+  settingsModel = require('../models/Settings');
 
 module.exports = function(env, config) {
   mongoose.set('debug', config.db.debugMode)
@@ -19,4 +20,5 @@ module.exports = function(env, config) {
   });
 
   userModel.createDefaultUsers();
+  settingsModel.createDefaultSettings();
 };

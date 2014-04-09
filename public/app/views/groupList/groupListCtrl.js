@@ -1,4 +1,4 @@
-angular.module('app').controller('groupListCtrl', function($scope, $location, $filter, $q, $modal, ngTableParams, genderTypes, daysOfTheWeek, availableTopics, groupService, identityService, notifierService) {
+angular.module('app').controller('groupListCtrl', function($scope, $location, $filter, $q, $modal, ngTableParams, genderTypes, daysOfTheWeek, availableTopics, groupService, identityService, notifierService, settingsService) {
   $scope.identityService = identityService;
   $scope.data = undefined;
 
@@ -20,6 +20,10 @@ angular.module('app').controller('groupListCtrl', function($scope, $location, $f
     {label: "no", value: false}
   ];
   $scope.childcareFilter = $scope.childcareTypes[0];
+
+  $scope.settings = {
+    disableGroups: true
+  };
 
   $scope.tableFilter = {};
   $scope.tableFilterStrict = {};
@@ -146,8 +150,31 @@ angular.module('app').controller('groupListCtrl', function($scope, $location, $f
       $scope.tableParams.reload();
     }, function(reason) {
       notifierService.error(reason);
-    });;
+    });
   }
+
+  $scope.getSettings = function() {
+    settingsService.getSettings().$promise.then(function(data) {
+      $scope.settings = data[0];
+    }, function(reason) {
+      notifierService.error(reason);
+    });
+  }
+
+  $scope.disableGroups = function(disable) {
+    var settings = {};
+    angular.copy($scope.settings, settings);
+    settings.disableGroups = disable;
+    settingsService.saveSettings(settings).then(function(data){
+      $scope.settings = data;
+    }, function(reason) {
+      notifierService.error(reason);
+    });
+  };
+
+  $scope.groupsDisabled = function() {
+    return $scope.settings.disableGroups;
+  };
 
   var inArray = Array.prototype.indexOf ?
     function (val, arr) {
@@ -160,6 +187,8 @@ angular.module('app').controller('groupListCtrl', function($scope, $location, $f
       }
       return -1;
     }
+
+  $scope.getSettings();
 });
 
 var confirmDeleteGroupCtrl = function($scope, $modalInstance, groupService, notifierService, group, tableParams) {

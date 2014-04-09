@@ -1,6 +1,7 @@
 var auth = require('./auth'),
   users = require('../controllers/usersController'),
   groups = require('../controllers/groupsController'),
+  settings = require('../controllers/settingsController'),
   mongoose = require('mongoose'),
   User = mongoose.model('User'),
   Group = mongoose.model('Group');
@@ -21,6 +22,9 @@ module.exports = function(app, config) {
   app.delete('/api/groups/:id', auth.requiresApiLogin, groups.deleteGroup);
 
   app.post('/api/users', users.saveUser, auth.authenticateUser);
+
+  app.get('/api/settings', settings.getSettings);
+  app.post('/api/settings', auth.requiresRole('admin'), settings.updateSettings);
 
   app.get('/partials/*', function(req, res) {
     console.log("rendering: " + '../../public/app/views/' + req.params)
