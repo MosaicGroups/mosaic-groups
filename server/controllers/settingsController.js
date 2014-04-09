@@ -8,8 +8,6 @@ exports.getSettings = function(req, res) {
 };
 
 exports.updateSettings = function(req, res) {
-  console.log("updateUser");
-
   var settingsUpdates = req.body;
   var settingsId = settingsUpdates._id;
   delete settingsUpdates["_id"];
@@ -19,6 +17,8 @@ exports.updateSettings = function(req, res) {
     res.status(403);
     return res.end();
   }
+
+  console.log("updateSettings", settingsUpdates);
 
   Settings.findByIdAndUpdate(settingsId, settingsUpdates, undefined, function(err) {
     if(err) { res.status(400); return res.send({reason:err.toString()});}
