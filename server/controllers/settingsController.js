@@ -2,7 +2,7 @@ var Settings = require('mongoose').model('Settings')
   emailer = require('../utilities/emailer');
 
 exports.getSettings = function(req, res) {
-  Settings.find({}).exec(function(err, collection) {
+  Settings.findOne({}).exec(function(err, collection) {
     res.send(collection);
   });
 };

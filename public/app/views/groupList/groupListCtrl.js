@@ -155,7 +155,7 @@ angular.module('app').controller('groupListCtrl', function($scope, $location, $f
 
   $scope.getSettings = function() {
     settingsService.getSettings().$promise.then(function(data) {
-      $scope.settings = data[0];
+      $scope.settings = data;
     }, function(reason) {
       notifierService.error(reason);
     });
