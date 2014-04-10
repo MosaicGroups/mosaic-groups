@@ -18,8 +18,8 @@ angular.module('app').controller('groupJoinCtrl', function($scope, $route, $loca
       groupService.addMember($scope.group).then(function() {
         notifierService.notify('Your request to join "' + $scope.group.title + '" has been sent');
         $location.path('/');
-      }, function(reason) {
-        notifierService.error(reason);
+      }, function() {
+        notifierService.error('Not able to join "' + $scope.group.title + '" at this time');
       })
     }
   }

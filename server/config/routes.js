@@ -15,7 +15,7 @@ module.exports = function(app, config) {
 
   app.get('/api/groups/:id', cache.disableBrowserCache, groups.getGroup);
   app.get('/api/groups', cache.disableBrowserCache, groups.getGroups);
-  app.post('/api/groups/:id/add-member', groups.addMember);
+  app.post('/api/groups/:id/add-member', settings.requiresGroupsEnabled, groups.addMember);
 
   app.post('/api/groups/emailGroupReportToSelf', cache.disableBrowserCache, auth.requiresRole('admin'), groups.emailGroupReportToSelf);
   app.post('/api/groups', cache.disableBrowserCache, auth.requiresApiLogin, groups.saveGroup);

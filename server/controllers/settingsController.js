@@ -2,10 +2,21 @@ var Settings = require('mongoose').model('Settings')
   emailer = require('../utilities/emailer');
 
 exports.getSettings = function(req, res) {
-  Settings.findOne({}).exec(function(err, collection) {
-    res.send(collection);
+  Settings.findOne({}).exec(function(err, data) {
+    res.send(data);
   });
 };
+
+exports.requiresGroupsEnabled = function(req, res, next) {
+  Settings.findOne({}).exec(function(err, data) {
+    if(data.disableGroups) {
+      res.status(403);
+      res.end();
+    } else {
+      next();
+    }
+  });
+}
 
 exports.updateSettings = function(req, res) {
   var settingsUpdates = req.body;
