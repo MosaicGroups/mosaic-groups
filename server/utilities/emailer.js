@@ -67,10 +67,8 @@ function sendEmail(tos, subject, message) {
 
   // send mail with defined transport object
   smtpTransport.sendMail(mailOptions, function(error, response){
-    if(error){
+    if(error) {
       console.log(error);
-    }else{
-      console.log("Email message sent: " + response.message);
     }
   })
 };

@@ -18,8 +18,6 @@ exports.updateSettings = function(req, res) {
     return res.end();
   }
 
-  console.log("updateSettings", settingsUpdates);
-
   Settings.findByIdAndUpdate(settingsId, settingsUpdates, undefined, function(err) {
     if(err) { res.status(400); return res.send({reason:err.toString()});}
     emailer.sendAuditMessageEMail(req.user.username + " updated the settings to: " + JSON.stringify(settingsUpdates));

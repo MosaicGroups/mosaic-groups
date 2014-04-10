@@ -10,7 +10,6 @@ module.exports = function(config) {
     console.log('A report will be sent every day at hour: ' + rule.hour + ' minute: ' + rule.minute);
 
     var j = schedule.scheduleJob(rule, function() {
-      console.log('Sending Mosaic Groups Report');
       emailer.sendGroupsReport();
     });
   }

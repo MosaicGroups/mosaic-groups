@@ -3,17 +3,14 @@ var User = require('mongoose').model('User'),
   emailer = require('../utilities/emailer');
 
 exports.getUsers = function(req, res) {
-  console.log("getUsers")
   User.find({}).exec(function(err, collection) {
     res.send(collection);
   });
 };
 
 exports.getUser = function(req, res) {
-  console.log("getUser")
   var userId = req.params.id;
   if (userId) {
-    console.log("finding one user")
     User.findOne({_id: userId}).exec(function(err, user) {
       res.send(user);
     });
@@ -21,7 +18,6 @@ exports.getUser = function(req, res) {
 };
 
 exports.saveUser = function(req, res, next) {
-  console.log("saveUser")
   var userData = req.body;
   userData.salt = encrypt.createSalt();
   userData.hashed_pwd = encrypt.hashPwd(userData.salt, userData.password);
@@ -66,8 +62,6 @@ exports.saveUser = function(req, res, next) {
 };
 
 exports.updateUser = function(req, res) {
-  console.log("updateUser");
-
   var userUpdates = req.body;
   var userId = userUpdates._id;
   delete userUpdates["_id"];

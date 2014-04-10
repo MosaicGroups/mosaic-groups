@@ -13,17 +13,14 @@ exports.emailGroupReportToSelf = function(req, res) {
 };
 
 exports.getGroups = function(req, res) {
-  console.log("getGroups")
   Group.find({}).populate('leaders').exec(function(err, collection) {
     res.send(collection);
   });
 };
 
 exports.getGroup = function(req, res) {
-  console.log("getGroup")
   var groupId = req.params.id;
   if (groupId) {
-    console.log("finding one group")
     Group.findOne({_id: groupId}).populate('leaders').exec(function(err, group) {
       res.send(group);
     });
@@ -31,7 +28,6 @@ exports.getGroup = function(req, res) {
 };
 
 exports.saveGroup = function(req, res, next) {
-  console.log("saveGroup")
   var groupData = req.body;
 
   // if the leaderId is not set, or if this is not an admin user
@@ -55,8 +51,6 @@ exports.saveGroup = function(req, res, next) {
 };
 
 exports.updateGroup = function(req, res) {
-  console.log("updateGroup");
-
   var groupUpdates = req.body;
   var groupId = groupUpdates._id;
   delete groupUpdates["_id"];
@@ -84,8 +78,6 @@ exports.updateGroup = function(req, res) {
  * @param res
  */
 exports.addMember = function(req, res) {
-  console.log("addMember");
-
   var memberData = req.body.newMember;
   memberData.status = "PENDING";
   memberData.joinDate = new Date();
