@@ -73,7 +73,7 @@ exports.updateUser = function(req, res) {
   }
   if(userUpdates.password && userUpdates.password.length > 0) {
     userUpdates.salt = encrypt.createSalt();
-    userUpdates.hashed_pwd = encrypt.hashPwd(user.salt, userUpdates.password);
+    userUpdates.hashed_pwd = encrypt.hashPwd(userUpdates.salt, userUpdates.password);
   }
   User.findByIdAndUpdate(userId, userUpdates, undefined, function(err) {
     if(err) { res.status(400); return res.send({reason:err.toString()});}
@@ -112,9 +112,9 @@ exports.deleteUser = function(req, res) {
         return res.send({reason: err.toString()});
       }
       // if the user is a superadmin then they cannot be deleted
-      else if (userToDelete.hasRole('superadmin')) {
+      else if (!req.user.hasRole('superadmin') && userToDelete.hasRole('superadmin')) {
         res.status(403);
-        return res.send({reason: 'superadmin users cannot be deleted'});
+        return res.send({reason: 'superadmin users can only be deleted by other superadmin users'});
       }
       // if found then delete
       else {

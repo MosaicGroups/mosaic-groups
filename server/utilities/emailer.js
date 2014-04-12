@@ -3,6 +3,8 @@ var nodemailer = require("nodemailer"),
   Group = require('mongoose').model('Group'),
   reportGenerator = require('../utilities/reportGenerator');
 
+var emailSubjectPrefix = "[mosaic-groups]";
+
 // create reusable transport method (opens pool of SMTP connections)
 var smtpTransport = nodemailer.createTransport("SMTP",{
   service: "Gmail",
@@ -17,40 +19,44 @@ var smtpTransport = nodemailer.createTransport("SMTP",{
 
 exports.sendAddedMemberEMail = function(group, newMemberData) {
   User.find({'roles': 'superadmin'}).exec(function(err, superadmins) {
+    var superadminTos = "";
     var tos = "";
     for (var i = 0; i < superadmins.length; i++) {
-      tos += (tos.length === 0) ? superadmins[i].username : "," + superadmins[i].username;
+      superadminTos += (superadminTos.length === 0) ? superadmins[i].username : "," + superadmins[i].username;
     }
     for (var i = 0; i < group.leaders.length; i++) {
       tos += (tos.length === 0) ? group.leaders[i].username : "," + group.leaders[i].username;
     }
-    var message = "Your group: " + group.title + " has a new member request from: \"" + newMemberData.firstName + " " + newMemberData.lastName + " <" + newMemberData.email + ">\"";
-    sendEmail(tos, "Mosaic Group Audit Msg", message);
+    var message = 'Mosaic Group: "' + group.title + '" has a new member request from: "' + newMemberData.firstName + ' ' +
+      newMemberData.lastName + '" &lt;' + newMemberData.email + '&gt;.';
+
+    sendEmail(superadminTos, 'Audit Msg', message);
+    sendEmail(tos, 'New Member', message);
   });
 };
 
 exports.sendAuditMessageEMail = function(message) {
   User.find({'roles': 'superadmin'}).exec(function(err, superadmins) {
-    var tos = "";
+    var superadminTos = "";
     for (var i = 0; i < superadmins.length; i++) {
-      tos += (tos.length === 0) ? superadmins[i].username : "," + superadmins[i].username;
+      superadminTos += (superadminTos.length === 0) ? superadmins[i].username : "," + superadmins[i].username;
     }
-    sendEmail(tos, "Mosaic Group Audit Msg", message);
+    sendEmail(superadminTos, "Audit Msg", message);
   });
 };
 
 exports.sendGroupsReport = function(currUser) {
   Group.find({}).populate('leaders').exec(function(err, groups) {
     var report = reportGenerator.createDailyReport(groups);
-    var tos = "";
+    var adminTos = "";
     if (currUser) {
-      sendEmail(currUser.username, "Mosaic Group Daily Report", report);
+      sendEmail(currUser.username, "Daily Report", report);
     } else {
       User.find({'roles': 'admin'}).exec(function(err, admins) {
         for (var i = 0; i < admins.length; i++) {
-          tos += (tos.length === 0) ? admins[i].username : "," + admins[i].username;
+          adminTos += (adminTos.length === 0) ? admins[i].username : "," + admins[i].username;
         }
-        sendEmail(tos, "Mosaic Group Daily Report", report);
+        sendEmail(adminTos, "Daily Report", report);
       });
     }
   });
@@ -61,14 +67,14 @@ function sendEmail(tos, subject, message) {
   var mailOptions = {
     from: "mosaic.groups@gmail.com", // sender address
     to: tos, // list of receivers
-    subject: subject, // Subject line
+    subject: emailSubjectPrefix + " " + subject, // Subject line
     html: message
   }
 
   // send mail with defined transport object
   smtpTransport.sendMail(mailOptions, function(error, response){
     if(error) {
-      console.log(error);
+      console.log("Error sending email", error);
     }
   })
 };
