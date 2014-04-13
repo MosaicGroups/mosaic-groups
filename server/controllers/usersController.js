@@ -1,6 +1,7 @@
 var User = require('mongoose').model('User'),
   encrypt = require('../utilities/encryption'),
-  emailer = require('../utilities/emailer');
+  emailer = require('../utilities/emailer'),
+  errorHandler = require('../utilities/errorHandler');
 
 exports.getUsers = function(req, res) {
   User.find({}).exec(function(err, collection) {
@@ -25,40 +26,36 @@ exports.saveUser = function(req, res, next) {
   // only current admins can create new admins
   if (!req.user || !req.user.hasRole('admin')) {
     if (userData.roles && userData.roles.indexOf('admin') >= 0) {
-      res.status(403);
-      return res.send("You cannot create an 'admin' user");
+      errorHandler.sendError(req, res, err, 403);
     }
   }
 
   // only current superadmins can create superadmins
-  if (!req.user || !req.user.hasRole('superadmin')) {
+  else if (!req.user || !req.user.hasRole('superadmin')) {
     if (userData.roles && userData.roles.indexOf('superadmin') >= 0) {
-      res.status(403);
-      return res.send("You cannot create a 'superadmin' user");
+      errorHandler.sendError(req, res, err, 403);
     }
   }
 
-  User.create(userData, function(err, user) {
-    if(err) {
-      if(err.toString().indexOf('E11000') > -1) {
-        err = new Error('There is already a user with that name in the system.  Please choose a different name.');
-      }
-      res.status(400);
-      res.send({reason:err.toString()});
-    } else {
-      // if this request to create a user was not made by a current user then log the new user in
-      if (!req.user) {
-        req.user = user;
-        emailer.sendAuditMessageEMail("User: " + user.username + " was created");
-        next();
-      }
-      // otherwise keep the current user logged in and return success
+  // create the user
+  else {
+    User.create(userData, function(err, user) {
+      if(err) { errorHandler.sendError(req, res, err); }
       else {
-        emailer.sendAuditMessageEMail("User: " + user.username + " was created by " + req.user.username);
-        res.send(user);
+        // if this request to create a user was not made by a current user then log the new user in
+        if (!req.user) {
+          req.user = user;
+          emailer.sendAuditMessageEMail("User: " + user.username + " was created");
+          next();
+        }
+        // otherwise keep the current user logged in and return success
+        else {
+          emailer.sendAuditMessageEMail("User: " + user.username + " was created by " + req.user.username);
+          res.send(user);
+        }
       }
-    }
-  })
+    })
+  }
 };
 
 exports.updateUser = function(req, res) {
@@ -76,14 +73,16 @@ exports.updateUser = function(req, res) {
     userUpdates.hashed_pwd = encrypt.hashPwd(userUpdates.salt, userUpdates.password);
   }
   User.findByIdAndUpdate(userId, userUpdates, undefined, function(err) {
-    if(err) { res.status(400); return res.send({reason:err.toString()});}
-    if (req.user._id === userId) {
-      // if updating self then set self to the newly updated user object
-      req.user = userUpdates;
+    if(err) { errorHandler.sendError(req, res, err); }
+    else {
+      if (req.user._id === userId) {
+        // if updating self then set self to the newly updated user object
+        req.user = userUpdates;
+      }
+      userUpdates._id = userId;
+      emailer.sendAuditMessageEMail("User: " + userUpdates.username + " was updated by: " + req.user.username);
+      res.send(userUpdates);
     }
-    userUpdates._id = userId;
-    emailer.sendAuditMessageEMail("User: " + userUpdates.username + " was updated by: " + req.user.username);
-    res.send(userUpdates);
   });
 };
 
@@ -103,29 +102,23 @@ exports.deleteUser = function(req, res) {
   }
   // otherwise, get the user from the database then delete them
   else {
-    User.findById(userDeleteId).exec(function(err, collection) {
-      var userToDelete = collection;
-
-      // if not found then return 404
-      if(err) {
-        res.status(404);
-        return res.send({reason: err.toString()});
-      }
-      // if the user is a superadmin then they cannot be deleted
-      else if (!req.user.hasRole('superadmin') && userToDelete.hasRole('superadmin')) {
-        res.status(403);
-        return res.send({reason: 'superadmin users can only be deleted by other superadmin users'});
-      }
-      // if found then delete
+    User.findById(userDeleteId).exec(function(err, data) {
+      if(err) { errorHandler.sendError(req, res, err, 404); }
       else {
-        userToDelete.remove(function(err) {
-          if(err) {
-            res.status(400);
-            return res.send({reason:err.toString()});
-          }
-          emailer.sendAuditMessageEMail("User: " + userToDelete.username + " was deleted by: " + req.user.username);
-          return res.end();
-        });
+        var userToDelete = data;
+        // if the user is a superadmin then they cannot be deleted
+        if (!req.user.hasRole('superadmin') && userToDelete.hasRole('superadmin')) {
+          res.status(403);
+          return res.send({reason: 'superadmin users can only be deleted by other superadmin users'});
+        }
+        // if found then delete
+        else {
+          userToDelete.remove(function(err) {
+            if(err) { errorHandler.sendError(req, res, err); }
+            emailer.sendAuditMessageEMail("User: " + userToDelete.username + " was deleted by: " + req.user.username);
+            return res.end();
+          });
+        }
       }
     });
   }

@@ -25,14 +25,16 @@ exports.updateSettings = function(req, res) {
 
   // if not updating self or if this is an not admin user
   if(!req.user.hasRole('admin')) {
-    res.status(403);
-    return res.end();
+    errorHandler.sendError(req, res, err, 403);
   }
-
-  Settings.findByIdAndUpdate(settingsId, settingsUpdates, undefined, function(err) {
-    if(err) { res.status(400); return res.send({reason:err.toString()});}
-    emailer.sendAuditMessageEMail(req.user.username + " updated the settings to: " + JSON.stringify(settingsUpdates));
-    settingsUpdates._id = settingsId;
-    res.send(settingsUpdates);
-  });
+  else {
+    Settings.findByIdAndUpdate(settingsId, settingsUpdates, undefined, function(err) {
+      if(err) { errorHandler.sendError(req, res, err); }
+      else {
+        emailer.sendAuditMessageEMail(req.user.username + " updated the settings to: " + JSON.stringify(settingsUpdates));
+        settingsUpdates._id = settingsId;
+        res.send(settingsUpdates);
+      }
+    });
+  }
 };

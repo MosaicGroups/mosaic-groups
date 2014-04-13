@@ -37,13 +37,8 @@ exports.saveGroup = function(req, res, next) {
   }
 
   Group.create(groupData, function(err, group) {
-    if(err) {
-      if(err.toString().indexOf('E11000') > -1) {
-        err = new Error('There is already a group with that title.  Choose a different title.');
-      }
-      res.status(400);
-      res.send({reason:err.toString()});
-    } else {
+    if(err) { errorHandler.sendError(req, res, err); }
+    else {
       emailer.sendAuditMessageEMail('Group: "' + groupData.title + '" was created by: ' + req.user.username);
       res.send(group);
     }
@@ -60,10 +55,12 @@ exports.updateGroup = function(req, res) {
     return res.end();
   }
   Group.findByIdAndUpdate(groupId, groupUpdates, undefined, function(err) {
-    if(err) { res.status(400); return res.send({reason:err.toString()});}
-    groupUpdates._id = groupId;
-    emailer.sendAuditMessageEMail('Group: "' + groupUpdates.title + ' was updated by: ' + req.user.username);
-    res.send(groupUpdates);
+    if(err) { errorHandler.sendError(req, res, err); }
+    else {
+      groupUpdates._id = groupId;
+      emailer.sendAuditMessageEMail('Group: "' + groupUpdates.title + ' was updated by: ' + req.user.username);
+      res.send(groupUpdates);
+    }
   });
 };
 
@@ -85,13 +82,17 @@ exports.addMember = function(req, res) {
   var groupId = req.params.id;
 
   Group.findOne({_id: groupId}).populate('leaders').exec(function(err, group) {
-    if(err) { res.status(400); return res.send({reason:err.toString()});}
-    group.members.push(memberData);
-    group.save(function(err) {
-      if(err) { res.status(400); return res.send({reason:err.toString()});}
-      emailer.sendAddedMemberEMail(group, memberData);
-      return res.end();
-    });
+    if(err) { errorHandler.sendError(req, res, err); }
+    else {
+      group.members.push(memberData);
+      group.save(function(err) {
+        if(err) { errorHandler.sendError(req, res, err); }
+        else {
+          emailer.sendAddedMemberEMail(group, memberData);
+          return res.end();
+        }
+      });
+    }
   });
 };
 
@@ -100,33 +101,25 @@ exports.deleteGroup = function(req, res) {
   var groupDeleteId = req.params.id;
   // only admins can delete groups
   if(!req.user.hasRole('admin')) {
-    res.status(403);
-    return res.end();
+    errorHandler.sendError(req, res, err, 403);
   }
   // if there was no group object in the request then return bad request
   else if (groupDeleteId === undefined) {
-    res.status(400);
-    return res.end();
+    errorHandler.sendError(req, res, err);
   }
   // otherwise, get the group from the database then delete them
   else {
-      Group.findById(groupDeleteId).exec(function(err, collection) {
-      var groupToDelete = collection;
-
+    Group.findById(groupDeleteId).exec(function(err, data) {
       // if not found then return 404
-      if(err) {
-        res.status(404);
-        return res.send({reason: err.toString()});
-      }
-      // if found then delete
+      if(err) { errorHandler.sendError(req, res, err); }
       else {
+        var groupToDelete = data;
         groupToDelete.remove(function(err) {
-          if(err) {
-            res.status(400);
-            return res.send({reason:err.toString()});
+          if(err) { errorHandler.sendError(req, res, err); }
+          else {
+            emailer.sendAuditMessageEMail('Group: "' + groupToDelete.title + '" was deleted by: ' + req.user.username);
+            return res.end();
           }
-          emailer.sendAuditMessageEMail('Group: "' + groupToDelete.title + '" was deleted by: ' + req.user.username);
-          return res.end();
         });
       }
     });
