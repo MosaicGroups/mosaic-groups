@@ -18,7 +18,7 @@
         .form-group
           label.col-md-2.control-label(for="password") Password
           .col-md-10
-            input.form-control(name="password", type="password", placeholder="Password", ng-model="password", autocomplete="off" )
+            input.form-control(name="password", type="password", placeholder="Password", ng-model="userToEdit.password", autocomplete="off" )
         .form-group(ng-if="identity.isAdmin()")
           label.col-md-2.control-label(for="adminRole") Admin
           .col-md-10
