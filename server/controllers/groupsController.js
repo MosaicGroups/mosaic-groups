@@ -87,6 +87,7 @@ exports.addMember = function(req, res) {
         if(err) { errorHandler.sendError(req, res, err); }
         else {
           emailer.sendAddedMemberEMail(group, memberData);
+          emailer.sendMemberConfirmationEmail(group, memberData);
           return res.end();
         }
       });

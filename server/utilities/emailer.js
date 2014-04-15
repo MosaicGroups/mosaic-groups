@@ -23,6 +23,17 @@ exports.sendAddedMemberEMail = function(group, newMemberData) {
   });
 };
 
+exports.sendMemberConfirmationEmail = function(group, newMemberData) {
+  var groupLeaders = "";
+  for (var i = 0; i < group.leaders.length; i++) {
+    var groupLeader = '"' + group.leaders[i].firstName + ' ' + group.leaders[i].lastName + '&lt;' + group.leaders[i].username + '&gt;';
+    groupLeaders += (groupLeaders.length === 0) ? groupLeader : ", " + groupLeader;
+  }
+  var message = 'You are registered for the group: "' + group.title + '"' +
+    '. The group leader(s): ' + groupLeaders + ' will be contacting you soon!!';
+  sendEmail(newMemberData.email, "Mosaic Group Confirmation", message);
+}
+
 exports.sendAuditMessageEMail = function(message) {
   User.find({'roles': 'superadmin'}).exec(function(err, superadmins) {
     var superadminTos = "";
