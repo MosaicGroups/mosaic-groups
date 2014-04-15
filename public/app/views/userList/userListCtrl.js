@@ -1,4 +1,4 @@
-angular.module('app').controller('userListCtrl', function($scope, $location, userService, identityService, userService, notifierService) {
+angular.module('app').controller('userListCtrl', function($scope, $location, $modal, userService, identityService, userService, notifierService) {
   $scope.identity = identityService;
   $scope.users = userService.getUsers();
 
@@ -7,11 +7,33 @@ angular.module('app').controller('userListCtrl', function($scope, $location, use
   }
 
   $scope.deleteUser = function(user) {
-    userService.deleteUser(user).then(function() {
-      notifierService.notify('User ' + user.username + ' has been deleted');
+    var modalInstance = $modal.open({
+      templateUrl: '/partials/userList/confirm-delete-user-modal',
+      controller: confirmDeleteUserCtrl,
+      resolve: {
+        user: function () {
+          return user;
+        }
+      }
+    });
+    modalInstance.result.then(function() {
       $scope.users = userService.getUsers();
-    }, function(reason) {
-      notifierService.error(reason);
-    })
+    });
   }
 });
+
+var confirmDeleteUserCtrl = function($scope, $modalInstance, userService, notifierService, user) {
+  $scope.user = user;
+  $scope.confirm = function () {
+    userService.deleteUser(user).then(function() {
+      notifierService.notify('User ' + user.username + ' has been deleted');
+    }, function(reason) {
+      notifierService.error(reason);
+    });
+    $modalInstance.close();
+  };
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss();
+  };
+}

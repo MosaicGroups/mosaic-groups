@@ -99,19 +99,17 @@ angular.module('app').controller('groupListCtrl', function($scope, $location, $f
   }
 
   $scope.deleteGroup = function(group) {
-    $scope.group = group;
-
     var modalInstance = $modal.open({
       templateUrl: '/partials/groupList/confirm-delete-group-modal',
       controller: confirmDeleteGroupCtrl,
       resolve: {
         group: function () {
-          return $scope.group;
-        },
-        tableParams: function() {
-          return $scope.tableParams;
+          return group;
         }
       }
+    });
+    modalInstance.result.then(function() {
+      $scope.tableParams.reload();
     });
   }
 
@@ -191,22 +189,18 @@ angular.module('app').controller('groupListCtrl', function($scope, $location, $f
   $scope.getSettings();
 });
 
-var confirmDeleteGroupCtrl = function($scope, $modalInstance, groupService, notifierService, group, tableParams) {
+var confirmDeleteGroupCtrl = function($scope, $modalInstance, groupService, notifierService, group) {
   $scope.group = group;
-  $scope.tableParams = tableParams;
-
   $scope.confirm = function () {
     groupService.deleteGroup(group).then(function() {
       notifierService.notify('Group \'' + group.title + '\' has been deleted');
-      $scope.tableParams.reload();
     }, function(reason) {
       notifierService.error(reason);
     });
-
     $modalInstance.close();
   };
 
   $scope.cancel = function () {
-    $modalInstance.close();
+    $modalInstance.dismiss();
   };
 }

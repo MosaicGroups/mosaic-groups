@@ -106,6 +106,10 @@ angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $rout
         }
       }
     });
+    modalInstance.result.then(function() {
+      var index = group.members.indexOf(memberToRemove);
+      group.members.splice(index, 1);
+    });
   }
 });
 
@@ -120,14 +124,10 @@ var listEmailsCtrl = function($scope, $modalInstance, title, group) {
 
 var confirmRemoveMemberCtrl = function($scope, $modalInstance, group, memberToRemove) {
   $scope.memberToRemove = memberToRemove;
-
   $scope.confirm = function () {
-    var index = group.members.indexOf(memberToRemove);
-    group.members.splice(index, 1);
     $modalInstance.close();
   };
-
   $scope.cancel = function () {
-    $modalInstance.close();
+    $modalInstance.dismiss();
   };
 }
