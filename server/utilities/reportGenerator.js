@@ -7,14 +7,13 @@ exports.createDailyReport = function(groups) {
   var reportHtml = "", membersHtml = "";
 
   reportHtml += "<h3>Mosaic Groups Daily Report for " + today.toDateString() + "</h3>";
-  reportHtml += "<p>The names highlighted in <span style='color:green'>green</span> are from people who signed up in the past 24hrs</p>";
 
   membersHtml += "<ul>";
   for (var i = 0; i < groups.length; i++) {
     var group = groups[i];
     membersHtml += "<li>";
     if (group.members.length >= group.memberLimit) {
-      membersHtml += "(FULL) ";
+      membersHtml += "<b>(FULL)</b> ";
     }
     membersHtml += group.title + " on " + group.dayOfTheWeek + " in " + group.location;
     membersHtml += " with " + group.members.length + " members";
@@ -33,7 +32,7 @@ exports.createDailyReport = function(groups) {
       var memberHtml = member.firstName + " " + member.lastName + " &lt;" +  member.email + "&gt; " + member.joinDate.toDateString() + "</li>";
       if (member.joinDate > yesterday) {
         numNewMembers++;
-        membersHtml += "<li style='color:green'>" + memberHtml + "</li>";
+        membersHtml += "<li style='color:green'><b>" + memberHtml + "</b></li>";
       } else {
         membersHtml += "<li>" + memberHtml + "</li>";
       }
@@ -41,8 +40,11 @@ exports.createDailyReport = function(groups) {
     membersHtml += "</ul>";
   }
   membersHtml += "</ul>";
-  reportHtml += "<p>There are " + numMembers + " members signed up for growth groups (if a person signed up for 2 or more groups they are counted as 2 or more)</p>";
-  reportHtml += "<p>There were <span style='color:green'>" + numNewMembers + "</span> new members in the past 24hours";
+  reportHtml +=
+    "<p>" +
+    "<div>There are <b>" + numMembers + "</b> members signed up for growth groups</div>" +
+    "<div>There were <span style='color:green'><b>" + numNewMembers + "</b></span> new members in the past 24hours (highlighted in <span style='color:green'><b>green</b></span> below)</div>" +
+    "</p>";
   reportHtml += membersHtml;
   return reportHtml;
 };

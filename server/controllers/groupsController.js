@@ -1,11 +1,9 @@
 var Group = require('mongoose').model('Group'),
   User = require('mongoose').model('User'),
-  emailer = require('../utilities/emailer'),
-  reportGenerator = require('../utilities/reportGenerator');
+  emailer = require('../utilities/emailer');
 
 exports.emailGroupReportToSelf = function(req, res) {
   Group.find({}).populate('leaders').exec(function(err, collection) {
-    var report = reportGenerator.createDailyReport(collection);
     emailer.sendGroupsReport(req.user);
     emailer.sendAuditMessageEMail(req.user.username + " requested an on demand daily report email");
   });

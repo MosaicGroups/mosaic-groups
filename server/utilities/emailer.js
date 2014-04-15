@@ -5,18 +5,6 @@ var nodemailer = require("nodemailer"),
 
 var emailSubjectPrefix = "[mosaic-groups]";
 
-// create reusable transport method (opens pool of SMTP connections)
-var smtpTransport = nodemailer.createTransport("SMTP",{
-  service: "Gmail",
-  auth: {
-    user: "mosaic.groups@gmail.com",
-    pass: "ilovemosiac!"
-  }
-});
-
-// if you don't want to use this transport object anymore, uncomment following line
-// smtpTransport.close(); // shut down the connection pool, no more messages
-
 exports.sendAddedMemberEMail = function(group, newMemberData) {
   User.find({'roles': 'superadmin'}).exec(function(err, superadmins) {
     var superadminTos = "";
@@ -62,7 +50,17 @@ exports.sendGroupsReport = function(currUser) {
   });
 };
 
-function sendEmail(tos, subject, message) {
+
+// create reusable transport method (opens pool of SMTP connections)
+var smtpTransport = nodemailer.createTransport("SMTP",{
+  service: "Gmail",
+  auth: {
+    user: "mosaic.groups@gmail.com",
+    pass: "ilovemosiac!"
+  }
+});
+
+var sendEmail = function(tos, subject, message) {
   // setup e-mail data with unicode symbols
   var mailOptions = {
     from: "mosaic.groups@gmail.com", // sender address
