@@ -52,7 +52,7 @@ angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $rout
 
   $scope.saveGroup = function() {
     // if the form is valid then submit to the server
-    if (groupCreateOrEditForm.checkValidity()) {
+    if ($scope.groupCreateOrEditForm.$valid) {
       $scope.group.leaders = [];
       if (identityService.isAdmin()) {
         for (var i = 0; i < $scope.group.leaderIds.length; i++) {

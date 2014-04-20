@@ -11,7 +11,7 @@ angular.module('app').controller('userCreateCtrl', function($scope, $location, u
 
   $scope.saveUserDataAsNewUser = function() {
     // if the form is valid then submit to the server
-    if (userCreateForm.checkValidity()) {
+    if ($scope.userCreateForm.$valid) {
       var newUserData = {
         username: $scope.username,
         firstName: $scope.firstName,

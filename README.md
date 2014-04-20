@@ -28,4 +28,7 @@
 ##How to push to heroku
 * http://therubyway.wordpress.com/2008/12/11/using-heroku-and-windows/
 
-If you have any questions about this tool please email pblair12@gmail.com
+##How to run the unit tests
+* Install unit testing libraries
+  * npm install --save-dev karma mocha karma-mocha karma-chai-plugins
+* karma start
