@@ -15,8 +15,8 @@ exports.createDailyReport = function(groups) {
     if (group.members.length >= group.memberLimit) {
       membersHtml += "<b>(FULL)</b> ";
     }
-    membersHtml += group.title + " on " + group.dayOfTheWeek + " in " + group.location;
-    membersHtml += " with " + group.members.length + " members";
+    membersHtml += "<b>\"" + group.title + "\"</b> on " + group.dayOfTheWeek + " in " + group.location;
+    membersHtml += " with <b>" + group.members.length + " members</b>";
     membersHtml += " lead by: ";
     for (var j = 0; j < group.leaders.length; j++) {
       var leader = group.leaders[j];
@@ -29,7 +29,7 @@ exports.createDailyReport = function(groups) {
     for (var j = 0; j < group.members.length; j++) {
       numMembers++;
       var member = groups[i].members[j];
-      var memberHtml = member.firstName + " " + member.lastName + " &lt;" +  member.email + "&gt; " + member.joinDate.toDateString() + "</li>";
+      var memberHtml = member.firstName + " " + member.lastName + " &lt;" +  member.email + "&gt; joined on " + member.joinDate.toDateString() + "</li>";
       if (member.joinDate > yesterday) {
         numNewMembers++;
         membersHtml += "<li style='color:green'><b>" + memberHtml + "</b></li>";
