@@ -84,9 +84,6 @@
                 b Full
               // manage group
               span(ng-if="canEdit(mosaicGroup)")
-                // show spots take
-                br
-                {{mosaicGroup.members.length}} of {{mosaicGroup.memberLimit}} spots taken
                 // show manage link
                 a(ng-click="editGroup(mosaicGroup)", href="")
                   br
@@ -95,4 +92,7 @@
                 a(ng-if="identityService.isAdmin()", ng-click="deleteGroup(mosaicGroup)", href="")
                   br
                   b Delete
+                // show spots take
+                br
+                span(title="spots taken") ({{mosaicGroup.members.length}} of {{mosaicGroup.memberLimit}})
 
