@@ -1,6 +1,7 @@
 var Group = require('mongoose').model('Group'),
   User = require('mongoose').model('User'),
-  emailer = require('../utilities/emailer');
+  emailer = require('../utilities/emailer'),
+  errorHandler = require('../utilities/errorHandler');
 
 exports.emailGroupReportToSelf = function(req, res) {
   Group.find({}).populate('leaders').exec(function(err, collection) {

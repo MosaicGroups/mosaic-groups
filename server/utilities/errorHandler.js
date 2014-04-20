@@ -1,4 +1,4 @@
-var errorHandler ;
+var emailer = require('../utilities/emailer');
 
 /**
  * Return an error response to a server request
@@ -13,6 +13,12 @@ exports.sendError = function(req, res, err, status) {
   if (!err) {
     err = new Error('An error occurred');
   }
+
+  // log the error
+  console.error(err);
+
+  // send an error report
+  emailer.sendErrorMessageEMail(err.toString());
 
   // set the status to 400 if it was not explicitly set already
   status = (status) ? status : 400;

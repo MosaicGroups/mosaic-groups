@@ -1,5 +1,6 @@
 var Settings = require('mongoose').model('Settings')
-  emailer = require('../utilities/emailer');
+  emailer = require('../utilities/emailer'),
+  errorHandler = require('../utilities/errorHandler');
 
 exports.getSettings = function(req, res) {
   Settings.findOne({}).exec(function(err, data) {

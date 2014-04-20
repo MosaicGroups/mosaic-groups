@@ -44,6 +44,16 @@ exports.sendAuditMessageEMail = function(message) {
   });
 };
 
+exports.sendErrorMessageEMail = function(message) {
+  User.find({'roles': 'superadmin'}).exec(function(err, superadmins) {
+    var superadminTos = "";
+    for (var i = 0; i < superadmins.length; i++) {
+      superadminTos += (superadminTos.length === 0) ? superadmins[i].username : "," + superadmins[i].username;
+    }
+    sendEmail(superadminTos, "Error Msg", message);
+  });
+};
+
 exports.sendGroupsReport = function(currUser) {
   Group.find({}).populate('leaders').exec(function(err, groups) {
     var report = reportGenerator.createDailyReport(groups);

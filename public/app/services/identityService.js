@@ -10,7 +10,7 @@ angular.module('app').factory('identityService', function($window, User) {
       return !!this.currentUser;
     },
     isAuthorized: function(role) {
-      return !!this.currentUser && this.currentUser.roles.indexOf('admin') > -1;
+      return !!this.currentUser && this.currentUser.roles.indexOf(role) > -1;
     },
     isAdmin: function() {
       return !!this.currentUser && this.currentUser.roles.indexOf('admin') > -1;
