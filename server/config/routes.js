@@ -2,10 +2,7 @@ var auth = require('./auth'),
   cache = require('./cache'),
   users = require('../controllers/usersController'),
   groups = require('../controllers/groupsController'),
-  settings = require('../controllers/settingsController'),
-  mongoose = require('mongoose'),
-  User = mongoose.model('User'),
-  Group = mongoose.model('Group');
+  settings = require('../controllers/settingsController');
 
 module.exports = function(app, config) {
   app.get('/api/users/:id', cache.disableBrowserCache, auth.requiresRole('admin'), users.getUser);
@@ -22,7 +19,7 @@ module.exports = function(app, config) {
   app.post('/api/groups/:id', cache.disableBrowserCache, auth.requiresApiLogin, groups.updateGroup);
   app.delete('/api/groups/:id', auth.requiresApiLogin, groups.deleteGroup);
 
-  app.post('/api/users', cache.disableBrowserCache, users.saveUser, auth.authenticateUser);
+  app.post('/api/users', cache.disableBrowserCache, users.saveUser, auth.loginUser);
 
   app.get('/api/settings', cache.disableBrowserCache, settings.getSettings);
   app.post('/api/settings', auth.requiresRole('admin'), settings.updateSettings);
@@ -31,12 +28,9 @@ module.exports = function(app, config) {
     res.render('../../public/app/views/' + req.params);
   });
 
-  app.post('/login', auth.authenticate);
+  app.post('/login', auth.login);
 
-  app.post('/logout', function(req, res) {
-    req.logout();
-    res.end();
-  });
+  app.post('/logout', auth.logout);
 
   // ensure that the client side application does ALL of the routing
   app.get('*', function(req, res) {

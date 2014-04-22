@@ -31,31 +31,29 @@ exports.saveUser = function(req, res, next) {
   }
 
   // only current superadmins can create superadmins
-  else if (!req.user || !req.user.hasRole('superadmin')) {
+  if (!req.user || !req.user.hasRole('superadmin')) {
     if (userData.roles && userData.roles.indexOf('superadmin') >= 0) {
       errorHandler.sendError(req, res, err, 403);
     }
   }
 
   // create the user
-  else {
-    User.create(userData, function(err, user) {
-      if(err) { errorHandler.sendError(req, res, err); }
-      else {
-        // if this request to create a user was not made by a current user then log the new user in
-        if (!req.user) {
-          req.user = user;
-          emailer.sendAuditMessageEMail("User: " + user.username + " was created");
-          next();
-        }
-        // otherwise keep the current user logged in and return success
-        else {
-          emailer.sendAuditMessageEMail("User: " + user.username + " was created by " + req.user.username);
-          res.send(user);
-        }
+  User.create(userData, function(err, user) {
+    if(err) { errorHandler.sendError(req, res, err); }
+    else {
+      // if this request to create a user was not made by a current user then log the new user in
+      if (!req.user) {
+        req.user = user;
+        emailer.sendAuditMessageEMail("User: " + user.username + " was created");
+        next();
       }
-    })
-  }
+      // otherwise keep the current user logged in and return success
+      else {
+        emailer.sendAuditMessageEMail("User: " + user.username + " was created by " + req.user.username);
+        res.send(user);
+      }
+    }
+  })
 };
 
 exports.updateUser = function(req, res) {
