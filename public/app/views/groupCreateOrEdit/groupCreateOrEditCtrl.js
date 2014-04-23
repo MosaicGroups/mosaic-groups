@@ -113,8 +113,8 @@ angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $rout
       }
     });
     modalInstance.result.then(function() {
-      var index = group.members.indexOf(memberToRemove);
-      group.members.splice(index, 1);
+      var index = $scope.group.members.indexOf(memberToRemove);
+      $scope.group.members.splice(index, 1);
     });
   }
 });
