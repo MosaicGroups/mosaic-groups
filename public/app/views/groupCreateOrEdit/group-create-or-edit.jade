@@ -56,11 +56,11 @@
             tbody
               tr(ng-repeat="member in group.members")
                 td
-                  input.form-control(type='text' ng-model='member.firstName')
+                  input.form-control(type='text' ng-model='member.firstName' ng-model-options="{ updateOn: 'mousedown blur' }")
                 td
-                  input.form-control(type='text' ng-model='member.lastName')
+                  input.form-control(type='text' ng-model='member.lastName' ng-model-options="{ updateOn: 'mousedown blur' }")
                 td
-                  input.form-control(type='text' ng-model='member.email')
+                  input.form-control(type='text' ng-model='member.email' ng-model-options="{ updateOn: 'mousedown blur' }")
                 td(style="width:150px")
                   select.form-control(ng-options="item for (itemKey, item) in statusTypes", ng-model="member.status", required)
                 td
