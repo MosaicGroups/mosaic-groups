@@ -48,21 +48,30 @@
           table.table.table-hover.table-striped(name="members")
             thead
               tr
-                th Name
+                th First Name
+                th Last Name
                 th Email
                 th Status
                 th Actions
             tbody
               tr(ng-repeat="member in group.members")
-                td {{member.firstName}} {{member.lastName}}
-                td {{member.email}}
-                td {{member.status}}
                 td
-                  button.btn.btn-primary(ng-click="approveMember(member)") Approve
-                  | &nbsp;
-                  button.btn.btn-default(ng-click="pendingMember(member)") Pending
-                  | &nbsp;
-                  button.btn.btn-default(ng-click="removeMember(group, member)") Remove
+                  input.form-control(type='text' ng-model='member.firstName')
+                td
+                  input.form-control(type='text' ng-model='member.lastName')
+                td
+                  input.form-control(type='text' ng-model='member.email')
+                td(style="width:150px")
+                  select.form-control(ng-options="item for (itemKey, item) in statusTypes", ng-model="member.status", required)
+                td
+                  button.btn.btn-primary(ng-click="removeMember(member)") Remove
+              tr
+                td
+                td
+                td
+                td
+                td
+                  button.btn.btn-default(ng-click="addMember()") Add Member
       .form-group
         .col-md-10.col-md-offset-2
           .pull-left

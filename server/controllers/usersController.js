@@ -24,15 +24,15 @@ exports.saveUser = function(req, res, next) {
   userData.hashed_pwd = encrypt.hashPwd(userData.salt, userData.password);
 
   // only current admins can create new admins
-  if (!req.user || !req.user.hasRole('admin')) {
-    if (userData.roles && userData.roles.indexOf('admin') >= 0) {
+  if (userData.roles && userData.roles.indexOf('admin') >= 0) {
+    if (!req.user || !req.user.hasRole('admin')) {
       errorHandler.sendError(req, res, err, 403);
     }
   }
 
   // only current superadmins can create superadmins
-  if (!req.user || !req.user.hasRole('superadmin')) {
-    if (userData.roles && userData.roles.indexOf('superadmin') >= 0) {
+  if (userData.roles && userData.roles.indexOf('superadmin') >= 0) {
+    if (!req.user || !req.user.hasRole('superadmin')) {
       errorHandler.sendError(req, res, err, 403);
     }
   }

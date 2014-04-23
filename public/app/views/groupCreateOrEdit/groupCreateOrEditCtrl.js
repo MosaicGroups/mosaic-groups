@@ -1,7 +1,14 @@
-angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $route, $location, $modal, genderTypes, daysOfTheWeek, availableTopics, groupService, notifierService, identityService, userService, meetingTimes) {
+angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $route, $location, $modal, genderTypes, daysOfTheWeek, availableTopics, statusTypes, groupService, notifierService, identityService, userService, meetingTimes) {
   var groupId = $route.current.params.id;
   $scope.identity = identityService;
   $scope.group = {};
+
+  $scope.genderTypes = genderTypes;
+  $scope.daysOfTheWeek = daysOfTheWeek;
+  $scope.availableTopics = availableTopics;
+  $scope.meetingTimes = meetingTimes;
+  $scope.statusTypes = statusTypes;
+
   if (groupId) {
     groupService.getGroup(groupId).$promise.then(function(data) {
       $scope.group = data;
@@ -35,19 +42,6 @@ angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $rout
         $scope.users[i]._id = data[i]._id;
       }
     });
-  }
-
-  $scope.genderTypes = genderTypes;
-  $scope.daysOfTheWeek = daysOfTheWeek;
-  $scope.availableTopics = availableTopics;
-  $scope.meetingTimes = meetingTimes;
-
-  $scope.pendingMember = function(member) {
-    member.status = "PENDING";
-  }
-
-  $scope.approveMember = function(member) {
-    member.status = "APPROVED";
   }
 
   $scope.saveGroup = function() {
@@ -90,8 +84,20 @@ angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $rout
     });
   }
 
-  $scope.removeMember = function(group, memberToRemove) {
-    $scope.group = group;
+  $scope.addMember = function(group) {
+    var newMember = {
+      firstName: "",
+      lastName: "",
+      email: "",
+      status: "PENDING"
+    };
+    if (!$scope.group.members) {
+      $scope.group.members = [];
+    }
+    $scope.group.members.push(newMember);
+  }
+
+  $scope.removeMember = function(memberToRemove) {
     $scope.memberToRemove = memberToRemove;
 
     var modalInstance = $modal.open({
