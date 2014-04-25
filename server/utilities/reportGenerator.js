@@ -29,7 +29,13 @@ exports.createDailyReport = function(groups) {
     for (var j = 0; j < group.members.length; j++) {
       numMembers++;
       var member = groups[i].members[j];
-      var memberHtml = member.firstName + " " + member.lastName + " &lt;" +  member.email + "&gt; joined on " + member.joinDate.toDateString() + "</li>";
+      var joinDate;
+      try {
+        joinDate = member.joinDate.toDateString();
+      } catch (err) {
+        joinDate = "-ERROR getting join date-";
+      }
+      var memberHtml = member.firstName + " " + member.lastName + " &lt;" +  member.email + "&gt; joined on " + joinDate + "</li>";
       if (member.joinDate > yesterday) {
         numNewMembers++;
         membersHtml += "<li style='color:green'><b>" + memberHtml + "</b></li>";
