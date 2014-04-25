@@ -1,4 +1,4 @@
-angular.module('app', ['ngResource', 'ngRoute', 'ui.bootstrap', 'ngTable']);
+angular.module('app', ['ngResource', 'ngRoute', 'ui.bootstrap', 'ngTable', 'checklist-model']);
 
 angular.module('app').config(function($routeProvider, $locationProvider) {
   var routeRoleChecks = {

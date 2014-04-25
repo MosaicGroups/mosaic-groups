@@ -50,7 +50,8 @@ exports.updateGroup = function(req, res) {
   var groupId = groupUpdates._id;
   delete groupUpdates["_id"];
 
-  if(req.user.id !== groupUpdates.leaders[0] && !req.user.hasRole('admin')) {
+  // if this is not an admin then the group must contain the current user as one of its leaders
+  if (!req.user.hasRole('admin') && groupUpdates.leaders.indexOf(req.user.id) < 0) {
     res.status(403);
     return res.end();
   }

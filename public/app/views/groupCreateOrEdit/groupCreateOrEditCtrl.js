@@ -2,6 +2,7 @@ angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $rout
   var groupId = $route.current.params.id;
   $scope.identity = identityService;
   $scope.group = {};
+  $scope.leaderIds = [];
 
   $scope.genderTypes = genderTypes;
   $scope.daysOfTheWeek = daysOfTheWeek;
@@ -12,9 +13,9 @@ angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $rout
   if (groupId) {
     groupService.getGroup(groupId).$promise.then(function(data) {
       $scope.group = data;
-      $scope.group.leaderIds = [];
+      $scope.leaderIds = [];
       for (var i = 0; i < data.leaders.length; i++) {
-        $scope.group.leaderIds.push(data.leaders[i]._id);
+        $scope.leaderIds.push(data.leaders[i]._id);
       }
     });
   } else {
@@ -27,33 +28,27 @@ angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $rout
     $scope.group.childcare = true;
     $scope.group.topics = [];
     $scope.group.description = "";
-    $scope.group.leaderIds = [];
+    $scope.leaderIds = [];
   }
 
   // if the current user is an admin then they have the ability to create a group
   // and assign the leader as another person otherwise the group leader will be
   // set to the person who creates the group
-  if (identityService.isAdmin()) {
-    userService.getUsers().$promise.then(function(data) {
-      $scope.users = [];
-      for (var i = 0; i < data.length; i++) {
-        $scope.users[i] = {};
-        $scope.users[i].name = data[i].firstName + " " + data[i].lastName;
-        $scope.users[i]._id = data[i]._id;
-      }
-    });
-  }
+  userService.getUsers().$promise.then(function(data) {
+    $scope.users = [];
+    for (var i = 0; i < data.length; i++) {
+      $scope.users[i] = {};
+      $scope.users[i].name = data[i].firstName + " " + data[i].lastName;
+      $scope.users[i]._id = data[i]._id;
+    }
+  });
 
   $scope.saveGroup = function() {
     // if the form is valid then submit to the server
     if ($scope.groupCreateOrEditForm.$valid) {
       $scope.group.leaders = [];
-      if (identityService.isAdmin()) {
-        for (var i = 0; i < $scope.group.leaderIds.length; i++) {
-          $scope.group.leaders.push($scope.group.leaderIds[i]);
-        }
-      } else {
-        $scope.group.leaders.push($scope.identity.currentUser._id);
+      for (var i = 0; i < $scope.leaderIds.length; i++) {
+        $scope.group.leaders.push($scope.leaderIds[i]);
       }
       groupService.saveGroup($scope.group).then(function(group) {
         if ($scope.group._id) {

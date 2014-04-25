@@ -6,7 +6,7 @@ var auth = require('./auth'),
 
 module.exports = function(app, config) {
   app.get('/api/users/:id', cache.disableBrowserCache, auth.requiresRole('admin'), users.getUser);
-  app.get('/api/users', cache.disableBrowserCache, auth.requiresRole('admin'), users.getUsers);
+  app.get('/api/users', cache.disableBrowserCache, users.getUsers);
   app.post('/api/users/:id', auth.requiresApiLogin, users.updateUser);
   app.delete('/api/users/:id', auth.requiresRole('admin'), users.deleteUser);
 
