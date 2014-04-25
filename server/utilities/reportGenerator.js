@@ -33,7 +33,7 @@ exports.createDailyReport = function(groups) {
       try {
         joinDate = member.joinDate.toDateString();
       } catch (err) {
-        joinDate = "-ERROR getting join date-";
+        joinDate = "-ERROR getting join date value is: \"" + member.joinDate + "\"-";
       }
       var memberHtml = member.firstName + " " + member.lastName + " &lt;" +  member.email + "&gt; joined on " + joinDate + "</li>";
       if (member.joinDate > yesterday) {
