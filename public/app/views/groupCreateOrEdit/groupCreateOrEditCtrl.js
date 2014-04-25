@@ -3,6 +3,7 @@ angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $rout
   $scope.identity = identityService;
   $scope.group = {};
   $scope.leaderIds = [];
+  $scope.users = [];
 
   $scope.genderTypes = genderTypes;
   $scope.daysOfTheWeek = daysOfTheWeek;
@@ -37,9 +38,20 @@ angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $rout
   userService.getUsers().$promise.then(function(data) {
     $scope.users = [];
     for (var i = 0; i < data.length; i++) {
-      $scope.users[i] = {};
-      $scope.users[i].name = data[i].firstName + " " + data[i].lastName;
-      $scope.users[i]._id = data[i]._id;
+      // create a new user to add to the list of available users
+      var user = {};
+      user.name = data[i].firstName + " " + data[i].lastName;
+      user._id = data[i]._id;
+      // get the current user index so that the current user can be added to the beginning of the list
+      if ($scope.identity.currentUser._id == data[i]._id) {
+        // add the current user to the beginning of the list
+        $scope.users.unshift(user);
+      }
+      // otherwise add the user to the list
+      else {
+        // add the current user to the end of the list
+        $scope.users.push(user);
+      }
     }
   });
 

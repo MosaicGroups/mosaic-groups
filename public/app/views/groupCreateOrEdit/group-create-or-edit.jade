@@ -9,9 +9,10 @@
       .form-group
         label.col-md-2.control-label(for="groupLeaders") Group Leader(s)
         .col-md-10
-          div(ng-repeat="user in users")
-            input(type="checkbox" name="groupLeaders" checklist-model="leaderIds" checklist-value="user._id" ng-disabled="identity.currentUser._id === user._id && !identity.isAdmin()")
-            span {{user.name}}
+          div(class="checkbox-group")
+            div(ng-repeat="user in users")
+              input(type="checkbox" name="groupLeaders" checklist-model="leaderIds" checklist-value="user._id" ng-disabled="identity.currentUser._id === user._id && !identity.isAdmin()")
+              span {{user.name}}
       .form-group
         label.col-md-2.control-label(for="location") Location
         .col-md-10
@@ -39,9 +40,10 @@
       .form-group
         label.col-md-2.control-label(for="topic") Topics
         .col-md-10
-          div(ng-repeat="topic in availableTopics")
-            input(type="checkbox" name="groupTopics" checklist-model="group.topics" checklist-value="topic")
-            span {{topic}}
+          div(class="checkbox-group")
+            div(ng-repeat="topic in availableTopics")
+              input(type="checkbox" name="groupTopics" checklist-model="group.topics" checklist-value="topic")
+              span {{topic}}
       .form-group
         label.col-md-2.control-label(for="description") Description
         .col-md-10

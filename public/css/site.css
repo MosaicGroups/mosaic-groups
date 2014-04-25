@@ -92,3 +92,7 @@ footer p {
   cursor: pointer;
   text-decoration: underline;
 }
+.checkbox-group {
+  max-height: 200px;
+  overflow: auto;
+}
