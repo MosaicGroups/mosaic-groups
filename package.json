@@ -20,7 +20,8 @@
     "passport-local": "~0.1.6",
     "jade": "~1.1.5",
     "nodemailer": "~0.6.1",
-    "node-schedule": "~0.1.13"
+    "node-schedule": "~0.1.13",
+    "objectdiff": "~1.1.0"
   },
   "devDependencies": {
     "karma-mocha": "~0.1.0",
