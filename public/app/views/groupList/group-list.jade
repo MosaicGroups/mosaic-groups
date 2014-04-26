@@ -63,7 +63,7 @@
           tr.groups-data-row(ng-hide="group.$hideRows" ng-repeat="mosaicGroup in group.data")
             td(data-title="'Title'") {{mosaicGroup.title}}
             td(data-title="'Details'")
-              a(href="", popover="{{mosaicGroup.description}}" popover-placement="right" popover-trigger="focus" popover-animation="true") Details...
+              a(href="", popover="{{mosaicGroup.description}}" popover-placement="right" popover-trigger="mouseenter" popover-animation="true") Details...
             td(data-title="'Leader'" )
               div(ng-repeat="leader in mosaicGroup.leaders") {{leader.firstName}} {{leader.lastName}}
             td(data-title="'Location'") {{mosaicGroup.location}}
