@@ -54,6 +54,10 @@ exports.updateGroup = function(req, res) {
     res.status(403);
     return res.end();
   }
+
+  // ensure that all group members have a join date
+  ensureJoinDate(groupUpdates.members);
+
   Group.findByIdAndUpdate(groupId, groupUpdates, undefined, function(err) {
     if(err) { errorHandler.sendError(req, res, err); }
     else {
@@ -126,3 +130,15 @@ exports.deleteGroup = function(req, res) {
     });
   }
 };
+
+var ensureJoinDate = function(members) {
+  if (members) {
+    for (var i = 0; i < members.length; i++) {
+      var member = members[i];
+      if (!member.joinDate) {
+        member.joinDate = new Date();
+      }
+    }
+  }
+  return;
+}
