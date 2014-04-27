@@ -1,26 +1,30 @@
-var mongoose = require('mongoose'),
+var hash = require('ys-hash')
+  mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
 var memberSchema = mongoose.Schema({
   firstName: {
     type:String,
-    required:'{PATH} is required!'
+    required:'"First Name" is required!'
   },
   lastName: {
     type:String,
-    required:'{PATH} is required!'
+    required:'"Last Name" is required!'
   },
   email: {
-    type: String,
-    required: '{PATH} is required!'
+    type: String
   },
   status: { // status is either PENDING, APPROVED, or REMOVED
     type: String,
-    required: '{PATH} is required!'
+    required: '"Status" is required!'
   },
   joinDate: {
     type: Date,
-    required: '{PATH} is required!'
+    required: '"Join Date" is required!'
+  },
+  uniqueId: {
+    type: String,
+    required: '"Unique ID" is required!'
   }
 });
 
@@ -68,3 +72,27 @@ var groupSchema = mongoose.Schema({
 });
 
 var Group = mongoose.model('Group', groupSchema);
+
+function ensureUniqueIds() {
+  Group.find({}).exec(function(err, groups) {
+    for (var i = 0; i < groups.length; i++) {
+      var groupModified = false;
+      var group = groups[i];
+      for (var j = 0; j < group.members.length; j++) {
+        var member = group.members[j];
+        if (!member.uniqueId) {
+          groupModified = true;
+          var uniqueString = member.firstName.trim().toLowerCase() + member.lastName.trim().toLowerCase() + member.email.trim().toLowerCase();
+          var uniqueId = hash.hash_str(uniqueString);
+          member.uniqueId = uniqueId;
+        }
+      }
+      if (groupModified) {
+        console.log("Updating the uniqueIds for some of the members in the group: \"" + group.title + "\"");
+        group.save();
+      }
+    }
+  })
+};
+
+exports.ensureUniqueIds = ensureUniqueIds;

@@ -4,7 +4,9 @@ exports.createDailyReport = function(groups) {
   yesterday.setDate(today.getDate()-1);
   var numMembers = 0;
   var numNewMembers = 0;
+  var numUniqueMembers = 0;
   var reportHtml = "", membersHtml = "";
+  var uniqueMembersIds = [];
 
   reportHtml += "<h3>Mosaic Groups Daily Report for " + today.toDateString() + "</h3>";
 
@@ -29,6 +31,10 @@ exports.createDailyReport = function(groups) {
     for (var j = 0; j < group.members.length; j++) {
       numMembers++;
       var member = groups[i].members[j];
+      if (uniqueMembersIds.indexOf(member.uniqueId) < 0) {
+        uniqueMembersIds.push(member.uniqueId);
+        numUniqueMembers++;
+      }
       var joinDate;
       try {
         joinDate = member.joinDate.toDateString();
@@ -50,6 +56,7 @@ exports.createDailyReport = function(groups) {
     "<p>" +
     "<div>There are <b>" + numMembers + "</b> members signed up for growth groups</div>" +
     "<div>There were <span style='color:green'><b>" + numNewMembers + "</b></span> new members in the past 24hours (highlighted in <span style='color:green'><b>green</b></span> below)</div>" +
+    "<div>There are <b>" + numUniqueMembers + "</b> unique members signed up for growth groups</div>" +
     "</p>";
   reportHtml += membersHtml;
   return reportHtml;

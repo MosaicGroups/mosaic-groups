@@ -19,6 +19,10 @@ module.exports = function(env, config) {
     console.log('mosaicgroups db opened');
   });
 
+  // create default users on server start if users are empty
   userModel.createDefaultUsers();
+  // create default settings on server start if settings are empty
   settingsModel.createDefaultSettings();
+  // create uniqueIds for all the members of all the groups is any are missing
+  groupModel.ensureUniqueIds();
 };
