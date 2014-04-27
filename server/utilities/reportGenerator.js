@@ -54,9 +54,9 @@ exports.createDailyReport = function(groups) {
   membersHtml += "</ul>";
   reportHtml +=
     "<p>" +
-    "<div>There are <b>" + numMembers + "</b> members signed up for growth groups</div>" +
-    "<div>There were <span style='color:green'><b>" + numNewMembers + "</b></span> new members in the past 24hours (highlighted in <span style='color:green'><b>green</b></span> below)</div>" +
-    "<div>There are <b>" + numUniqueMembers + "</b> unique members signed up for growth groups</div>" +
+    "<div>There are <b>" + numMembers + "</b> members total signed up for growth groups</div>" +
+    "<div>There are <b>" + numUniqueMembers + " unique</b> members signed up for growth groups</div>" +
+    "<div>There were <span style='color:green'><b>" + numNewMembers + "</b></span> new members total in the past 24hours (highlighted in <span style='color:green'><b>green</b></span> below)</div>" +
     "</p>";
   reportHtml += membersHtml;
   return reportHtml;

@@ -73,26 +73,51 @@ var groupSchema = mongoose.Schema({
 
 var Group = mongoose.model('Group', groupSchema);
 
+function ensureJoinDates(group) {
+  if (group.members) {
+    for (var i = 0; i < group.members.length; i++) {
+      var member = group.members[i];
+      if (!member.joinDate) {
+        member.joinDate = new Date();
+      }
+    }
+  }
+};
+
 function ensureUniqueIds() {
   Group.find({}).exec(function(err, groups) {
     for (var i = 0; i < groups.length; i++) {
-      var groupModified = false;
       var group = groups[i];
-      for (var j = 0; j < group.members.length; j++) {
-        var member = group.members[j];
-        if (!member.uniqueId) {
-          groupModified = true;
-          var uniqueString = member.firstName.trim().toLowerCase() + member.lastName.trim().toLowerCase() + member.email.trim().toLowerCase();
-          var uniqueId = hash.hash_str(uniqueString);
-          member.uniqueId = uniqueId;
-        }
-      }
+      var groupModified = ensureUniqueIdsForGroup(group);
       if (groupModified) {
         console.log("Updating the uniqueIds for some of the members in the group: \"" + group.title + "\"");
-        group.save();
+        if (group.save) {
+          group.save();
+        }
       }
     }
   })
 };
 
+function ensureUniqueIdsForGroup(group) {
+  var groupModified = false;
+  for (var j = 0; j < group.members.length; j++) {
+    var member = group.members[j];
+    if (!member.uniqueId) {
+      groupModified = true;
+      generateUniqueMemberId(member);
+    }
+  }
+  return groupModified;
+};
+
+function generateUniqueMemberId(member) {
+  var uniqueString = member.firstName.trim().toLowerCase() + member.lastName.trim().toLowerCase() + member.email.trim().toLowerCase();
+  var uniqueId = hash.hash_str(uniqueString);
+  member.uniqueId = uniqueId;
+};
+
+exports.ensureJoinDates = ensureJoinDates;
 exports.ensureUniqueIds = ensureUniqueIds;
+exports.ensureUniqueIdsForGroup = ensureUniqueIdsForGroup;
+exports.generateUniqueMemberId = generateUniqueMemberId;
