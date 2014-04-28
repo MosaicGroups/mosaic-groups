@@ -1,3 +1,5 @@
+var hash = require('ys-hash');
+
 exports.createDailyReport = function(groups) {
   var today = new Date();
   var yesterday = new Date();
@@ -6,7 +8,7 @@ exports.createDailyReport = function(groups) {
   var numNewMembers = 0;
   var numUniqueMembers = 0;
   var reportHtml = "", membersHtml = "";
-  var uniqueMembersIds = [];
+  var uniqueMembers = [];
 
   reportHtml += "<h3>Mosaic Groups Daily Report for " + today.toDateString() + "</h3>";
 
@@ -31,8 +33,9 @@ exports.createDailyReport = function(groups) {
     for (var j = 0; j < group.members.length; j++) {
       numMembers++;
       var member = groups[i].members[j];
-      if (uniqueMembersIds.indexOf(member.uniqueId) < 0) {
-        uniqueMembersIds.push(member.uniqueId);
+      var memberHashStr = generateUniqueMemberId(member);
+      if (uniqueMembers.indexOf(memberHashStr) < 0) {
+        uniqueMembers.push(memberHashStr);
         numUniqueMembers++;
       }
       var joinDate;
@@ -60,4 +63,10 @@ exports.createDailyReport = function(groups) {
     "</p>";
   reportHtml += membersHtml;
   return reportHtml;
+};
+
+var generateUniqueMemberId = function(member) {
+  var uniqueString = member.firstName.trim().toLowerCase() + member.lastName.trim().toLowerCase() + member.email.trim().toLowerCase();
+  var memberHashStr = hash.hash_str(uniqueString);
+  return memberHashStr;
 };

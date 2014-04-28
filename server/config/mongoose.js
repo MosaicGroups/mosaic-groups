@@ -23,6 +23,4 @@ module.exports = function(env, config) {
   userModel.createDefaultUsers();
   // create default settings on server start if settings are empty
   settingsModel.createDefaultSettings();
-  // create uniqueIds for all the members of all the groups is any are missing
-  groupModel.ensureUniqueIds();
 };

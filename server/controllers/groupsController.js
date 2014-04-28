@@ -1,8 +1,8 @@
 var Group = require('mongoose').model('Group'),
   User = require('mongoose').model('User'),
+  Member = require('mongoose').model('Member'),
   emailer = require('../utilities/emailer'),
-  errorHandler = require('../utilities/errorHandler'),
-  groupModel = require('../models/Group');
+  errorHandler = require('../utilities/errorHandler');
 
 exports.emailGroupReportToSelf = function(req, res) {
   Group.find({}).populate('leaders').exec(function(err, collection) {
@@ -59,8 +59,7 @@ exports.updateGroup = function(req, res) {
   }
 
   // ensure that all group members have a join date
-  groupModel.ensureJoinDates(groupUpdates);
-  groupModel.ensureUniqueIdsForGroup(groupUpdates);
+  ensureJoinDates(groupUpdates);
 
   Group.findByIdAndUpdate(groupId, groupUpdates, undefined, function(err) {
     if(err) { errorHandler.sendError(req, res, err); }
@@ -92,7 +91,6 @@ exports.addMember = function(req, res) {
   Group.findOne({_id: groupId}).populate('leaders').exec(function(err, group) {
     if(err) { errorHandler.sendError(req, res, err); }
     else {
-      groupModel.generateUniqueMemberId(memberData);
       group.members.push(memberData);
       group.save(function(err) {
         if(err) { errorHandler.sendError(req, res, err); }
@@ -133,5 +131,16 @@ exports.deleteGroup = function(req, res) {
         });
       }
     });
+  }
+};
+
+var ensureJoinDates = function(group) {
+  if (group.members) {
+    for (var i = 0; i < group.members.length; i++) {
+      var member = group.members[i];
+      if (!member.joinDate) {
+        member.joinDate = new Date();
+      }
+    }
   }
 };
