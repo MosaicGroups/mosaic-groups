@@ -49,9 +49,8 @@ module.exports = {
     https: {
       port: process.env.SECURE_PORT || 443,
       options : {
-        // TODO uncomment this later if we decide to enable https and purchase a server certificate
-//        key: fs.readFileSync('test/fixtures/keys/agent2-key.pem'),
-//        cert: fs.readFileSync('test/fixtures/keys/agent2-cert.pem')
+        key: fs.readFileSync('server/certs/server.key'),
+        cert: fs.readFileSync('server/certs/server.crt')
       }
     },
     scheduler: {
