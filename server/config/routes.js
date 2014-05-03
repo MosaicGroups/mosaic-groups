@@ -1,8 +1,24 @@
 var auth = require('./auth'),
   cache = require('./cache'),
+  config = require('./config');
   users = require('../controllers/usersController'),
   groups = require('../controllers/groupsController'),
   settings = require('../controllers/settingsController');
+
+var indexRedirect = function(req, res) {
+  res.render('index', {
+    bootstrappedUser: req.user
+  });
+}
+
+var secureRedirect = function(config) {
+  return function(req, res, next) {
+    if (req.headers.host !== config.domain + ':' + config.https.port) {
+      res.redirect('https://' + config.domain + ':' + config.https.port + req.originalUrl);
+    }
+    next();
+  }
+};
 
 module.exports = function(app, config) {
   app.get('/api/users/:id', cache.disableBrowserCache, auth.requiresRole('admin'), users.getUser);
@@ -32,10 +48,9 @@ module.exports = function(app, config) {
 
   app.post('/logout', auth.logout);
 
+  // ensure that all requests to the login page get directed to the secure page instead
+  app.get('/login', secureRedirect(config), indexRedirect);
+
   // ensure that the client side application does ALL of the routing
-  app.get('*', function(req, res) {
-    res.render('index', {
-      bootstrappedUser: req.user
-    });
-  });
+  app.get('*', indexRedirect);
 }

@@ -11,27 +11,49 @@
  *   OTHER_VAR:       production
  */
 var path = require('path');
+var fs = require('fs');
 var rootPath = path.normalize(__dirname + '/../../');
 
 module.exports = {
   development: {
+    domain: 'localhost',
     db: {
       url: 'mongodb://localhost:27017/mosaicgroups',
       debugMode: true
     },
     rootPath: rootPath,
-    port: process.env.PORT || 3030,
+    http: {
+      port: process.env.PORT || 3030
+    },
+    https: {
+      port: process.env.SECURE_PORT || 3031,
+      options : {
+        key: fs.readFileSync('server/certs/server.key'),
+        cert: fs.readFileSync('server/certs/server.crt')
+      }
+    },
     scheduler: {
       enabled: false
     }
   },
   production: {
+    domain: 'mosaicgroups.org',
     db: {
       url: 'mongodb://'+process.env.MOSAICGROUPS_USERNAME+':'+process.env.MOSAICGROUPS_PASSWORD+'@ds027489.mongolab.com:27489/mosaicgroups',
       debugMode: false
     },
     rootPath: rootPath,
-    port: process.env.PORT || 80,
+    http: {
+      port: process.env.PORT || 80
+    },
+    https: {
+      port: process.env.SECURE_PORT || 443,
+      options : {
+        // TODO uncomment this later if we decide to enable https and purchase a server certificate
+//        key: fs.readFileSync('test/fixtures/keys/agent2-key.pem'),
+//        cert: fs.readFileSync('test/fixtures/keys/agent2-cert.pem')
+      }
+    },
     scheduler: {
       enabled: true,
       hour: 11, // 11am == 7am EST on the heroku server because it is +4hrs

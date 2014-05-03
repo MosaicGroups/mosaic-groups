@@ -1,4 +1,6 @@
 var express = require('express');
+var https = require('https');
+var http = require('http');
 
 var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development'
 
@@ -22,5 +24,7 @@ console.log('configuring scheduler');
 require('./server/config/scheduler')(config);
 
 console.log('configuring listener');
-app.listen(config.port);
+http.createServer(app).listen(config.http.port);
+// TODO uncomment this later if we decide to enable https and purchase a server certificate
+https.createServer(config.https.options, app).listen(config.https.port);
 console.log("Listening on port " + config.port + "...");

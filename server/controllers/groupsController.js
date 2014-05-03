@@ -65,7 +65,7 @@ exports.updateGroup = function(req, res) {
     if(err) { errorHandler.sendError(req, res, err); }
     else {
       groupUpdates._id = groupId;
-      emailer.sendAuditMessageEMail('Group: "' + groupUpdates.title + ' was updated by: ' + req.user.username);
+      emailer.sendAuditMessageEMail('Group: "' + groupUpdates.title + '" was updated by: ' + req.user.username);
       res.send(groupUpdates);
     }
   });
