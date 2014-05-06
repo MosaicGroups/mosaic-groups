@@ -26,7 +26,9 @@ require('./server/config/scheduler')(config);
 console.log('configuring listener for http on port: ' + config.http.port);
 http.createServer(app).listen(config.http.port);
 
-console.log('configuring listener for https on port: ' + config.https.port);
-https.createServer(config.https.options, app).listen(config.https.port);
+if (env === 'development') {
+  console.log('configuring listener for https on port: ' + config.https.port);
+  https.createServer(config.https.options, app).listen(config.https.port);
+}
 
-console.log("Listening on port " + config.http.port + " and " + config.https.port);
+console.log("Listening on port " + config.http.port);
