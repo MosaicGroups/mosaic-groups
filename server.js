@@ -23,7 +23,10 @@ require('./server/config/routes')(app, config);
 console.log('configuring scheduler');
 require('./server/config/scheduler')(config);
 
-console.log('configuring listener');
+console.log('configuring listener for http on port: ' + config.http.port);
 http.createServer(app).listen(config.http.port);
+
+console.log('configuring listener for https on port: ' + config.https.port);
 https.createServer(config.https.options, app).listen(config.https.port);
-console.log("Listening on port " + config.port + "...");
+
+console.log("Listening on port " + config.http.port + " and " + config.https.port);
