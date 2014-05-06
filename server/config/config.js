@@ -26,7 +26,7 @@ module.exports = {
       port: process.env.PORT || 3030
     },
     https: {
-      port: process.env.SECURE_PORT || 3031,
+      port:  process.env.SSLPORT || 3031,
       options : {
         key: fs.readFileSync('server/certs/server.key'),
         cert: fs.readFileSync('server/certs/server.crt')
