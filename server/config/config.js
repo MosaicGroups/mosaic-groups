@@ -37,7 +37,7 @@ module.exports = {
     }
   },
   production: {
-    domain: 'mosaicgroups.org',
+    domain: 'www.mosaicgroups.org',
     db: {
       url: 'mongodb://'+process.env.MOSAICGROUPS_USERNAME+':'+process.env.MOSAICGROUPS_PASSWORD+'@ds027489.mongolab.com:27489/mosaicgroups',
       debugMode: false
