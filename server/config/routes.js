@@ -13,8 +13,11 @@ var indexRedirect = function(req, res) {
 
 var secureRedirect = function(config) {
   return function(req, res, next) {
-    if (req.headers.host !== config.domain + ':' + config.https.port) {
+    if (!req.connection.encrypted) {
+      console.log('Request is unencrypted, so redirecting...');
       res.redirect('https://' + config.domain + ':' + config.https.port + req.originalUrl);
+    } else {
+      console.log('Request is encrypted');
     }
     next();
   }
