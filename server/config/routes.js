@@ -15,10 +15,8 @@ var secureRedirect = function(config) {
   return function(req, res, next) {
     if (process.env.NODE_ENV == 'production') {
       if (req.headers['x-forwarded-proto'] && req.headers['x-forwarded-proto'] === "http") {
-        console.log('Protocol is: "' + req.protocol + '" Request is unencrypted, so redirecting...');
         res.redirect('https://' + config.domain + ':' + config.https.port + req.originalUrl);
       } else {
-        console.log('Request is encrypted');
         next();
       }
     } else {
