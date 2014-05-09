@@ -13,13 +13,22 @@ var indexRedirect = function(req, res) {
 
 var secureRedirect = function(config) {
   return function(req, res, next) {
-    if (req.protocol !== 'https') {
-      console.log('Protocol is: "' + req.protocol + '" Request is unencrypted, so redirecting...');
-      res.redirect('https://' + config.domain + ':' + config.https.port + req.originalUrl);
+    if (process.env.NODE_ENV == 'production') {
+      if (req.headers['x-forwarded-proto'] && req.headers['x-forwarded-proto'] === "http") {
+        console.log('Protocol is: "' + req.protocol + '" Request is unencrypted, so redirecting...');
+        res.redirect('https://' + config.domain + ':' + config.https.port + req.originalUrl);
+      } else {
+        console.log('Request is encrypted');
+        next();
+      }
     } else {
-      console.log('Request is encrypted');
+      res.setHeader('Strict-Transport-Security', 'max-age=8640000; includeSubDomains');
+      if (!req.secure) {
+        res.redirect('https://' + config.domain + ':' + config.https.port + req.originalUrl);
+      } else {
+        next();
+      }
     }
-    next();
   }
 };
 
