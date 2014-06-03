@@ -1,6 +1,6 @@
 var auth = require('./auth'),
   cache = require('./cache'),
-  config = require('./config');
+  config = require('./config'),
   users = require('../controllers/usersController'),
   groups = require('../controllers/groupsController'),
   settings = require('../controllers/settingsController');

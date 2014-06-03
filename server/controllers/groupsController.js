@@ -36,8 +36,6 @@ exports.saveGroup = function(req, res, next) {
     groupData.leaders = [req.user._id];
   }
 
-  Group.ensureUniqueIdsForGroup(groupUpdates);
-
   Group.create(groupData, function(err, group) {
     if(err) { errorHandler.sendError(req, res, err); }
     else {
