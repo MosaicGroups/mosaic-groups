@@ -47,34 +47,22 @@ angular.module('app').controller('groupListCtrl', function($scope, $location, $f
     sorting:
       function(data) {
         switch(data.dayOfTheWeek) {
-          case "Mid-Semester Sunday":
+          case "Mid-Semester":
             return 1; break;
-          case "Mid-Semester Monday":
-            return 2; break;
-          case "Mid-Semester Tuesday":
-            return 3; break;
-          case "Mid-Semester Wednesday":
-            return 4; break;
-          case "Mid-Semester Thursday":
-            return 5; break;
-          case "Mid-Semester Friday":
-            return 6; break;
-          case "Mid-Semester Saturday":
-            return 7; break;
           case "Sunday":
-            return 8; break;
+            return 2; break;
           case "Monday":
-            return 9; break;
+            return 3; break;
           case "Tuesday":
-            return 10; break;
+            return 4; break;
           case "Wednesday":
-            return 11; break;
+            return 5; break;
           case "Thursday":
-            return 12; break;
+            return 6; break;
           case "Friday":
-            return 13; break;
+            return 7; break;
           case "Saturday":
-            return 14; break;
+            return 8; break;
       }
     }
   }, {
