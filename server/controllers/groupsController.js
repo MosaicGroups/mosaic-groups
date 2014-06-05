@@ -1,33 +1,34 @@
 var Group = require('mongoose').model('Group'),
   User = require('mongoose').model('User'),
   Member = require('mongoose').model('Member'),
+  Settings = require('mongoose').model('Settings'),
   emailer = require('../utilities/emailer'),
   errorHandler = require('../utilities/errorHandler');
 
-exports.emailGroupReportToSelf = function(req, res) {
-  Group.find({}).populate('leaders').exec(function(err, collection) {
+exports.emailGroupReportToSelf = function (req, res) {
+  Group.find({}).populate('leaders').exec(function (err, collection) {
     emailer.sendGroupsReport(req.user);
     emailer.sendAuditMessageEMail(req.user.username + " requested an on demand daily report email");
   });
   return res.end();
 };
 
-exports.getGroups = function(req, res) {
-  Group.find({}).populate('leaders').exec(function(err, collection) {
+exports.getGroups = function (req, res) {
+  Group.find({}).populate('leaders').exec(function (err, collection) {
     res.send(collection);
   });
 };
 
-exports.getGroup = function(req, res) {
+exports.getGroup = function (req, res) {
   var groupId = req.params.id;
   if (groupId) {
-    Group.findOne({_id: groupId}).populate('leaders').exec(function(err, group) {
+    Group.findOne({_id: groupId}).populate('leaders').exec(function (err, group) {
       res.send(group);
     });
   }
 };
 
-exports.saveGroup = function(req, res, next) {
+exports.saveGroup = function (req, res, next) {
   var groupData = req.body;
 
   // if the leaderId is not set, or if this is not an admin user
@@ -36,8 +37,10 @@ exports.saveGroup = function(req, res, next) {
     groupData.leaders = [req.user._id];
   }
 
-  Group.create(groupData, function(err, group) {
-    if(err) { errorHandler.sendError(req, res, err); }
+  Group.create(groupData, function (err, group) {
+    if (err) {
+      errorHandler.sendError(req, res, err);
+    }
     else {
       emailer.sendAuditMessageEMail('Group: "' + groupData.title + '" was created by: ' + req.user.username);
       res.send(group);
@@ -45,7 +48,7 @@ exports.saveGroup = function(req, res, next) {
   })
 };
 
-exports.updateGroup = function(req, res) {
+exports.updateGroup = function (req, res) {
   var groupUpdates = req.body;
   var groupId = groupUpdates._id;
   delete groupUpdates["_id"];
@@ -59,8 +62,10 @@ exports.updateGroup = function(req, res) {
   // ensure that all group members have a join date
   ensureJoinDates(groupUpdates);
 
-  Group.findByIdAndUpdate(groupId, groupUpdates, undefined, function(err) {
-    if(err) { errorHandler.sendError(req, res, err); }
+  Group.findByIdAndUpdate(groupId, groupUpdates, undefined, function (err) {
+    if (err) {
+      errorHandler.sendError(req, res, err);
+    }
     else {
       groupUpdates._id = groupId;
       emailer.sendAuditMessageEMail('Group: "' + groupUpdates.title + '" was updated by: ' + req.user.username);
@@ -79,34 +84,40 @@ exports.updateGroup = function(req, res) {
  * @param req
  * @param res
  */
-exports.addMember = function(req, res) {
+exports.addMember = function (req, res) {
   var memberData = req.body.newMember;
   memberData.status = "PENDING";
   memberData.joinDate = new Date();
 
   var groupId = req.params.id;
-
-  Group.findOne({_id: groupId}).populate('leaders').exec(function(err, group) {
-    if(err) { errorHandler.sendError(req, res, err); }
+  Group.findOne({_id: groupId}).populate('leaders').exec(function (err, group) {
+    if (err) { errorHandler.sendError(req, res, err);}
     else {
-      group.members.push(memberData);
-      group.save(function(err) {
-        if(err) { errorHandler.sendError(req, res, err); }
-        else {
-          emailer.sendAddedMemberEMail(group, memberData);
-          emailer.sendMemberConfirmationEmail(group, memberData);
-          return res.end();
-        }
-      });
+      // join the group if it is not disabled
+      if (!group.disabled) {
+        group.members.push(memberData);
+        group.save(function (err) {
+          if (err) {
+            errorHandler.sendError(req, res, err);
+          }
+          else {
+            emailer.sendAddedMemberEMail(group, memberData);
+            emailer.sendMemberConfirmationEmail(group, memberData);
+            return res.end();
+          }
+        });
+      } else {
+        errorHandler.sendError(req, res, new Error('Group has been disabled, you cannot join at this time.'));
+      }
     }
   });
 };
 
-exports.deleteGroup = function(req, res) {
+exports.deleteGroup = function (req, res) {
   // get the group object from the request body that is to be deleted
   var groupDeleteId = req.params.id;
   // only admins can delete groups
-  if(!req.user.hasRole('admin')) {
+  if (!req.user.hasRole('admin')) {
     errorHandler.sendError(req, res, err, 403);
   }
   // if there was no group object in the request then return bad request
@@ -115,13 +126,17 @@ exports.deleteGroup = function(req, res) {
   }
   // otherwise, get the group from the database then delete them
   else {
-    Group.findById(groupDeleteId).exec(function(err, data) {
+    Group.findById(groupDeleteId).exec(function (err, data) {
       // if not found then return 404
-      if(err) { errorHandler.sendError(req, res, err); }
+      if (err) {
+        errorHandler.sendError(req, res, err);
+      }
       else {
         var groupToDelete = data;
-        groupToDelete.remove(function(err) {
-          if(err) { errorHandler.sendError(req, res, err); }
+        groupToDelete.remove(function (err) {
+          if (err) {
+            errorHandler.sendError(req, res, err);
+          }
           else {
             emailer.sendAuditMessageEMail('Group: "' + groupToDelete.title + '" was deleted by: ' + req.user.username);
             return res.end();
@@ -132,7 +147,7 @@ exports.deleteGroup = function(req, res) {
   }
 };
 
-var ensureJoinDates = function(group) {
+var ensureJoinDates = function (group) {
   if (group.members) {
     for (var i = 0; i < group.members.length; i++) {
       var member = group.members[i];
