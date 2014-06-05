@@ -73,15 +73,19 @@
             td(data-title="'Topic'")
               div(ng-repeat="topic in mosaicGroup.topics") {{topic}}
             td(data-title="'Action'")
-              // either show join group link
-              span(ng-if="!groupIsFull(mosaicGroup) && !groupsDisabled()")
+              // if the group is not full, and the groups are not disabled, and this group is not disabled
+              span(ng-if="!groupIsFull(mosaicGroup) && !groupsDisabled() && !groupIsDisabled(mosaicGroup)")
                 a(href="", ng-click="joinGroup(mosaicGroup)")
                   b Join
+              // if all groups are disabled
               span(ng-if="groupsDisabled()")
-                b Closed
+                b All Groups Are Closed
+              // if this group is disabled
+              span(ng-if="groupIsDisabled(mosaicGroup) && !groupsDisabled()")
+                b This Group Is Closed
               // or show group is full
-              span(ng-if="groupIsFull(mosaicGroup) && !groupsDisabled()")
-                b Full
+              span(ng-if="groupIsFull(mosaicGroup) && !groupsDisabled() && !groupIsDisabled(mosaicGroup)")
+                b This Group Is Full
               // manage group
               span(ng-if="canEdit(mosaicGroup)")
                 // show manage link

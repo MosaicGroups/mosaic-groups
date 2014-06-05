@@ -49,6 +49,10 @@
         .col-md-10
           textarea.form-control(name="description", ng-model="group.description", required)
       .form-group
+        label.col-md-2.control-label(for="disabled") Group Is Disabled
+        .col-md-10
+          input(name="disabled", type="checkbox", ng-model="group.disabled")
+      .form-group
         label.col-md-2.control-label(for="members") Members
         .col-md-10
           table.table.table-hover.table-striped(name="members")

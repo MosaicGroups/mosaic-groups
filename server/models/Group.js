@@ -63,6 +63,10 @@ var groupSchema = mongoose.Schema({
   description: {
     type: String,
     required:'{PATH} is required!'
+  },
+  disabled: {
+    type: Boolean,
+    default: false
   }
 });
 

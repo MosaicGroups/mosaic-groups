@@ -129,9 +129,17 @@ angular.module('app').controller('groupListCtrl', function($scope, $location, $f
     return canEditGroup;
   }
 
+  $scope.groupIsDisabled = function(group) {
+    return group.disabled;
+  }
+
   $scope.groupIsFull = function(group) {
     return group.members.length >= group.memberLimit
   }
+
+  $scope.groupsDisabled = function() {
+    return $scope.settings.disableGroups;
+  };
 
   $scope.userIsLeaderOfGroup = function(user, group) {
     var canEditGroup = false;
@@ -170,10 +178,6 @@ angular.module('app').controller('groupListCtrl', function($scope, $location, $f
     }, function(reason) {
       notifierService.error(reason);
     });
-  };
-
-  $scope.groupsDisabled = function() {
-    return $scope.settings.disableGroups;
   };
 
   var inArray = Array.prototype.indexOf ?
