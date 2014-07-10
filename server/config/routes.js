@@ -59,7 +59,9 @@ module.exports = function(app, config) {
   app.post('/logout', auth.logout);
 
   // ensure that all requests to the login page get directed to the secure page instead
-  app.get('/login', secureRedirect(config), indexRedirect);
+//  app.get('/login', secureRedirect(config), indexRedirect);
+
+  app.get('/login', indexRedirect);
 
   // ensure that the client side application does ALL of the routing
   app.get('*', indexRedirect);
