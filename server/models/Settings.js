@@ -5,6 +5,14 @@ var settingsSchema = mongoose.Schema({
   disableGroups: {
     type: Boolean,
     default: false
+  },
+  showNextSemesterMsg: {
+    type: Boolean,
+    default: false
+  },
+  nextSemesterMsg: {
+    type: String,
+    default: 'Next Semester Growth Groups Coming Soon...'
   }
 });
 

@@ -22,8 +22,37 @@ angular.module('app').controller('groupListCtrl', function($scope, $location, $f
   $scope.childcareFilter = $scope.childcareTypes[0];
 
   $scope.settings = {
-    disableGroups: true
+    disableGroups: true,
+    showNextSemesterMsg: false,
+    nextSemesterMsg: 'Next Semester Growth Groups Coming Soon!'
   };
+
+  $scope.showNextSemesterMsg = function() {
+    return $scope.settings.showNextSemesterMsg;
+  }
+
+  $scope.setShowNextSemesterMsg = function(value) {
+    var settings = {};
+    angular.copy($scope.settings, settings);
+    settings.showNextSemesterMsg = value;
+    settingsService.saveSettings(settings).then(function(data){
+      $scope.settings = data;
+    }, function(reason) {
+      notifierService.error(reason);
+    });
+  }
+
+  $scope.setNextSemesterMessage = function(msg) {
+    var settings = {};
+    angular.copy($scope.settings, settings);
+    settings.nextSemesterMsg = msg;
+    settingsService.saveSettings(settings).then(function(data){
+      $scope.settings = data;
+      notifierService.notify("The new message: '" + msg + "' will be shown to everyone")
+    }, function(reason) {
+      notifierService.error(reason);
+    });
+  }
 
   $scope.tableFilter = {};
   $scope.tableFilterStrict = {};

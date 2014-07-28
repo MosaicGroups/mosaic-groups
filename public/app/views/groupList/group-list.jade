@@ -14,6 +14,12 @@
             button.btn(ng-click="disableGroups(false)") Enable Groups
           .col-md-12(ng-if="!groupsDisabled()")
             button.btn(ng-click="disableGroups(true)") Disable Groups
+        br
+        .row
+          .col-md-12(ng-if="showNextSemesterMsg()")
+            button.btn(ng-click="setShowNextSemesterMsg(false)") Hide Next Semester Message
+          .col-md-12(ng-if="!showNextSemesterMsg()")
+            button.btn(ng-click="setShowNextSemesterMsg(true)") Show Next Semester Message
       .well.well-sm
         .row
           .col-md-12
@@ -51,7 +57,17 @@
             label.control-label(for="topicsFilter") Topic
           .col-md-8
             select.form-control(name="topicsFilter", placeholder="Filter Topics", ng-options="item for item in availableTopics", ng-model="topicsFilter", ng-change="updateFilter('topics', topicsFilter)")
-    .col-md-9
+    .col-md-9(ng-if="showNextSemesterMsg()")
+      .well.well-sm
+        h2 {{settings.nextSemesterMsg}}
+      .well.well-sm(ng-if="identityService.isAdmin()")
+        .row
+          label.col-md-1.control-label(for="msg") Update Message:
+          .col-md-6
+            input.form-control(name="msg", ng-model="settings.nextSemesterMsg")
+          .col-md-1
+            button.btn(ng-click="setNextSemesterMessage(settings.nextSemesterMsg)") Save
+    .col-md-9(ng-if="!showNextSemesterMsg()")
       table.groups-table.table.table-condensed.table-bordered(ng-table="tableParams")
         tbody(ng-repeat="group in $groups")
           tr.ng-table-group.groups-group-row
