@@ -20,11 +20,11 @@
             button.btn(ng-click="setShowNextSemesterMsg(false)") Hide Next Semester Message
           .col-md-12(ng-if="!showNextSemesterMsg()")
             button.btn(ng-click="setShowNextSemesterMsg(true)") Show Next Semester Message
-      .well.well-sm
+      .well.well-sm(ng-if="!showNextSemesterMsg()")
         .row
           .col-md-12
             iframe(src="//player.vimeo.com/video/90995000" width="100%" height="200" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen)
-      .well.well-sm
+      .well.well-sm(ng-if="!showNextSemesterMsg()")
         .h3 Filter The Groups By:
         br
         .row
@@ -58,8 +58,7 @@
           .col-md-8
             select.form-control(name="topicsFilter", placeholder="Filter Topics", ng-options="item for item in availableTopics", ng-model="topicsFilter", ng-change="updateFilter('topics', topicsFilter)")
     .col-md-9(ng-if="showNextSemesterMsg()")
-      .well.well-sm
-        h2 {{settings.nextSemesterMsg}}
+      h2 {{settings.nextSemesterMsg}}
       .well.well-sm(ng-if="identityService.isAdmin()")
         .row
           label.col-md-1.control-label(for="msg") Update Message:
