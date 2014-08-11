@@ -12,19 +12,34 @@
         .row
           .col-md-12(ng-if="groupsDisabled()")
             button.btn(ng-click="disableGroups(false)") Enable Groups
+            div
+              &nbsp;
+              i  - group signup is currently disabled
           .col-md-12(ng-if="!groupsDisabled()")
             button.btn(ng-click="disableGroups(true)") Disable Groups
+            div
+              &nbsp;
+              i  - group signup is currently enabled
         br
         .row
           .col-md-12(ng-if="showNextSemesterMsg()")
             button.btn(ng-click="setShowNextSemesterMsg(false)") Hide Next Semester Message
+            div
+              &nbsp;
+              i  - group list is currently hidden from users
+            div
+              &nbsp;
+              i  - update the message on the right
           .col-md-12(ng-if="!showNextSemesterMsg()")
             button.btn(ng-click="setShowNextSemesterMsg(true)") Show Next Semester Message
-      .well.well-sm(ng-if="!showNextSemesterMsg()")
+            div
+              &nbsp;
+              i  - group list is currently being shown to users
+      .well.well-sm(ng-if="!showNextSemesterMsg() || identityService.isAdmin()")
         .row
           .col-md-12
             iframe(src="//player.vimeo.com/video/90995000" width="100%" height="200" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen)
-      .well.well-sm(ng-if="!showNextSemesterMsg()")
+      .well.well-sm(ng-if="!showNextSemesterMsg() || identityService.isAdmin()")
         .h3 Filter The Groups By:
         br
         .row
@@ -66,7 +81,7 @@
             input.form-control(name="msg", ng-model="settings.nextSemesterMsg")
           .col-md-1
             button.btn(ng-click="setNextSemesterMessage(settings.nextSemesterMsg)") Save
-    .col-md-9(ng-if="!showNextSemesterMsg()")
+    .col-md-9(ng-if="!showNextSemesterMsg() || identityService.isAdmin()")
       table.groups-table.table.table-condensed.table-bordered(ng-table="tableParams")
         tbody(ng-repeat="group in $groups")
           tr.ng-table-group.groups-group-row
