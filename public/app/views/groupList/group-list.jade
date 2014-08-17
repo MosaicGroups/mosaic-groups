@@ -63,7 +63,9 @@
           .col-md-8
             select.form-control(name="childcareFilter", placeholder="Filter Childcare", ng-options="item.value as item.label for item in childcareTypes", ng-model="childcareFilter", ng-change="updateFilter('childcare', childcareFilter)")
     .col-md-9(ng-if="showNextSemesterMsg()")
-      h2 {{settings.nextSemesterMsg}}
+      div(align="center")
+        h2 {{settings.nextSemesterMsg}}
+        img(src="/img/nomoredragons.jpg")
       .well.well-sm(ng-if="identityService.isAdmin()")
         .row
           label.col-md-1.control-label(for="msg") Update Message:
