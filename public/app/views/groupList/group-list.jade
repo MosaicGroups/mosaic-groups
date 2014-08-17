@@ -44,11 +44,6 @@
         br
         .row
           .col-md-4
-            label.control-label(for="titleFilter") Title
-          .col-md-8
-            input.form-control(name="titleFilter", placeholder="Filter Title", type="text", ng-model="titleFilter", autocomplete="off", ng-change="updateFilter('title', titleFilter)")
-        .row
-          .col-md-4
             label.control-label(for="locationFilter") Location
           .col-md-8
             input.form-control(name="locationFilter", placeholder="Filter Location", type="text", ng-model="locationFilter", autocomplete="off", ng-change="updateFilter('location', locationFilter)")
@@ -59,19 +54,14 @@
             select.form-control(name="dayOfWeekFilter", placeholder="Filter Day", ng-options="item for item in daysOfTheWeek", ng-model="dayOfTheWeekFilter",  ng-change="updateFilter('dayOfTheWeek', dayOfTheWeekFilter)")
         .row
           .col-md-4
-            label.control-label(for="genderTypesFilter") Gender
+            label.control-label(for="audienceTypesFilter") Audience
           .col-md-8
-            select.form-control(name="genderTypesFilter", placeholder="Filter Gender", ng-options="item for item in genderTypes", ng-model="genderTypesFilter" value="genderTypesFilter", ng-change="updateFilter('genderType', genderTypesFilter)")
+            select.form-control(name="audienceTypesFilter", placeholder="Filter Audience", ng-options="item for item in audienceTypes", ng-model="audienceTypesFilter" value="audienceTypesFilter", ng-change="updateFilter('audienceType', audienceTypesFilter)")
         .row
           .col-md-4
             label.control-label(for="childcareFilter") Childcare
           .col-md-8
             select.form-control(name="childcareFilter", placeholder="Filter Childcare", ng-options="item.value as item.label for item in childcareTypes", ng-model="childcareFilter", ng-change="updateFilter('childcare', childcareFilter)")
-        .row
-          .col-md-4
-            label.control-label(for="topicsFilter") Topic
-          .col-md-8
-            select.form-control(name="topicsFilter", placeholder="Filter Topics", ng-options="item for item in availableTopics", ng-model="topicsFilter", ng-change="updateFilter('topics', topicsFilter)")
     .col-md-9(ng-if="showNextSemesterMsg()")
       h2 {{settings.nextSemesterMsg}}
       .well.well-sm(ng-if="identityService.isAdmin()")
@@ -91,17 +81,13 @@
                 | &nbsp;
                 span {{group.value}}
           tr.groups-data-row(ng-hide="group.$hideRows" ng-repeat="mosaicGroup in group.data")
-            td(data-title="'Title'") {{mosaicGroup.title}}
-            td(data-title="'Details'")
-              a(href="", popover="{{mosaicGroup.description}}" popover-placement="right" popover-trigger="mouseenter" popover-animation="true") Details...
+            td(data-title="'Audience'") {{mosaicGroup.audienceType}}
             td(data-title="'Leader'" )
               div(ng-repeat="leader in mosaicGroup.leaders") {{leader.firstName}} {{leader.lastName}}
             td(data-title="'Location'") {{mosaicGroup.location}}
             td(data-title="'Time'") {{mosaicGroup.meetingTime}}
-            td(data-title="'Type'") {{mosaicGroup.genderType}}
+            td(data-title="'Type'") {{mosaicGroup.audienceType}}
             td(data-title="'Childcare'") {{(mosaicGroup.childcare) ? "yes" : "no"}}
-            td(data-title="'Topic'")
-              div(ng-repeat="topic in mosaicGroup.topics") {{topic}}
             td(data-title="'Action'")
               // if the group is not full, and the groups are not disabled, and this group is not disabled
               span(ng-if="!groupIsFull(mosaicGroup) && !groupsDisabled() && !groupIsDisabled(mosaicGroup)")

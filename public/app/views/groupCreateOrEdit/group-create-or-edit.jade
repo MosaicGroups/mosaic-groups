@@ -3,16 +3,16 @@
     form.form-horizontal(name="groupCreateOrEditForm")
       h3 Create/Edit Group
       .form-group
-        label.col-md-2.control-label(for="title") Title
-        .col-md-10
-          input.form-control(name="title", type="text", placeholder="Title", ng-model="group.title", required, autocomplete="off" )
-      .form-group
         label.col-md-2.control-label(for="groupLeaders") Group Leader(s)
         .col-md-10
           div(class="checkbox-group")
-            div(ng-repeat="user in users")
+            div(ng-repeat="user in users | orderBy:user.name")
               input(type="checkbox" name="groupLeaders" checklist-model="leaderIds" checklist-value="user._id" ng-disabled="identity.currentUser._id === user._id && !identity.isAdmin()")
               span {{user.name}}
+      .form-group
+        label.col-md-2.control-label(for="audienceType") Audience
+        .col-md-10
+          select.form-control(name="audienceType", ng-options="item for (itemKey, item) in audienceTypes", ng-model="group.audienceType", required)
       .form-group
         label.col-md-2.control-label(for="location") Location
         .col-md-10
@@ -30,24 +30,9 @@
         .col-md-10
           input.form-control(name="memberLimit", type="number", placeholder="20", ng-model="group.memberLimit", min="0", required, autocomplete="off" )
       .form-group
-        label.col-md-2.control-label(for="genderType") Gender
-        .col-md-10
-          select.form-control(name="genderType", ng-options="item for (itemKey, item) in genderTypes", ng-model="group.genderType", required)
-      .form-group
         label.col-md-2.control-label(for="childcare") Childcare
         .col-md-10
           input(name="childcare", type="checkbox", ng-model="group.childcare")
-      .form-group
-        label.col-md-2.control-label(for="topic") Topics
-        .col-md-10
-          div(class="checkbox-group")
-            div(ng-repeat="topic in availableTopics")
-              input(type="checkbox" name="groupTopics" checklist-model="group.topics" checklist-value="topic")
-              span {{topic}}
-      .form-group
-        label.col-md-2.control-label(for="description") Description
-        .col-md-10
-          textarea.form-control(name="description", ng-model="group.description", required)
       .form-group
         label.col-md-2.control-label(for="disabled") Group Is Disabled
         .col-md-10

@@ -1,18 +1,14 @@
-angular.module('app').controller('groupListCtrl', function($scope, $location, $filter, $q, $modal, ngTableParams, genderTypes, daysOfTheWeek, availableTopics, groupService, identityService, notifierService, settingsService) {
+angular.module('app').controller('groupListCtrl', function($scope, $location, $filter, $q, $modal, ngTableParams, audienceTypes, daysOfTheWeek, groupService, identityService, notifierService, settingsService) {
   $scope.identityService = identityService;
   $scope.data = undefined;
 
-  $scope.genderTypes = angular.copy(genderTypes, $scope.genderTypes);
-  $scope.genderTypes.unshift("");
-  $scope.genderTypesFilter = $scope.genderTypes[0];
+  $scope.audienceTypes = angular.copy(audienceTypes, $scope.audienceTypes);
+  $scope.audienceTypes.unshift("");
+  $scope.audienceTypesFilter = $scope.audienceTypes[0];
 
   $scope.daysOfTheWeek = angular.copy(daysOfTheWeek, $scope.daysOfTheWeek)
   $scope.daysOfTheWeek.unshift("");
   $scope.dayOfTheWeekFilter = $scope.daysOfTheWeek[0];
-
-  $scope.availableTopics = angular.copy(availableTopics, $scope.availableTopics);
-  $scope.availableTopics.unshift("");
-  $scope.topicsFilter = $scope.availableTopics[0];
 
   $scope.childcareTypes = [
     {label:"", value:""},
@@ -61,7 +57,7 @@ angular.module('app').controller('groupListCtrl', function($scope, $location, $f
       delete $scope.tableFilter[filterName];
       delete $scope.tableFilterStrict[filterName];
     }
-    else if (filterName === "dayOfTheWeek" || filterName === "genderType" || filterName === "childcare" || filterName === "topics") {
+    else if (filterName === "dayOfTheWeek" || filterName === "audienceType" || filterName === "childcare") {
       $scope.tableFilterStrict[filterName] = filterValue;
     }
     else {
@@ -228,7 +224,7 @@ var confirmDeleteGroupCtrl = function($scope, $modalInstance, groupService, noti
   $scope.group = group;
   $scope.confirm = function () {
     groupService.deleteGroup(group).then(function() {
-      notifierService.notify('Group \'' + group.title + '\' has been deleted');
+      notifierService.notify('Group \'' + group.audienceType + '\' has been deleted');
     }, function(reason) {
       notifierService.error(reason);
     });
