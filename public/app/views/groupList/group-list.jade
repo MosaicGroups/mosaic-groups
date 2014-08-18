@@ -35,11 +35,11 @@
             div
               &nbsp;
               i  - group list is currently being shown to users
-      .well.well-sm(ng-if="!showNextSemesterMsg() || identityService.isAdmin()")
+      .well.well-sm(ng-if="!showNextSemesterMsg() || identityService.isAuthenticated()")
         .row
           .col-md-12
             iframe(src="//player.vimeo.com/video/90995000" width="100%" height="200" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen)
-      .well.well-sm(ng-if="!showNextSemesterMsg() || identityService.isAdmin()")
+      .well.well-sm(ng-if="!showNextSemesterMsg() || identityService.isAuthenticated()")
         .h3 Filter The Groups By:
         br
         .row
@@ -73,7 +73,7 @@
             input.form-control(name="msg", ng-model="settings.nextSemesterMsg")
           .col-md-1
             button.btn(ng-click="setNextSemesterMessage(settings.nextSemesterMsg)") Save
-    .col-md-9(ng-if="!showNextSemesterMsg() || identityService.isAdmin()")
+    .col-md-9(ng-if="!showNextSemesterMsg() || identityService.isAuthenticated()")
       table.groups-table.table.table-condensed.table-bordered(ng-table="tableParams")
         tbody(ng-repeat="group in $groups")
           tr.ng-table-group.groups-group-row
