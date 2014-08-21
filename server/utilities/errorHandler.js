@@ -15,7 +15,13 @@ exports.sendError = function(req, res, err, status) {
   }
 
   // log the error
-  console.error(err);
+  if (req.user) {
+    console.error("Error: " + req.user + " had an error");
+  }
+  console.error("Error: " + err);
+  if (req.url && req.params) {
+    console.log("Error: " + req.url + req.params);
+  }
 
   // send an error report
   emailer.sendErrorMessageEMail(err.toString());
