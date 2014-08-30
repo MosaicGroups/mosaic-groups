@@ -7,6 +7,7 @@ angular.module('app').value('audienceTypes', [
   "Men",
   "Middle School Students",
   "Military",
+  "New Parents",
   "Newlyweds",
   "Women",
   "Young Adults",
