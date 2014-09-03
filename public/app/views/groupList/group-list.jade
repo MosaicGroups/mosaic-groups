@@ -1,5 +1,7 @@
 .jumbotron(ng-if="!showNextSemesterMsg()" align="center")
   h2 Join a Mosaic Growth Group!
+  p This semester, all of our Growth Groups will be going through a study of a book called
+    | <i>No More Dragons</i>, designed exclusively for Mosaic by Mosaic.
 .jumbotron(ng-if="showNextSemesterMsg()" align="center")
   h2 {{settings.nextSemesterMsg}}
   .row(style='width:650px' ng-if="identityService.isAdmin()")
