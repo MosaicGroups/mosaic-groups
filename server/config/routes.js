@@ -51,7 +51,7 @@ module.exports = function(app, config) {
   app.post('/api/settings', auth.requiresRole('admin'), settings.updateSettings);
 
   app.get('/partials/*', function(req, res) {
-    res.render('../../public/app/views/' + req.params);
+    res.render('../../public/app/views/' + req.params[0]);
   });
 
   app.post('/login', auth.login);
