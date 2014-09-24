@@ -1,8 +1,6 @@
 var express = require('express');
-var stylus = require('stylus');
 var passport = require('passport');
 var logger = require('morgan');
-var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var cookieSession = require('cookie-session');
 
