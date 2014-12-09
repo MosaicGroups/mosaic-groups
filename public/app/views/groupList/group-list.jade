@@ -11,13 +11,13 @@
     .col-md-2
       button.btn(ng-click="setNextSemesterMessage(settings.nextSemesterMsg)") Save
 .container-fluid
-  .row
-    .col-md-12(ng-if="showNextSemesterMsg()")
-      div(align="center")
-        .well.well-sm
-          p
-            img(src="/img/nomoredragons.jpg")
-            div(style='width:350px') What is faith? What's the point of prayer? How can we trust God when bad things happen to us? How did I end up like this? If you've ever asked these questions, our No More Dragons book and bible study this fall is where you want to be. Together, we'll learn what it means to "remove the scales" of our lives and practically see how God can change us—and continually change us so we can experience life to the full.
+  //.row
+  //  .col-md-12(ng-if="showNextSemesterMsg()")
+  //    div(align="center")
+  //      .well.well-sm
+  //        p
+  //          img(src="/img/nomoredragons.jpg")
+  //          div(style='width:350px') What is faith? What's the point of prayer? How can we trust God when bad things happen to us? How did I end up like this? If you've ever asked these questions, our No More Dragons book and bible study this fall is where you want to be. Together, we'll learn what it means to "remove the scales" of our lives and practically see how God can change us—and continually change us so we can experience life to the full.
   .row
     .col-md-3(ng-if="!showNextSemesterMsg() || identityService.isAuthenticated()")
       .well.well-sm(ng-if="identityService.isAdmin()")
