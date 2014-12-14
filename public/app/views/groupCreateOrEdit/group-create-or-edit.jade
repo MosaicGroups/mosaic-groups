@@ -10,7 +10,7 @@
         label.col-md-2.control-label(for="groupLeaders") Group Leader(s)
         .col-md-10
           div(class="checkbox-group")
-            div(ng-repeat="user in users")
+            div(ng-repeat="user in users | orderBy:user.name")
               input(type="checkbox" name="groupLeaders" checklist-model="leaderIds" checklist-value="user._id" ng-disabled="identity.currentUser._id === user._id && !identity.isAdmin()")
               span {{user.name}}
       .form-group
