@@ -1,10 +1,14 @@
 .container(ng-if="!identityService.isAuthenticated()")
   .jumbotron
-    h1 {{group.audienceType}}
+    h1 {{group.title}}
 .container
   .row
     .col-md-6
       .well
+        .row
+          label.col-md-4 Group Name:
+          .col-md-8
+            span {{group.title}}
         .row
           label.col-md-4 Leader(s):
           .col-md-8
@@ -19,13 +23,20 @@
           label.col-md-4 Time:
           .col-md-8 {{group.meetingTime}}
         .row
-          label.col-md-4 Audience:
+          label.col-md-4 Gender:
           .col-md-8 {{group.audienceType}}
         .row
           label.col-md-4 Childcare:
           .col-md-8
             span(ng-if="group.childcare") Yes
             span(ng-if="!group.childcare") No
+        .row
+          label.col-md-4 Topic(s):
+          .col-md-8
+            span(ng-repeat="topic in group.topics") {{topic}}{{$last ? '' : ', '}}
+        .row
+          label.col-md-4 Description:
+          .col-md-8 {{group.description}}
         .row
           .col-md-12
             br

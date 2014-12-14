@@ -1,4 +1,4 @@
-angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $route, $location, $modal, audienceTypes, daysOfTheWeek, statusTypes, groupService, notifierService, identityService, userService, meetingTimes) {
+angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $route, $location, $modal, audienceTypes, daysOfTheWeek, availableTopics, statusTypes, groupService, notifierService, identityService, userService, meetingTimes) {
   var groupId = $route.current.params.id;
   $scope.identity = identityService;
   $scope.group = {};
@@ -7,6 +7,7 @@ angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $rout
 
   $scope.audienceTypes = audienceTypes;
   $scope.daysOfTheWeek = daysOfTheWeek;
+  $scope.availableTopics = availableTopics;
   $scope.meetingTimes = meetingTimes;
   $scope.statusTypes = statusTypes;
 
@@ -19,12 +20,15 @@ angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $rout
       }
     });
   } else {
+    $scope.group.title = "";
     $scope.group.location = "";
     $scope.group.dayOfWeek = "";
     $scope.group.meetingTime = "";
     $scope.group.memberLimit = "";
     $scope.group.audienceType = "";
     $scope.group.childcare = true;
+    $scope.group.topics = [];
+    $scope.group.description = "";
     $scope.leaderIds = [];
   }
 
@@ -60,10 +64,10 @@ angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $rout
       }
       groupService.saveGroup($scope.group).then(function(group) {
         if ($scope.group._id) {
-          notifierService.notify('Group ' + $scope.group.audienceType + ' has been updated');
+          notifierService.notify('Group ' + $scope.group.title + ' has been updated');
           $location.path('/views/groupList/group-list');
         } else {
-          notifierService.notify('Group ' + $scope.group.audienceType + ' has been created');
+          notifierService.notify('Group ' + $scope.group.title + ' has been created');
           $location.path('/views/groupList/group-list');
         }
       }, function(reason) {

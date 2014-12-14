@@ -19,7 +19,7 @@ exports.createDailyReport = function(groups) {
     if (group.members.length >= group.memberLimit) {
       membersHtml += "<b>(FULL)</b> ";
     }
-    membersHtml += "<b>\"" + group.audienceType + "\"</b> on " + group.dayOfTheWeek + " in " + group.location;
+    membersHtml += "<b>\"" + group.title + "\"</b> on " + group.dayOfTheWeek + " in " + group.location;
     membersHtml += " with <b>" + group.members.length + " members</b>";
     membersHtml += " lead by: ";
     for (var j = 0; j < group.leaders.length; j++) {

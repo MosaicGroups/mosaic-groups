@@ -24,6 +24,10 @@ var memberSchema = mongoose.Schema({
 });
 
 var groupSchema = mongoose.Schema({
+  title: {
+    type: String,
+    required:'{PATH} is required!'
+  },
   leaders: [{
     type: Schema.Types.ObjectId,
     ref: 'User'
@@ -54,6 +58,11 @@ var groupSchema = mongoose.Schema({
   childcare: {
     type: Boolean,
     default: false
+  },
+  topics: [String], // see complete list in public/app/constants/availableTopics.js
+  description: {
+    type: String,
+    required:'{PATH} is required!'
   },
   disabled: {
     type: Boolean,
