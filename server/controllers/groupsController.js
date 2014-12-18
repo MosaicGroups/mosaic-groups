@@ -37,6 +37,9 @@ exports.saveGroup = function (req, res, next) {
     groupData.leaders = [req.user._id];
   }
 
+  // ensure that all group members have a join date
+  ensureJoinDates(groupData);
+
   Group.create(groupData, function (err, group) {
     if (err) {
       errorHandler.sendError(req, res, err);
