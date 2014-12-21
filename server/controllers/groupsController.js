@@ -45,7 +45,7 @@ exports.saveGroup = function (req, res, next) {
       errorHandler.sendError(req, res, err);
     }
     else {
-      emailer.sendAuditMessageEMail('Group: "' + groupData.audienceType + '" was created by: ' + req.user.username);
+      emailer.sendAuditMessageEMail('Group: "' + groupData.title + '" was created by: ' + req.user.username);
       res.send(group);
     }
   })
@@ -71,7 +71,7 @@ exports.updateGroup = function (req, res) {
     }
     else {
       groupUpdates._id = groupId;
-      emailer.sendAuditMessageEMail('Group: "' + groupUpdates.audienceType + '" was updated by: ' + req.user.username);
+      emailer.sendAuditMessageEMail('Group: "' + groupUpdates.title + '" was updated by: ' + req.user.username);
       res.send(groupUpdates);
     }
   });
@@ -141,7 +141,7 @@ exports.deleteGroup = function (req, res) {
             errorHandler.sendError(req, res, err);
           }
           else {
-            emailer.sendAuditMessageEMail('Group: "' + groupToDelete.audienceType + '" was deleted by: ' + req.user.username);
+            emailer.sendAuditMessageEMail('Group: "' + groupToDelete.title + '" was deleted by: ' + req.user.username);
             return res.end();
           }
         });

@@ -15,7 +15,7 @@ exports.sendAddedMemberEMail = function(group, newMemberData) {
     for (var i = 0; i < group.leaders.length; i++) {
       tos += (tos.length === 0) ? group.leaders[i].username : "," + group.leaders[i].username;
     }
-    var message = 'Mosaic Group: "' + group.audienceType + '" has a new member request from: "' + newMemberData.firstName + ' ' +
+    var message = 'Mosaic Group: "' + group.title + '" has a new member request from: "' + newMemberData.firstName + ' ' +
       newMemberData.lastName + '" &lt;' + newMemberData.email + '&gt;.';
 
     sendEmail(superadminTos, 'Audit Msg', message);
@@ -29,7 +29,7 @@ exports.sendMemberConfirmationEmail = function(group, newMemberData) {
     var groupLeader = '"' + group.leaders[i].firstName + ' ' + group.leaders[i].lastName + '&lt;' + group.leaders[i].username + '&gt;';
     groupLeaders += (groupLeaders.length === 0) ? groupLeader : ", " + groupLeader;
   }
-  var message = 'You are registered for the group: "' + group.audienceType + '"' +
+  var message = 'You are registered for the group: "' + group.title + '"' +
     '. The group leader(s): ' + groupLeaders + ' will be contacting you soon!!';
   sendEmail(newMemberData.email, "Mosaic Group Confirmation", message);
 }
