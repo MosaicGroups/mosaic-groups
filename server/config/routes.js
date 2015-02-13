@@ -1,9 +1,9 @@
-var auth = require('./auth'),
-  cache = require('./cache'),
-  config = require('./config'),
-  users = require('../controllers/usersController'),
-  groups = require('../controllers/groupsController'),
-  settings = require('../controllers/settingsController');
+var auth = require('./auth');
+var cache = require('./cache');
+var config = require('./config');
+var users = require('../controllers/usersController');
+var groups = require('../controllers/groupsController');
+var settings = require('../controllers/settingsController');
 
 var indexRedirect = function(req, res) {
   res.render('index', {
@@ -11,7 +11,7 @@ var indexRedirect = function(req, res) {
   });
 }
 
-var secureRedirect = function(config) {
+var secureRedirect = function() {
   return function(req, res, next) {
     if (process.env.NODE_ENV == 'production') {
       if (req.headers['x-forwarded-proto'] && req.headers['x-forwarded-proto'] === "http") {
@@ -30,7 +30,7 @@ var secureRedirect = function(config) {
   }
 };
 
-module.exports = function(app, config) {
+module.exports = function(app) {
   app.get('/api/users/:id', cache.disableBrowserCache, auth.requiresRole('admin'), users.getUser);
   app.get('/api/users', cache.disableBrowserCache, users.getUsers);
   app.post('/api/users/:id', auth.requiresApiLogin, users.updateUser);

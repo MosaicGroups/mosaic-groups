@@ -14,8 +14,11 @@ var path = require('path');
 var fs = require('fs');
 var rootPath = path.normalize(__dirname + '/../../');
 
-module.exports = {
+var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+
+var envs = {
   development: {
+    env: env,
     domain: 'localhost',
     db: {
       url: 'mongodb://localhost:27017/mosaicgroups',
@@ -34,9 +37,13 @@ module.exports = {
     },
     scheduler: {
       enabled: false
+    },
+    emailer: {
+      password: process.env.MOSAIC_GROUPS_EMAIL_PASSWORD
     }
   },
   production: {
+    env: env,
     domain: 'www.mosaicgroups.org',
     db: {
       url: 'mongodb://'+process.env.MOSAICGROUPS_USERNAME+':'+process.env.MOSAICGROUPS_PASSWORD+'@ds027489.mongolab.com:27489/mosaicgroups',
@@ -57,6 +64,11 @@ module.exports = {
       enabled: true,
       hour: 11, // 11am == 7am EST on the heroku server because it is +4hrs
       minute: 59
+    },
+    emailer: {
+      password: process.env.MOSAIC_GROUPS_EMAIL_PASSWORD
     }
   }
 }
+
+module.exports = envs[env];

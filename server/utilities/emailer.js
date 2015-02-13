@@ -1,7 +1,8 @@
 var nodemailer = require("nodemailer"),
   User = require('mongoose').model('User'),
   Group = require('mongoose').model('Group'),
-  reportGenerator = require('../utilities/reportGenerator');
+  reportGenerator = require('../utilities/reportGenerator'),
+  config = require('../config/config');
 
 var emailSubjectPrefix = "[mosaic-groups]";
 
@@ -77,7 +78,7 @@ var smtpTransport = nodemailer.createTransport("SMTP",{
   service: "Gmail",
   auth: {
     user: "mosaic.groups@gmail.com",
-    pass: "ilovemosiac!"
+    pass: config.emailer.password
   }
 });
 

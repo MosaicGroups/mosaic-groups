@@ -3,8 +3,9 @@ var passport = require('passport');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 var cookieSession = require('cookie-session');
+var config = require('./config');
 
-module.exports = function(app, config) {
+module.exports = function(app) {
   app.set('views', config.rootPath + '/server/views');
   app.set('view engine', 'jade');
   app.use(logger('combined'));

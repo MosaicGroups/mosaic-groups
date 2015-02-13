@@ -1,7 +1,8 @@
-var schedule = require('node-schedule'),
-  emailer = require('../utilities/emailer');
+var schedule = require('node-schedule');
+var emailer = require('../utilities/emailer');
+var config = require('./config');
 
-module.exports = function(config) {
+module.exports = function() {
   if (config.scheduler.enabled) {
     var rule = new schedule.RecurrenceRule();
     rule.minute = config.scheduler.minute;

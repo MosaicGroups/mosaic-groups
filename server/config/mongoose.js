@@ -1,11 +1,12 @@
-var mongoose = require('mongoose'),
-  userModel = require('../models/User')
-  groupModel = require('../models/Group'),
-  settingsModel = require('../models/Settings');
+var mongoose = require('mongoose');
+var userModel = require('../models/User');
+var groupModel = require('../models/Group');
+var settingsModel = require('../models/Settings');
+var config = require('./config');
 
-module.exports = function(env, config) {
+module.exports = function() {
   mongoose.set('debug', config.db.debugMode)
-  console.log("connecting to '" + env + "' mongo instance");
+  console.log("connecting to '" + config.env + "' mongo instance");
   mongoose.connect(config.db.url)
   console.log("connected...");
 
