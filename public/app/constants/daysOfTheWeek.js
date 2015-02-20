@@ -1,5 +1,5 @@
 angular.module('app').value('daysOfTheWeek', [
-  "Mid-Semester",
+  "6-Week Groups",
   "Sunday",
   "Monday",
   "Tuesday",

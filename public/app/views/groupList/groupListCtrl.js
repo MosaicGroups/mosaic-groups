@@ -76,7 +76,7 @@ angular.module('app').controller('groupListCtrl', function($scope, $location, $f
     sorting:
       function(data) {
         switch(data.dayOfTheWeek) {
-          case "Mid-Semester":
+          case "6-Week Groups":
             return 1; break;
           case "Sunday":
             return 2; break;
