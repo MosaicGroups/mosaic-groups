@@ -7,7 +7,7 @@ var config = require('./config');
 module.exports = function() {
   mongoose.set('debug', config.db.debugMode)
   console.log("connecting to '" + config.env + "' mongo instance");
-  mongoose.connect(config.db.url)
+  mongoose.connect(config.db.url);
   console.log("connected...");
 
   var db = mongoose.connection;

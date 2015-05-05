@@ -1,6 +1,7 @@
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
+// mongoose member collection
 var memberSchema = mongoose.Schema({
   firstName: {
     type:String,
@@ -23,6 +24,7 @@ var memberSchema = mongoose.Schema({
   }
 });
 
+// mongoose group collection
 var groupSchema = mongoose.Schema({
   title: {
     type: String,

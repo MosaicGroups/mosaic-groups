@@ -53,5 +53,5 @@ angular.module('app').factory('authorizationService', function($http, $q, identi
 
       return dfd.promise;
     }
-  }
-})
+  };
+});

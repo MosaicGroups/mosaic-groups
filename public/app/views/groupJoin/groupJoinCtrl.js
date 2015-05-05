@@ -20,7 +20,7 @@ angular.module('app').controller('groupJoinCtrl', function($scope, $route, $loca
         $location.path('/');
       }, function() {
         notifierService.error('Not able to join "' + $scope.group.title + '" at this time');
-      })
+      });
     }
-  }
+  };
 });
