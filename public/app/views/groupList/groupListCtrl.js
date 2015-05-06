@@ -8,7 +8,7 @@ angular.module('app').controller('groupListCtrl', function($scope, $location, $f
 
   $scope.daysOfTheWeek = angular.copy(daysOfTheWeek, $scope.daysOfTheWeek)
   $scope.daysOfTheWeek.unshift("");
-  $scope.dayOfTheWeekFilter = $scope.daysOfTheWeek[0];
+  $scope.dayOfTheWeekFilter = [$scope.daysOfTheWeek[0]];
 
   $scope.availableTopics = angular.copy(availableTopics, $scope.availableTopics);
   $scope.availableTopics.unshift("");
