@@ -1,3 +1,4 @@
+/* global angular */
 angular.module('app').controller('groupListCtrl', function ($scope, $location, $filter, $q, $modal, ngTableParams, audienceTypes, daysOfTheWeek, availableTopics, groupService, identityService, notifierService, settingsService) {
   $scope.identityService = identityService;
   $scope.data = undefined;
@@ -6,13 +7,15 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
   $scope.audienceTypes.unshift("");
   $scope.audienceTypesFilter = $scope.audienceTypes[0];
 
-  $scope.daysOfTheWeek = angular.copy(daysOfTheWeek, $scope.daysOfTheWeek)
+  $scope.daysOfTheWeek = angular.copy(daysOfTheWeek, $scope.daysOfTheWeek);
   $scope.daysOfTheWeek.unshift("");
   $scope.dayOfTheWeekFilter = [];
   
   //populate the filter with all current days
   $scope.daysOfTheWeek.forEach(function (dayOfTheWeek) {
-    $scope.dayOfTheWeekFilter.push({ id: dayOfTheWeek.id });
+    if (typeof(dayOfTheWeek.id) != "undefined" ) {
+      $scope.dayOfTheWeekFilter.push({ id: dayOfTheWeek.id });
+    }
   });
 
 
@@ -35,7 +38,7 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
 
   $scope.showNextSemesterMsg = function () {
     return $scope.settings.showNextSemesterMsg;
-  }
+  };
 
   $scope.setShowNextSemesterMsg = function (value) {
     var settings = {};
@@ -46,7 +49,7 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
     }, function (reason) {
         notifierService.error(reason);
       });
-  }
+  };
 
   $scope.setNextSemesterMessage = function (msg) {
     var settings = {};
@@ -58,7 +61,7 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
     }, function (reason) {
         notifierService.error(reason);
       });
-  }
+  };
 
   $scope.tableFilter = {};
   $scope.tableFilterStrict = {};
@@ -67,14 +70,19 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
       delete $scope.tableFilter[filterName];
       delete $scope.tableFilterStrict[filterName];
     }
-    else if (filterName === "dayOfTheWeek" || filterName === "audienceType" || filterName === "childcare" || filterName === "topics") {
+    else if (filterName === "audienceType" || filterName === "childcare" || filterName === "topics") {
       $scope.tableFilterStrict[filterName] = filterValue;
     }
     else {
       $scope.tableFilter[filterName] = filterValue;
     }
     $scope.tableParams.reload();
-  }
+  };
+
+  $scope.$watch(function (scope) { return scope.dayOfTheWeekFilter; }, function () {
+    console.log('dowFilterChanged', $scope.dayOfTheWeekFilter);
+    $scope.tableParams.reload();
+  }, true);
 
   $scope.tableParams = new ngTableParams({
     page: 1,            // show first page
@@ -122,18 +130,44 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
           orderedData = params.filter() ?
             $filter('filter')(orderedData, $scope.tableFilterStrict, function (a, e) { return a === e }) :
             orderedData;
-          $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+
+          // apply the day of the week filter
+          orderedData = params.filter() ?
+            $filter('filter')(orderedData, function (group) {
+
+              var shouldDisplay = false;
+              $scope.dayOfTheWeekFilter.forEach(function (dayOfTheWeekFilterElem) {
+                if (dayOfTheWeekFilterElem.id) {
+                  var dayOfTheWeekLabel = daysOfTheWeek[dayOfTheWeekFilterElem.id].label;
+
+                  if (dayOfTheWeekLabel === group.dayOfTheWeek) {
+                    shouldDisplay = true;
+                  }
+                }
+              });
+
+              return shouldDisplay;
+            }) :
+            orderedData;
+
+          $defer.resolve(
+            orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count())
+            );
         });
       }
     });
+    
+    // weird fix for the bug: typeerror cannot set property $groups of null
+    // See http://stackoverflow.com/questions/22892908/ng-table-typeerror-cannot-set-property-data-of-null
+    $scope.tableParams.settings().$scope = $scope;
 
   $scope.joinGroup = function (group) {
     $location.path('/views/groupJoin/group-join/' + group._id);
-  }
+  };
 
   $scope.editGroup = function (group) {
     $location.path('/views/groupCreateOrEdit/group-create-or-edit/' + group._id);
-  }
+  };
 
   $scope.deleteGroup = function (group) {
     var modalInstance = $modal.open({
@@ -148,7 +182,7 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
     modalInstance.result.then(function () {
       $scope.tableParams.reload();
     });
-  }
+  };
 
   $scope.canEdit = function (group) {
     var canEditGroup = false;
@@ -162,15 +196,15 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
       canEditGroup = true;
     }
     return canEditGroup;
-  }
+  };
 
   $scope.groupIsDisabled = function (group) {
     return group.disabled;
-  }
+  };
 
   $scope.groupIsFull = function (group) {
     return group.members.length >= group.memberLimit
-  }
+  };
 
   $scope.groupsDisabled = function () {
     return $scope.settings.disableGroups;
@@ -185,7 +219,7 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
       }
     }
     return canEditGroup;
-  }
+  };
 
   $scope.emailGroupReportToSelf = function () {
     groupService.emailGroupReportToSelf().$promise.then(function () {
@@ -194,7 +228,7 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
     }, function (reason) {
         notifierService.error(reason);
       });
-  }
+  };
 
   $scope.getSettings = function () {
     settingsService.getSettings().$promise.then(function (data) {
@@ -202,7 +236,7 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
     }, function (reason) {
         notifierService.error(reason);
       });
-  }
+  };
 
   $scope.disableGroups = function (disable) {
     var settings = {};
@@ -217,7 +251,7 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
 
   var inArray = Array.prototype.indexOf ?
     function (val, arr) {
-      return arr.indexOf(val)
+      return arr.indexOf(val);
     } :
     function (val, arr) {
       var i = arr.length;
