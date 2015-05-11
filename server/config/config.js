@@ -1,3 +1,4 @@
+/* global process */
 /**
  * Configure the application.
  *
@@ -16,12 +17,22 @@ var rootPath = path.normalize(__dirname + '/../../');
 
 var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
+// we need to default to the hosted dev DB is there is a username and password vars configured
+var devDBConnection;
+if (typeof (process.env.MOSAICGROUPS_USERNAME) != "undefined" && typeof (process.env.MOSAICGROUPS_PASSWORD) != "undefined")
+{
+  devDBConnection = 'mongodb://' + process.env.MOSAICGROUPS_USERNAME + ':' + process.env.MOSAICGROUPS_PASSWORD + '@ds061288.mongolab.com:61288/mosaicgroups-dev';
+}
+else{
+  devDBConnection = 'mongodb://localhost:27017/mosaicgroups';
+}
+//console.log("Using the following as a monogo connection string for dev: ", devDBConnection);
 var envs = {
   development: {
     env: env,
     domain: 'localhost',
     db: {
-      url: 'mongodb://localhost:27017/mosaicgroups',
+      url: devDBConnection,
       debugMode: true
     },
     rootPath: rootPath,
@@ -29,8 +40,8 @@ var envs = {
       port: process.env.PORT || 3030
     },
     https: {
-      port:  process.env.SSLPORT || 3031,
-      options : {
+      port: process.env.SSLPORT || 3031,
+      options: {
         key: fs.readFileSync('server/certs/server.key'),
         cert: fs.readFileSync('server/certs/server.crt')
       }
@@ -46,7 +57,7 @@ var envs = {
     env: env,
     domain: 'www.mosaicgroups.org',
     db: {
-      url: 'mongodb://'+process.env.MOSAICGROUPS_USERNAME+':'+process.env.MOSAICGROUPS_PASSWORD+'@ds027489.mongolab.com:27489/mosaicgroups',
+      url: 'mongodb://' + process.env.MOSAICGROUPS_USERNAME + ':' + process.env.MOSAICGROUPS_PASSWORD + '@ds027489.mongolab.com:27489/mosaicgroups',
       debugMode: false
     },
     rootPath: rootPath,
@@ -55,7 +66,7 @@ var envs = {
     },
     https: {
       port: process.env.SSLPORT || 443,
-      options : {
+      options: {
         key: fs.readFileSync('server/certs/server.key'),
         cert: fs.readFileSync('server/certs/server.crt')
       }
