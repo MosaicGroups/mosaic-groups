@@ -71,7 +71,8 @@
           .col-md-4
             label.control-label(for="dayOfWeekFilter") Day
           .col-md-8
-            select.form-control(name="dayOfWeekFilter", placeholder="Filter Day", ng-options="item for item in daysOfTheWeek", ng-model="dayOfTheWeekFilter",  ng-change="updateFilter('dayOfTheWeek', dayOfTheWeekFilter)")
+            div(ng-dropdown-multiselect="", options="daysOfTheWeek", selected-model="dayOfTheWeekFilter")
+            
         .row
           .col-md-4
             label.control-label(for="audienceTypesFilter") Audience
