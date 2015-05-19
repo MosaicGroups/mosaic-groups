@@ -10,10 +10,12 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
   $scope.daysOfTheWeek = angular.copy(daysOfTheWeek, $scope.daysOfTheWeek);
   $scope.daysOfTheWeek.unshift("");
   $scope.dayOfTheWeekFilter = [];
+
+  $scope.openFilter = false;
   
   //populate the filter with all current days
   $scope.daysOfTheWeek.forEach(function (dayOfTheWeek) {
-    if (typeof(dayOfTheWeek.id) != "undefined" ) {
+    if (typeof (dayOfTheWeek.id) != "undefined") {
       $scope.dayOfTheWeekFilter.push({ id: dayOfTheWeek.id });
     }
   });
@@ -73,9 +75,13 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
     else if (filterName === "audienceType" || filterName === "childcare" || filterName === "topics") {
       $scope.tableFilterStrict[filterName] = filterValue;
     }
+    else if (filterName === "open") {
+      $scope.openFilter = filterValue;
+    }
     else {
       $scope.tableFilter[filterName] = filterValue;
     }
+
     $scope.tableParams.reload();
   };
 
@@ -128,7 +134,7 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
             orderedData;
           // apply the strict filters
           orderedData = params.filter() ?
-            $filter('filter')(orderedData, $scope.tableFilterStrict, function (a, e) { return a === e }) :
+            $filter('filter')(orderedData, $scope.tableFilterStrict, function (a, e) { return a === e; }) :
             orderedData;
 
           // apply the day of the week filter
@@ -150,6 +156,21 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
             }) :
             orderedData;
 
+          // apply openFilter. If the checkbox is checked, then we 
+          // should be not showing groups that are disabled or full
+          orderedData = params.filter() ?
+            $filter('filter')(orderedData, function (group) {
+
+              if ($scope.openFilter === false) {
+                return true;
+              }
+              else {
+                return (!$scope.groupIsFull(group) && !$scope.groupIsDisabled(group));
+              }
+
+            }) :
+            orderedData;
+
           $defer.resolve(
             orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count())
             );
@@ -157,9 +178,9 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
       }
     });
     
-    // weird fix for the bug: typeerror cannot set property $groups of null
-    // See http://stackoverflow.com/questions/22892908/ng-table-typeerror-cannot-set-property-data-of-null
-    $scope.tableParams.settings().$scope = $scope;
+  // weird fix for the bug: typeerror cannot set property $groups of null
+  // See http://stackoverflow.com/questions/22892908/ng-table-typeerror-cannot-set-property-data-of-null
+  $scope.tableParams.settings().$scope = $scope;
 
   $scope.joinGroup = function (group) {
     $location.path('/views/groupJoin/group-join/' + group._id);
@@ -203,7 +224,7 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
   };
 
   $scope.groupIsFull = function (group) {
-    return group.members.length >= group.memberLimit
+    return group.members.length >= group.memberLimit;
   };
 
   $scope.groupsDisabled = function () {
