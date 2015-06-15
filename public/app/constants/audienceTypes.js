@@ -4,6 +4,7 @@ angular.module('app').value('audienceTypes', [
   "Couples",
   "Engaged Couples",
   "High School Students",
+  "Married Couples",
   "Men",
   "Middle School Students",
   "Military",
