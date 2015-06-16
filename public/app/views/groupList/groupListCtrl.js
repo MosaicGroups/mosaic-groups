@@ -101,7 +101,7 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
         count: 100, // count per page
         sorting: function (data) {
             switch (data.dayOfTheWeek) {
-            case "Mid-Semester":
+            case "6-Week Groups":
                 return 1;
                 break;
             case "Sunday":
@@ -157,8 +157,9 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
                     $filter('filter')(orderedData, function (group) {
 
                         var shouldDisplay = false;
+
                         $scope.dayOfTheWeekFilter.forEach(function (dayOfTheWeekFilterElem) {
-                            if (dayOfTheWeekFilterElem.id) {
+                            if (dayOfTheWeekFilterElem.id || dayOfTheWeekFilterElem.id > -1) {
                                 var dayOfTheWeekLabel = daysOfTheWeek[dayOfTheWeekFilterElem.id].label;
 
                                 if (dayOfTheWeekLabel === group.dayOfTheWeek) {
