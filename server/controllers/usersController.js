@@ -53,9 +53,10 @@ exports.saveUser = function(req, res, next) {
         res.send(user);
       }
     }
-  })
+  });
 };
 
+//update a user
 exports.updateUser = function(req, res) {
   var userUpdates = req.body;
   var userId = userUpdates._id;
@@ -84,6 +85,7 @@ exports.updateUser = function(req, res) {
   });
 };
 
+// remove a user
 exports.deleteUser = function(req, res) {
   // get the user object from the request body that is to be deleted
   var userDeleteId = req.params.id;

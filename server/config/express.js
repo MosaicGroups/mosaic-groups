@@ -16,4 +16,4 @@ module.exports = function(app) {
 
   // ensure that all public requests go to the /public directory
   app.use(express.static(config.rootPath + '/public'));
-}
+};

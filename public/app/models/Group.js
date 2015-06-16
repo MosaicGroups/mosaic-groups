@@ -6,4 +6,4 @@ angular.module('app').factory('Group', function ($resource) {
     }
   );
   return Group;
-})
+});

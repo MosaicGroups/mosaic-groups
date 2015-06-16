@@ -1,6 +1,7 @@
 var mongoose = require('mongoose'),
   encrypt = require('../utilities/encryption');
 
+//mongoose schema for User collection
 var userSchema = mongoose.Schema({
   firstName: {
     type:String,
@@ -22,9 +23,11 @@ var userSchema = mongoose.Schema({
 });
 
 userSchema.methods = {
+  // user authentication
   authenticate: function(passwordToMatch) {
     return encrypt.hashPwd(this.salt, passwordToMatch) === this.hashed_pwd;
   },
+  // determine if a user is in a given role
   hasRole: function(role) {
     return this.roles.indexOf(role) > -1;
   }

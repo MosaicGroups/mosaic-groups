@@ -11,6 +11,7 @@ var indexRedirect = function(req, res) {
   });
 }
 
+// in production env, and if the proper headers are seen in the request, redirect to https
 var secureRedirect = function() {
   return function(req, res, next) {
     if (process.env.NODE_ENV == 'production') {
@@ -30,6 +31,7 @@ var secureRedirect = function() {
   }
 };
 
+//routes
 module.exports = function(app) {
   app.get('/api/users/:id', cache.disableBrowserCache, auth.requiresRole('admin'), users.getUser);
   app.get('/api/users', cache.disableBrowserCache, users.getUsers);

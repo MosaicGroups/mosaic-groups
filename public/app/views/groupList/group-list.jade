@@ -71,7 +71,8 @@
           .col-md-4
             label.control-label(for="dayOfWeekFilter") Day
           .col-md-8
-            select.form-control(name="dayOfWeekFilter", placeholder="Filter Day", ng-options="item for item in daysOfTheWeek", ng-model="dayOfTheWeekFilter",  ng-change="updateFilter('dayOfTheWeek', dayOfTheWeekFilter)")
+            div(ng-dropdown-multiselect="", options="daysOfTheWeek", selected-model="dayOfTheWeekFilter")
+            
         .row
           .col-md-4
             label.control-label(for="audienceTypesFilter") Audience
@@ -87,6 +88,11 @@
             label.control-label(for="topicsFilter") Topic
           .col-md-8
             select.form-control(name="topicsFilter", placeholder="Filter Topics", ng-options="item for item in availableTopics", ng-model="topicsFilter", ng-change="updateFilter('topics', topicsFilter)")
+        .row
+          .col-md-4
+            label.control-label(for="openFilter") Hide Full Groups
+          .col-md-8
+            input(type="checkbox", id="openFiltercbx", name="openFilter", placeholder="Filter Open",  ng-model="openFilter", ng-change="updateFilter('open', openFilter)").form-control()
     .col-md-9(ng-if="!showNextSemesterMsg() || identityService.isAuthenticated()")
       table.groups-table.table.table-condensed.table-bordered(ng-table="tableParams")
         tbody(ng-repeat="group in $groups")
