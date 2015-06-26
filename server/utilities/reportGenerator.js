@@ -12,6 +12,7 @@ exports.generateDistinctUsersReport = function (Groups, callback) {
         })
         //explode all groups by member
         .unwind('members')
+        // this is what makes the returned list unique.
         .group({
             _id: {
                 last: {
