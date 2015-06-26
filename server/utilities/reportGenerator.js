@@ -23,16 +23,6 @@ exports.generateDistinctUsersReport = function (Groups, callback) {
 
             }
         })
-        //convert everything to lowercase
-        /* .project({
-            "_id.last": {
-                $toLower: "$_id.last"
-            },
-
-            "_id.first": {
-                $toLower: "$_id.first"
-            }
-        })*/
         //sort by last then first
         .sort({
             "_id.last": 1,
@@ -56,11 +46,7 @@ exports.generateDistinctUsersReport = function (Groups, callback) {
 
                 callback(csv)
             });
-
         });
-
-
-
 }
 
 exports.createDailyReport = function (groups) {
