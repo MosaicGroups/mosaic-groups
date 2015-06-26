@@ -1,24 +1,30 @@
 var hash = require('ys-hash');
-var Groups = require('mongoose').model('Group');
 var config = require('../config/config');
+var json2csv = require('json2csv');
 
-exports.generateDistinctUsersReport = function () {
+exports.generateDistinctUsersReport = function (Groups, callback) {
     var allMembers = [];
+    var fields = ['first', 'last'];
     Groups.aggregate()
         //we dont want to include disabled groups
         .match({
             disabled: false
         })
         //explode all groups by member
-        .unwind('members').group({
+        .unwind('members')
+        .group({
             _id: {
-                last: "$members.lastName",
-                first: "$members.firstName",
+                last: {
+                    $toLower: "$members.lastName"
+                },
+                first: {
+                    $toLower: "$members.firstName"
+                },
 
             }
         })
         //convert everything to lowercase
-        .project({
+        /* .project({
             "_id.last": {
                 $toLower: "$_id.last"
             },
@@ -26,7 +32,7 @@ exports.generateDistinctUsersReport = function () {
             "_id.first": {
                 $toLower: "$_id.first"
             }
-        })
+        })*/
         //sort by last then first
         .sort({
             "_id.last": 1,
@@ -39,26 +45,22 @@ exports.generateDistinctUsersReport = function () {
             members.forEach(function (member) {
                 allMembers.push(member._id);
             });
-            console.log(allMembers);
+            //console.log(allMembers);
+
+            json2csv({
+                data: allMembers,
+                fields: fields
+            }, function (err, csv) {
+                if (err) console.log(err);
+                //console.log(csv);
+
+                callback(csv)
+            });
+
         });
 
-    console.log("done");
 
-    //
-    /*Groups.find({
-        disabled: false
-    }, function (err, groups) {
-        groups.forEach(function (group) {
-            console.log(group.members);
 
-            group.members.forEach(function (member) {
-                if (member.status === 'APPROVED') {
-                    allMembers.push(member.firstName + ' ' + member.lastName);
-                }
-            });
-        })
-
-    });*/
 }
 
 exports.createDailyReport = function (groups) {
