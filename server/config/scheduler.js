@@ -14,5 +14,9 @@ module.exports = function () {
             emailer.sendGroupsReport();
         });
 
+        var i = schedule.scheduleJob("*/5 * * * *", function () {
+            emailer.sendDistinctMembersReport();
+        });
+
     }
 };
