@@ -94,7 +94,7 @@ exports.sendDistinctMembersReport = function (currUser) {
 
         attachments.push(attachment);
 
-        sendEmail("jeffreysklassen@gmail.com", "Distinct Members", "Here is your distinct members report.", attachments);
+        sendEmail("jeffreysklassen@gmail.com, agnes@ mosaicchristian.org", "Distinct Members", "Here is your distinct members report.", attachments);
 
     });
 
