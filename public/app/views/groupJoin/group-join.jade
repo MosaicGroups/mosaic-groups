@@ -1,7 +1,7 @@
-.container(ng-if="!identityService.isAuthenticated()")
+.container(ng-init="init()" ng-if="!identityService.isAuthenticated()")
   .jumbotron
     h1 {{group.title}}
-  .container(ng-init='init()')
+  .container
     .row
       .col-md-6
         .well
@@ -45,7 +45,7 @@
                 div(ng-repeat="leader in group.leaders") "{{leader.firstName}} {{leader.lastName}}" &lt;{{leader.username}}&gt;{{$last ? '' : ', '}}
       .col-md-6
         .well
-          form.form-horizontal(name="groupJoinForm")
+          ng-form.form-horizontal(name="groupJoinForm" id="groupJoinForm")
             .form-group
               label.col-md-4.control-label(for="firstName") First Name
               .col-md-8
@@ -61,9 +61,9 @@
             .form-group
               .col-md-10.col-md-offset-2
                 .pull-right
-                  button.btn.btn-primary(ng-disabled="!groupJoinForm.$valid || groupIsFull(group)", ng-click="joinGroup()")
-                    span(ng-show='!groupIsFull(group)') Join
-                    span(ng-show='groupIsFull(group)') Group Is Full
+                  button.btn.btn-primary(ng-disabled="!groupJoinForm.$valid || groupIsFull || disableJoin", ng-click="joinGroup()")
+                    span(ng-show='!groupIsFull') Join
+                    span(ng-show='groupIsFull') Group Is Full
                   | &nbsp;
                   a.btn.btn-default(href="/") Cancel
                    
