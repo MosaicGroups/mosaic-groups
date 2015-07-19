@@ -1,66 +1,69 @@
 .container(ng-if="!identityService.isAuthenticated()")
   .jumbotron
     h1 {{group.title}}
-.container
-  .row
-    .col-md-6
-      .well
-        .row
-          label.col-md-4 Group Name:
-          .col-md-8
-            span {{group.title}}
-        .row
-          label.col-md-4 Leader(s):
-          .col-md-8
-            div(ng-repeat="leader in group.leaders") {{leader.firstName}} {{leader.lastName}} &lt;{{leader.username}}&gt;{{$last ? '' : ', '}}
-        .row
-          label.col-md-4 Location:
-          .col-md-8 {{group.location}}
-        .row
-          label.col-md-4 Day Of Week:
-          .col-md-8 {{group.dayOfTheWeek}}
-        .row
-          label.col-md-4 Time:
-          .col-md-8 {{group.meetingTime}}
-        .row
-          label.col-md-4 Audience:
-          .col-md-8 {{group.audienceType}}
-        .row
-          label.col-md-4 Childcare:
-          .col-md-8
-            span(ng-if="group.childcare") Yes
-            span(ng-if="!group.childcare") No
-        .row
-          label.col-md-4 Topic(s):
-          .col-md-8
-            span(ng-repeat="topic in group.topics") {{topic}}{{$last ? '' : ', '}}
-        .row
-          label.col-md-4 Description:
-          .col-md-8 {{group.description}}
-        .row
-          .col-md-12
-            br
-            i
-              div If you have any questions about this group send an email to:
-              div(ng-repeat="leader in group.leaders") "{{leader.firstName}} {{leader.lastName}}" &lt;{{leader.username}}&gt;{{$last ? '' : ', '}}
-    .col-md-6
-      .well
-        form.form-horizontal(name="groupJoinForm")
-          .form-group
-            label.col-md-4.control-label(for="firstName") First Name
+  .container(ng-init='init()')
+    .row
+      .col-md-6
+        .well
+          .row
+            label.col-md-4 Group Name:
             .col-md-8
-              input.form-control(name="firstName", type="text", placeholder="First Name", ng-model="group.newMember.firstName", required, autocomplete="off" )
-          .form-group
-            label.col-md-4.control-label(for="lastName") Last Name
+              span {{group.title}}
+          .row
+            label.col-md-4 Leader(s):
             .col-md-8
-              input.form-control(name="lastName", type="text", placeholder="Last Name", ng-model="group.newMember.lastName", required, autocomplete="off" )
-          .form-group
-            label.col-md-4.control-label(for="email") Email
+              div(ng-repeat="leader in group.leaders") {{leader.firstName}} {{leader.lastName}} &lt;{{leader.username}}&gt;{{$last ? '' : ', '}}
+          .row
+            label.col-md-4 Location:
+            .col-md-8 {{group.location}}
+          .row
+            label.col-md-4 Day Of Week:
+            .col-md-8 {{group.dayOfTheWeek}}
+          .row
+            label.col-md-4 Time:
+            .col-md-8 {{group.meetingTime}}
+          .row
+            label.col-md-4 Audience:
+            .col-md-8 {{group.audienceType}}
+          .row
+            label.col-md-4 Childcare:
             .col-md-8
-              input.form-control(name="email", type="email", placeholder="Email", ng-model="group.newMember.email", required, autocomplete="off" )
-          .form-group
-            .col-md-10.col-md-offset-2
-              .pull-right
-                button.btn.btn-primary(ng-disabled="disableJoin", ng-click="joinGroup()") Join
-                | &nbsp;
-                a.btn.btn-default(href="/") Cancel
+              span(ng-if="group.childcare") Yes
+              span(ng-if="!group.childcare") No
+          .row
+            label.col-md-4 Topic(s):
+            .col-md-8
+              span(ng-repeat="topic in group.topics") {{topic}}{{$last ? '' : ', '}}
+          .row
+            label.col-md-4 Description:
+            .col-md-8 {{group.description}}
+          .row
+            .col-md-12
+              br
+              i
+                div If you have any questions about this group send an email to:
+                div(ng-repeat="leader in group.leaders") "{{leader.firstName}} {{leader.lastName}}" &lt;{{leader.username}}&gt;{{$last ? '' : ', '}}
+      .col-md-6
+        .well
+          form.form-horizontal(name="groupJoinForm")
+            .form-group
+              label.col-md-4.control-label(for="firstName") First Name
+              .col-md-8
+                input.form-control(name="firstName", type="text", placeholder="First Name", ng-model="group.newMember.firstName", required, autocomplete="off" )
+            .form-group
+              label.col-md-4.control-label(for="lastName") Last Name
+              .col-md-8
+                input.form-control(name="lastName", type="text", placeholder="Last Name", ng-model="group.newMember.lastName", required, autocomplete="off" )
+            .form-group
+              label.col-md-4.control-label(for="email") Email
+              .col-md-8
+                input.form-control(name="email", type="email", placeholder="Email", ng-model="group.newMember.email", required, autocomplete="off" )
+            .form-group
+              .col-md-10.col-md-offset-2
+                .pull-right
+                  button.btn.btn-primary(ng-disabled="!groupJoinForm.$valid || groupIsFull(group)", ng-click="joinGroup()")
+                    span(ng-show='!groupIsFull(group)') Join
+                    span(ng-show='groupIsFull(group)') Group Is Full
+                  | &nbsp;
+                  a.btn.btn-default(href="/") Cancel
+                   

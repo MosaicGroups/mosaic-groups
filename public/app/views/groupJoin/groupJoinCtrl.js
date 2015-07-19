@@ -13,7 +13,7 @@ angular.module('app').controller('groupJoinCtrl', function($scope, $route, $loca
 
   $scope.joinGroup = function() {
     // if the form is valid then submit to the server
-    if ($scope.groupJoinForm.$valid) {
+    if ($scope.groupJoinForm.$valid && !$scope.groupIsFull($scope.group)) {
       $scope.disableJoin = true;
       groupService.addMember($scope.group).then(function() {
         notifierService.notify('Your request to join "' + $scope.group.title + '" has been sent');
@@ -22,5 +22,9 @@ angular.module('app').controller('groupJoinCtrl', function($scope, $route, $loca
         notifierService.error('Not able to join "' + $scope.group.title + '" at this time');
       });
     }
+  };
+
+  $scope.groupIsFull = function (group) {
+    return group.members.length >= group.memberLimit;
   };
 });
