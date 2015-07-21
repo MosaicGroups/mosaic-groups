@@ -92,7 +92,7 @@
           .col-md-4
             label.control-label(for="openFilter") Hide Full Groups
           .col-md-8
-            input(type="checkbox", id="openFiltercbx", name="openFilter", placeholder="Filter Open",  ng-model="openFilter", ng-change="updateFilter('open', openFilter)").form-control()
+            input(type="checkbox", id="openFiltercbx", name="openFilter", placeholder="Filter Open",  ng-model="openFilter", ng-change="updateFilter('open', openFilter)")
     .col-md-9(ng-if="!showNextSemesterMsg() || identityService.isAuthenticated()")
       table.groups-table.table.table-condensed.table-bordered(ng-table="tableParams")
         tbody(ng-repeat="group in $groups")
