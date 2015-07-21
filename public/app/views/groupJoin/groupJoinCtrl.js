@@ -1,19 +1,23 @@
 angular.module('app').controller('groupJoinCtrl', function($scope, $route, $location, groupService, notifierService) {
   var groupId = $route.current.params.id;
 
-  $scope.group = groupService.getGroup(groupId);
-  $scope.group.newMember = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    status: "PENDING"
-  };
-
   $scope.disableJoin = false;
+  $scope.groupIsFull = false;
+
+  groupService.getGroup(groupId).$promise.then(function(data) {
+    $scope.group = data;
+    $scope.group.newMember = {
+      firstName: "",
+      lastName: "",
+      email: "",
+      status: "PENDING"
+    };
+    $scope.groupIsFull = $scope.group.members.length >= $scope.group.memberLimit;
+  });
 
   $scope.joinGroup = function() {
     // if the form is valid then submit to the server
-    if ($scope.groupJoinForm.$valid) {
+    if (!$scope.groupIsFull && !$scope.disableJoin) {
       $scope.disableJoin = true;
       groupService.addMember($scope.group).then(function() {
         notifierService.notify('Your request to join "' + $scope.group.title + '" has been sent');
