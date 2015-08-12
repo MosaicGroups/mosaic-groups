@@ -1,5 +1,13 @@
 .jumbotron(ng-if="!showNextSemesterMsg()" align="center")
   h2 Join a Mosaic Growth Group!
+  .row(style='width:650px' ng-if="settings.datesMsg")
+    h5 {{settings.datesMsg}}
+  .row(style='width:650px' ng-if="identityService.isAdmin()")
+    label.col-md-3.control-label(for="msgDates") Update Dates Message (admin only):
+    .col-md-7
+      input.form-control(name="msgDates", ng-model="settings.datesMsg")
+    .col-md-2
+      button.btn(ng-click="setDatesMessage(settings.datesMsg)") Save
 .jumbotron(ng-if="showNextSemesterMsg()" align="center")
   h2 {{settings.nextSemesterMsg}}
   .row(style='width:650px' ng-if="identityService.isAdmin()")
@@ -50,6 +58,7 @@
             div
               &nbsp;
               i  - group list is currently being shown to users
+        
       .well.well-sm
         .row
           .col-md-12

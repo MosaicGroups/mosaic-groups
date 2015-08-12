@@ -72,6 +72,18 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
         });
     };
 
+    $scope.setDatesMessage = function (msg) {
+        var settings = {};
+        angular.copy($scope.settings, settings);
+        settings.datesMsg = msg;
+        settingsService.saveSettings(settings).then(function (data) {
+            $scope.settings = data;
+            notifierService.notify("The new date message: '" + msg + "' will be shown to everyone")
+        }, function (reason) {
+            notifierService.error(reason);
+        });
+    };
+
     $scope.tableFilter = {};
     $scope.tableFilterStrict = {};
     $scope.updateFilter = function (filterName, filterValue) {
