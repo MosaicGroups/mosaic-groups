@@ -45,7 +45,8 @@ var envs = {
             }
         },
         scheduler: {
-            enabled: false
+          enabledGroupReport: false,
+          enabledDistinctMembersReport: false
         },
         emailer: {
             password: process.env.MOSAIC_GROUPS_EMAIL_PASSWORD
@@ -70,7 +71,8 @@ var envs = {
             }
         },
         scheduler: {
-            enabled: true,
+            enabledGroupReport: false,
+            enabledDistinctMembersReport: false,
             hour: 11, // 11am == 7am EST on the heroku server because it is +4hrs
             minute: 59
         },
