@@ -11,7 +11,12 @@
         .col-md-10
           div(class="checkbox-group")
             div(ng-repeat="user in users | orderBy:user.name")
-              input(type="checkbox" name="groupLeaders" checklist-model="leaderIds" checklist-value="user._id" ng-disabled="identity.currentUser._id === user._id && !identity.isAdmin()")
+              // if this is not a admin user then auto select this user and do not allow them to deselect their own name
+              span(ng-if="identity.currentUser._id === user._id && !identity.isAdmin()" title="You are a group leader by default, select any additional leaders")
+                input(type="checkbox" name="groupLeaders" checklist-model="leaderIds" checklist-value="user._id" ng-disabled="true" ng-checked="true")
+              // otherwise this is an admin user and they are allowed to deselect even their own name
+              span(ng-if="identity.currentUser._id !== user._id || identity.isAdmin()")
+                input(type="checkbox" name="groupLeaders" checklist-model="leaderIds" checklist-value="user._id")
               span {{user.name}}
       .form-group
         label.col-md-2.control-label(for="location") Location
