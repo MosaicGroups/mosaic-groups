@@ -104,9 +104,19 @@ exports.addMember = function (req, res) {
             errorHandler.sendError(req, res, err);
           }
           else {
-            emailer.sendAddedMemberEMail(group, memberData);
-            emailer.sendMemberConfirmationEmail(group, memberData);
-            return res.end();
+            emailer.sendAddedMemberEMail(group, memberData, function(err, response) {
+              if (err) {
+                errorHandler.sendError(req, res, err);
+              } else {
+                emailer.sendMemberConfirmationEmail(group, memberData, function(err, response) {
+                  if (err) {
+                    errorHandler.sendError(req, res, err);
+                  } else {
+                    return res.end();
+                  }
+                });
+              }
+            });
           }
         });
       } else {

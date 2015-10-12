@@ -3,6 +3,7 @@ angular.module('app').controller('groupJoinCtrl', function($scope, $route, $loca
 
   $scope.disableJoin = false;
   $scope.groupIsFull = false;
+  $scope.emailConfirmed = '';
 
   groupService.getGroup(groupId).$promise.then(function(data) {
     $scope.group = data;

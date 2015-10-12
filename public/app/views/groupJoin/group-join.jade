@@ -59,6 +59,12 @@
               .col-md-8
                 input.form-control(name="email", type="email", placeholder="Email", ng-model="group.newMember.email", required, autocomplete="off" )
             .form-group
+              label.col-md-4.control-label(for="email") Retype Email
+              .col-md-8
+                input.form-control(name="emailConfirm", type="email", placeholder="Retype Email", ng-model="emailConfirmed", required, autocomplete="off" ng-match="group.newMember.email" )
+                div(ng-show="groupJoinForm.emailConfirm.$error.mismatch")
+                  span.msg-error Email and Confirm Email must match.
+            .form-group
               .col-md-10.col-md-offset-2
                 .pull-right
                   button.btn.btn-primary(ng-disabled="!groupJoinForm.$valid || groupIsFull || disableJoin", ng-click="joinGroup()")
