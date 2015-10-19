@@ -29,11 +29,11 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
 
     $scope.childcareTypes = [
         {
-            label: "yes",
+            label: "Yes",
             value: true
         },
         {
-            label: "no",
+            label: "No",
             value: false
         }
   ];
