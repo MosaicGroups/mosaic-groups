@@ -1,9 +1,10 @@
-angular.module('app').controller('groupJoinCtrl', function($scope, $route, $location, groupService, notifierService) {
+angular.module('app').controller('groupJoinCtrl', function($scope, $route, $location, groupService, notifierService, identityService) {
   var groupId = $route.current.params.id;
 
   $scope.disableJoin = false;
   $scope.groupIsFull = false;
   $scope.emailConfirmed = '';
+  $scope.joinButtonTooltip = ''
 
   groupService.getGroup(groupId).$promise.then(function(data) {
     $scope.group = data;
@@ -14,6 +15,12 @@ angular.module('app').controller('groupJoinCtrl', function($scope, $route, $loca
       status: "PENDING"
     };
     $scope.groupIsFull = $scope.group.members.length >= $scope.group.memberLimit;
+    if ($scope.group.leadersOnly && !identityService.isAuthenticated()) {
+      $scope.disableJoin = true;
+      var errorMsg = 'You must be logged in if you want to join this group';
+      $scope.joinButtonTooltip = errorMsg;
+      notifierService.error(errorMsg);
+    }
   });
 
   $scope.joinGroup = function() {

@@ -67,9 +67,11 @@
             .form-group
               .col-md-10.col-md-offset-2
                 .pull-right
-                  button.btn.btn-primary(ng-disabled="!groupJoinForm.$valid || groupIsFull || disableJoin", ng-click="joinGroup()")
-                    span(ng-show='!groupIsFull') Join
-                    span(ng-show='groupIsFull') Group Is Full
+                  span(tooltip='{{joinButtonTooltip}}')
+                    button.btn.btn-primary(ng-disabled="!groupJoinForm.$valid || groupIsFull || disableJoin", ng-click="joinGroup()")
+                      span(ng-show='!groupIsFull') Join
+                      span(ng-show='groupIsFull') Group Is Full
                   | &nbsp;
-                  a.btn.btn-default(href="/") Cancel
+                  span
+                    a.btn.btn-default(href="/") Cancel
                    

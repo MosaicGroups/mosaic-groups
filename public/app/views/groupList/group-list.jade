@@ -111,7 +111,7 @@
                 span.glyphicon(ng-class="{ 'glyphicon-chevron-right': group.$hideRows, 'glyphicon-chevron-down': !group.$hideRows }")
                 | &nbsp;
                 span {{group.value}}
-          tr.groups-data-row(ng-hide="group.$hideRows" ng-repeat="mosaicGroup in group.data")
+          tr.groups-data-row(ng-hide="group.$hideRows || (mosaicGroup.leadersOnly && !identityService.isAuthenticated())" ng-repeat="mosaicGroup in group.data")
             td(data-title="'Title'") {{mosaicGroup.title}}
             td(data-title="'Details'")
               a(href="", popover="{{mosaicGroup.description}}" popover-placement="right" popover-trigger="mouseenter" popover-animation="true") Details...

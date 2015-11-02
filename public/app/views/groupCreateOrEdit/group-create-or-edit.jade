@@ -43,6 +43,10 @@
         .col-md-10
           input(name="childcare", type="checkbox", ng-model="group.childcare")
       .form-group
+        label.col-md-2.control-label(for="childcare") Group Leaders Only
+        .col-md-10
+          input(name="childcare", type="checkbox", ng-model="group.leadersOnly" tooltip="Check this to specify that this group is for group leaders only, users will have to be signed in to even see that this group exists")
+      .form-group
         label.col-md-2.control-label(for="topic") Topics
         .col-md-10
           div(class="checkbox-group")

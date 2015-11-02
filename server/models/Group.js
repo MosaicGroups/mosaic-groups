@@ -69,6 +69,10 @@ var groupSchema = mongoose.Schema({
   disabled: {
     type: Boolean,
     default: false
+  },
+  leadersOnly: {
+    type: Boolean,
+    default: false
   }
 });
 
