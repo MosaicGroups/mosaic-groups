@@ -33,6 +33,10 @@
             button.btn(ng-click="emailGroupReportToSelf()") Email Me Group Report
         br
         .row
+          .col-md-12
+            button.btn(ng-click="emailUniqueReportToSelf()") Email Me Unique Members Report
+        br
+        .row
           .col-md-12(ng-if="groupsDisabled()")
             button.btn(ng-click="disableGroups(false)") Enable Groups
             div

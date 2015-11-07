@@ -276,6 +276,15 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
         });
     };
 
+    $scope.emailUniqueReportToSelf = function () {
+        groupService.emailUniqueReportToSelf().$promise.then(function () {
+            notifierService.notify('Unique Member Report email sent');
+            $scope.tableParams.reload();
+        }, function (reason) {
+            notifierService.error(reason);
+        });
+    };
+
     $scope.getSettings = function () {
         settingsService.getSettings().$promise.then(function (data) {
             $scope.settings = data;
