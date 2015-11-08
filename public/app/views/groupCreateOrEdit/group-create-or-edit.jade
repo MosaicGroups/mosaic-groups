@@ -38,14 +38,11 @@
         label.col-md-2.control-label(for="audienceType") Audience
         .col-md-10
           select.form-control(name="audienceType", ng-options="item for (itemKey, item) in audienceTypes", ng-model="group.audienceType", required)
+          .help-block * select "Group Leaders" to create a group that is only visible when a group leader is logged in
       .form-group
         label.col-md-2.control-label(for="childcare") Childcare
         .col-md-10
           input(name="childcare", type="checkbox", ng-model="group.childcare")
-      .form-group
-        label.col-md-2.control-label(for="childcare") Group Leaders Only
-        .col-md-10
-          input(name="childcare", type="checkbox", ng-model="group.leadersOnly" tooltip="Check this to specify that this group is for group leaders only, users will have to be signed in to even see that this group exists")
       .form-group
         label.col-md-2.control-label(for="topic") Topics
         .col-md-10

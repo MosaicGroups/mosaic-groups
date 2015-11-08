@@ -1,5 +1,6 @@
 angular.module('app').value('audienceTypes', [
   "All",
+  "Group Leaders",
   "College Students",
   "Couples",
   "Engaged Couples",

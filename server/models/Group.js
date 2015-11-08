@@ -69,13 +69,14 @@ var groupSchema = mongoose.Schema({
   disabled: {
     type: Boolean,
     default: false
-  },
-  leadersOnly: {
-    type: Boolean,
-    default: false
   }
 });
 
+groupSchema.methods = {
+  isForLeadersOnly: function() {
+    return this.audienceType && this.audienceType === 'Group Leaders';
+  }
+};
 
 var Member = mongoose.model('Member', memberSchema);
 var Group = mongoose.model('Group', groupSchema);

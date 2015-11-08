@@ -15,7 +15,7 @@ angular.module('app').controller('groupJoinCtrl', function($scope, $route, $loca
       status: "PENDING"
     };
     $scope.groupIsFull = $scope.group.members.length >= $scope.group.memberLimit;
-    if ($scope.group.leadersOnly && !identityService.isAuthenticated()) {
+    if ($scope.group.isForLeadersOnly() && !identityService.isAuthenticated()) {
       $scope.disableJoin = true;
       var errorMsg = 'You must be logged in if you want to join this group';
       $scope.joinButtonTooltip = errorMsg;

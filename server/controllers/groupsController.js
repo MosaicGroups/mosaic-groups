@@ -110,7 +110,7 @@ exports.addMember = function (req, res) {
             // join the group if it is not disabled
             if (!group.disabled) {
                 // join the group unless this is a member only group and the user is not logged in
-                if (group.leadersOnly && !req.isAuthenticated()) {
+                if (group.isForLeadersOnly() && !req.isAuthenticated()) {
                     errorHandler.sendError(req, res, new Error('You must be logged in to join this group'));
                 }
                 // otherwise join the group
