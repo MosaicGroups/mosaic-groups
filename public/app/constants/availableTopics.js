@@ -1,5 +1,6 @@
 angular.module('app').value('availableTopics', [
-  "Bible/Book Study",
+  "Bible Study",
+  "Book Study",
   "Care",
   "Finance",
   "General Interests",
