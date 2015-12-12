@@ -1,9 +1,9 @@
 angular.module('app').value('audienceTypes', [
   "All",
-  "Group Leaders",
   "College Students",
   "Couples",
   "Engaged Couples",
+  "Group Leaders",
   "High School Students",
   "Married Couples",
   "Men",
@@ -11,6 +11,7 @@ angular.module('app').value('audienceTypes', [
   "Military",
   "New Parents",
   "Newlyweds",
+  "Parents",
   "Women",
   "Young Adults",
   "Young Adults: Guys",
