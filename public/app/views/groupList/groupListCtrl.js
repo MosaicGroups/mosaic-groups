@@ -50,10 +50,10 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
     };
 
     $scope.setShowNextSemesterMsg = function (value) {
-        var settings = {};
-        angular.copy($scope.settings, settings);
-        settings.showNextSemesterMsg = value;
-        settingsService.saveSettings(settings).then(function (data) {
+//        var settings = {};
+//        angular.copy($scope.settings, settings);
+        $scope.settings.showNextSemesterMsg = value;
+        settingsService.saveSettings($scope.settings).then(function (data) {
             $scope.settings = data;
         }, function (reason) {
             notifierService.error(reason);
@@ -61,10 +61,10 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
     };
 
     $scope.setNextSemesterMessage = function (msg) {
-        var settings = {};
-        angular.copy($scope.settings, settings);
-        settings.nextSemesterMsg = msg;
-        settingsService.saveSettings(settings).then(function (data) {
+//        var settings = {};
+//        angular.copy($scope.settings, settings);
+        $scope.settings.nextSemesterMsg = msg;
+        settingsService.saveSettings($scope.settings).then(function (data) {
             $scope.settings = data;
             notifierService.notify("The new message: '" + msg + "' will be shown to everyone")
         }, function (reason) {
@@ -73,10 +73,10 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
     };
 
     $scope.setDatesMessage = function (msg) {
-        var settings = {};
-        angular.copy($scope.settings, settings);
-        settings.datesMsg = msg;
-        settingsService.saveSettings(settings).then(function (data) {
+//        var settings = {};
+//        angular.copy($scope.settings, settings);
+        $scope.settings.datesMsg = msg;
+        settingsService.saveSettings($scope.settings).then(function (data) {
             $scope.settings = data;
             notifierService.notify("The new date message: '" + msg + "' will be shown to everyone")
         }, function (reason) {
@@ -294,10 +294,10 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
     };
 
     $scope.disableGroups = function (disable) {
-        var settings = {};
-        angular.copy($scope.settings, settings);
-        settings.disableGroups = disable;
-        settingsService.saveSettings(settings).then(function (data) {
+//        var settings = {};
+//        angular.copy($scope.settings, settings);
+        $scope.settings.disableGroups = disable;
+        settingsService.saveSettings($scope.settings).then(function (data) {
             $scope.settings = data;
         }, function (reason) {
             notifierService.error(reason);
