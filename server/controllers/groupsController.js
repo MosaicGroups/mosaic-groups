@@ -122,13 +122,15 @@ exports.addMember = function (req, res) {
                         } else {
                             emailer.sendAddedMemberEMail(group, memberData, function (err, response) {
                                 if (err) {
-                                    errorHandler.sendError(req, res, err);
+                                  console.log('Unable to send email', err);
+                                  return res.end();
                                 } else {
                                     emailer.sendMemberConfirmationEmail(group, memberData, function (err, response) {
                                         if (err) {
-                                            errorHandler.sendError(req, res, err);
+                                         console.log('Unable to send email', err);
+                                          return res.end();
                                         } else {
-                                            return res.end();
+                                          return res.end();
                                         }
                                     });
                                 }

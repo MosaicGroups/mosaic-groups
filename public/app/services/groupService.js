@@ -48,7 +48,11 @@ angular.module('app').factory('groupService', function ($q, Group) {
             group.$addMember().then(function () {
                 deferred.resolve();
             }, function (response) {
-                deferred.reject(response.data.reason);
+                var reason = '';
+                if (response.data && response.data.reason) {
+                  reason = response.data.reason;
+                }
+                deferred.reject(reason);
             });
             return deferred.promise;
         }
