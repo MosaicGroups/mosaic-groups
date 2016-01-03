@@ -30,8 +30,16 @@ userSchema.methods = {
   // determine if a user is in a given role
   hasRole: function(role) {
     return this.roles.indexOf(role) > -1;
+  },
+  // remove the hashed_pwd and salt from all objects that are returned
+  toJSON: function() {
+    var obj = this.toObject();
+    delete obj.hashed_pwd;
+    delete obj.salt;
+    return obj
   }
 };
+
 var User = mongoose.model('User', userSchema);
 
 function createDefaultUsers() {
