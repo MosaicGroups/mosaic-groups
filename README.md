@@ -30,6 +30,7 @@
 
 ##How to run the unit tests
 * Install unit testing libraries
-  * npm install --save-dev karma mocha karma-mocha karma-chai-plugins
+  * npm install --dev
   * sudo npm install -g karma-cli
-* karma start
+  * sudo npm install -g mocha
+* npm test

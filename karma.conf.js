@@ -17,9 +17,9 @@ module.exports = function(config) {
       'https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js',
       'https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-resource.min.js',
       'https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-mocks.js',
-      'test/test-app.js',
+      'test/karma/test-app.js',
       'public/app/**/*.js',
-      'test/tests/**/*.js'
+      'test/karma/tests/**/*.js'
     ],
 
 
