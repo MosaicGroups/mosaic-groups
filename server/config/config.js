@@ -22,9 +22,14 @@ var devDBConnection;
 if (typeof (process.env.MOSAICGROUPS_USERNAME) != "undefined" && typeof (process.env.MOSAICGROUPS_PASSWORD) != "undefined") {
     devDBConnection = 'mongodb://' + process.env.MOSAICGROUPS_USERNAME + ':' + process.env.MOSAICGROUPS_PASSWORD + '@ds061288.mongolab.com:61288/mosaicgroups-dev';
 } else {
-    devDBConnection = 'mongodb://localhost:27017/mosaicgroups';
+    if (typeof (process.env.DEV_HOST) != "undefined") {
+        devDBConnection = 'mongodb://' + process.env.DEV_HOST + ':27017/mosaicgroups';
+    }
+    else {
+        devDBConnection = 'mongodb://localhost:27017/mosaicgroups';
+    }
 }
-//console.log("Using the following as a monogo connection string for dev: ", devDBConnection);
+console.log("Using the following as a monogo connection string for dev: ", devDBConnection);
 var envs = {
     development: {
         env: env,
@@ -45,8 +50,8 @@ var envs = {
             }
         },
         scheduler: {
-          enabledGroupReport: false,
-          enabledDistinctMembersReport: false
+            enabledGroupReport: false,
+            enabledDistinctMembersReport: false
         },
         emailer: {
             password: process.env.MOSAIC_GROUPS_EMAIL_PASSWORD
