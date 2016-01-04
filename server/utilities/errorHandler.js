@@ -1,3 +1,4 @@
+var logger = require('../config/logger');
 var emailer = require('../utilities/emailer');
 
 /**
@@ -8,30 +9,30 @@ var emailer = require('../utilities/emailer');
  * @param err, OPTIONAL - the Error object
  * @param status, OPTIONAL - the response status, defaults to 400 if not set
  */
-exports.sendError = function(req, res, err, status) {
-  // create an error if one was not passed in
-  if (!err) {
-    err = new Error('An error occurred');
-  }
+exports.sendError = function (req, res, err, status) {
+    // create an error if one was not passed in
+    if (!err) {
+        err = new Error('An error occurred');
+    }
 
-  // log the error
-  if (req.user) {
-    console.error("Error: " + req.user + " had an error");
-  }
-  console.error("Error: " + err);
-  if (req.url && req.params) {
-    console.log("Error: " + req.url + req.params);
-  }
+    // log the error
+    if (req.user) {
+        logger.error("Error: " + req.user + " had an error");
+    }
+    logger.error("Error: " + err);
+    if (req.url && req.params) {
+        logger.log("Error: " + req.url + req.params);
+    }
 
-  // send an error report
-  emailer.sendErrorMessageEMail(err.toString());
+    // send an error report
+    emailer.sendErrorMessageEMail(err.toString());
 
-  // set the status to 400 if it was not explicitly set already
-  status = (status) ? status : 400;
+    // set the status to 400 if it was not explicitly set already
+    status = (status) ? status : 400;
 
-  // return the status
-  res.status(status);
+    // return the status
+    res.status(status);
 
-  // return the error
-  res.send({reason: err.toString()});
+    // return the error
+    res.send({ reason: err.toString() });
 }

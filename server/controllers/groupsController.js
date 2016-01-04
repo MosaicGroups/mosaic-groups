@@ -1,3 +1,4 @@
+var logger = require('../config/logger');
 var Group = require('mongoose').model('Group'),
     User = require('mongoose').model('User'),
     Member = require('mongoose').model('Member'),
@@ -122,12 +123,12 @@ exports.addMember = function (req, res) {
                         } else {
                             emailer.sendAddedMemberEMail(group, memberData, function (err, response) {
                                 if (err) {
-                                  console.log('Unable to send email', err);
+                                  logger.log('Unable to send email', err);
                                   return res.end();
                                 } else {
                                     emailer.sendMemberConfirmationEmail(group, memberData, function (err, response) {
                                         if (err) {
-                                         console.log('Unable to send email', err);
+                                         logger.log('Unable to send email', err);
                                           return res.end();
                                         } else {
                                           return res.end();

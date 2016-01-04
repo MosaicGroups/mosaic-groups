@@ -1,3 +1,4 @@
+var logger = require('../config/logger');
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
@@ -25,12 +26,12 @@ var Settings = mongoose.model('Settings', settingsSchema);
 function createDefaultSettings() {
     Settings.find({}).exec(function (err, collection) {
         if (collection.length === 0) {
-            console.log("creating default settings");
+            logger.log("creating default settings");
             Settings.create({
                 disableGroups: false
             });
         } else {
-            console.log("not creating default settings because they are already created");
+            logger.log("not creating default settings because they are already created");
         }
     })
 };

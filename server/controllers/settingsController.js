@@ -1,5 +1,6 @@
-var Settings = require('mongoose').model('Settings')
-emailer = require('../utilities/emailer'),
+var logger = require('../config/logger');
+var Settings = require('mongoose').model('Settings'),
+    emailer = require('../utilities/emailer'),
     errorHandler = require('../utilities/errorHandler');
 
 exports.getSettings = function (req, res) {
@@ -32,7 +33,7 @@ exports.updateSettings = function (req, res) {
             if (err) {
                 errorHandler.sendError(req, res, err);
             } else {
-                console.log(req.user.username + " updated the settings to: " + JSON.stringify(settingsUpdates));
+                logger.log(req.user.username + " updated the settings to: " + JSON.stringify(settingsUpdates));
                 emailer.sendAuditMessageEMail(req.user.username + " updated the settings to: " + JSON.stringify(settingsUpdates));
                 settingsUpdates._id = settingsId;
                 res.send(settingsUpdates);

@@ -1,3 +1,4 @@
+var logger = require('../config/logger');
 var nodemailer = require("nodemailer"),
     User = require('mongoose').model('User'),
     Group = require('mongoose').model('Group'),
@@ -100,7 +101,7 @@ exports.emailUniqueReportToSelf = function (currUser, callback) {
         sendEmail(currUser.username, "Distinct Members", "Here is your distinct members report.", attachments, callback);
     });
 
-    console.log("sent!!!");
+    logger.log("sent!!!");
 };
 // create reusable transport method (opens pool of SMTP connections)
 var smtpTransport = nodemailer.createTransport("SMTP", {
@@ -128,10 +129,10 @@ var sendEmail = function (tos, subject, message, attachments, callback) {
     // send mail with defined transport object
     smtpTransport.sendMail(mailOptions, function (error, response, info) {
         if (error) {
-            console.log("Error sending email", error);
+            logger.log("Error sending email", error);
             if (callback) callback(error, response);
         } else {
-            console.log(response);
+            logger.log(response);
             if (callback) callback(null, response);
         }
     })

@@ -11,6 +11,7 @@
  *   GITHUB_USERNAME: joesmith
  *   OTHER_VAR:       production
  */
+var logger = require('./logger');
 var path = require('path');
 var fs = require('fs');
 var rootPath = path.normalize(__dirname + '/../../');
@@ -29,7 +30,7 @@ if (typeof (process.env.MOSAICGROUPS_USERNAME) != "undefined" && typeof (process
         devDBConnection = 'mongodb://localhost:27017/mosaicgroups';
     }
 }
-console.log("Using the following as a monogo connection string for dev: ", devDBConnection);
+logger.log("Using the following as a monogo connection string for dev: ", devDBConnection);
 var envs = {
     development: {
         env: env,
@@ -86,5 +87,6 @@ var envs = {
         }
     }
 }
+envs.test = envs.development;
 
 module.exports = envs[env];

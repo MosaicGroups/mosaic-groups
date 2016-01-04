@@ -1,3 +1,4 @@
+var logger = require('../config/logger');
 var hash = require('ys-hash');
 var config = require('../config/config');
 var json2csv = require('json2csv');
@@ -6,13 +7,13 @@ exports.generateDistinctUsersReport = function (Groups, callback) {
     var allMembers = [];
     var fields = ['first', 'last'];
     Groups.aggregate()
-        //we dont want to include disabled groups
+    //we dont want to include disabled groups
         .match({
             disabled: false
         })
-        //explode all groups by member
+    //explode all groups by member
         .unwind('members')
-        // this is what makes the returned list unique.
+    // this is what makes the returned list unique.
         .group({
             _id: {
                 last: {
@@ -24,12 +25,12 @@ exports.generateDistinctUsersReport = function (Groups, callback) {
 
             }
         })
-        //sort by last then first
+    //sort by last then first
         .sort({
             "_id.last": 1,
             "_id.first": 1
         })
-        // do something with the results
+    // do something with the results
         .exec(function (err, members) {
 
 
@@ -42,7 +43,7 @@ exports.generateDistinctUsersReport = function (Groups, callback) {
                 data: allMembers,
                 fields: fields
             }, function (err, csv) {
-                if (err) console.log(err);
+                if (err) logger.log(err);
                 //console.log(csv);
 
                 callback(csv)
@@ -107,11 +108,11 @@ exports.createDailyReport = function (groups) {
     }
     membersHtml += "</ul>";
     reportHtml +=
-        "<p>" +
-        "<div>There are <b>" + numMembers + "</b> members total signed up for growth groups</div>" +
-        "<div>There are <b>" + numUniqueMembers + " unique</b> members signed up for growth groups</div>" +
-        "<div>There were <span style='color:green'><b>" + numNewMembers + "</b></span> new members total in the past 24hours (highlighted in <span style='color:green'><b>green</b></span> below)</div>" +
-        "</p>";
+    "<p>" +
+    "<div>There are <b>" + numMembers + "</b> members total signed up for growth groups</div>" +
+    "<div>There are <b>" + numUniqueMembers + " unique</b> members signed up for growth groups</div>" +
+    "<div>There were <span style='color:green'><b>" + numNewMembers + "</b></span> new members total in the past 24hours (highlighted in <span style='color:green'><b>green</b></span> below)</div>" +
+    "</p>";
     reportHtml += membersHtml;
     return reportHtml;
 };
