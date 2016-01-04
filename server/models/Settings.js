@@ -1,7 +1,7 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
-var settingsSchema = mongoose.Schema({
+var settingsSchema = new mongoose.Schema({
     disableGroups: {
         type: Boolean,
         default: false

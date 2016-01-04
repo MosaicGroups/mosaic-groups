@@ -2,7 +2,7 @@ var mongoose = require('mongoose'),
   encrypt = require('../utilities/encryption');
 
 //mongoose schema for User collection
-var userSchema = mongoose.Schema({
+var userSchema = new mongoose.Schema({
   firstName: {
     type:String,
     required:'{PATH} is required!'},
