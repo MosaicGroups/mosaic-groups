@@ -5,7 +5,7 @@ describe('User', function() {
     it('should return false if the roles array does not have an admin entry', inject(function(User) {
       var user = new User();
       user.roles = ['not admin'];
-      expect(user.isAdmin()).to.be.falsey;
+      expect(user.isAdmin()).to.be.false;
     }));
 
     it('should return true if the roles array has an admin entry', inject(function(User) {
@@ -17,7 +17,7 @@ describe('User', function() {
     it('should return false if the roles array does not have a superadmin entry', inject(function(User) {
       var user = new User();
       user.roles = ['not admin'];
-      expect(user.isSuperAdmin()).to.be.falsey;
+      expect(user.isSuperAdmin()).to.be.false;
     }));
 
     it('should return true if the roles array has a superadmin entry', inject(function(User) {
