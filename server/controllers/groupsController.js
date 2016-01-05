@@ -30,7 +30,7 @@ exports.getGroups = function (req, res) {
 
 exports.getGroup = function (req, res) {
     var groupId = req.params.id;
-    
+
     if (groupId) {
         Group.findOne({
             _id: groupId
@@ -109,40 +109,25 @@ exports.addMember = function (req, res) {
         if (err) {
             errorHandler.sendError(req, res, err);
         } else {
-            // join the group if it is not disabled
-            if (!group.disabled) {
-                // join the group unless this is a member only group and the user is not logged in
-                if (group.isForLeadersOnly() && !req.isAuthenticated()) {
-                    errorHandler.sendError(req, res, new Error('You must be logged in to join this group'));
-                }
-                // otherwise join the group
-                else {
-                    group.members.push(memberData);
-                    group.save(function (err) {
-                        if (err) {
-                            errorHandler.sendError(req, res, err);
-                        } else {
-                            emailer.sendAddedMemberEMail(group, memberData, function (err, response) {
-                                if (err) {
-                                  logger.log('Unable to send email', err);
-                                  return res.end();
-                                } else {
-                                    emailer.sendMemberConfirmationEmail(group, memberData, function (err, response) {
-                                        if (err) {
-                                         logger.log('Unable to send email', err);
-                                          return res.end();
-                                        } else {
-                                          return res.end();
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                    });
-                }
-            } else {
-                errorHandler.sendError(req, res, new Error('Group has been disabled, you cannot join at this time.'));
-            }
+            group.tryAddMember(memberData, req.isAuthenticated(), function (err) {
+                errorHandler.sendError(req, res, err);
+            }, function () {
+                emailer.sendAddedMemberEMail(group, memberData, function (err, response) {
+                    if (err) {
+                        logger.log('Unable to send email', err);
+                        return res.end();
+                    } else {
+                        emailer.sendMemberConfirmationEmail(group, memberData, function (err, response) {
+                            if (err) {
+                                logger.log('Unable to send email', err);
+                                return res.end();
+                            } else {
+                                return res.end();
+                            }
+                        });
+                    }
+                });
+            });
         }
     });
 };

@@ -108,7 +108,8 @@ async.series([
                             .send({ newMember: user })
                             .expect(200)
                             .end(function (err, res) {
-                                if (err) throw err;
+                                expect(err).to.not.be(undefined);
+                                //if (err) throw err;
                                 callback2();
                             });
 

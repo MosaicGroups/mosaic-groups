@@ -73,6 +73,32 @@ var groupSchema = new mongoose.Schema({
 });
 
 groupSchema.methods = {
+    tryAddMember: function (memberData, userIsAuthenticated, errorCallback, successCallback) {
+        var self = this;
+        if (self.disabled) {
+            errorCallback(new Error('Group has been disabled, you cannot join at this time.'));
+        }
+        if (self.isForLeadersOnly() && !userIsAuthenticated) {
+            errorCallback(new Error('You must be logged in to join this group'));
+        }
+        Group.count({ 'members.email': memberData.email }, function (err, c) {
+            if (err) { };
+            if (c >= 2) {
+                errorCallback(new Error('You have signed up for the maximum number of groups.'));
+            }
+            else {
+                self.members.push(memberData);
+                self.save(function (err) {
+                    if (err) {
+                        errorCallback(err);
+                    }
+                    else {
+                        successCallback(null);
+                    }
+                });
+            }
+        });
+    },
     isForLeadersOnly: function () {
         return this.audienceType && this.audienceType === 'Group Leaders';
     }
