@@ -21,7 +21,7 @@ exports.sendError = function (req, res, err, status) {
     }
     logger.error("Error: " + err);
     if (req.url && req.params) {
-        logger.log("Error: " + req.url + req.params);
+        logger.error("Error: " + req.url + req.params);
     }
 
     // send an error report

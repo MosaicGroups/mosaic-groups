@@ -38,3 +38,5 @@ if (config.env === 'development') {
 }
 
 logger.log("Listening on port " + config.http.port);
+
+module.exports = app;

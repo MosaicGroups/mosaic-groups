@@ -30,6 +30,7 @@ exports.getGroups = function (req, res) {
 
 exports.getGroup = function (req, res) {
     var groupId = req.params.id;
+    
     if (groupId) {
         Group.findOne({
             _id: groupId
