@@ -84,7 +84,7 @@ groupSchema.methods = {
         Group.count({ 'members.email': memberData.email }, function (err, c) {
             if (err) { };
             if (c >= 2) {
-                errorCallback(new Error('You have signed up for the maximum number of groups.'));
+                errorCallback(new Error('You (' + memberData.firstName + ' ' + memberData.lastName + ' <' + memberData.email + '>' + ') have signed up for the maximum number of groups.'));
             }
             else {
                 self.members.push(memberData);
