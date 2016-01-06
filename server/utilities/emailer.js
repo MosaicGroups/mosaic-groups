@@ -16,8 +16,10 @@ exports.sendAddedMemberEMail = function (group, newMemberData, callback) {
         for (var i = 0; i < superadmins.length; i++) {
             superadminTos += (superadminTos.length === 0) ? superadmins[i].username : "," + superadmins[i].username;
         }
-        for (var i = 0; i < group.leaders.length; i++) {
-            tos += (tos.length === 0) ? group.leaders[i].username : "," + group.leaders[i].username;
+        if (group.leaders) {
+            for (var i = 0; i < group.leaders.length; i++) {
+                tos += (tos.length === 0) ? group.leaders[i].username : "," + group.leaders[i].username;
+            }
         }
         var message = 'Mosaic Group: "' + group.title + '" has a new member request from: "' + newMemberData.firstName + ' ' +
             newMemberData.lastName + '" &lt;' + newMemberData.email + '&gt;.';
