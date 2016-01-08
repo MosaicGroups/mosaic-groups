@@ -3,22 +3,22 @@ var Group = require('mongoose').model('Group'),
     User = require('mongoose').model('User'),
     Member = require('mongoose').model('Member'),
     Settings = require('mongoose').model('Settings'),
-    emailer = require('../utilities/emailer'),
     errorHandler = require('../utilities/errorHandler'),
+
+    emailer = require('../utilities/emailer'),
     groupsService = require('../services/groupsService');
 
 exports.emailGroupReportToSelf = function (req, res) {
-    Group.find({}).populate('leaders').exec(function (err, collection) {
-        emailer.sendGroupsReport(req.user);
-        emailer.sendAuditMessageEMail(req.user.username + " requested an on demand daily report email");
-    });
+    var user = req.user;
+    groupsService.emailGroupReportToSelf(user, function () { });
+
     return res.end();
 };
 
 exports.emailUniqueReportToSelf = function (req, res) {
-    Group.find({}).populate('leaders').exec(function (err, collection) {
-        emailer.emailUniqueReportToSelf(req.user);
-    });
+    var user = req.user;
+    groupsService.emailUniqueReportToSelf(user, function () { });
+    
     return res.end();
 };
 

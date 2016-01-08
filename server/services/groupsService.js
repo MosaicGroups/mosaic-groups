@@ -2,6 +2,7 @@ var logger = require('../config/logger');
 var Group = require('mongoose').model('Group');
 var errorHandler = require('../utilities/errorHandler');
 
+var emailer = require('../utilities/emailer');
 /**
  * Add a member to a group
  * @param groupId
@@ -65,8 +66,19 @@ exports.deleteGroup = function (groupDeleteId, callback) {
         }
     });
 };
-
-
+exports.emailGroupReportToSelf = function (user, callback) {
+    Group.find({}).populate('leaders').exec(function (err, collection) {
+        emailer.sendGroupsReport(user);
+        emailer.sendAuditMessageEMail(user.username + " requested an on demand daily report email");
+        callback(err, collection);
+    });
+};
+exports.emailUniqueReportToSelf = function (user, callback) {
+    Group.find({}).populate('leaders').exec(function (err, collection) {
+        emailer.emailUniqueReportToSelf(user);
+        callback(err, collection);
+    });
+};
 
 /**
  * Retrieve a group
