@@ -53,10 +53,7 @@ exports.saveGroup = function (req, res, next) {
         groupData.leaders = [req.user._id];
     }
 
-    // ensure that all group members have a join date
-    ensureJoinDates(groupData);
-
-    Group.create(groupData, function (err, group) {
+   groupsService.saveGroup(groupData,function(err,group){
         if (err) {
             errorHandler.sendError(req, res, err);
         } else {
@@ -77,18 +74,15 @@ exports.updateGroup = function (req, res) {
         return res.end();
     }
 
-    // ensure that all group members have a join date
-    ensureJoinDates(groupUpdates);
-
-    Group.findByIdAndUpdate(groupId, groupUpdates, undefined, function (err) {
+    groupsService.updateGroup(groupId, groupUpdates, function (err) {
         if (err) {
             errorHandler.sendError(req, res, err);
-        } else {
-            groupUpdates._id = groupId;
+        } else {groupUpdates._id = groupId;
             emailer.sendAuditMessageEMail('Group: "' + groupUpdates.title + '" was updated by: ' + req.user.username);
             res.send(groupUpdates);
         }
     });
+   
 };
 
 /**
@@ -127,10 +121,7 @@ exports.addMember = function (req, res) {
                 });
             }
         });
-    })
-
-
-
+    });
 };
 
 /**
@@ -157,16 +148,5 @@ exports.deleteGroup = function (req, res) {
                 return res.end();
             }
         })
-    }
-};
-
-var ensureJoinDates = function (group) {
-    if (group.members) {
-        for (var i = 0; i < group.members.length; i++) {
-            var member = group.members[i];
-            if (!member.joinDate) {
-                member.joinDate = new Date();
-            }
-        }
     }
 };

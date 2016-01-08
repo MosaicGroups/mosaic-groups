@@ -4,7 +4,7 @@ var expect = require('expect.js');
 require('./common');
 var app = require('./common').app;
 
-var groups = require('../../server/controllers/groupsController');
+var groupService = require('../../server/services/groupsService');
 var Group = require('mongoose').model('Group');
 
 var g1ID, g2ID, g3ID;
@@ -43,6 +43,7 @@ async.series([
                 async.series([
                     function (callback2) {
                         group.title = "testg2";
+
                         Group.create(group, function (err, g) {
                             g2ID = g._id;
                             expect(g.title).to.equal("testg2");
@@ -51,11 +52,11 @@ async.series([
                     },
                     function (callback2) {
                         group.title = "testg3";
-                        Group.create(group, function (err, g) {
+                        groupService.saveGroup(group, function (err, g) {
                             g3ID = g._id;
                             expect(g.title).to.equal("testg3");
                             callback2();
-                        });
+                        })
                     },
                     function (callback2) {
                         request(app)

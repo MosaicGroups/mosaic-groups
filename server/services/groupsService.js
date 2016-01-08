@@ -66,6 +66,7 @@ exports.deleteGroup = function (groupDeleteId, callback) {
         }
     });
 };
+
 exports.emailGroupReportToSelf = function (user, callback) {
     Group.find({}).populate('leaders').exec(function (err, collection) {
         emailer.sendGroupsReport(user);
@@ -73,6 +74,7 @@ exports.emailGroupReportToSelf = function (user, callback) {
         callback(err, collection);
     });
 };
+
 exports.emailUniqueReportToSelf = function (user, callback) {
     Group.find({}).populate('leaders').exec(function (err, collection) {
         emailer.emailUniqueReportToSelf(user);
@@ -82,7 +84,7 @@ exports.emailUniqueReportToSelf = function (user, callback) {
 
 /**
  * Retrieve a group
- * @param groupDeleteId
+ * @param groupId
  * @param callback
  */
 exports.getGroup = function (groupId, callback) {
@@ -103,7 +105,46 @@ exports.getGroup = function (groupId, callback) {
  * @param callback
  */
 exports.getGroups = function (callback) {
-   Group.find({}).populate('leaders').exec(function (err, collection) {
-       callback(err, collection);
+    Group.find({}).populate('leaders').exec(function (err, collection) {
+        callback(err, collection);
     });
+};
+
+/**
+ * Save a group
+ * @param groupData
+ * @param callback
+ */
+exports.saveGroup = function (groupData, callback) {
+    // ensure that all group members have a join date
+    ensureJoinDates(groupData);
+
+    Group.create(groupData, function (err, group) {
+        callback(err, group);
+    });
+};
+
+/**
+ * Update a group
+ * @param groupId
+ * @param groupUpdates
+ * @param callback
+ */
+exports.updateGroup = function (groupId, groupUpdates, callback) {
+    // ensure that all group members have a join date
+    ensureJoinDates(groupUpdates);
+    Group.findByIdAndUpdate(groupId, groupUpdates, undefined, function (err) {
+        callback(err);
+    });
+};
+
+var ensureJoinDates = function (group) {
+    if (group.members) {
+        for (var i = 0; i < group.members.length; i++) {
+            var member = group.members[i];
+            if (!member.joinDate) {
+                member.joinDate = new Date();
+            }
+        }
+    }
 };
