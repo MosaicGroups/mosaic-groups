@@ -24,6 +24,7 @@ async.series([
             }
             it("Should add a new group", function (done) {
                 Group.create(group, function (err, g) {
+                    if (err) throw err;
                     expect(g.title).to.equal("testG");
                     g1ID = g._id;
                     done();
