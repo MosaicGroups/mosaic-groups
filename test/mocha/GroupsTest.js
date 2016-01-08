@@ -34,6 +34,7 @@ async.series([
             it("Should not add a new group", function (done) {
                 group.title = undefined;
                 Group.create(group, function (err, g) {
+                    if (err) throw err;
                     expect(g).to.be(undefined);
                     done();
                 });
@@ -45,6 +46,7 @@ async.series([
                         group.title = "testg2";
 
                         Group.create(group, function (err, g) {
+                            if (err) throw err;
                             g2ID = g._id;
                             expect(g.title).to.equal("testg2");
                             callback2();
@@ -53,6 +55,7 @@ async.series([
                     function (callback2) {
                         group.title = "testg3";
                         groupService.saveGroup(group, function (err, g) {
+                            if (err) throw err;
                             g3ID = g._id;
                             expect(g.title).to.equal("testg3");
                             callback2();
@@ -69,14 +72,13 @@ async.series([
                             });
                     }
                 ], function (err, results) {
+                    if (err) throw err;
                     done();
                     outercallback();
                 });
 
             });
         });
-
-
         describe("Groups Routes", function () {
             var user = {};
             before(function (beforeCompleted) {
@@ -129,7 +131,6 @@ async.series([
                     .get('/api/groups/' + g1ID)
                     .expect(200)
                     .end(function (err, res) {
-
                         if (err) throw err;
                         done();
                     });
@@ -140,6 +141,7 @@ async.series([
                     .get('/api/groups/' + g3ID)
                     .expect(200)
                     .end(function (err, res) {
+                        if (err) throw err;
                         expect(res.body.members.length).to.equal(0);
                         done(err);
                     });
