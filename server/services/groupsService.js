@@ -3,28 +3,6 @@ var Group = require('mongoose').model('Group');
 var errorHandler = require('../utilities/errorHandler');
 
 /**
- * Delete a group
- * @param groupDeleteId
- * @param callback
- */
-exports.deleteGroup = function (groupDeleteId, callback) {
-    if (groupDeleteId === undefined || groupDeleteId === null) callback(new Error('groupDeletedId is a required parameter', false));
-    Group.findById(groupDeleteId).exec(function (error, data) {
-        // if not found then return 404
-        if (error) { callback(error, false); }
-        else {
-            var deletedGroup = data;
-            deletedGroup.remove(function (error) {
-                if (error) { callback(error, false); }
-                else {
-                    callback(null, deletedGroup);
-                }
-            });
-        }
-    });
-};
-
-/**
  * Add a member to a group
  * @param groupId
  * @param memberData
@@ -64,4 +42,46 @@ exports.addMember = function (groupId, memberData, userIsAuthenticated, errorCal
             });
         }
     });
+};
+
+/**
+ * Delete a group
+ * @param groupDeleteId
+ * @param callback
+ */
+exports.deleteGroup = function (groupDeleteId, callback) {
+    if (groupDeleteId === undefined || groupDeleteId === null) callback(new Error('groupDeletedId is a required parameter', false));
+    Group.findById(groupDeleteId).exec(function (error, data) {
+        // if not found then return 404
+        if (error) { callback(error, false); }
+        else {
+            var deletedGroup = data;
+            deletedGroup.remove(function (error) {
+                if (error) { callback(error, false); }
+                else {
+                    callback(null, deletedGroup);
+                }
+            });
+        }
+    });
+};
+
+
+
+/**
+ * Retrieve a group
+ * @param groupDeleteId
+ * @param callback
+ */
+exports.getGroup = function (groupId, callback) {
+    if (groupId) {
+        Group.findOne({
+            _id: groupId
+        }).populate('leaders').exec(function (err, group) {
+            callback(err, group);
+        });
+    }
+    else {
+        callback(new Error("Group ID not defined."));
+    }
 };

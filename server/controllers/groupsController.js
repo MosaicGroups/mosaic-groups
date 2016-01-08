@@ -31,14 +31,13 @@ exports.getGroups = function (req, res) {
 
 exports.getGroup = function (req, res) {
     var groupId = req.params.id;
-
-    if (groupId) {
-        Group.findOne({
-            _id: groupId
-        }).populate('leaders').exec(function (err, group) {
+    groupsService.getGroup(groupId, function (err, group) {
+        if (err) {
+            errorHandler.sendError(req, res, err);
+        } else {
             res.send(group);
-        });
-    }
+        }
+    });
 };
 
 exports.saveGroup = function (req, res, next) {
