@@ -24,8 +24,12 @@ exports.emailUniqueReportToSelf = function (req, res) {
 
 
 exports.getGroups = function (req, res) {
-    Group.find({}).populate('leaders').exec(function (err, collection) {
-        res.send(collection);
+    groupsService.getGroups(function (err, collection) {
+        if (err) {
+            errorHandler.sendError(req, res, err);
+        } else {
+            res.send(collection);
+        }
     });
 };
 

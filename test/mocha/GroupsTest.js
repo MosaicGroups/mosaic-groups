@@ -58,10 +58,14 @@ async.series([
                         });
                     },
                     function (callback2) {
-                        Group.find({}).exec(function (err2, collection) {
-                            expect(collection.length).to.equal(3);
-                            callback2();
-                        });
+                        request(app)
+                            .get('/api/groups/')
+                            .expect(200)
+                            .end(function (err, res) {
+                                if (err) throw err;
+                                expect(res.body.length).to.equal(3);
+                                callback2();
+                            });
                     }
                 ], function (err, results) {
                     done();

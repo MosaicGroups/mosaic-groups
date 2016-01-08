@@ -85,3 +85,13 @@ exports.getGroup = function (groupId, callback) {
         callback(new Error("Group ID not defined."));
     }
 };
+
+/**
+ * Retrieve all groups
+ * @param callback
+ */
+exports.getGroups = function (callback) {
+   Group.find({}).populate('leaders').exec(function (err, collection) {
+       callback(err, collection);
+    });
+};
