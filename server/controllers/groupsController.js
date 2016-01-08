@@ -106,9 +106,6 @@ exports.addMember = function (req, res) {
     var groupId = req.params.id
     var userIsAuthenticated = req.isAuthenticated();
 
-
-
-
     groupsService.addMember(groupId, memberData, userIsAuthenticated, function (err) {
         errorHandler.sendError(req, res, err);
     }, function (err, group) {

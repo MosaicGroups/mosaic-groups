@@ -26,8 +26,11 @@ exports.deleteGroup = function (groupDeleteId, callback) {
 
 /**
  * Add a member to a group
- * @param groupDeleteId
- * @param callback
+ * @param groupId
+ * @param memberData
+ * @param userIsAuthenticated
+ * @param errorCallback
+ * @param successCallback
  */
 exports.addMember = function (groupId, memberData, userIsAuthenticated, errorCallback, successCallback) {
     Group.findOne({
