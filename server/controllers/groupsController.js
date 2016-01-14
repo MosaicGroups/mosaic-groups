@@ -127,8 +127,8 @@ exports.deleteGroup = function (req, res) {
   }
   // otherwise, get the group from the database then delete them
   else {
-    groupsService.deleteGroup(groupDeleteId, function (error, deletedGroup) {
-      if (error) errorHandler.sendError(req, res, err);
+    groupsService.deleteGroup(groupDeleteId, function (err, deletedGroup) {
+      if (err) errorHandler.sendError(req, res, err);
       else {
         emailer.sendAuditMessageEMail('Group: "' + deletedGroup.title + '" was deleted by: ' + req.user.username);
         return res.end();

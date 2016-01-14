@@ -29,9 +29,8 @@ exports.updateSettings = function (req, res) {
     errorHandler.sendError(req, res, err, 403);
   } else {
     Settings.findByIdAndUpdate(settingsId, settingsUpdates, undefined, function (err) {
-      if (err) {
-        errorHandler.sendError(req, res, err);
-      } else {
+      if (err) errorHandler.sendError(req, res, err);
+      else {
         errorHandler.logError(req.user.username + " updated the settings to: " + JSON.stringify(settingsUpdates));
         emailer.sendAuditMessageEMail(req.user.username + " updated the settings to: " + JSON.stringify(settingsUpdates));
         settingsUpdates._id = settingsId;

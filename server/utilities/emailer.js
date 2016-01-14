@@ -24,8 +24,8 @@ exports.sendAddedMemberEMail = function (group, newMemberData, callback) {
     var message = 'Mosaic Group: "' + group.title + '" has a new member request from: "' + newMemberData.firstName + ' ' +
     newMemberData.lastName + '" &lt;' + newMemberData.email + '&gt;.';
 
-    sendEmail(superadminTos, 'Audit Msg', message, null, function (error, response) {
-      if (error && callback) callback(error, response);
+    sendEmail(superadminTos, 'Audit Msg', message, null, function (err, response) {
+      if (err && callback) callback(err, response);
       else {
         sendEmail(tos, 'New Member', message, null, callback);
       }
@@ -126,10 +126,10 @@ var sendEmail = function (tos, subject, message, attachments, callback) {
   }
 
   // send mail with defined transport object
-  smtpTransport.sendMail(mailOptions, function (error, response, info) {
-    if (error) {
-      logger.log("Error sending email", error);
-      if (callback) callback(error, response);
+  smtpTransport.sendMail(mailOptions, function (err, response, info) {
+    if (err) {
+      logger.error("Error sending email", err);
+      if (callback) callback(err, response);
     } else {
       logger.log(response);
       if (callback) callback(null, response);

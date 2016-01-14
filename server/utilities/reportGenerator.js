@@ -44,8 +44,6 @@ exports.generateDistinctUsersReport = function (Groups, callback) {
                 fields: fields
             }, function (err, csv) {
                 if (err) logger.log(err);
-                //console.log(csv);
-
                 callback(csv)
             });
         });

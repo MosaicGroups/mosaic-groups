@@ -20,8 +20,7 @@ exports.addMember = function (groupId, memberData, userIsAuthenticated, errorCal
       if (group.isForLeadersOnly() && !userIsAuthenticated) errorCallback(new Error('You must be logged in to join this group'), group);
       else {
         Group.count({'members.email': memberData.email}, function (err, c) {
-          if (err) {
-          }
+          if (err) {}
           ;
           if (c >= 2) {
             errorCallback(new Error('You (' + memberData.firstName + ' ' + memberData.lastName + ' <' + memberData.email + '>' + ') have signed up for the maximum number of groups.'), group);
@@ -48,13 +47,13 @@ exports.addMember = function (groupId, memberData, userIsAuthenticated, errorCal
  */
 exports.deleteGroup = function (groupDeleteId, callback) {
   if (groupDeleteId === undefined || groupDeleteId === null) callback(new Error('groupDeletedId is a required parameter', false));
-  Group.findById(groupDeleteId).exec(function (error, data) {
+  Group.findById(groupDeleteId).exec(function (err, data) {
     // if not found then return 404
-    if (error) callback(error, false);
+    if (err) callback(err, false);
     else {
       var deletedGroup = data;
-      deletedGroup.remove(function (error) {
-        if (error) callback(error, false);
+      deletedGroup.remove(function (err) {
+        if (err) callback(err, false);
         else {
           callback(null, deletedGroup);
         }
