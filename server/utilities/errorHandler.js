@@ -45,5 +45,5 @@ exports.logError = function(error, msg) {
   logger.error(msg, error);
 
   // send an error report
-  emailer.sendErrorMessageEmail(msg + error.toString());
+  emailer.sendErrorMessageEmail(msg + error.message);
 }
