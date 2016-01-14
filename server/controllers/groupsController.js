@@ -1,4 +1,3 @@
-var logger = require('../config/logger');
 var Group = require('mongoose').model('Group'),
 User = require('mongoose').model('User'),
 Member = require('mongoose').model('Member'),
@@ -12,7 +11,6 @@ exports.emailGroupReportToSelf = function (req, res) {
   var user = req.user;
   groupsService.emailGroupReportToSelf(user, function () {
   });
-
   return res.end();
 };
 
@@ -20,16 +18,14 @@ exports.emailUniqueReportToSelf = function (req, res) {
   var user = req.user;
   groupsService.emailUniqueReportToSelf(user, function () {
   });
-
   return res.end();
 };
 
 
 exports.getGroups = function (req, res) {
   groupsService.getGroups(function (err, collection) {
-    if (err) {
-      errorHandler.sendError(req, res, err);
-    } else {
+    if (err) errorHandler.sendError(req, res, err);
+    else {
       res.send(collection);
     }
   });
@@ -38,9 +34,8 @@ exports.getGroups = function (req, res) {
 exports.getGroup = function (req, res) {
   var groupId = req.params.id;
   groupsService.getGroup(groupId, function (err, group) {
-    if (err) {
-      errorHandler.sendError(req, res, err);
-    } else {
+    if (err) errorHandler.sendError(req, res, err);
+    else {
       res.send(group);
     }
   });
@@ -56,9 +51,8 @@ exports.saveGroup = function (req, res, next) {
   }
 
   groupsService.saveGroup(groupData, function (err, group) {
-    if (err) {
-      errorHandler.sendError(req, res, err);
-    } else {
+    if (err) errorHandler.sendError(req, res, err);
+    else {
       emailer.sendAuditMessageEMail('Group: "' + groupData.title + '" was created by: ' + req.user.username);
       res.send(group);
     }
@@ -77,9 +71,8 @@ exports.updateGroup = function (req, res) {
   }
 
   groupsService.updateGroup(groupId, groupUpdates, function (err) {
-    if (err) {
-      errorHandler.sendError(req, res, err);
-    } else {
+    if (err) errorHandler.sendError(req, res, err);
+    else {
       groupUpdates._id = groupId;
       emailer.sendAuditMessageEMail('Group: "' + groupUpdates.title + '" was updated by: ' + req.user.username);
       res.send(groupUpdates);
@@ -110,9 +103,9 @@ exports.addMember = function (req, res) {
     errorHandler.sendError(req, res, err);
   }, function (err, group) {
     emailer.sendAddedMemberEMail(group, memberData, function (err, response) {
-      if (err) { logger.log('Unable to send email that a member was added', err); }
+      if (err) errorHandler.logError(err, 'Unable to send email that a member was added');
       emailer.sendMemberConfirmationEmail(group, memberData, function (err, response) {
-        if (err) { logger.log('Unable to send email for group add confirmation', err); }
+        if (err) errorHandler.logError(err, 'Unable to send email for group add confirmation');
       });
     });
     return res.end();
@@ -135,9 +128,7 @@ exports.deleteGroup = function (req, res) {
   // otherwise, get the group from the database then delete them
   else {
     groupsService.deleteGroup(groupDeleteId, function (error, deletedGroup) {
-      if (error) {
-        errorHandler.sendError(req, res, err);
-      }
+      if (error) errorHandler.sendError(req, res, err);
       else {
         emailer.sendAuditMessageEMail('Group: "' + deletedGroup.title + '" was deleted by: ' + req.user.username);
         return res.end();

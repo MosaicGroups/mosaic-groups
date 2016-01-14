@@ -1,4 +1,3 @@
-
 var tracer = require('tracer');
 var logger = require('./server/config/logger');
 var express = require('express');
@@ -9,10 +8,10 @@ var config = require('./server/config/config');
 var app = express();
 
 if (process.env.NODE_ENV !== 'test') {
-    tracer.setLevel('log');
+  tracer.setLevel('log');
 }
 else {
-    tracer.setLevel('warn');
+  tracer.setLevel('warn');
 }
 logger.log('configuring express');
 require('./server/config/express')(app);
@@ -33,8 +32,8 @@ logger.log('configuring listener for http on port: ' + config.http.port);
 http.createServer(app).listen(config.http.port);
 
 if (config.env === 'development') {
-    logger.log('configuring listener for https on port: ' + config.https.port);
-    https.createServer(config.https.options, app).listen(config.https.port);
+  logger.log('configuring listener for https on port: ' + config.https.port);
+  https.createServer(config.https.options, app).listen(config.https.port);
 }
 
 logger.log("Listening on port " + config.http.port);

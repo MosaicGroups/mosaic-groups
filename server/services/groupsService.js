@@ -1,4 +1,3 @@
-var logger = require('../config/logger');
 var Group = require('mongoose').model('Group');
 var errorHandler = require('../utilities/errorHandler');
 
@@ -12,37 +11,34 @@ var emailer = require('../utilities/emailer');
  * @param successCallback
  */
 exports.addMember = function (groupId, memberData, userIsAuthenticated, errorCallback, successCallback) {
-    Group.findOne({
-        _id: groupId
-    }).populate('leaders').exec(function (err, group) {
-        if (err) {
-            errorCallback(err, group);
-        } else {
-            if (group.disabled) {
-                errorCallback(new Error('Group has been disabled, you cannot join at this time.'), group);
-            }
-            if (group.isForLeadersOnly() && !userIsAuthenticated) {
-                errorCallback(new Error('You must be logged in to join this group'), group);
-            }
-            Group.count({ 'members.email': memberData.email }, function (err, c) {
-                if (err) { };
-                if (c >= 2) {
-                    errorCallback(new Error('You (' + memberData.firstName + ' ' + memberData.lastName + ' <' + memberData.email + '>' + ') have signed up for the maximum number of groups.'), group);
-                }
-                else {
-                    group.members.push(memberData);
-                    group.save(function (err) {
-                        if (err) {
-                            errorCallback(err, group);
-                        }
-                        else {
-                            successCallback(null, group);
-                        }
-                    });
-                }
+  Group.findOne({
+    _id: groupId
+  }).populate('leaders').exec(function (err, group) {
+    if (err) errorCallback(err, group);
+    else {
+      if (group.disabled) errorCallback(new Error('Group has been disabled, you cannot join at this time.'), group);
+      if (group.isForLeadersOnly() && !userIsAuthenticated) errorCallback(new Error('You must be logged in to join this group'), group);
+      else {
+        Group.count({'members.email': memberData.email}, function (err, c) {
+          if (err) {
+          }
+          ;
+          if (c >= 2) {
+            errorCallback(new Error('You (' + memberData.firstName + ' ' + memberData.lastName + ' <' + memberData.email + '>' + ') have signed up for the maximum number of groups.'), group);
+          }
+          else {
+            group.members.push(memberData);
+            group.save(function (err) {
+              if (err) errorCallback(err, group);
+              else {
+                successCallback(null, group);
+              }
             });
-        }
-    });
+          }
+        });
+      }
+    }
+  });
 };
 
 /**
@@ -51,35 +47,35 @@ exports.addMember = function (groupId, memberData, userIsAuthenticated, errorCal
  * @param callback
  */
 exports.deleteGroup = function (groupDeleteId, callback) {
-    if (groupDeleteId === undefined || groupDeleteId === null) callback(new Error('groupDeletedId is a required parameter', false));
-    Group.findById(groupDeleteId).exec(function (error, data) {
-        // if not found then return 404
-        if (error) { callback(error, false); }
+  if (groupDeleteId === undefined || groupDeleteId === null) callback(new Error('groupDeletedId is a required parameter', false));
+  Group.findById(groupDeleteId).exec(function (error, data) {
+    // if not found then return 404
+    if (error) callback(error, false);
+    else {
+      var deletedGroup = data;
+      deletedGroup.remove(function (error) {
+        if (error) callback(error, false);
         else {
-            var deletedGroup = data;
-            deletedGroup.remove(function (error) {
-                if (error) { callback(error, false); }
-                else {
-                    callback(null, deletedGroup);
-                }
-            });
+          callback(null, deletedGroup);
         }
-    });
+      });
+    }
+  });
 };
 
 exports.emailGroupReportToSelf = function (user, callback) {
-    Group.find({}).populate('leaders').exec(function (err, collection) {
-        emailer.sendGroupsReport(user);
-        emailer.sendAuditMessageEMail(user.username + " requested an on demand daily report email");
-        callback(err, collection);
-    });
+  Group.find({}).populate('leaders').exec(function (err, collection) {
+    emailer.sendGroupsReport(user);
+    emailer.sendAuditMessageEMail(user.username + " requested an on demand daily report email");
+    callback(err, collection);
+  });
 };
 
 exports.emailUniqueReportToSelf = function (user, callback) {
-    Group.find({}).populate('leaders').exec(function (err, collection) {
-        emailer.emailUniqueReportToSelf(user);
-        callback(err, collection);
-    });
+  Group.find({}).populate('leaders').exec(function (err, collection) {
+    emailer.emailUniqueReportToSelf(user);
+    callback(err, collection);
+  });
 };
 
 /**
@@ -88,16 +84,16 @@ exports.emailUniqueReportToSelf = function (user, callback) {
  * @param callback
  */
 exports.getGroup = function (groupId, callback) {
-    if (groupId) {
-        Group.findOne({
-            _id: groupId
-        }).populate('leaders').exec(function (err, group) {
-            callback(err, group);
-        });
-    }
-    else {
-        callback(new Error("Group ID not defined."));
-    }
+  if (groupId) {
+    Group.findOne({
+      _id: groupId
+    }).populate('leaders').exec(function (err, group) {
+      callback(err, group);
+    });
+  }
+  else {
+    callback(new Error("Group ID not defined."));
+  }
 };
 
 /**
@@ -105,9 +101,9 @@ exports.getGroup = function (groupId, callback) {
  * @param callback
  */
 exports.getGroups = function (callback) {
-    Group.find({}).populate('leaders').exec(function (err, collection) {
-        callback(err, collection);
-    });
+  Group.find({}).populate('leaders').exec(function (err, collection) {
+    callback(err, collection);
+  });
 };
 
 /**
@@ -116,12 +112,12 @@ exports.getGroups = function (callback) {
  * @param callback
  */
 exports.saveGroup = function (groupData, callback) {
-    // ensure that all group members have a join date
-    ensureJoinDates(groupData);
+  // ensure that all group members have a join date
+  ensureJoinDates(groupData);
 
-    Group.create(groupData, function (err, group) {
-        callback(err, group);
-    });
+  Group.create(groupData, function (err, group) {
+    callback(err, group);
+  });
 };
 
 /**
@@ -131,20 +127,20 @@ exports.saveGroup = function (groupData, callback) {
  * @param callback
  */
 exports.updateGroup = function (groupId, groupUpdates, callback) {
-    // ensure that all group members have a join date
-    ensureJoinDates(groupUpdates);
-    Group.findByIdAndUpdate(groupId, groupUpdates, undefined, function (err) {
-        callback(err);
-    });
+  // ensure that all group members have a join date
+  ensureJoinDates(groupUpdates);
+  Group.findByIdAndUpdate(groupId, groupUpdates, undefined, function (err) {
+    callback(err);
+  });
 };
 
 var ensureJoinDates = function (group) {
-    if (group.members) {
-        for (var i = 0; i < group.members.length; i++) {
-            var member = group.members[i];
-            if (!member.joinDate) {
-                member.joinDate = new Date();
-            }
-        }
+  if (group.members) {
+    for (var i = 0; i < group.members.length; i++) {
+      var member = group.members[i];
+      if (!member.joinDate) {
+        member.joinDate = new Date();
+      }
     }
+  }
 };
