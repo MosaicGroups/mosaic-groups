@@ -25,7 +25,7 @@ exports.sendError = function(req, res, error, status) {
   }
 
   // send an error report
-  emailer.sendErrorMessageEmail(error.toString());
+  emailer.sendErrorMessageEmail(error.message);
 
   // set the status to 400 if it was not explicitly set already
   status = (status) ? status : 400;
@@ -34,7 +34,7 @@ exports.sendError = function(req, res, error, status) {
   res.status(status);
 
   // return the error
-  res.send({reason: error.toString()});
+  res.send({reason: error.message});
 }
 
 /**
