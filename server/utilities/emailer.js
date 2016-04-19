@@ -24,12 +24,7 @@ exports.sendAddedMemberEMail = function (group, newMemberData, callback) {
     var message = 'Mosaic Group: "' + group.title + '" has a new member request from: "' + newMemberData.firstName + ' ' +
     newMemberData.lastName + '" &lt;' + newMemberData.email + '&gt;.';
 
-    sendEmail(superadminTos, 'Audit Msg', message, null, function (err, response) {
-      if (err && callback) callback(err, response);
-      else {
-        sendEmail(tos, 'New Member', message, null, callback);
-      }
-    });
+    sendEmail(tos, superadminTos, 'New Member', message, null, callback);
   });
 };
 
@@ -41,7 +36,7 @@ exports.sendMemberConfirmationEmail = function (group, newMemberData, callback) 
   }
   var message = 'You are registered for the group: "' + group.title + '"' +
   '. The group leader(s): ' + groupLeaders + ' will be contacting you soon!!';
-  sendEmail(newMemberData.email, "Mosaic Group Confirmation", message, null, callback);
+  sendEmail(newMemberData.email, [], "Mosaic Group Confirmation", message, null, callback);
 }
 
 exports.sendAuditMessageEMail = function (message, callback) {
@@ -52,7 +47,7 @@ exports.sendAuditMessageEMail = function (message, callback) {
     for (var i = 0; i < superadmins.length; i++) {
       superadminTos += (superadminTos.length === 0) ? superadmins[i].username : "," + superadmins[i].username;
     }
-    sendEmail(superadminTos, "Audit Msg", message, null, callback);
+    sendEmail(superadminTos, [], "Audit Msg", message, null, callback);
   });
 };
 
@@ -73,7 +68,7 @@ exports.sendGroupsReport = function (currUser, callback) {
     var report = reportGenerator.createDailyReport(groups);
     var adminTos = "";
     if (currUser) {
-      sendEmail(currUser.username, "Daily Report", report, null, callback);
+      sendEmail(currUser.username, [], "Daily Report", report, null, callback);
     } else {
       User.find({
         'roles': 'admin'
@@ -81,7 +76,7 @@ exports.sendGroupsReport = function (currUser, callback) {
         for (var i = 0; i < admins.length; i++) {
           adminTos += (adminTos.length === 0) ? admins[i].username : "," + admins[i].username;
         }
-        sendEmail(adminTos, "Daily Report", report, null, callback);
+        sendEmail(adminTos, [], "Daily Report", report, null, callback);
       });
     }
   });
@@ -99,7 +94,7 @@ exports.emailUniqueReportToSelf = function (currUser, callback) {
     var attachments = [];
     attachments.push(attachment);
 
-    sendEmail(currUser.username, "Distinct Members", "Here is your distinct members report.", attachments, callback);
+    sendEmail(currUser.username, [], "Distinct Members", "Here is your distinct members report.", attachments, callback);
   });
 };
 // create reusable transport method (opens pool of SMTP connections)
@@ -111,11 +106,12 @@ var smtpTransport = nodemailer.createTransport("SMTP", {
   }
 });
 
-var sendEmail = function (tos, subject, message, attachments, callback) {
+var sendEmail = function (tos, bccs, subject, message, attachments, callback) {
   // setup e-mail data with unicode symbols
   var mailOptions = {
     from: "mosaic.groups@gmail.com", // sender address
-    to: tos, // list of receivers
+    to: tos, // list of receivers,
+    bcc: bccs,
     subject: emailSubjectPrefix + " " + subject, // Subject line
     html: message,
     attachments: attachments
@@ -126,6 +122,7 @@ var sendEmail = function (tos, subject, message, attachments, callback) {
   }
 
   // send mail with defined transport object
+  console.log('smtpTransport.auth', config.emailer.password);
   smtpTransport.sendMail(mailOptions, function (err, response, info) {
     if (err) {
       logger.error("Error sending email", err);
