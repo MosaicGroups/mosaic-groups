@@ -26,7 +26,7 @@ angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $rout
     $scope.group.meetingTime = "";
     $scope.group.memberLimit = "";
     $scope.group.audienceType = "";
-    $scope.group.childcare = true;
+    $scope.group.childcare = false;
     $scope.group.topics = [];
     $scope.group.description = "";
     $scope.leaderIds = [];

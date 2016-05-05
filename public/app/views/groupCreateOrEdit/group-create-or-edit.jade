@@ -44,12 +44,14 @@
         .col-md-10
           input(name="childcare", type="checkbox", ng-model="group.childcare")
       .form-group
-        label.col-md-2.control-label(for="topic") Topics
+        label.col-md-2.control-label(for="topic") Topic
         .col-md-10
-          div(class="checkbox-group")
-            div(ng-repeat="topic in availableTopics")
-              input(type="checkbox" name="groupTopics" checklist-model="group.topics" checklist-value="topic")
-              span {{topic}}
+          select.form-control(name="topic", ng-options="item for (itemKey, item) in availableTopics", ng-model="group.topics", required)
+          //
+            div(class="checkbox-group")
+              div(ng-repeat="topic in availableTopics")
+                input(type="checkbox" name="groupTopics" checklist-model="group.topics" checklist-value="topic")
+                span {{topic}}
       .form-group
         label.col-md-2.control-label(for="description") Description
         .col-md-10
