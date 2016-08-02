@@ -59,7 +59,7 @@ exports.sendErrorMessageEmail = function (message, callback) {
     for (var i = 0; i < superadmins.length; i++) {
       superadminTos += (superadminTos.length === 0) ? superadmins[i].username : "," + superadmins[i].username;
     }
-    sendEmail(superadminTos, "Error Msg", message, null, callback);
+    sendEmail(superadminTos, [], "Error Msg", message, null, callback);
   });
 };
 
