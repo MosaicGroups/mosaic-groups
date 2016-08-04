@@ -72,8 +72,8 @@ var envs = {
         https: {
             port: process.env.SSLPORT || 443,
             options: {
-                key: fs.readFileSync('/data/certs/server.key'),
-                cert: fs.readFileSync('/data/certs/server.crt')
+                key: fs.readFileSync('/data/certs/live/www.mosaicgroups.org/privkey.pem'),
+                cert: fs.readFileSync('/data/certs/live/www.mosaicgroups.org/cert.pem')
             }
         },
         scheduler: {
