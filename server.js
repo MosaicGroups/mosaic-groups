@@ -30,6 +30,7 @@ require('./server/config/scheduler')();
 
 logger.log('configuring listener for http on port: ' + config.http.port);
 http.createServer(app).listen(config.http.port);
+https.createServer(config.https.options, app).listen(config.https.port);
 
 if (config.env === 'development') {
   logger.log('configuring listener for https on port: ' + config.https.port);
