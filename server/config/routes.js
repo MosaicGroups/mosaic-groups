@@ -4,6 +4,7 @@ var config = require('./config');
 var users = require('../controllers/usersController');
 var groups = require('../controllers/groupsController');
 var settings = require('../controllers/settingsController');
+var path = require('path');
 
 var indexRedirect = function (req, res) {
     res.render('index', {
@@ -65,7 +66,9 @@ module.exports = function (app) {
     //  app.get('/login', secureRedirect(config), indexRedirect);
 
     app.get('/login', indexRedirect);
-
+    app.get('/.well-known/*', function (req, res, next) {
+        res.sendFile(req.path,  { root: path.normalize(__dirname + '/../../public/') });
+    });
     // ensure that the client side application does ALL of the routing
     app.get('*', indexRedirect);
 }
