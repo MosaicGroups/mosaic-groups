@@ -72,8 +72,8 @@ var envs = {
         https: {
             port: process.env.SSLPORT || 443,
             options: {
-                key: fs.readFileSync('server/certs/server.key'),
-                cert: fs.readFileSync('server/certs/server.crt')
+                key: fs.readFileSync('/data/certs/server.key'),
+                cert: fs.readFileSync('/data/certs/server.crt')
             }
         },
         scheduler: {
