@@ -39,19 +39,3 @@
 
 Pushes to master trigger a build on codeship, that in turn push to our production server.
 
-###SSL
-
-To configure SSL, running
-```
-sudo npm install -g letsencrypt-cli
-letsencrypt certonly --agree-tos --email youremail@domain.com --standalone --domains domain.com  --config-dir /data/certs   --http-01-port 8080 --webroot --webroot-path /data/yourwebsite/public/
-```
-
-You need to set up a route like this in your app so that letsencrypt knows where to look to validate the URL:
-
-```
-app.get('/.well-known/*', function (req, res, next) {
-
-    res.sendFile(req.path,  { root: path.normalize(__dirname + '/../../public/') });
-});
-```

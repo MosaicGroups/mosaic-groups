@@ -72,14 +72,14 @@ var envs = {
         https: {
             port: process.env.SSLPORT || 443,
             options: {
-                key: fs.readFileSync('/data/certs/live/www.mosaicgroups.org/privkey.pem'),
-                cert: fs.readFileSync('/data/certs/live/www.mosaicgroups.org/cert.pem')
+                key: fs.readFileSync('/data/certs/server.key'),
+                cert: fs.readFileSync('/data/certs/server.crt')
             }
         },
         scheduler: {
             enabledGroupReport: false,
             enabledDistinctMembersReport: false,
-            hour: 11, // 11am == 7am EST on the heroku server because it is +4hrs
+            hour: 11,
             minute: 59
         },
         emailer: {
