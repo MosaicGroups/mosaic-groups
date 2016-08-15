@@ -41,7 +41,7 @@ Pushes to master trigger a build on codeship, that in turn push to our productio
 
 ###SSL
 
-To configure SSL, running
+To configure SSL, run
 ```
 sudo npm install -g letsencrypt-cli
 letsencrypt certonly --agree-tos --email youremail@domain.com --standalone --domains domain.com  --config-dir /data/certs   --http-01-port 8080 --webroot --webroot-path /data/yourwebsite/public/
