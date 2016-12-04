@@ -35,8 +35,8 @@ async.series([
             it("Should not add a new group", function (done) {
                 group.title = undefined;
                 Group.create(group, function (err, g) {
-                    if (err) throw err;
-                    expect(g).to.be(undefined);
+                    expect(err.name).to.be("ValidationError");
+                    expect(g).to.be(undefined)
                     done();
                 });
             });
