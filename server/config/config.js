@@ -30,7 +30,6 @@ if (typeof (process.env.MOSAICGROUPS_USERNAME) != "undefined" && typeof (process
         devDBConnection = 'mongodb://localhost:27017/mosaicgroups';
     }
 }
-logger.log("Using the following as a monogo connection string for dev: ", devDBConnection);
 var envs = {
     development: {
         env: env,
