@@ -28,6 +28,8 @@ require('./server/config/routes')(app);
 logger.log('configuring scheduler');
 require('./server/config/scheduler')();
 
+logger.log('environment: ' + config.env);
+
 logger.log('configuring listener for http on port: ' + config.http.port);
 http.createServer(app).listen(config.http.port);
 //https.createServer(config.https.options, app).listen(config.https.port);
