@@ -26,7 +26,7 @@
  * Install bower dependencies
 
 ##How to push to heroku
-* http://therubyway.wordpress.com/2008/12/11/using-heroku-and-windows/
+* https://devcenter.heroku.com/articles/git
 
 ##How to run the unit tests
 * Install unit testing libraries
