@@ -8,10 +8,10 @@ var logger = require('./logger');
 
 var forceSsl = function (req, res, next) {
   logger.log("req.headers['x-forwarded-proto'] = " + req.headers['x-forwarded-proto']);
-  //if (config.env === 'production' && req.headers['x-forwarded-proto'] !== 'https') {
-  //  logger.log("req.headers['x-forwarded-proto'] = " + req.headers['x-forwarded-proto']);
-  //  return res.redirect(['https://', req.get('Host'), req.url].join(''));
-  //}
+  if (config.env === 'production' && req.headers['x-forwarded-proto'] !== 'https') {
+    logger.log("req.headers['x-forwarded-proto'] = " + req.headers['x-forwarded-proto']);
+    return res.redirect(['https://', req.get('Host'), req.url].join(''));
+  }
   return next();
 };
 

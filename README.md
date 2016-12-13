@@ -39,3 +39,8 @@
 
 Pushes to master trigger a build on codeship, that in turn push to our production server.
 
+##SSL
+
+Using this Heroku service: https://blog.heroku.com/ssl-is-now-included-on-all-paid-dynos
+
+Using DNSSimple https://dnsimple.com/a/67231/domains/mosaicgroups.org/applied_services
