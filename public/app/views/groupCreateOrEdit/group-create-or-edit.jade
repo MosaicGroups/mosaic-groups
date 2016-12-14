@@ -94,6 +94,8 @@
         .col-md-10.col-md-offset-2
           .pull-left
             button.btn.btn-default(ng-click="listMemberEmails()") Export Member Email Addresses
+          .pull-left(ng-if="group.audienceType === 'Middle School Students' || group.audienceType === 'High School Students'")
+            button.btn.btn-default(ng-click="listEmergencyContacts()" style="margin-left:10px;") List Emergency Contacts
           .pull-right
             button.btn.btn-primary(ng-if="!group._id" ng-click="saveGroup()") Create Group
             button.btn.btn-primary(ng-if="group._id" ng-click="saveGroup()") Update Group
