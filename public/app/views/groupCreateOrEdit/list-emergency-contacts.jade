@@ -1,0 +1,21 @@
+div
+  .modal-header
+    h3 {{title}}
+  .modal-body
+    table.table.table-hover.table-striped(name="EmergencyContacts")
+      thead
+        tr
+          th Student
+          th Emergency Contact
+          th Contact Email
+          th Contact Phone
+      tbody
+        tr(ng-repeat="member in group.members")
+          td {{member.firstName}} {{member.lastName}}
+          td {{member.emergency_contact.firstName}} {{member.emergency_contact.lastName}}
+          td {{member.emergency_contact.email}}
+          td {{member.emergency_contact.phone}}
+            
+  .modal-footer
+    button.btn.btn-primary(ng-click="ok()") OK
+

@@ -90,6 +90,30 @@ angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $rout
       }
     });
   }
+  
+  $scope.listEmergencyContacts = function() {
+    var modalInstance = $modal.open({
+      templateUrl: '/partials/groupCreateOrEdit/list-emergency-contacts',
+      controller: listEmergencyContactsCtrl,
+      resolve: {
+        group: function () {
+          return $scope.group;
+        },
+        title: function() {
+          return "Student Emergency Contacts"
+        }
+      }
+    });
+  }
+  
+  var listEmergencyContactsCtrl = function($scope, $modalInstance, title, group) {
+    $scope.title = title;
+    $scope.group = group;
+
+    $scope.ok = function () {
+      $modalInstance.close();
+    };
+  };
 
   $scope.addMember = function(group) {
     var newMember = {

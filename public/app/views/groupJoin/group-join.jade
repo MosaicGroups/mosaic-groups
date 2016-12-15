@@ -46,6 +46,7 @@
       .col-md-6
         .well
           ng-form.form-horizontal(name="groupJoinForm" id="groupJoinForm")
+            .h3(ng-if="group.audienceType === 'Middle School Students' || group.audienceType === 'High School Students'") Student:
             .form-group
               label.col-md-4.control-label(for="firstName") First Name
               .col-md-8
@@ -64,6 +65,31 @@
                 input.form-control(name="emailConfirm", type="email", placeholder="Retype Email", ng-model="emailConfirmed", required, autocomplete="off" ng-match="group.newMember.email" )
                 div(ng-show="groupJoinForm.emailConfirm.$error.mismatch")
                   span.msg-error Email and Confirm Email must match.
+            .div(ng-if="group.audienceType === 'Middle School Students' || group.audienceType === 'High School Students'")
+              .h3 Emergency Contact:
+              .form-group
+                label.col-md-4.control-label(for="contactFirstName") First Name
+                .col-md-8
+                  input.form-control(name="contactFirstName", type="text", placeholder="First Name", ng-model="group.newMember.emergency_contact.firstName", required, autocomplete="off" )
+              .form-group
+                label.col-md-4.control-label(for="contactLastName") Last Name
+                .col-md-8
+                  input.form-control(name="contactLastName", type="text", placeholder="Last Name", ng-model="group.newMember.emergency_contact.lastName", required, autocomplete="off" )
+              .form-group
+                label.col-md-4.control-label(for="contactPhone") Phone 
+                .col-md-8
+                  input.form-control(name="contactPhone", type="text", placeholder="Phone", ng-model="group.newMember.emergency_contact.phone", required, autocomplete="off" )
+              .form-group
+                label.col-md-4.control-label(for="contactEmail") Email
+                .col-md-8
+                  input.form-control(name="contactEmail", type="email", placeholder="Email", ng-model="group.newMember.emergency_contact.email", required, autocomplete="off" )
+              .form-group
+                label.col-md-4.control-label(for="contactEmailConfirm") Retype Email
+                .col-md-8
+                  input.form-control(name="contactEmailConfirm", type="email", placeholder="Retype Email", ng-model="ContactEmailConfirmed", required, autocomplete="off" ng-match="group.newMember.emergency_contact.email" )
+                  div(ng-show="groupJoinForm.contactEmailConfirm.$error.mismatch")
+                    span.msg-error Emergency Contact Email and Confirm Email must match.
+
             .form-group
               .col-md-10.col-md-offset-2
                 .pull-right
