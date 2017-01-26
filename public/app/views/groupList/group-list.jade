@@ -140,7 +140,8 @@
                 b This Group Is Closed
               // or show group is full
               span(ng-if="groupIsFull(mosaicGroup) && !groupsDisabled() && !groupIsDisabled(mosaicGroup)")
-                b This Group Is Full
+                a(href="", ng-click="showGroupFull(mosaicGroup)")
+                  b This Group Is Full
               // manage group
               span(ng-if="canEdit(mosaicGroup)")
                 // show manage link

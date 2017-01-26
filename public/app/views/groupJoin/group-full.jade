@@ -1,0 +1,17 @@
+.container(ng-init="init()" ng-if="!identityService.isAuthenticated()")
+  .jumbotron
+    h2 Group Full: {{group.title}}
+  .container
+    .row
+      .col-md-2
+      .col-md-8
+        .well
+          h3 Looks like this group is full!
+          p This is most likely because the leader is meeting in their home and has a limited amount of space.
+          p It may also be that the leader wants to create an environment for vulnerability and too large a group would prevent that. 
+          p Regardless of the leader’s reason if you are eager to join this group please feel free to email them and ask if they have space for one more. 
+          p If they don’t, don’t worry! We offer fresh groups midway through the semester for you to be apart of, and we launch a brand new set of groups every four months.”
+          h4 Leaders:
+          ul 
+            li(ng-repeat="leader in group.leaders") {{leader.firstName}} {{leader.lastName}} &lt{{leader.username}}&gt
+      .col-md-2
