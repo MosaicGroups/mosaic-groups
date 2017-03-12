@@ -22,8 +22,6 @@
 ##How to set up on you local environment
 * Install Node.js
  * Install the dependencies - run `$ npm install`
-* Install bower
- * Install bower dependencies
 
 ##How to push to heroku
 * https://devcenter.heroku.com/articles/git
