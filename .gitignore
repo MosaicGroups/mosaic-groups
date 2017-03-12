@@ -4,3 +4,4 @@ newrelic_agent.log
 tsd.d.ts
 typings/
 npm-debug.log
+public/bundle.js
