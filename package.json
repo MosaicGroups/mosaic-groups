@@ -28,6 +28,8 @@
     "nodemailer": "~0.6.1",
     "passport": "~0.2.0",
     "passport-local": "~0.1.6",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
     "tracer": "^0.8.2",
     "ys-hash": "0.0.6"
   },
