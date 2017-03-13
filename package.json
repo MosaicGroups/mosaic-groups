@@ -1,20 +1,23 @@
 {
-  "name": "MosaicGroups",
-  "version": "0.0.0",
+  "name": "mosaicgroups",
+  "version": "2.0.0",
   "description": "A website for managing Mosaic groups",
   "main": "index.js",
   "scripts": {
     "test": "mocha test/mocha && karma start",
-    "build": "webpack --progress --colors --watch"
+    "start": "./node_modules/.bin/babel-node server.js",
+    "webpack": "./node_modules/webpack/bin/webpack.js --config webpack.config.prod.js",
+    "webpack-watch": "./node_modules/webpack/bin/webpack.js --watch --config webpack.config.dev.js"
   },
   "engines": {
     "node": "4.2.x",
     "npm": "3.5.x"
   },
-  "author": "Patrick Blair, Jeff Klassen, and Shawn Wallis",
+  "author": "Patrick Blair, Jeff Klassen, and Brandon Kreisel",
   "license": "ISC",
   "dependencies": {
     "async": "^1.5.1",
+    "babel-cli": "^6.24.0",
     "body-parser": "~1.8.4",
     "cookie-parser": "~1.3.3",
     "cookie-session": "~1.0.2",
@@ -31,6 +34,7 @@
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "tracer": "^0.8.2",
+    "webpack-merge": "^4.0.0",
     "ys-hash": "0.0.6"
   },
   "devDependencies": {
@@ -39,6 +43,8 @@
     "babel-loader": "^6.4.0",
     "babel-preset-env": "^1.2.1",
     "babel-preset-es2015": "^6.22.0",
+    "babel-preset-es2016": "^6.22.0",
+    "babel-preset-es2017": "^6.22.0",
     "babel-preset-react": "^6.23.0",
     "eslint": "^3.17.1",
     "eslint-config-airbnb": "^14.1.0",
