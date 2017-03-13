@@ -5,3 +5,4 @@ tsd.d.ts
 typings/
 npm-debug.log
 public/bundle.js
+client/build/
