@@ -214,8 +214,8 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
     };
     
     $scope.showGroupFull = function (group) {
-      $location.path('/views/groupJoin/group-full/' + group._id);
-    }
+        $location.path('/views/groupJoin/group-full/' + group._id);
+    };
 
     $scope.editGroup = function (group) {
         $location.path('/views/groupCreateOrEdit/group-create-or-edit/' + group._id);
@@ -318,7 +318,7 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
                 if (arr[i] === val) return i;
             }
             return -1;
-        }
+        };
 
     $scope.getSettings();
 });
