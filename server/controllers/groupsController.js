@@ -98,28 +98,28 @@ exports.addMember = function (req, res) {
     let groupId = req.params.id;
     let userIsAuthenticated = req.isAuthenticated();
 
+    members = members.map(member => {
+        member.status = status;
+        member.joinDate = joinDate;
+    });
 
-    Promise
-        .all([members.map(member => {
-            member.status = status;
-            member.joinDate = joinDate;
-            return groupsService.addMember(groupId, member, userIsAuthenticated)
-                .then(group => {
-                    emailer.sendAddedMemberEMail(group, member, function (err) {
-                        if (err) errorHandler.logError(err, 'Unable to send email that a member was added');
-                        emailer.sendMemberConfirmationEmail(group, member, function (err) {
-                            if (err) errorHandler.logError(err, 'Unable to send email for group add confirmation');
-                        });
+    groupsService.addMembers(groupId, members, userIsAuthenticated)
+        .then(group => {
+            members.map(member => {
+                emailer.sendAddedMemberEMail(group, member, function (err) {
+                    if (err) errorHandler.logError(err, 'Unable to send email that a member was added');
+                    emailer.sendMemberConfirmationEmail(group, member, function (err) {
+                        if (err) errorHandler.logError(err, 'Unable to send email for group add confirmation');
                     });
-                    return group;
                 });
-
-
-        })])
-        .then(groups => {
+            });    
+            return group;
+        })
+        .then(() => {
             return res.end();
         })
         .catch(err => {
+            console.log(err);
             errorHandler.sendError(req, res, err);
         });
 

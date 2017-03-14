@@ -10,7 +10,7 @@ var emailer = require('../utilities/emailer');
  * @param errorCallback
  * @param successCallback
  */
-exports.addMember = function (groupId, memberData, userIsAuthenticated) {
+exports.addMembers = function (groupId, members, userIsAuthenticated) {
 
     return new Promise((resolve, reject) => {
 
@@ -18,31 +18,64 @@ exports.addMember = function (groupId, memberData, userIsAuthenticated) {
             _id: groupId
         })
             .populate('leaders')
+            .populate('members')
             .exec(function (err, group) {
-                if (err) reject(err, group);
-                else {
-                    if (group.disabled) reject('Group has been disabled, you cannot join at this time.', group);
-                    if (group.isForLeadersOnly() && !userIsAuthenticated) reject('You must be logged in to join this group', group);
-                    else {
-                        Group.count({ 'members.email': memberData.email }, function (err, c) {
+                if (err) {
+                    reject(err, group);
+                    return;
+                }
+                if (group.disabled) {
+                    reject('Group has been disabled, you cannot join at this time.', group);
+                    return;
+                }
+                if (group.isForLeadersOnly() && !userIsAuthenticated) {
+                    reject('You must be logged in to join this group', group);
+                    return;
+                }
 
-                            if (c >= 2) {
-                                reject(`You (${memberData.firstName} ${memberData.lastName} <${memberData.email}> ) have signed up for the maximum number of groups.`, group);
+                if (group.memberLimit < (members.length + group.members.length)) {
+                    reject(`This group cannot accommodate ${members.length} more member(s)`);
+                    return;
+                }
+                resolve(group);
+
+            });
+    })
+        .then(group => {
+            return Promise.all(members.map(member => {
+                return new Promise((resolve, reject) => {
+                    Group.count({ 'members.email': member.email }, function (err, c) {
+                        if (err) {
+                            reject(err);
+                            return;
+                        }
+                        if (c >= 2) {
+                            reject(`You (${member.firstName} ${member.lastName} <${member.email}> ) have signed up for the maximum number of groups.`, group);
+                            return;
+                        }
+                        resolve(group);
+
+                    });
+                });
+            }))
+                .then(() => {
+                    return new Promise((resolve, reject) => {
+                        group.members.concat(members);
+                        group.save(function (err) {
+                            if (err) {
+                                reject(err);
+                                return;
                             }
                             else {
-                                group.members.push(memberData);
-                                group.save(function (err) {
-                                    if (err) reject(err, group);
-                                    else {
-                                        resolve(group);
-                                    }
-                                });
+                                resolve(group);
                             }
                         });
-                    }
-                }
-            });
-    });
+                    });
+
+                });
+
+        });
+
 };
 
 /**
