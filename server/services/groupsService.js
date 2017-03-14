@@ -11,7 +11,7 @@ var emailer = require('../utilities/emailer');
  * @param successCallback
  */
 exports.addMembers = function (groupId, members, userIsAuthenticated) {
-
+    //console.log('members', members);
     return new Promise((resolve, reject) => {
 
         Group.findOne({
@@ -60,7 +60,10 @@ exports.addMembers = function (groupId, members, userIsAuthenticated) {
             }))
                 .then(() => {
                     return new Promise((resolve, reject) => {
-                        group.members.concat(members);
+                        members.map(member => {
+                            return group.members.push(member);
+                        });
+                        
                         group.save(function (err) {
                             if (err) {
                                 reject(err);

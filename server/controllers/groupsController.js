@@ -87,6 +87,7 @@ exports.updateGroup = function (req, res) {
  * @param res
  */
 exports.addMember = function (req, res) {
+    //console.log('BODY',req.body);
     let members = [req.body.newMember];
     if (req.body.newMemberSpouse) {
         members.push(req.body.newMemberSpouse);
@@ -101,6 +102,7 @@ exports.addMember = function (req, res) {
     members = members.map(member => {
         member.status = status;
         member.joinDate = joinDate;
+        return member;
     });
 
     groupsService.addMembers(groupId, members, userIsAuthenticated)
@@ -119,7 +121,7 @@ exports.addMember = function (req, res) {
             return res.end();
         })
         .catch(err => {
-            console.log(err);
+            //console.log(err);
             errorHandler.sendError(req, res, err);
         });
 
