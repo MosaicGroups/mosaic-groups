@@ -19,9 +19,24 @@ async.series([
                 dayOfTheWeek: "Mon",
                 meetingTime: "6 AM",
                 audienceType: "zombies",
-                description: "test description",
-
+                description: "test description",  
             }
+                  
+            var studentMember = {
+              firstName: "Little Bobby",
+              lastName: "Jones",
+              email: "lilbobby@isp.test",
+              phone: "1112223333",
+              status: "PENDING",
+              joinDate: new Date(),
+              emergency_contact: {
+                firstName: "Concerned",
+                lastName: "Parent",
+                email: "helicopter@parent.com",
+                phone: "5556667777",
+              }
+            }
+  
             it("Should add a new group", function (done) {
                 Group.create(group, function (err, g) {
                     if (err) throw err;
@@ -31,15 +46,15 @@ async.series([
                 });
 
             });
-
+      
             it("Should not add a new group", function (done) {
                 group.title = undefined;
                 Group.create(group, function (err, g) {
-                    if (err) throw err;
-                    expect(g).to.be(undefined);
+                    expect(err.name).to.be("ValidationError");
+                    expect(g).to.be(undefined)
                     done();
                 });
-            });
+            });         
 
             it("Should contain 3 groups", function (done) {
                 async.series([
@@ -79,6 +94,25 @@ async.series([
                 });
 
             });
+            
+            it("Should Add a Group with Emergency Contact", function (done) {
+              group.title = "sGroup" //Fix from previous test that breaks group
+              group.members = [studentMember]
+              Group.create(group, function (err, g) {
+                if (err) throw err;
+                expect(g.members[0].emergency_contact.firstName).to.equal("Concerned");
+                done();
+              });
+            });
+            
+            it("Shouldn't add Broken Contact", function (done) {
+              group.members[0].firstName = undefined;
+              Group.create(group, function (err, g) {
+                expect(err.name).to.be("ValidationError");
+                done();
+              });
+            });
+            
         });
         describe("Groups Routes", function () {
             var user = {};

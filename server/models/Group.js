@@ -2,6 +2,25 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 // mongoose member collection
+var contactSchema = new mongoose.Schema({
+  firstName: {
+      type: String,
+      required: '"First Name" is required!'
+  },
+  lastName: {
+      type: String,
+      required: '"Last Name" is required!'
+  },
+  email: {
+      type: String,
+      required: '"Email" is required!'
+  },
+  phone: {
+      type: String,
+      required: '"Phone Number" is required!'
+  },
+});
+
 var memberSchema = new mongoose.Schema({
     firstName: {
         type: String,
@@ -21,7 +40,10 @@ var memberSchema = new mongoose.Schema({
     joinDate: {
         type: Date,
         required: '"Join Date" is required!'
-    }
+    },
+    emergency_contact: {
+        type: contactSchema
+    },
 });
 
 // mongoose group collection

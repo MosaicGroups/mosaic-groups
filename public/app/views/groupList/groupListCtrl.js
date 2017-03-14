@@ -212,6 +212,10 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
     $scope.joinGroup = function (group) {
         $location.path('/views/groupJoin/group-join/' + group._id);
     };
+    
+    $scope.showGroupFull = function (group) {
+      $location.path('/views/groupJoin/group-full/' + group._id);
+    }
 
     $scope.editGroup = function (group) {
         $location.path('/views/groupCreateOrEdit/group-create-or-edit/' + group._id);

@@ -30,7 +30,6 @@ if (typeof (process.env.MOSAICGROUPS_USERNAME) != "undefined" && typeof (process
         devDBConnection = 'mongodb://localhost:27017/mosaicgroups';
     }
 }
-logger.log("Using the following as a monogo connection string for dev: ", devDBConnection);
 var envs = {
     development: {
         env: env,
@@ -46,8 +45,8 @@ var envs = {
         https: {
             port: process.env.SSLPORT || 3031,
             options: {
-                key: fs.readFileSync('server/certs/server.key'),
-                cert: fs.readFileSync('server/certs/server.crt')
+                //key: fs.readFileSync('/data/certs/server.key'),
+                //cert: fs.readFileSync('/data/certs/server.crt')
             }
         },
         scheduler: {
@@ -72,8 +71,8 @@ var envs = {
         https: {
             port: process.env.SSLPORT || 443,
             options: {
-                key: fs.readFileSync('/data/certs/server.key'),
-                cert: fs.readFileSync('/data/certs/server.crt')
+                //key: fs.readFileSync('/data/certs/server.key'),
+                //cert: fs.readFileSync('/data/certs/server.crt')
             }
         },
         scheduler: {
