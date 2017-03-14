@@ -7,7 +7,7 @@
     "test": "mocha test/mocha && karma start"
   },
   "engines": {
-    "node": "4.2.x",
+    "node": "6.2.0",
     "npm": "3.5.x"
   },
   "author": "Patrick Blair, Jeff Klassen, and Shawn Wallis",
