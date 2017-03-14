@@ -15,8 +15,8 @@ angular.module('app').factory('Group', function ($resource) {
             url: "/api/groups/emailUniqueReportToSelf"
         }
     });
-    Group.prototype.isForLeadersOnly = function() {
-      return this.audienceType && this.audienceType === 'Group Leaders';
-    }
+    Group.prototype.isForLeadersOnly = function () {
+        return this.audienceType && this.audienceType === 'Group Leaders';
+    };
     return Group;
 });
