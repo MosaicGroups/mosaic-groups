@@ -143,9 +143,13 @@ exports.getGroups = function (callback) {
 exports.saveGroup = async function (groupData, callback) {
     // ensure that all group members have a join date
     ensureJoinDates(groupData);
-
-    let group = await Group.create(groupData);
-    callback(null, group);
+    try {
+        let group = await Group.create(groupData);
+        callback(null, group);
+    }
+    catch (err){
+        callback(err);
+    }
 };
 
 /**

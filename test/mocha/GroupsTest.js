@@ -17,21 +17,77 @@ describe('Groups Service', function () {
         audienceType: 'zombies',
         description: 'test description',
     };
-     it('Should add a new group', function (done) {
-            groupService.saveGroup(group, function (err, g) {
-                if (err) throw err;
-                expect(g.title).to.equal('testG');
-                groups.push(g);
-                done();
-            });
-
+    it('Should add a new group', function (done) {
+        groupService.saveGroup(group, function (err, g) {
+            if (err) throw err;
+            expect(g.title).to.equal('testG');
+            groups.push(g);
+            done();
         });
-         it('Should contain one group', function (done) {
-            groupService.getGroups(function (err, collection) {
-                expect(collection[0].title).to.equal(groups[0].title);
-                done();
-            });
-        })
+
+    });
+    it('Should contain one group', function (done) {
+        groupService.getGroups(function (err, collection) {
+            expect(collection[0].title).to.equal(groups[0].title);
+            done();
+        });
+    });
+    it('Should add a second new group', function (done) {
+        group.title = 'test2'
+        groupService.saveGroup(group, function (err, g) {
+            if (err) throw err;
+            expect(g.title).to.equal('test2');
+            groups.push(g);
+            done();
+        });
+
+    });
+    it('Should contain two groups', function (done) {
+        groupService.getGroups(function (err, collection) {
+            expect(collection.length).to.equal(2);
+            done();
+        });
+    });
+    it('Should not add a new group', function (done) {
+        group.title = undefined;
+        groupService.saveGroup(group, function (err, g) {
+            expect(err.name).to.be('ValidationError');
+            expect(g).to.be(undefined)
+            done();
+        });
+    });
+    var studentMember = {
+        firstName: 'Little Bobby',
+        lastName: 'Jones',
+        email: 'lilbobby@isp.test',
+        phone: '1112223333',
+        status: 'PENDING',
+        joinDate: new Date(),
+        emergency_contact: {
+            firstName: 'Concerned',
+            lastName: 'Parent',
+            email: 'helicopter@parent.com',
+            phone: '5556667777',
+        }
+    };
+
+    it('Should Add a Group with Emergency Contact', function (done) {
+        group.title = 'sGroup' //Fix from previous test that breaks group
+        group.members = [studentMember]
+        Group.create(group, function (err, g) {
+            if (err) throw err;
+            expect(g.members[0].emergency_contact.firstName).to.equal('Concerned');
+            done();
+        });
+    });
+
+    it('Should not add Broken Contact', function (done) {
+        group.members[0].firstName = undefined;
+        Group.create(group, function (err, g) {
+            expect(err.name).to.be('ValidationError');
+            done();
+        });
+    });
 });
 
 /*
