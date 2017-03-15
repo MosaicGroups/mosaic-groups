@@ -2,11 +2,39 @@ var request = require('supertest');
 var async = require('async');
 var expect = require('expect.js');
 require('./common');
-var app = require('./common').app;
+//var app = require('./common').app;
 
 var groupService = require('../../server/services/groupsService');
 var Group = require('mongoose').model('Group');
+describe('Groups Service', function () {
+    let groups = [];
+    let group = {
+        title: 'testG',
+        memberLimit: 15,
+        location: 'my house',
+        dayOfTheWeek: 'Mon',
+        meetingTime: '6 AM',
+        audienceType: 'zombies',
+        description: 'test description',
+    };
+     it('Should add a new group', function (done) {
+            groupService.saveGroup(group, function (err, g) {
+                if (err) throw err;
+                expect(g.title).to.equal('testG');
+                groups.push(g);
+                done();
+            });
 
+        });
+         it('Should contain one group', function (done) {
+            groupService.getGroups(function (err, collection) {
+                expect(collection[0].title).to.equal(groups[0].title);
+                done();
+            });
+        })
+});
+
+/*
 var g1ID, g2ID, g3ID;
 
 async.series([
@@ -185,3 +213,4 @@ async.series([
     }
 ]);
 
+*/
