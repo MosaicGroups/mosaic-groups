@@ -110,7 +110,7 @@ exports.getGroups = function (callback) {
 
     .exec(function (err, collection) {
       // sort by time of day
-      let sortedCollection = collection.sort(function(g1, g2)  {
+      let sortedCollection = collection.sort(function (g1, g2) {
 
         // if both morning and afternoon are the same for both dates
         if ((g1.meetingTime.indexOf('am') >= 0 && g2.meetingTime.indexOf('am') >= 0) || (g1.meetingTime.indexOf('pm') >= 0 && g2.meetingTime.indexOf('pm') >= 0)) {
@@ -124,8 +124,7 @@ exports.getGroups = function (callback) {
             return 1;
           }
         }
-      })
-      console.log(sortedCollection);
+      });
       callback(err, sortedCollection);
     });
 };
