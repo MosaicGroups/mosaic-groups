@@ -4,6 +4,10 @@
         "node": true,
         "es6": true
     },
+    "globals": {
+        "describe": true,
+        "it": true
+    },
     "parser": "babel-eslint",
     "parserOptions": {
         "ecmaVersion": 2017,
