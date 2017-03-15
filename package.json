@@ -4,7 +4,7 @@
   "description": "A website for managing Mosaic groups",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/mocha && karma start",
+    "test": "./node_modules/mocha/bin/mocha  --timeout 120000 --compilers js:babel-register --require babel-polyfill test/mocha",
     "start": "./node_modules/.bin/babel-node server.js"
   },
   "engines": {
@@ -51,7 +51,7 @@
     "karma-requirejs": "~0.2.1",
     "karma-script-launcher": "~0.1.0",
     "mocha": "^1.14.0",
-    "mockgoose": "^5.1.0",
+    "mockgoose": "^7.0.6",
     "requirejs": "~2.1.10",
     "supertest": "^1.1.0"
   }

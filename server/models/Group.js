@@ -3,22 +3,22 @@ var mongoose = require('mongoose'),
 
 // mongoose member collection
 var contactSchema = new mongoose.Schema({
-  firstName: {
-      type: String,
-      required: '"First Name" is required!'
-  },
-  lastName: {
-      type: String,
-      required: '"Last Name" is required!'
-  },
-  email: {
-      type: String,
-      required: '"Email" is required!'
-  },
-  phone: {
-      type: String,
-      required: '"Phone Number" is required!'
-  },
+    firstName: {
+        type: String,
+        required: '"First Name" is required!'
+    },
+    lastName: {
+        type: String,
+        required: '"Last Name" is required!'
+    },
+    email: {
+        type: String,
+        required: '"Email" is required!'
+    },
+    phone: {
+        type: String,
+        required: '"Phone Number" is required!'
+    },
 });
 
 var memberSchema = new mongoose.Schema({
@@ -108,8 +108,8 @@ function removeHashStr() {
         { 'uniqueId': { '$exists': true } },  // Query
         { '$unset': { 'uniqueId': true } },  // Update
         { 'multi': true }                    // Options
-        )
-};
+    );
+}
 
 exports.removeHashStr = removeHashStr;
 

@@ -65,6 +65,29 @@
                 input.form-control(name="emailConfirm", type="email", placeholder="Retype Email", ng-model="emailConfirmed", required, autocomplete="off" ng-match="group.newMember.email" )
                 div(ng-show="groupJoinForm.emailConfirm.$error.mismatch")
                   span.msg-error Email and Confirm Email must match.
+
+
+            .div(ng-if="group.audienceType === 'Couples'")
+              .h3 Spouse Info:
+              .form-group
+                label.col-md-4.control-label(for="firstNameSpouse") First Name
+                .col-md-8
+                  input.form-control(name="firstNameSpouse", type="text", placeholder="First Name", ng-model="group.newMemberSpouse.firstName", required, autocomplete="off" )
+              .form-group
+                label.col-md-4.control-label(for="lastNameSpouse") Last Name
+                .col-md-8
+                  input.form-control(name="lastNameSpouse", type="text", placeholder="Last Name", ng-model="group.newMemberSpouse.lastName", required, autocomplete="off" )
+              .form-group
+                label.col-md-4.control-label(for="emailSpouse") Email
+                .col-md-8
+                  input.form-control(name="emailSpouse", type="email", placeholder="Email", ng-model="group.newMemberSpouse.email", required, autocomplete="off" )
+              .form-group
+                label.col-md-4.control-label(for="emailSpouse") Retype Email
+                .col-md-8
+                  input.form-control(name="emailConfirmSpouse", type="email", placeholder="Retype Email", ng-model="spouseEmailConfirmed", required, autocomplete="off" ng-match="group.newMemberSpouse.email" )
+                  div(ng-show="groupJoinForm.emailConfirmSpouse.$error.mismatch")
+                    span.msg-error Email and Confirm Email must match.
+
             .div(ng-if="group.audienceType === 'Middle School Students' || group.audienceType === 'High School Students'")
               .h3 Emergency Contact:
               .form-group
