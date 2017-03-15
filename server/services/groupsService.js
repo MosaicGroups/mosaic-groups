@@ -10,75 +10,42 @@ var emailer = require('../utilities/emailer');
  * @param errorCallback
  * @param successCallback
  */
-exports.addMembers = function (groupId, members, userIsAuthenticated) {
+exports.addMembers = async function (groupId, members, userIsAuthenticated) {
     //console.log('members', members);
-    return new Promise((resolve, reject) => {
+    let group = await Group
+        .findOne({ _id: groupId })
+        .populate('leaders')
+        .populate('members')
+        .exec();
 
-        Group.findOne({
-            _id: groupId
-        })
-            .populate('leaders')
-            .populate('members')
-            .exec(function (err, group) {
-                if (err) {
-                    reject(err, group);
-                    return;
-                }
-                if (group.disabled) {
-                    reject('Group has been disabled, you cannot join at this time.', group);
-                    return;
-                }
-                if (group.isForLeadersOnly() && !userIsAuthenticated) {
-                    reject('You must be logged in to join this group', group);
-                    return;
-                }
+    if (group.disabled) {
+        throw new Error('Group has been disabled, you cannot join at this time.', group);
 
-                if (group.memberLimit < (members.length + group.members.length)) {
-                    reject(`This group cannot accommodate ${members.length} more member(s)`);
-                    return;
-                }
-                resolve(group);
+    }
+    if (group.isForLeadersOnly() && !userIsAuthenticated) {
+        throw new Error('You must be logged in to join this group', group);
 
-            });
-    })
-        .then(group => {
-            return Promise.all(members.map(member => {
-                return new Promise((resolve, reject) => {
-                    Group.count({ 'members.email': member.email }, function (err, c) {
-                        if (err) {
-                            reject(err);
-                            return;
-                        }
-                        if (c >= 2) {
-                            reject(`You (${member.firstName} ${member.lastName} <${member.email}> ) have signed up for the maximum number of groups.`, group);
-                            return;
-                        }
-                        resolve(group);
+    }
 
-                    });
-                });
-            }))
-                .then(() => {
-                    return new Promise((resolve, reject) => {
-                        members.map(member => {
-                            return group.members.push(member);
-                        });
-                        
-                        group.save(function (err) {
-                            if (err) {
-                                reject(err);
-                                return;
-                            }
-                            else {
-                                resolve(group);
-                            }
-                        });
-                    });
+    if (group.memberLimit < (members.length + group.members.length)) {
+        throw new Error(`This group cannot accommodate ${members.length} more member(s)`);
 
-                });
+    }
+    for (const member of members) {
+        let count = await Group.count({ 'members.email': member.email });
+        if (count >= 2) {
+            throw new Error(`You (${member.firstName} ${member.lastName} <${member.email}> ) have signed up for the maximum number of groups.`, group);
 
-        });
+        }
+    }
 
+    members.map(member => {
+        return group.members.push(member);
+    });
+
+    await group.save();
+
+    return group;
 };
 
 /**

@@ -7,11 +7,15 @@ var config = require('./config');
 
 module.exports = function () {
     if (process.env.NODE_ENV !== 'test') {
-        mongoose.set('debug', config.db.debugMode)
+        mongoose.set('debug', config.db.debugMode);
     }
-    logger.log("connecting to '" + config.env + "' mongo instance");
+
+    //setting own Promise library. See: http://mongoosejs.com/docs/promises.html    
+    mongoose.Promise = Promise;
+
+    logger.log('connecting to ' + config.env + ' mongo instance');
     mongoose.connect(config.db.url);
-    logger.log("connected...");
+    logger.log('connected...');
 
     var db = mongoose.connection;
     db.on('error',
