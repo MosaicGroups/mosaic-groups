@@ -140,13 +140,16 @@ exports.getGroups = function (callback) {
  * @param groupData
  * @param callback
  */
-exports.saveGroup = function (groupData, callback) {
+exports.saveGroup = async function (groupData, callback) {
     // ensure that all group members have a join date
     ensureJoinDates(groupData);
-
-    Group.create(groupData, function (err, group) {
-        callback(err, group);
-    });
+    try {
+        let group = await Group.create(groupData);
+        callback(null, group);
+    }
+    catch (err){
+        callback(err);
+    }
 };
 
 /**
