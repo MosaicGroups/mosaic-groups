@@ -23,7 +23,7 @@ angular.module('app').factory('groupService', function ($q, Group) {
                 dfd.resolve();
             }, function (response) {
                 dfd.reject(response.data.reason);
-            })
+            });
             return dfd.promise;
         },
 
@@ -50,11 +50,11 @@ angular.module('app').factory('groupService', function ($q, Group) {
             }, function (response) {
                 var reason = '';
                 if (response.data && response.data.reason) {
-                  reason = response.data.reason;
+                    reason = response.data.reason;
                 }
                 deferred.reject(reason);
             });
             return deferred.promise;
         }
-    }
+    };
 });

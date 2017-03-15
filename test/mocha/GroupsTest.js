@@ -1,4 +1,4 @@
-var request = require('supertest')
+var request = require('supertest');
 var async = require('async');
 var expect = require('expect.js');
 require('./common');
@@ -11,71 +11,71 @@ var g1ID, g2ID, g3ID;
 
 async.series([
     function (outercallback) {
-        describe("Groups Model", function () {
+        describe('Groups Model', function () {
             var group = {
-                title: "testG",
+                title: 'testG',
                 memberLimit: 15,
-                location: "my house",
-                dayOfTheWeek: "Mon",
-                meetingTime: "6 AM",
-                audienceType: "zombies",
-                description: "test description",  
-            }
-                  
+                location: 'my house',
+                dayOfTheWeek: 'Mon',
+                meetingTime: '6 AM',
+                audienceType: 'zombies',
+                description: 'test description',
+            };
+
             var studentMember = {
-              firstName: "Little Bobby",
-              lastName: "Jones",
-              email: "lilbobby@isp.test",
-              phone: "1112223333",
-              status: "PENDING",
-              joinDate: new Date(),
-              emergency_contact: {
-                firstName: "Concerned",
-                lastName: "Parent",
-                email: "helicopter@parent.com",
-                phone: "5556667777",
-              }
-            }
-  
-            it("Should add a new group", function (done) {
+                firstName: 'Little Bobby',
+                lastName: 'Jones',
+                email: 'lilbobby@isp.test',
+                phone: '1112223333',
+                status: 'PENDING',
+                joinDate: new Date(),
+                emergency_contact: {
+                    firstName: 'Concerned',
+                    lastName: 'Parent',
+                    email: 'helicopter@parent.com',
+                    phone: '5556667777',
+                }
+            };
+
+            it('Should add a new group', function (done) {
                 Group.create(group, function (err, g) {
                     if (err) throw err;
-                    expect(g.title).to.equal("testG");
+                    expect(g.title).to.equal('testG');
                     g1ID = g._id;
                     done();
                 });
 
             });
-      
-            it("Should not add a new group", function (done) {
+
+            it('Should not add a new group', function (done) {
                 group.title = undefined;
                 Group.create(group, function (err, g) {
-                    expect(err.name).to.be("ValidationError");
+                    expect(err.name).to.be('ValidationError');
                     expect(g).to.be(undefined)
                     done();
                 });
-            });         
+            });
 
-            it("Should contain 3 groups", function (done) {
+            it('Should contain 3 groups', function (done) {
                 async.series([
                     function (callback2) {
-                        group.title = "testg2";
+                        group.title = 'testg2';
 
                         Group.create(group, function (err, g) {
                             if (err) throw err;
                             g2ID = g._id;
-                            expect(g.title).to.equal("testg2");
+                            expect(g.title).to.equal('testg2');
                             callback2();
                         });
                     },
                     function (callback2) {
-                        group.title = "testg3";
+                        group.title = 'testg3';
                         groupService.saveGroup(group, function (err, g) {
                             if (err) throw err;
                             g3ID = g._id;
-                            expect(g.title).to.equal("testg3");
+                            expect(g.title).to.equal('testg3');
                             callback2();
-                        })
+                        });
                     },
                     function (callback2) {
                         request(app)
@@ -94,33 +94,33 @@ async.series([
                 });
 
             });
-            
-            it("Should Add a Group with Emergency Contact", function (done) {
-              group.title = "sGroup" //Fix from previous test that breaks group
-              group.members = [studentMember]
-              Group.create(group, function (err, g) {
-                if (err) throw err;
-                expect(g.members[0].emergency_contact.firstName).to.equal("Concerned");
-                done();
-              });
+
+            it('Should Add a Group with Emergency Contact', function (done) {
+                group.title = 'sGroup' //Fix from previous test that breaks group
+                group.members = [studentMember]
+                Group.create(group, function (err, g) {
+                    if (err) throw err;
+                    expect(g.members[0].emergency_contact.firstName).to.equal('Concerned');
+                    done();
+                });
             });
-            
-            it("Shouldn't add Broken Contact", function (done) {
-              group.members[0].firstName = undefined;
-              Group.create(group, function (err, g) {
-                expect(err.name).to.be("ValidationError");
-                done();
-              });
+
+            it('Shouldn not add Broken Contact', function (done) {
+                group.members[0].firstName = undefined;
+                Group.create(group, function (err, g) {
+                    expect(err.name).to.be('ValidationError');
+                    done();
+                });
             });
-            
+
         });
-        describe("Groups Routes", function () {
+        describe('Groups Routes', function () {
             var user = {};
             before(function (beforeCompleted) {
 
-                user.firstName = "test";
-                user.lastName = "user";
-                user.email = "user@user.com";
+                user.firstName = 'test';
+                user.lastName = 'user';
+                user.email = 'user@user.com';
                 async.series([
                     function (callback2) {
                         request(app)
@@ -161,7 +161,7 @@ async.series([
                 });
             });
 
-            it("Should contain one member", function (done) {
+            it('Should contain one member', function (done) {
                 request(app)
                     .get('/api/groups/' + g1ID)
                     .expect(200)
@@ -171,7 +171,7 @@ async.series([
                     });
             });
 
-            it("Should contain 0 members", function (done) {
+            it('Should contain 0 members', function (done) {
                 request(app)
                     .get('/api/groups/' + g3ID)
                     .expect(200)
