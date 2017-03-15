@@ -122,7 +122,7 @@ exports.addMember = function (req, res) {
         })
         .catch(err => {
             //console.log(err);
-            errorHandler.logError(req, res, err);
+            errorHandler.sendError(req, res, err);
         });
 
 
