@@ -1,7 +1,7 @@
 let request = require('supertest');
 let session = require('supertest-session');
 let expect = require('expect.js');
-let app = require('./common').app; 
+let app = require('./common').app;
 //var app = require('./common').app;
 
 let groupService = require('../../server/services/groupsService');
@@ -90,7 +90,80 @@ describe('Groups Manipulation', function () {
 
 
 });
-describe('Anthenticated Groups Manipulation', function () {
+describe('Anthenticated Group Member Manipulation', function () {
+
+    let coupleGroup = {
+        title: 'couplesgroup',
+        memberLimit: 3,
+        location: 'my house',
+        dayOfTheWeek: 'Mon',
+        meetingTime: '6 AM',
+        audienceType: 'Couples',
+        description: 'test description',
+    };
+    let group2 = Object.assign({}, coupleGroup, { title: 'group2' });
+    let group3 = Object.assign({}, coupleGroup, { title: 'group3' });
+    let member = {
+        firstName: 'Little Bobby',
+        lastName: 'Jones',
+        email: 'lilbobby@isp.test2',
+        phone: '1112223333',
+    };
+
+
+    before(function (done) {
+        groupService.saveGroup(coupleGroup, function (err, group) {
+            if (err) throw err;
+
+            coupleGroup._id = group._id;
+            groupService.saveGroup(group2, function (err, group) {
+                group2._id = group._id;
+                groupService.saveGroup(group3, function (err, group) {
+                    group3._id = group._id;
+                    done();
+                });
+            });
+
+        });
+    });
+
+
+    it('Should add 2 members', function (done) {
+        request(app)
+            .post(`/api/groups/${coupleGroup._id}/add-member`)
+            .send({ newMember: member, newMemberSpouse: member })
+            .expect(200)
+            .end(function (err, res) {
+                if (err) throw err;
+
+                expect(res.body.success).to.equal(true);
+                done();
+            });
+    });
+
+    it('should fail if same emails signs up for more than 2 groups', function (done) {
+        request(app)
+            .post(`/api/groups/${group2._id}/add-member`)
+            .send({ newMember: member })
+            .expect(200)
+            .end(function (err, res) {
+                if (err) throw err;
+                request(app)
+                    .post(`/api/groups/${group3._id}/add-member`)
+                    .send({ newMember: member })
+                    .expect(400)
+                    .end(function (err, res) {
+                        if (err) throw err;
+                        expect(res.body.success).to.equal(undefined);
+                        done();
+
+                    });
+            });
+    });
+
+});
+
+describe('Anthenticated Group Manipulation', function () {
     let unauthSession, authSession;
     beforeEach(function () {
         unauthSession = session(app);
@@ -138,6 +211,26 @@ describe('Anthenticated Groups Manipulation', function () {
                     .end(function (deleteErr, deleteRes) {
                         //console.log(deleteRes);
                         expect(deleteRes.statusCode).to.equal(200);
+
+                        done();
+                    });
+            });
+    });
+
+    it('Authenticated user can update a group', function (done) {
+
+        authSession
+            .get('/api/groups/')
+            .expect(200)
+            .end(function (err, res) {
+
+                authSession
+                    .post(`/api/groups/${res.body[1]._id}`)
+                    .send({ title: 'fooy' })
+                    .expect(200)
+                    .end(function (updateErr, updateRes) {
+                        expect(updateRes.statusCode).to.equal(200);
+                        expect(updateRes.body.title).to.equal('fooy');
 
                         done();
                     });
