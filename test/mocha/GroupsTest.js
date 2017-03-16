@@ -1,7 +1,7 @@
 let request = require('supertest');
 let session = require('supertest-session');
 let expect = require('expect.js');
-let app = require('./common').app;
+let app = require('./common').app; 
 //var app = require('./common').app;
 
 let groupService = require('../../server/services/groupsService');
