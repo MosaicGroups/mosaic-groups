@@ -52,8 +52,10 @@
     "karma-requirejs": "~0.2.1",
     "karma-script-launcher": "~0.1.0",
     "mocha": "^1.21.5",
+    "mock-require": "^2.0.1",
     "mockgoose": "^7.0.6",
     "requirejs": "~2.1.10",
-    "supertest": "^1.1.0"
+    "supertest": "^1.1.0",
+    "supertest-session": "^3.0.0"
   }
 }

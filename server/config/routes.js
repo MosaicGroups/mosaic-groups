@@ -10,7 +10,7 @@ var indexRedirect = function (req, res) {
     res.render('index', {
         bootstrappedUser: req.user
     });
-}
+};
 
 // in production env, and if the proper headers are seen in the request, redirect to https
 var secureRedirect = function () {
@@ -29,7 +29,7 @@ var secureRedirect = function () {
                 next();
             }
         }
-    }
+    };
 };
 
 //routes
@@ -67,8 +67,8 @@ module.exports = function (app) {
 
     app.get('/login', indexRedirect);
     app.get('/.well-known/*', function (req, res, next) {
-        res.sendFile(req.path,  { root: path.normalize(__dirname + '/../../public/') });
+        res.sendFile(req.path, { root: path.normalize(__dirname + '/../../public/') });
     });
     // ensure that the client side application does ALL of the routing
     app.get('*', indexRedirect);
-}
+};

@@ -87,7 +87,6 @@ exports.updateGroup = function (req, res) {
  * @param res
  */
 exports.addMember = function (req, res) {
-    //console.log('BODY',req.body);
     let members = [req.body.newMember];
     if (req.body.newMemberSpouse) {
         members.push(req.body.newMemberSpouse);
@@ -118,7 +117,7 @@ exports.addMember = function (req, res) {
             return group;
         })
         .then(() => {
-            return res.end();
+            return res.send({success: true});
         })
         .catch(err => {
             //console.log(err);
