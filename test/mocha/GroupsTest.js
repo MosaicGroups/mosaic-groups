@@ -1,12 +1,13 @@
-var request = require('supertest');
-var async = require('async');
-var expect = require('expect.js');
-require('./common');
+let request = require('supertest');
+let session = require('supertest-session');
+let expect = require('expect.js');
+let app = require('./common').app;
 //var app = require('./common').app;
 
-var groupService = require('../../server/services/groupsService');
-var Group = require('mongoose').model('Group');
-describe('Groups Service', function () {
+let groupService = require('../../server/services/groupsService');
+let Group = require('mongoose').model('Group');
+
+describe('Groups Manipulation', function () {
     let groups = [];
     let group = {
         title: 'testG',
@@ -26,14 +27,8 @@ describe('Groups Service', function () {
         });
 
     });
-    it('Should contain one group', function (done) {
-        groupService.getGroups(function (err, collection) {
-            expect(collection[0].title).to.equal(groups[0].title);
-            done();
-        });
-    });
     it('Should add a second new group', function (done) {
-        group.title = 'test2'
+        group.title = 'test2';
         groupService.saveGroup(group, function (err, g) {
             if (err) throw err;
             expect(g.title).to.equal('test2');
@@ -43,16 +38,20 @@ describe('Groups Service', function () {
 
     });
     it('Should contain two groups', function (done) {
-        groupService.getGroups(function (err, collection) {
-            expect(collection.length).to.equal(2);
-            done();
-        });
+        request(app)
+            .get('/api/groups/')
+            .expect(200)
+            .end(function (err, res) {
+                if (err) throw err;
+                expect(res.body.length).to.equal(2);
+                done();
+            });
     });
     it('Should not add a new group', function (done) {
         group.title = undefined;
         groupService.saveGroup(group, function (err, g) {
             expect(err.name).to.be('ValidationError');
-            expect(g).to.be(undefined)
+            expect(g).to.be(undefined);
             done();
         });
     });
@@ -71,9 +70,9 @@ describe('Groups Service', function () {
         }
     };
 
-    it('Should Add a Group with Emergency Contact', function (done) {
-        group.title = 'sGroup' //Fix from previous test that breaks group
-        group.members = [studentMember]
+    it('Should add a group with emergency contact', function (done) {
+        group.title = 'sGroup'; //Fix from previous test that breaks group
+        group.members = [studentMember];
         Group.create(group, function (err, g) {
             if (err) throw err;
             expect(g.members[0].emergency_contact.firstName).to.equal('Concerned');
@@ -81,15 +80,71 @@ describe('Groups Service', function () {
         });
     });
 
-    it('Should not add Broken Contact', function (done) {
+    it('Should not add broken contact', function (done) {
         group.members[0].firstName = undefined;
         Group.create(group, function (err, g) {
             expect(err.name).to.be('ValidationError');
             done();
         });
     });
-});
 
+
+});
+describe('Anthenticated Groups Manipulation', function () {
+    let unauthSession, authSession;
+    beforeEach(function () {
+        unauthSession = session(app);
+    });
+
+    it('Unauthenticated user cannot delete a group', function (done) {
+        unauthSession
+            .get('/api/groups/')
+            .expect(200)
+            .end(function (err, res) {
+
+                unauthSession
+                    .delete(`/api/groups/${res.body[1]._id}`)
+                    .expect(403)
+                    .end(function () {
+
+                        done();
+                    });
+            });
+    });
+
+    it('User should authenticate', function (done) {
+        unauthSession
+            .post('/login/')
+            .send({ username: 'pblair12@gmail.com', password: 'p' })
+            .expect(200)
+            .end(function (err, res) {
+                expect(res.body.user.username).to.equal('pblair12@gmail.com');
+                authSession = unauthSession;
+                done();
+
+            });
+    });
+
+    it('Authenticated user can delete a group', function (done) {
+
+        authSession
+            .get('/api/groups/')
+            .expect(200)
+            .end(function (err, res) {
+
+                authSession
+                    .delete(`/api/groups/${res.body[1]._id}`)
+                    .expect(200)
+                    .end(function (deleteErr, deleteRes) {
+                        //console.log(deleteRes);
+                        expect(deleteRes.statusCode).to.equal(200);
+
+                        done();
+                    });
+            });
+    });
+
+});
 /*
 var g1ID, g2ID, g3ID;
 

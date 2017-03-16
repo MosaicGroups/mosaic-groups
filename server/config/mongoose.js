@@ -19,7 +19,8 @@ module.exports = function () {
         mockgoose.prepareStorage().then(() => {
             mongoose.connect('mongodb://foobar/baz');
             mongoose.connection.on('connected', () => {
-                console.log('db connection is now open');
+                
+                //connection is open
             });
         });
 
