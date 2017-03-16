@@ -5,6 +5,10 @@
         "es6": true,
         "mocha": true
     },
+    "globals": {
+        "describe": true,
+        "it": true
+    },
     "parser": "babel-eslint",
     "parserOptions": {
         "ecmaVersion": 2017,
