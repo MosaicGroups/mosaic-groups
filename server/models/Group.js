@@ -1,8 +1,9 @@
-var mongoose = require('mongoose'),
+let mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
+
 // mongoose member collection
-var contactSchema = new mongoose.Schema({
+let contactSchema = new mongoose.Schema({
     firstName: {
         type: String,
         required: '"First Name" is required!'
@@ -21,7 +22,7 @@ var contactSchema = new mongoose.Schema({
     },
 });
 
-var memberSchema = new mongoose.Schema({
+let memberSchema = new mongoose.Schema({
     firstName: {
         type: String,
         required: '"First Name" is required!'
@@ -47,7 +48,11 @@ var memberSchema = new mongoose.Schema({
 });
 
 // mongoose group collection
-var groupSchema = new mongoose.Schema({
+let groupSchema = new mongoose.Schema({
+    semesterId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Semester'
+    },
     title: {
         type: String,
         required: '{PATH} is required!'
@@ -100,8 +105,8 @@ groupSchema.methods = {
     }
 };
 
-var Member = mongoose.model('Member', memberSchema);
-var Group = mongoose.model('Group', groupSchema);
+let Member = mongoose.model('Member', memberSchema);
+let Group = mongoose.model('Group', groupSchema);
 
 function removeHashStr() {
     Member.update(

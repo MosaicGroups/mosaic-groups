@@ -26,4 +26,4 @@ function createDefaultSemester() {
         }
     });
 }
-exports.createDefaultSettings = createDefaultSemester;
+exports.createDefaultSemester = createDefaultSemester;

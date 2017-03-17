@@ -18,12 +18,14 @@ exports.emailUniqueReportToSelf = function (req, res) {
 
 
 exports.getGroups = function (req, res) {
-    groupsService.getGroups(function (err, collection) {
-        if (err) errorHandler.sendError(req, res, err);
-        else {
-            res.send(collection);
-        }
-    });
+    groupsService.getGroups()
+        .then(groups => {
+            res.send(groups);
+        })
+        .catch(err => {
+            errorHandler.sendError(req, res, err);
+        });
+    
 };
 
 exports.getGroup = function (req, res) {
@@ -45,13 +47,16 @@ exports.saveGroup = function (req, res) {
         groupData.leaders = [req.user._id];
     }
 
-    groupsService.saveGroup(groupData, function (err, group) {
-        if (err) errorHandler.sendError(req, res, err);
-        else {
+    groupsService.saveGroup(groupData)
+        .then(group => {
             emailer.sendAuditMessageEMail('Group: "' + groupData.title + '" was created by: ' + req.user.username);
             res.send(group);
-        }
-    });
+        })
+        .catch(err => {
+            errorHandler.sendError(req, res, err);
+        });
+    
+      
 };
 
 exports.updateGroup = function (req, res) {

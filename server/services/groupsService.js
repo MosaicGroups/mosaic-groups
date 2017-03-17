@@ -1,7 +1,10 @@
-var Group = require('mongoose').model('Group');
-var errorHandler = require('../utilities/errorHandler');
+let Group = require('mongoose').model('Group');
+let errorHandler = require('../utilities/errorHandler');
 
-var emailer = require('../utilities/emailer');
+let emailer = require('../utilities/emailer');
+let semesterService = require('./semesterService');
+
+
 /**
  * Add a member to a group
  * @param groupId
@@ -110,29 +113,35 @@ exports.getGroup = function (groupId, callback) {
  * Retrieve all groups
  * @param callback
  */
-exports.getGroups = function (callback) {
-    Group.find({})
-        .populate('leaders')
+exports.getGroups = async function () {
+    let mostRecentSemester = await semesterService.getMostRecentSemesterSingleton();
+    let groups = await Group.find({ semesterId: mostRecentSemester._id }).populate('leaders').exec();
 
-        .exec(function (err, collection) {
+    let sortedGroups = groups.sort(function (g1, g2) {
+
+        // if both morning and afternoon are the same for both dates
+        if ((g1.meetingTime.indexOf('am') >= 0 && g2.meetingTime.indexOf('am') >= 0) || (g1.meetingTime.indexOf('pm') >= 0 && g2.meetingTime.indexOf('pm') >= 0)) {
+            return g1.meetingTime > g2.meetingTime;
+        }
+        else {
+            if (g1.meetingTime.indexOf('am') >= 0) {
+                return -1;
+            }
+            else {
+                return 1;
+            }
+        }
+    });
+
+    return sortedGroups;
+
+    /*
+            .exec(function (err, collection) {
             // sort by time of day
-            let sortedCollection = collection.sort(function (g1, g2) {
-
-                // if both morning and afternoon are the same for both dates
-                if ((g1.meetingTime.indexOf('am') >= 0 && g2.meetingTime.indexOf('am') >= 0) || (g1.meetingTime.indexOf('pm') >= 0 && g2.meetingTime.indexOf('pm') >= 0)) {
-                    return g1.meetingTime > g2.meetingTime;
-                }
-                else {
-                    if (g1.meetingTime.indexOf('am') >= 0) {
-                        return -1;
-                    }
-                    else {
-                        return 1;
-                    }
-                }
-            });
+            let sortedCollection = collection
             callback(err, sortedCollection);
         });
+        */
 };
 
 /**
@@ -140,16 +149,16 @@ exports.getGroups = function (callback) {
  * @param groupData
  * @param callback
  */
-exports.saveGroup = async function (groupData, callback) {
+exports.saveGroup = async function (groupData) {
+    let mostRecentSemester = await semesterService.getMostRecentSemesterSingleton();
+
+    groupData.semesterId = mostRecentSemester._id;
     // ensure that all group members have a join date
     ensureJoinDates(groupData);
-    try {
-        let group = await Group.create(groupData);
-        callback(null, group);
-    }
-    catch (err){
-        callback(err);
-    }
+
+    let group = await Group.create(groupData);
+    return group;
+
 };
 
 /**
