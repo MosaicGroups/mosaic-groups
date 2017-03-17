@@ -13,12 +13,10 @@ describe('Groups Manipulation', function () {
     it('Should add a new semester', function (done) {
         Semester.create({ name: 'DummySemester' })
             .then(semester => {
-                console.log('done with semester')
                 expect(semester.name).to.be('DummySemester');
                 done();
             })
             .catch(err => {
-                console.log('done with semester')
                 throw err;
             });
     });
