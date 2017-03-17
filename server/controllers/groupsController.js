@@ -1,6 +1,7 @@
 let errorHandler = require('../utilities/errorHandler'),
     emailer = require('../utilities/emailer'),
     groupsService = require('../services/groupsService');
+let semesterService = require('../services/semesterService');
 
 exports.emailGroupReportToSelf = function (req, res) {
     let user = req.user;
@@ -25,7 +26,7 @@ exports.getGroups = function (req, res) {
         .catch(err => {
             errorHandler.sendError(req, res, err);
         });
-    
+
 };
 
 exports.getGroup = function (req, res) {
@@ -55,8 +56,41 @@ exports.saveGroup = function (req, res) {
         .catch(err => {
             errorHandler.sendError(req, res, err);
         });
-    
-      
+
+
+};
+
+exports.currentSemester = function (req, res) {
+    semesterService.getMostRecentSemesterSingleton()
+        .then(semester => {
+            //semester._id = null;
+            res.send(semester);
+        })
+        .catch(err => {
+            return errorHandler.sendError(req, res, err);
+        });
+};
+
+exports.addSemester = function (req, res) {
+    // if this is not an admin then the group must contain the current user as one of its leaders
+    if (!req.user.hasRole('admin')) {
+        res.status(403);
+        return res.end();
+    }
+
+    semesterService.addSemester(req.body.semesterName)
+        .then(semester => {
+            if (semester._id) {
+                return res.send({ success: true });
+            }
+            else {
+                res.status(500);
+                return res.end();
+            }
+        })
+        .catch(err => {
+            return errorHandler.sendError(req, res, err);
+        });
 };
 
 exports.updateGroup = function (req, res) {
@@ -118,11 +152,11 @@ exports.addMember = function (req, res) {
                         if (err) errorHandler.logError(err, 'Unable to send email for group add confirmation');
                     });
                 });
-            });    
+            });
             return group;
         })
         .then(() => {
-            return res.send({success: true});
+            return res.send({ success: true });
         })
         .catch(err => {
             //console.log(err);

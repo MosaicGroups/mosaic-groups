@@ -9,7 +9,7 @@ const getMostRecentSemesterSingleton = async function () {
         mostRecentSemester = await Semester.findOne().sort('-startDate').exec();
     }
 
-    console.log('returning semester')
+    console.log('returning semester', mostRecentSemester);
     return mostRecentSemester;
 
 };
