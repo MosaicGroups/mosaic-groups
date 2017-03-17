@@ -14,9 +14,11 @@ let semesterService = require('./semesterService');
  * @param successCallback
  */
 exports.addMembers = async function (groupId, members, userIsAuthenticated) {
+
+    let mostRecentSemester = await semesterService.getMostRecentSemesterSingleton();
     //console.log('members', members);
     let group = await Group
-        .findOne({ _id: groupId })
+        .findOne({ _id: groupId, semesterId: mostRecentSemester._id })
         .populate('leaders')
         .populate('members')
         .exec();
@@ -75,16 +77,19 @@ exports.deleteGroup = function (groupDeleteId, callback) {
         });
 };
 
-exports.emailGroupReportToSelf = function (user, callback) {
-    Group.find({}).populate('leaders').exec(function (err, collection) {
+exports.emailGroupReportToSelf = async function (user, callback) {
+
+    let mostRecentSemester = await semesterService.getMostRecentSemesterSingleton();
+    Group.find({ semesterId: mostRecentSemester._id }).populate('leaders').exec(function (err, collection) {
         emailer.sendGroupsReport(user);
         emailer.sendAuditMessageEMail(user.username + ' requested an on demand daily report email');
         callback(err, collection);
     });
 };
 
-exports.emailUniqueReportToSelf = function (user, callback) {
-    Group.find({}).populate('leaders').exec(function (err, collection) {
+exports.emailUniqueReportToSelf = async function (user, callback) {
+    let mostRecentSemester = await semesterService.getMostRecentSemesterSingleton();
+    Group.find({ semesterId: mostRecentSemester._id }).populate('leaders').exec(function (err, collection) {
         emailer.emailUniqueReportToSelf(user);
         callback(err, collection);
     });
