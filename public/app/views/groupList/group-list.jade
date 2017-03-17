@@ -56,12 +56,13 @@
               &nbsp;
               i  - group list is currently being shown to users
               br
+              br
         .row
           .col-md-12
             input.form-control(name="newSemesterName", placeholder="New Semester Name", type="text", ng-model="newSemesterName", autocomplete="off")
           .col-md-12
             button.btn(ng-click="startNewSemester(newSemesterName)", ng-disabled="newSemesterName===undefined || newSemesterName.length <=0") Start New Semester
-            div
+            br
         
       .well.well-sm
         .row
