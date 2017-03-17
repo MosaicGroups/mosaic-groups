@@ -6,12 +6,12 @@ let app = require('./common').app;
 
 let groupService = require('../../server/services/groupsService');
 let Group = require('mongoose').model('Group');
-let Semester = require('mongoose').model('Semester');
+let semesterService = require('../../server/services/semesterService');
 
 describe('Groups Manipulation', function () {
 
     it('Should add a new semester', function (done) {
-        Semester.create({ name: 'DummySemester' })
+        semesterService.addSemester('DummySemester')
             .then(semester => {
                 expect(semester.name).to.be('DummySemester');
                 done();
@@ -19,6 +19,7 @@ describe('Groups Manipulation', function () {
             .catch(err => {
                 throw err;
             });
+
     });
 
     let groups = [];

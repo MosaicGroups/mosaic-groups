@@ -19,7 +19,7 @@ function createDefaultSemester() {
         if (collection.length === 0) {
             logger.log('creating default semester');
             Semester.create({
-                name: 'Dummy Semester'
+                name: 'Previous Semesters'
             });
         } else {
             logger.log('not creating default settings because they are already created');
