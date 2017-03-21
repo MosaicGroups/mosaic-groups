@@ -10,7 +10,7 @@ var indexRedirect = function (req, res) {
     res.render('index', {
         bootstrappedUser: req.user
     });
-}
+};
 
 // in production env, and if the proper headers are seen in the request, redirect to https
 var secureRedirect = function () {
@@ -29,7 +29,7 @@ var secureRedirect = function () {
                 next();
             }
         }
-    }
+    };
 };
 
 //routes
@@ -39,10 +39,12 @@ module.exports = function (app) {
     app.post('/api/users/:id', auth.requiresApiLogin, users.updateUser);
     app.delete('/api/users/:id', auth.requiresRole('admin'), users.deleteUser);
 
+    app.get('/api/groups/getSemester', cache.disableBrowserCache, auth.requiresRole('admin'), groups.currentSemester);
     app.get('/api/groups/:id', cache.disableBrowserCache, groups.getGroup);
     app.get('/api/groups', cache.disableBrowserCache, groups.getGroups);
     app.post('/api/groups/:id/add-member', settings.requiresGroupsEnabled, groups.addMember);
 
+    app.post('/api/groups/addSemester', cache.disableBrowserCache, auth.requiresRole('admin'), groups.addSemester);    
     app.post('/api/groups/emailGroupReportToSelf', cache.disableBrowserCache, auth.requiresRole('admin'), groups.emailGroupReportToSelf);
     app.post('/api/groups/emailUniqueReportToSelf', cache.disableBrowserCache, auth.requiresRole('admin'), groups.emailUniqueReportToSelf);
     app.post('/api/groups', cache.disableBrowserCache, auth.requiresApiLogin, groups.saveGroup);
@@ -67,8 +69,8 @@ module.exports = function (app) {
 
     app.get('/login', indexRedirect);
     app.get('/.well-known/*', function (req, res, next) {
-        res.sendFile(req.path,  { root: path.normalize(__dirname + '/../../public/') });
+        res.sendFile(req.path, { root: path.normalize(__dirname + '/../../public/') });
     });
     // ensure that the client side application does ALL of the routing
     app.get('*', indexRedirect);
-}
+};

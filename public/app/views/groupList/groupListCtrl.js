@@ -1,5 +1,5 @@
 /* global angular */
-angular.module('app').controller('groupListCtrl', function ($scope, $location, $filter, $q, $modal, ngTableParams, audienceTypes, daysOfTheWeek, availableTopics, groupService, identityService, notifierService, settingsService) {
+angular.module('app').controller('groupListCtrl', function ($scope, $window, $location, $filter, $q, $modal, ngTableParams, audienceTypes, daysOfTheWeek, availableTopics, groupService, identityService, notifierService, settingsService) {
     $scope.identityService = identityService;
     $scope.data = undefined;
 
@@ -24,7 +24,7 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
 
 
     $scope.availableTopics = angular.copy(availableTopics, $scope.availableTopics);
-    $scope.availableTopics.unshift("");
+    $scope.availableTopics.unshift('');
     $scope.topicsFilter = $scope.availableTopics[0];
 
     $scope.childcareTypes = [
@@ -36,7 +36,7 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
             label: "No",
             value: false
         }
-  ];
+    ];
     $scope.childcareFilter = $scope.childcareTypes[0];
 
     $scope.settings = {
@@ -50,8 +50,8 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
     };
 
     $scope.setShowNextSemesterMsg = function (value) {
-//        var settings = {};
-//        angular.copy($scope.settings, settings);
+        //        var settings = {};
+        //        angular.copy($scope.settings, settings);
         $scope.settings.showNextSemesterMsg = value;
         settingsService.saveSettings($scope.settings).then(function (data) {
             $scope.settings = data;
@@ -61,8 +61,8 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
     };
 
     $scope.setNextSemesterMessage = function (msg) {
-//        var settings = {};
-//        angular.copy($scope.settings, settings);
+        //        var settings = {};
+        //        angular.copy($scope.settings, settings);
         $scope.settings.nextSemesterMsg = msg;
         settingsService.saveSettings($scope.settings).then(function (data) {
             $scope.settings = data;
@@ -73,8 +73,8 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
     };
 
     $scope.setDatesMessage = function (msg) {
-//        var settings = {};
-//        angular.copy($scope.settings, settings);
+        //        var settings = {};
+        //        angular.copy($scope.settings, settings);
         $scope.settings.datesMsg = msg;
         settingsService.saveSettings($scope.settings).then(function (data) {
             $scope.settings = data;
@@ -101,6 +101,7 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
         $scope.tableParams.reload();
     };
 
+
     $scope.$watch(function (scope) {
         return scope.dayOfTheWeekFilter;
     }, function () {
@@ -113,97 +114,97 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
         count: 100, // count per page
         sorting: function (data) {
             switch (data.dayOfTheWeek) {
-            case "6-Week Groups":
-                return 1;
-                break;
-            case "Sunday":
-                return 2;
-                break;
-            case "Monday":
-                return 3;
-                break;
-            case "Tuesday":
-                return 4;
-                break;
-            case "Wednesday":
-                return 5;
-                break;
-            case "Thursday":
-                return 6;
-                break;
-            case "Friday":
-                return 7;
-                break;
-            case "Saturday":
-                return 8;
-                break;
+                case "6-Week Groups":
+                    return 1;
+                    break;
+                case "Sunday":
+                    return 2;
+                    break;
+                case "Monday":
+                    return 3;
+                    break;
+                case "Tuesday":
+                    return 4;
+                    break;
+                case "Wednesday":
+                    return 5;
+                    break;
+                case "Thursday":
+                    return 6;
+                    break;
+                case "Friday":
+                    return 7;
+                    break;
+                case "Saturday":
+                    return 8;
+                    break;
             }
         }
     }, {
-        counts: [],
-        total: 0, // length of $scope.groups
-        groupBy: 'dayOfTheWeek',
-        getData: function ($defer, params) {
-            groupService.getGroups().$promise.then(function (data) {
-                $scope.data = data;
-                params.total(data.total);
+            counts: [],
+            total: 0, // length of $scope.groups
+            groupBy: 'dayOfTheWeek',
+            getData: function ($defer, params) {
+                groupService.getGroups().$promise.then(function (data) {
+                    $scope.data = data;
+                    params.total(data.total);
 
-                // apply sorting
-                var orderedData = params.sorting() ?
-                    $filter('orderBy')(data, $scope.tableParams.sorting()) :
-                    data;
+                    // apply sorting
+                    var orderedData = params.sorting() ?
+                        $filter('orderBy')(data, $scope.tableParams.sorting()) :
+                        data;
 
-                // apply filtering/searching based on any text in the given column
-                orderedData = params.filter() ?
-                    $filter('filter')(orderedData, $scope.tableFilter, "false") :
-                    orderedData;
-                // apply the strict filters
-                orderedData = params.filter() ?
-                    $filter('filter')(orderedData, $scope.tableFilterStrict, function (a, e) {
-                        return a === e;
-                    }) :
-                    orderedData;
+                    // apply filtering/searching based on any text in the given column
+                    orderedData = params.filter() ?
+                        $filter('filter')(orderedData, $scope.tableFilter, "false") :
+                        orderedData;
+                    // apply the strict filters
+                    orderedData = params.filter() ?
+                        $filter('filter')(orderedData, $scope.tableFilterStrict, function (a, e) {
+                            return a === e;
+                        }) :
+                        orderedData;
 
-                // apply the day of the week filter
-                orderedData = params.filter() ?
-                    $filter('filter')(orderedData, function (group) {
+                    // apply the day of the week filter
+                    orderedData = params.filter() ?
+                        $filter('filter')(orderedData, function (group) {
 
-                        var shouldDisplay = false;
+                            var shouldDisplay = false;
 
-                        $scope.dayOfTheWeekFilter.forEach(function (dayOfTheWeekFilterElem) {
-                            if (dayOfTheWeekFilterElem.id || dayOfTheWeekFilterElem.id > -1) {
-                                var dayOfTheWeekLabel = daysOfTheWeek[dayOfTheWeekFilterElem.id].label;
+                            $scope.dayOfTheWeekFilter.forEach(function (dayOfTheWeekFilterElem) {
+                                if (dayOfTheWeekFilterElem.id || dayOfTheWeekFilterElem.id > -1) {
+                                    var dayOfTheWeekLabel = daysOfTheWeek[dayOfTheWeekFilterElem.id].label;
 
-                                if (dayOfTheWeekLabel === group.dayOfTheWeek) {
-                                    shouldDisplay = true;
+                                    if (dayOfTheWeekLabel === group.dayOfTheWeek) {
+                                        shouldDisplay = true;
+                                    }
                                 }
+                            });
+
+                            return shouldDisplay;
+                        }) :
+                        orderedData;
+
+                    // apply openFilter. If the checkbox is checked, then we 
+                    // should be not showing groups that are disabled or full
+                    orderedData = params.filter() ?
+                        $filter('filter')(orderedData, function (group) {
+
+                            if ($scope.openFilter === false) {
+                                return true;
+                            } else {
+                                return (!$scope.groupIsFull(group) && !$scope.groupIsDisabled(group));
                             }
-                        });
 
-                        return shouldDisplay;
-                    }) :
-                    orderedData;
+                        }) :
+                        orderedData;
 
-                // apply openFilter. If the checkbox is checked, then we 
-                // should be not showing groups that are disabled or full
-                orderedData = params.filter() ?
-                    $filter('filter')(orderedData, function (group) {
-
-                        if ($scope.openFilter === false) {
-                            return true;
-                        } else {
-                            return (!$scope.groupIsFull(group) && !$scope.groupIsDisabled(group));
-                        }
-
-                    }) :
-                    orderedData;
-
-                $defer.resolve(
-                    orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count())
-                );
-            });
-        }
-    });
+                    $defer.resolve(
+                        orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count())
+                    );
+                });
+            }
+        });
 
     // weird fix for the bug: typeerror cannot set property $groups of null
     // See http://stackoverflow.com/questions/22892908/ng-table-typeerror-cannot-set-property-data-of-null
@@ -212,7 +213,7 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
     $scope.joinGroup = function (group) {
         $location.path('/views/groupJoin/group-join/' + group._id);
     };
-    
+
     $scope.showGroupFull = function (group) {
         $location.path('/views/groupJoin/group-full/' + group._id);
     };
@@ -298,8 +299,8 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
     };
 
     $scope.disableGroups = function (disable) {
-//        var settings = {};
-//        angular.copy($scope.settings, settings);
+        //        var settings = {};
+        //        angular.copy($scope.settings, settings);
         $scope.settings.disableGroups = disable;
         settingsService.saveSettings($scope.settings).then(function (data) {
             $scope.settings = data;
@@ -321,6 +322,19 @@ angular.module('app').controller('groupListCtrl', function ($scope, $location, $
         };
 
     $scope.getSettings();
+
+    $scope.startNewSemester = function (semesterName) {
+        groupService.startNewSemester(semesterName)
+            .then(function () {
+                $window.location.reload();
+            })
+            .catch(function (err) { notifierService.error(err); });
+    };
+
+    groupService.getCurrentSemester()
+        .then(function (name) {
+            $scope.semesterName = name;
+        });
 });
 
 var confirmDeleteGroupCtrl = function ($scope, $modalInstance, groupService, notifierService, group) {
@@ -337,4 +351,5 @@ var confirmDeleteGroupCtrl = function ($scope, $modalInstance, groupService, not
     $scope.cancel = function () {
         $modalInstance.dismiss();
     };
-}
+};
+
