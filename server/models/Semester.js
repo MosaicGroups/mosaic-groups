@@ -8,7 +8,7 @@ var semesterSchema = new mongoose.Schema({
     },
     startDate: {
         type: Date,
-        default: new Date()
+        required: '{PATH} is required!'
     },
 });
 
@@ -19,7 +19,8 @@ function createDefaultSemester() {
         if (collection.length === 0) {
             logger.log('creating default semester');
             Semester.create({
-                name: 'Previous Semesters'
+                name: 'Previous Semesters',
+                startDate: new Date()
             });
         } else {
             logger.log('not creating default settings because they are already created');
