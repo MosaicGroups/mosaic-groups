@@ -12,7 +12,8 @@ const getMostRecentSemesterSingleton = async function () {
 };
 
 const addSemester = async function (name) {
-    mostRecentSemester = await Semester.create({ name });
+
+    mostRecentSemester = await Semester.create({ name, startDate: new Date()});
     return getMostRecentSemesterSingleton();
 };
 export {
