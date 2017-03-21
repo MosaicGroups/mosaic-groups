@@ -2,6 +2,7 @@ var logger = require('./logger');
 var mongoose = require('mongoose');
 var userModel = require('../models/User');
 var groupModel = require('../models/Group');
+var semesterModel = require('../models/Semester');
 var settingsModel = require('../models/Settings');
 var config = require('./config');
 
@@ -41,6 +42,8 @@ module.exports = function () {
         logger.log('mosaicgroups db opened');
     });
 
+    // Create default semester xw
+    semesterModel.createDefaultSemester();
     // create default users on server start if users are empty
     userModel.createDefaultUsers();
     // create default settings on server start if settings are empty

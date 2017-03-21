@@ -6,8 +6,22 @@ let app = require('./common').app;
 
 let groupService = require('../../server/services/groupsService');
 let Group = require('mongoose').model('Group');
+let semesterService = require('../../server/services/semesterService');
 
 describe('Groups Manipulation', function () {
+
+    it('Should add a new semester', function (done) {
+        semesterService.addSemester('DummySemester')
+            .then(semester => {
+                expect(semester.name).to.be('DummySemester');
+                done();
+            })
+            .catch(err => {
+                throw err;
+            });
+
+    });
+
     let groups = [];
     let group = {
         title: 'testG',
@@ -19,22 +33,25 @@ describe('Groups Manipulation', function () {
         description: 'test description',
     };
     it('Should add a new group', function (done) {
-        groupService.saveGroup(group, function (err, g) {
-            if (err) throw err;
+        groupService.saveGroup(group).then(g => {
             expect(g.title).to.equal('testG');
             groups.push(g);
             done();
+        }).catch(err => {
+            throw err;
         });
 
     });
     it('Should add a second new group', function (done) {
         group.title = 'test2';
-        groupService.saveGroup(group, function (err, g) {
-            if (err) throw err;
-            expect(g.title).to.equal('test2');
-            groups.push(g);
-            done();
-        });
+        groupService.saveGroup(group)
+            .then(g => {
+                expect(g.title).to.equal('test2');
+                groups.push(g);
+                done();
+            }).catch(err => {
+                throw err;
+            });
 
     });
     it('Should contain two groups', function (done) {
@@ -49,11 +66,15 @@ describe('Groups Manipulation', function () {
     });
     it('Should not add a new group', function (done) {
         group.title = undefined;
-        groupService.saveGroup(group, function (err, g) {
-            expect(err.name).to.be('ValidationError');
-            expect(g).to.be(undefined);
-            done();
-        });
+        groupService.saveGroup(group)
+            .then(g => {
+                expect(g).to.be(undefined);
+                done();
+            }).catch(err => {
+                expect(err.name).to.be('ValidationError');
+                done();
+            });
+
     });
     var studentMember = {
         firstName: 'Little Bobby',
@@ -88,6 +109,27 @@ describe('Groups Manipulation', function () {
         });
     });
 
+    it('Should archive groups when a new semester is added', function (done) {
+        semesterService.addSemester('DummySemester2')
+            .then(semester => {
+                expect(semester.name).to.be('DummySemester2');
+
+                request(app)
+                    .get('/api/groups/')
+                    .expect(200)
+                    .end(function (err, res) {
+                        if (err) throw err;
+                        expect(res.body.length).to.equal(0);
+                        done();
+                    });
+            })
+            .catch(err => {
+                throw err;
+            });
+
+    });
+
+
 
 });
 describe('Anthenticated Group Member Manipulation', function () {
@@ -112,19 +154,20 @@ describe('Anthenticated Group Member Manipulation', function () {
 
 
     before(function (done) {
-        groupService.saveGroup(coupleGroup, function (err, group) {
-            if (err) throw err;
-
+        groupService.saveGroup(coupleGroup).then(group => {
             coupleGroup._id = group._id;
-            groupService.saveGroup(group2, function (err, group) {
+            return groupService.saveGroup(group2);
+        })
+            .then(group => {
                 group2._id = group._id;
-                groupService.saveGroup(group3, function (err, group) {
-                    group3._id = group._id;
-                    done();
-                });
+                return groupService.saveGroup(group3);
+            })
+            .then(group => {
+
+                group3._id = group._id;
+                done();
             });
 
-        });
     });
 
 
