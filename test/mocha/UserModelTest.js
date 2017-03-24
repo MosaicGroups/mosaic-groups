@@ -36,30 +36,6 @@ describe('User Model', () => {
         );  
     });
     
-    it('Should fail on missing phone', () => {
-        let noPhone = Object.assign({},user);
-        noPhone.username = 'nophone@email.com';
-        delete noPhone.phone;
-        
-        return User.create(noPhone)
-        .then(
-            () => { expect().fail('User Should not Exist');},
-            (err) => { expect(err.name).to.be('ValidationError');}
-        );      
-    });
-    
-    it('Should fail on missing Preferred Contact Method', () => {
-        let noContactMethod = Object.assign({},user);
-        noContactMethod.username = 'nocontactmethod@email.com';
-        delete noContactMethod.preferContactVia;
-        
-        return User.create(noContactMethod)
-        .then(
-            () => { expect().fail('User Should not Exist');},
-            (err) => { expect(err.name).to.be('ValidationError');}
-        );      
-    });
-    
     it('Should create a valid user', () => {
         user.username = 'validuser@email.com';
         return User.create(user)
