@@ -58,13 +58,10 @@ let memberSchema = new mongoose.Schema({
 
 // mongoose group collection
 let groupSchema = new mongoose.Schema({
-<<<<<<< HEAD
     semesterId: {
         type: Schema.Types.ObjectId,
         ref: 'Semester'
     },
-=======
->>>>>>> 319699f... Preferred Contact / Phone Schema Updates
     title: {
         type: String,
         required: '{PATH} is required!'
