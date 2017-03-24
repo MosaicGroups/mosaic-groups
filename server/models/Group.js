@@ -1,8 +1,8 @@
-var mongoose = require('mongoose'),
+let mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 // mongoose member collection
-var contactSchema = new mongoose.Schema({
+let contactSchema = new mongoose.Schema({
     firstName: {
         type: String,
         required: '"First Name" is required!'
@@ -21,7 +21,7 @@ var contactSchema = new mongoose.Schema({
     },
 });
 
-var memberSchema = new mongoose.Schema({
+let memberSchema = new mongoose.Schema({
     firstName: {
         type: String,
         required: '"First Name" is required!'
@@ -41,13 +41,22 @@ var memberSchema = new mongoose.Schema({
         type: Date,
         required: '"Join Date" is required!'
     },
+    phone: {
+        type: String,
+        required: '"Phone Number" is required!'
+    },
+    preferContactVia: {
+        type: String,
+        enum: ['email', 'phone'],
+        required: '"Preferred Contact Method" is required!'
+    },
     emergency_contact: {
         type: contactSchema
     },
 });
 
 // mongoose group collection
-var groupSchema = new mongoose.Schema({
+let groupSchema = new mongoose.Schema({
     title: {
         type: String,
         required: '{PATH} is required!'
@@ -100,8 +109,9 @@ groupSchema.methods = {
     }
 };
 
-var Member = mongoose.model('Member', memberSchema);
-var Group = mongoose.model('Group', groupSchema);
+let Member = mongoose.model('Member', memberSchema);
+let Group = mongoose.model('Group', groupSchema); //eslint-disable-line
+
 
 function removeHashStr() {
     Member.update(
