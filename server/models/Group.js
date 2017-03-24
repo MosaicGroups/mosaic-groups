@@ -42,6 +42,15 @@ let memberSchema = new mongoose.Schema({
         type: Date,
         required: '"Join Date" is required!'
     },
+    phone: {
+        type: String,
+        required: '"Phone Number" is required!'
+    },
+    preferContactVia: {
+        type: String,
+        enum: ['email', 'phone'],
+        required: '"Preferred Contact Method" is required!'
+    },
     emergency_contact: {
         type: contactSchema
     },
@@ -49,10 +58,13 @@ let memberSchema = new mongoose.Schema({
 
 // mongoose group collection
 let groupSchema = new mongoose.Schema({
+<<<<<<< HEAD
     semesterId: {
         type: Schema.Types.ObjectId,
         ref: 'Semester'
     },
+=======
+>>>>>>> 319699f... Preferred Contact / Phone Schema Updates
     title: {
         type: String,
         required: '{PATH} is required!'
@@ -106,7 +118,8 @@ groupSchema.methods = {
 };
 
 let Member = mongoose.model('Member', memberSchema);
-let Group = mongoose.model('Group', groupSchema);
+let Group = mongoose.model('Group', groupSchema); //eslint-disable-line
+
 
 function removeHashStr() {
     Member.update(
