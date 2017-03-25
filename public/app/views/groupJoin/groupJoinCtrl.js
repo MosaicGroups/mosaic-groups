@@ -27,6 +27,10 @@ angular.module('app').controller('groupJoinCtrl', function ($scope, $route, $loc
     $scope.joinGroup = function () {
         // if the form is valid then submit to the server
         if (!$scope.groupIsFull && !$scope.disableJoin) {
+            
+            //remove non digit characters 
+            $scope.group.newMember.phone = $scope.group.newMember.phone.replace(/\D/g,'');
+            
             $scope.disableJoin = true;
             groupService.addMember($scope.group)
             .then(function () {

@@ -65,6 +65,22 @@
                 input.form-control(name="emailConfirm", type="email", placeholder="Retype Email", ng-model="emailConfirmed", required, autocomplete="off" ng-match="group.newMember.email" )
                 div(ng-show="groupJoinForm.emailConfirm.$error.mismatch")
                   span.msg-error Email and Confirm Email must match.
+            .form-group
+              label.col-md-4.control-label(for="phone") Phone Number
+              .col-md-8
+                input.form-control(name="phone", type="text", placeholder="Phone Number", ng-model="group.newMember.phone", required, autocomplete="off" )              
+            .form-group
+              label.col-md-4.control-label() Preferred Contact Method
+              .col-md-8
+                .col-md-6
+                  label.radio-inline
+                    input(type="radio", name="preferPhone", value="phone", ng-model="group.newMember.preferContactVia", checked)
+                    | Phone
+                .col-md-6
+                  label.radio-inline
+                    input(type="radio", name="preferEmail", value="email" ng-model="group.newMember.preferContactVia")
+                    | Email
+
 
 
             .div(ng-if="group.audienceType === 'Couples'")
@@ -87,6 +103,21 @@
                   input.form-control(name="emailConfirmSpouse", type="email", placeholder="Retype Email", ng-model="spouseEmailConfirmed", required, autocomplete="off" ng-match="group.newMemberSpouse.email" )
                   div(ng-show="groupJoinForm.emailConfirmSpouse.$error.mismatch")
                     span.msg-error Email and Confirm Email must match.
+              .form-group
+                label.col-md-4.control-label(for="phoneSpouse") Phone Number
+                .col-md-8
+                  input.form-control(name="phoneSpouse", type="text", placeholder="Phone Number", ng-model="group.newMemberSpouse.phone", required, autocomplete="off" )              
+              .form-group
+                label.col-md-4.control-label() Preferred Contact Method
+                .col-md-8
+                  .col-md-6
+                    label.radio-inline
+                      input(type="radio", name="preferPhoneSpouse", value="phone", ng-model="group.newMemberSpouse.preferContactVia", checked)
+                      | Phone
+                  .col-md-6
+                    label.radio-inline
+                      input(type="radio", name="preferEmailSpouse", value="email" ng-model="group.newMemberSpouse.preferContactVia")
+                      | Email
 
             .div(ng-if="group.audienceType === 'Middle School Students' || group.audienceType === 'High School Students'")
               .h3 Emergency Contact:
