@@ -22,11 +22,11 @@
         .form-group(ng-if="identity.isAdmin()")
           label.col-md-2.control-label(for="adminRole") Admin
           .col-md-10
-            input(name="adminRole", type="checkbox", ng-model="userToEdit.roles[0]", ng-true-value="admin", ng-false-value="")
+            input(name="adminRole", type="checkbox", ng-model="userToEdit.roles[0]", ng-true-value="'admin'", ng-false-value="")
         .form-group(ng-if="identity.isSuperAdmin()")
           label.col-md-2.control-label(for="superAdminRole") Super Admin
           .col-md-10
-            input(name="superAdminRole", type="checkbox", ng-model="userToEdit.roles[1]", ng-true-value="superadmin", ng-false-value="")
+            input(name="superAdminRole", type="checkbox", ng-model="userToEdit.roles[1]", ng-true-value="'superadmin'", ng-false-value="")
         .form-group
           .col-md-10.col-md-offset-2
             .pull-right

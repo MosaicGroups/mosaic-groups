@@ -1,6 +1,7 @@
 let mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
+
 // mongoose member collection
 let contactSchema = new mongoose.Schema({
     firstName: {
@@ -57,6 +58,10 @@ let memberSchema = new mongoose.Schema({
 
 // mongoose group collection
 let groupSchema = new mongoose.Schema({
+    semesterId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Semester'
+    },
     title: {
         type: String,
         required: '{PATH} is required!'
@@ -110,8 +115,7 @@ groupSchema.methods = {
 };
 
 let Member = mongoose.model('Member', memberSchema);
-let Group = mongoose.model('Group', groupSchema); //eslint-disable-line
-
+let Group = mongoose.model('Group', groupSchema);]
 
 function removeHashStr() {
     Member.update(

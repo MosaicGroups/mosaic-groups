@@ -1,9 +1,9 @@
 .jumbotron(ng-if="!showNextSemesterMsg()" align="center")
-  h2 Join a Mosaic Growth Group!
+  h2 Join a Mosaic Growth Group
   .row(style='width:650px' ng-if="settings.datesMsg")
     h5 {{settings.datesMsg}}
   .row(style='width:650px' ng-if="identityService.isAdmin()")
-    label.col-md-3.control-label(for="msgDates") Update Dates Message (admin only):
+    label.col-md-3.control-label(for="msgDates") Update Dates Message:
     .col-md-7
       input.form-control(name="msgDates", ng-model="settings.datesMsg")
     .col-md-2
@@ -17,13 +17,6 @@
     .col-md-2
       button.btn(ng-click="setNextSemesterMessage(settings.nextSemesterMsg)") Save
 .container-fluid
-  //.row
-  //  .col-md-12(ng-if="showNextSemesterMsg()")
-  //    div(align="center")
-  //      .well.well-sm
-  //        p
-  //          img(src="/img/nomoredragons.jpg")
-  //          div(style='width:350px') What is faith? What's the point of prayer? How can we trust God when bad things happen to us? How did I end up like this? If you've ever asked these questions, our No More Dragons book and bible study this fall is where you want to be. Together, we'll learn what it means to "remove the scales" of our lives and practically see how God can change us—and continually change us so we can experience life to the full.
   .row
     .col-md-3(ng-if="!showNextSemesterMsg() || identityService.isAuthenticated()")
       .well.well-sm(ng-if="identityService.isAdmin()")
@@ -62,6 +55,14 @@
             div
               &nbsp;
               i  - group list is currently being shown to users
+              br
+              br
+        .row
+          .col-md-12
+            input.form-control(name="newSemesterName", placeholder="New Semester Name", type="text", ng-model="newSemesterName", autocomplete="off")
+          .col-md-12
+            button.btn(ng-click="startNewSemester(newSemesterName)", ng-disabled="newSemesterName===undefined || newSemesterName.length <=0") Start New Semester
+            br
         
       .well.well-sm
         .row

@@ -43,6 +43,6 @@ describe('User Model', () => {
             (newUser) => { expect(newUser.username).to.be(user.username);},
             (err) => { expect().fail(err); }
         );      
+
     });
-    
 });
