@@ -115,7 +115,7 @@ groupSchema.methods = {
 };
 
 let Member = mongoose.model('Member', memberSchema);
-let Group = mongoose.model('Group', groupSchema);]
+let Group = mongoose.model('Group', groupSchema);
 
 function removeHashStr() {
     Member.update(
