@@ -83,6 +83,7 @@ describe('Groups Manipulation', function () {
         phone: '1112223333',
         status: 'PENDING',
         joinDate: new Date(),
+        preferContactVia: 'email',
         emergency_contact: {
             firstName: 'Concerned',
             lastName: 'Parent',
