@@ -2,6 +2,7 @@ let request = require('supertest');
 let session = require('supertest-session');
 let expect = require('expect.js');
 let app = require('./common').app;
+//var app = require('./common').app;
 
 let groupService = require('../../server/services/groupsService');
 let Group = require('mongoose').model('Group');
@@ -75,7 +76,6 @@ describe('Groups Manipulation', function () {
             });
 
     });
-
     var studentMember = {
         firstName: 'Little Bobby',
         lastName: 'Jones',
@@ -129,8 +129,9 @@ describe('Groups Manipulation', function () {
 
     });
 
-});
 
+
+});
 describe('Anthenticated Group Member Manipulation', function () {
 
     let coupleGroup = {
@@ -149,7 +150,6 @@ describe('Anthenticated Group Member Manipulation', function () {
         lastName: 'Jones',
         email: 'lilbobby@isp.test2',
         phone: '1112223333',
-        preferContactVia: 'phone',
     };
 
 
@@ -206,101 +206,6 @@ describe('Anthenticated Group Member Manipulation', function () {
 
 });
 
-describe('Group Member Schema Testing', function() {
-
-    let group = {
-        title: 'Generic Group',
-        memberLimit: 15,
-        location: 'Merryland',
-        dayOfTheWeek: 'Mon',
-        meetingTime: '6 AM',
-        audienceType: 'People',
-        description: 'The most generic of all groups',
-    };
-    
-    let member = {
-        firstName: 'Boring Bobby',
-        lastName: 'Barrington',
-        email: 'boringbobby@isp.limo',
-        phone: '5554445555',
-        preferContactVia: 'phone',
-    };
-    
-    it('Should fail on missing member phone', () => {
-        
-        let noPhoneMember = Object.assign({},member);
-        noPhoneMember.username = 'nophone@email.com';
-        delete noPhoneMember.phone;
-
-        let phoneGroup = Object.assign({}, group);
-        phoneGroup.members = [noPhoneMember];
-        
-        Group.create(phoneGroup)
-        .then(
-            () => { expect().fail('Member Validation should have failed');},
-            (err) => { expect(err.name).to.be('ValidationError');}
-        );      
-    });
-    
-    it('Should fail on missing member preferred contact method', () => {
-        
-        let noContactMember = Object.assign({},member);
-        noContactMember.username = 'nocontact@email.com';
-        delete noContactMember.preferContactVia;
-
-        let contactGroup = Object.assign({}, group);
-        contactGroup.members = [noContactMember];
-        
-        Group.create(contactGroup)
-        .then(
-            () => { expect().fail('Member Validation should have failed');},
-            (err) => { expect(err.name).to.be('ValidationError');}
-        );      
-    });
-         
-    let emergency_contact = {
-        firstName: 'Concerned',
-        lastName: 'Parent',
-        email: 'helicopter@parent.com',
-        phone: '5556667777',
-    };
-    
-    it('Add a student group member with emergency contact', () => {
-        
-        let goodStudentMember = Object.assign({},member);
-        goodStudentMember.username = 'goodStudent@email.com';
-        goodStudentMember.emergency_contact = emergency_contact;
-
-        let goodStudentGroup = Object.assign({}, group);
-        goodStudentGroup.members = [goodStudentMember];
-        
-        Group.create(goodStudentGroup)
-        .then(
-            (g) => {expect(g.members[0].emergency_contact.firstName).to.equal('Concerned');},
-            (err) => { expect().fail('Failed to Add Student Member');}
-        );      
-    }); 
-    
-    it('not add a student group member with a broken emergency contact', () => {
-        
-        let badContactMember = Object.assign({},member);
-        badContactMember.username = 'badcontact@email.com';
-            
-        let badEmergencyContact = Object.assign({}, emergency_contact);
-        badContactMember.emergency_contact = badEmergencyContact;
-        
-        let badContactGroup = Object.assign({}, group);
-        badContactGroup.members = [badContactMember];
-        
-        Group.create(badContactGroup)
-        .then(
-            () => { expect().fail('Member Validation should have failed');},
-            (err) => { expect(err.name).to.be('ValidationError');}
-        );      
-    });
-    
-});
-    
 describe('Anthenticated Group Manipulation', function () {
     let unauthSession, authSession;
     beforeEach(function () {
