@@ -42,15 +42,6 @@ let memberSchema = new mongoose.Schema({
         type: Date,
         required: '"Join Date" is required!'
     },
-    phone: {
-        type: String,
-        required: '"Phone Number" is required!'
-    },
-    preferContactVia: {
-        type: String,
-        enum: ['email', 'phone'],
-        required: '"Preferred Contact Method" is required!'
-    },
     emergency_contact: {
         type: contactSchema
     },

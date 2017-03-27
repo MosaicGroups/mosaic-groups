@@ -2,6 +2,7 @@ let request = require('supertest');
 let session = require('supertest-session');
 let expect = require('expect.js');
 let app = require('./common').app;
+//var app = require('./common').app;
 
 let groupService = require('../../server/services/groupsService');
 let Group = require('mongoose').model('Group');
@@ -75,7 +76,6 @@ describe('Groups Manipulation', function () {
             });
 
     });
-
     var studentMember = {
         firstName: 'Little Bobby',
         lastName: 'Jones',
@@ -130,8 +130,9 @@ describe('Groups Manipulation', function () {
 
     });
 
-});
 
+
+});
 describe('Anthenticated Group Member Manipulation', function () {
 
     let coupleGroup = {
@@ -150,7 +151,6 @@ describe('Anthenticated Group Member Manipulation', function () {
         lastName: 'Jones',
         email: 'lilbobby@isp.test2',
         phone: '1112223333',
-        preferContactVia: 'phone',
     };
 
 
@@ -308,7 +308,7 @@ describe('Group Member Schema Testing', function () {
 
 });
 
-describe('Anthenticated Group Manipulation', function () {
+describe('Authenticated Group Manipulation', function () {
     let unauthSession, authSession;
     beforeEach(function () {
         unauthSession = session(app);
