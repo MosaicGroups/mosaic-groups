@@ -110,20 +110,11 @@
       .well.well-sm
         .row
           .col-md-12
-            div 
-              b Host: 
-              span Hey! Not ready to lead a group, but you've got space to host one? Awesome! Let us know by emailing 
-              a(href="mailto:jessica@mosaicchristian.org") jessica@mosaicchristian.org
-            div 
-              b Lead: 
-              span Hey! Interested in leading a growth group? Awesome! Fill out the application here: 
-              a(href="https://www.mosaicchristian.org/leadagroup") www.mosaicchristian.org/leadagroup
+            div.text-center(ng-repeat="info in moreInfoSections")
+              button.btn(ng-click="moreInfo(info)") {{info.label}}
               br
-              span We're looking forward to hearing from you!
-            div 
-              b Childcare: 
-              span Hey! Looking to make some extra cash on the side? Join our team of background checked babysitters, and help make it possible for parents to connect each and every semester! Let us know by emailing 
-              a(href="mailto:jessica@mosaicchristian.org") jessica@mosaicchristian.org
+              
+             
     .col-md-9(ng-if="!showNextSemesterMsg() || identityService.isAuthenticated()")
       table.groups-table.table.table-condensed.table-bordered(ng-table="tableParams")
         tbody(ng-repeat="group in $groups")
