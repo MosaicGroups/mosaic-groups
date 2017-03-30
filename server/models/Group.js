@@ -42,9 +42,18 @@ let memberSchema = new mongoose.Schema({
         type: Date,
         required: '"Join Date" is required!'
     },
+    gender: {
+        type: String,
+        required: '{PATH} is required!'
+    },
+    campus: {
+        type: String,
+        required: '{PATH} is required!'
+    },
     emergency_contact: {
         type: contactSchema
     },
+    
 });
 
 // mongoose group collection

@@ -82,6 +82,8 @@ describe('Groups Manipulation', function () {
         email: 'lilbobby@isp.test',
         phone: '1112223333',
         status: 'PENDING',
+        gender: 'male',
+        campus: 'Elkridge',
         joinDate: new Date(),
         preferContactVia: 'email',
         emergency_contact: {
@@ -151,6 +153,8 @@ describe('Anthenticated Group Member Manipulation', function () {
         lastName: 'Jones',
         email: 'lilbobby@isp.test2',
         phone: '1112223333',
+        gender: 'male',
+        campus: 'Elkridge'
     };
 
 
@@ -225,6 +229,8 @@ describe('Group Member Schema Testing', function () {
         email: 'boringbobby@isp.limo',
         phone: '5554445555',
         preferContactVia: 'phone',
+        gender: 'male',
+        campus: 'Elkridge'
     };
 
     it('Should fail on missing member phone', () => {
