@@ -46,3 +46,14 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+.navbar{
+	min-height: 75px;
+}
+.headerLogoImage { 
+	
+	height: auto;
+	max-height: 100px;
+	width: auto;
+	max-width: 100%;
+
+}

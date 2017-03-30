@@ -8,7 +8,12 @@ const App = () => (
   <Router history={Router.hashHistory}>
     <div className="container">
       <Header />
-      <Route path="/" component="" />
+      <Route path="/" rendor={() => {
+          return (
+            <div>hi</div>
+          );
+      }} />
+      {/*
       <Route path="/login" component="" />
       <Route path="/profile" component="" />
       <Route path="/group-create-or-edit" component="" />
@@ -18,7 +23,7 @@ const App = () => (
       <Route path="/user-create" component="" />
       <Route path="/group-list" component="" />
       <Route path="/group-join/:id" component="" />
-      <Route path="/group-full/:id" component="" />
+      <Route path="/group-full/:id" component="" />*/}
     </div>
   </Router>
 );
