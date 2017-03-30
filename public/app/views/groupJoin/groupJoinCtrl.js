@@ -31,10 +31,11 @@ angular.module('app').controller('groupJoinCtrl', function ($scope, $route, $loc
             $scope.disableJoin = true;
             groupService.addMember($scope.group)
                 .then(function () {
-                    notifierService.notify('Your request to join "' + $scope.group.title + '" has been sent');
+                    notifierService.notify('Your request to join this group has been sent');
                     $location.path('/');
-                }, function () {
-                    notifierService.error('Not able to join "' + $scope.group.title + '" at this time');
+                })
+                .catch(function () {
+                    notifierService.error('Not able to join this group at this time');
                 });
         }
     };
