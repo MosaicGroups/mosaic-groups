@@ -4,8 +4,8 @@
   "description": "A website for managing Mosaic groups",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/mocha && karma start",
-    "start": "./node_modules/.bin/babel-node server.js",
+    "test": "./node_modules/mocha/bin/mocha  --timeout 120000 --compilers js:babel-register --require babel-polyfill test/mocha",
+    "start": "./node_modules/.bin/babel-node --presets es2015,es2016,es2017 server.js",
     "webpack": "./node_modules/webpack/bin/webpack.js --config webpack.config.prod.js",
     "webpack-watch": "./node_modules/webpack/bin/webpack.js --watch --config webpack.config.dev.js"
   },
