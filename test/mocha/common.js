@@ -1,10 +1,17 @@
 process.env.NODE_ENV = 'test';
+let mock = require('mock-require');
 
-var mockgoose = require('mockgoose');
-var mongoose = require('mongoose');
-mockgoose(mongoose);
-var app = require('../../server');
+const blankFunct = () => { };
+mock('../../server/utilities/emailer', {
+    sendAuditMessageEMail: blankFunct,
+    sendErrorMessageEmail: blankFunct,
+    sendAddedMemberEMail: blankFunct
+});
+/*mock('../../server/utilities/errorHandler', {
+    sendError: blankFunct,
+    logError: blankFunct
+});*/
+let app = require('../../server');
 
-console.warn("ISMOCKED", mongoose.isMocked);
 
 exports.app = app;
