@@ -324,18 +324,6 @@ angular.module('app').controller('groupListCtrl', function ($scope, $window, $lo
         });
     };
 
-    var inArray = Array.prototype.indexOf ?
-        function (val, arr) {
-            return arr.indexOf(val);
-        } :
-        function (val, arr) {
-            var i = arr.length;
-            while (i--) {
-                if (arr[i] === val) return i;
-            }
-            return -1;
-        };
-
     $scope.getSettings();
 
     $scope.startNewSemester = function (semesterName) {
