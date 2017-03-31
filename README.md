@@ -3,7 +3,7 @@
 ## Features
 
 * Gives people at Mosaic the ability to:
-  * View a list of all the groups for the next sememster
+  * View a list of all the groups for the next semester
   * Sign up and receive more information about different Growth Groups
 * Gives "Growth Group" leaders the ability to:
   * Create a new group
