@@ -35,8 +35,3 @@
 
 Our production environment runs in heroku and can be found here: https://www.mosaicgroups.org/. Any push or merged pull-request to `master` will trigger a re-deploy to heroku. We still need to configure CI, so make sure all tests run before merging from `dev` to `master`!
 
-### Development
-
-An additional development environment runs in heroku and can be found here: https://mosaicgroups-dev.herokuapp.com/login. Any push or merged pull-request to `dev` will trigger a redeploy do dev heroku.
-
-So we don't have to be use 2 separate MongoDB environments, we use an in-memory version of mongodb called `mockgoose` for this dev heroku. That means that everytime heroku goes down or we redeploy to dev, all data is reset.
