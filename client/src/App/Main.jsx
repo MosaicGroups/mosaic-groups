@@ -1,9 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Header from '../common/Header.jsx';
-import GroupListSurface from '../groups/list/GroupListSurface.jsx';
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+import { createLogger } from 'redux-logger';
+import reducer from './reducers';
+import Header from './components/common/Header.jsx';
+import GroupListSurface from './components/groups/list/GroupListSurface.jsx';
 
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+
+const middleware = [thunk];
+if (process.env.NODE_ENV !== 'production') {
+    middleware.push(createLogger());
+}
+
+const store = createStore(
+  reducer,
+  applyMiddleware(...middleware)
+);
 
 const App = () => (
   <Router history={Router.hashHistory}>
@@ -28,4 +43,4 @@ const App = () => (
   </Router>
 );
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
