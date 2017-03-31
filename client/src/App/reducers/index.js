@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { reducer as formReducer } from 'redux-form';
 import {
     REQUEST_SETTINGS, RECEIVE_SETTINGS
 } from '../actions/settings.js';
@@ -42,7 +43,8 @@ const identity = (state = {}, action) => {
 
 const rootReducer = combineReducers({
     settings,
-    identity
+    identity,
+    form: formReducer
 });
 
 export default rootReducer;
