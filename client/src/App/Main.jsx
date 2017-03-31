@@ -7,7 +7,7 @@ import { createLogger } from 'redux-logger';
 import reducer from './reducers';
 import Header from './components/common/Header.jsx';
 import GroupListSurface from './components/groups/list/GroupListSurface.jsx';
-
+import LoginSurface from './components/login/LoginSurface.jsx';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 const middleware = [thunk];
@@ -26,9 +26,10 @@ const App = () => (
       <Header />
 
       <div className="content">
-        <Route path="/" component={GroupListSurface} />
-        {/*
-      <Route path="/login" component="" />
+        <Route exact={true} path="/" component={GroupListSurface} />
+       
+        <Route path="/login" component={LoginSurface} />
+       {/*  
       <Route path="/profile" component="" />
       <Route path="/group-create-or-edit" component="" />
       <Route path="/group-create-or-edit/:id" component="" />

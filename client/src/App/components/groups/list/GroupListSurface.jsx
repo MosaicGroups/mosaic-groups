@@ -1,7 +1,7 @@
 import React from 'react';
-import SubHeader from './SubHeader.jsx';
+import SubHeader from './subHeader/SubHeader.jsx';
 import { connect } from 'react-redux';
-import { fetchSettingsIfNeeded, } from '../../../actions';
+import { fetchSettingsIfNeeded, } from '../../../actions/settings';
 
 class GroupListSurface extends React.Component {
     constructor(props) {

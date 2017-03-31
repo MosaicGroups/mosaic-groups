@@ -1,13 +1,15 @@
 import { combineReducers } from 'redux';
 import {
     REQUEST_SETTINGS, RECEIVE_SETTINGS
-} from '../actions';
+} from '../actions/settings.js';
 
-
+import {
+    REQUEST_AUTHENTICATION, RECEIVE_AUTHENTICATION
+} from '../actions/identity';
 
 const settings = (state = {
     isFetching: false,
-    hasSettings:false
+    hasSettings: false
 }, action) => {
     switch (action.type) {
         case REQUEST_SETTINGS:
@@ -19,8 +21,19 @@ const settings = (state = {
             return Object.assign({}, state, {
                 isFetching: false,
                 hasSettings: true
-            }, action.settings);    
-           
+            }, action.settings);
+
+        default:
+            return state;
+    }
+};
+
+const identity = (state = {}, action) => {
+    switch (action.type) {
+        case REQUEST_AUTHENTICATION:
+            return state;
+        case RECEIVE_AUTHENTICATION:
+            return Object.assign({}, state, action.user);
         default:
             return state;
     }
@@ -29,6 +42,7 @@ const settings = (state = {
 
 const rootReducer = combineReducers({
     settings,
+    identity
 });
 
 export default rootReducer;
