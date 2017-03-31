@@ -50,16 +50,24 @@ module.exports = function (app) {
     app.get('/api/settings', cache.disableBrowserCache, settings.getSettings);
     app.post('/api/settings', auth.requiresRole('admin'), settings.updateSettings);
 
-   
+
 
     app.post('/login', auth.login);
 
     app.post('/logout', auth.logout);
 
-
+    app.get('/build*', function (req, res) {
+        res.sendFile(req.path, config);
+    });
+    app.get('/img*', function (req, res) {
+        res.sendFile(req.path, config);
+    });
+    app.get('/css*', function (req, res) {
+        res.sendFile(req.path, config);
+    });
 
     // ensure that the client side application does ALL of the routing
-    app.get('*', function (req, res) {
-        res.sendFile(req.path, config);
+    app.get('/*', function (req, res) {
+        res.sendFile('index.html', config);
     });
 };
