@@ -10,13 +10,13 @@ export const requestAuthentication = () => ({
 
 export const receiveAuthentication = response => ({
     type: RECEIVE_AUTHENTICATION,
-    user: response.data.user
+    user: response.body.user
 });
 
 export const authenticate = (username, password) => dispatch => {
     dispatch(requestAuthentication());
     return request.post('/login')
-    .send({username, password})    
+        .send({ username, password })
         .then(response => dispatch(receiveAuthentication(response)));
 };
 
