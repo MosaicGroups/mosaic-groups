@@ -322,4 +322,22 @@ describe('Anthenticated Group Manipulation', function () {
             });
     });
 
+    it('Should archive groups when a new semester is added', function (done) { 
+        semesterService.addSemester('DummySemester2') 
+            .then(semester => { 
+                expect(semester.name).to.be('DummySemester2'); 
+
+                request(app) 
+                    .get('/api/groups/') 
+                    .expect(200) 
+                    .end(function (err, res) { 
+                        if (err) throw err; 
+                        expect(res.body.length).to.equal(0); 
+                        done(); 
+                    }); 
+            }) 
+        .catch(err => { 
+            throw err; 
+        }); 
+    }); 
 });
