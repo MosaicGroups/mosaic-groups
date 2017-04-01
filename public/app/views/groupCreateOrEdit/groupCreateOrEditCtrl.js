@@ -153,10 +153,42 @@ angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $rout
       $scope.group.members.splice(index, 1);
     });
   }
+  
+  $scope.listMemberPhones = function() {
+    var modalInstance = $modal.open({
+      templateUrl: '/partials/groupCreateOrEdit/list-phones-modal',
+      controller: listPhonesCtrl,
+      resolve: {
+        group: function () {
+          return $scope.group;
+        },
+        title: function() {
+          return "Group Member Phone Numbers"
+        }
+      }
+    });
+  }
+  
 });
 
 var listEmailsCtrl = function($scope, $modalInstance, title, group) {
   $scope.title = title;
+  $scope.group = group;
+
+  $scope.ok = function () {
+    $modalInstance.close();
+  };
+};
+
+var listPhonesCtrl = function($scope, $modalInstance, title, group) {
+  $scope.title = title;
+  
+  //Normalize Phone Numbers for Easy Viewing
+  group.members.forEach((member, idx, members) => {
+      phone = member.phone
+      member.prettyPhone = `(${phone.slice(0,3)})-${phone.slice(3,6)}-${phone.slice(6,11)}`; 
+      members[idx] = member;
+  });
   $scope.group = group;
 
   $scope.ok = function () {

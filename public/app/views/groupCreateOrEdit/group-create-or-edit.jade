@@ -93,7 +93,8 @@
       .form-group
         .col-md-10.col-md-offset-2
           .pull-left
-            button.btn.btn-default(ng-click="listMemberEmails()") Export Member Email Addresses
+            button.btn.btn-default(ng-click="listMemberEmails()") Export Email Addresses
+            button.btn.btn-default(ng-click="listMemberPhones()" style="margin-left:10px;") Export Phone Numbers
           .pull-left(ng-if="group.audienceType === 'Middle School Students' || group.audienceType === 'High School Students'")
             button.btn.btn-default(ng-click="listEmergencyContacts()" style="margin-left:10px;") List Emergency Contacts
           .pull-right
