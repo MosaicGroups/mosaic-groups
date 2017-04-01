@@ -69,27 +69,27 @@
                 th First Name
                 th Last Name
                 th Email
+                th Phone
+                th Prefers
                 th Status
                 th Actions
             tbody
               tr(ng-repeat="member in group.members")
-                td
+                td(style="width:125px")
                   input.form-control(type="text" placeholder="First Name" ng-model="member.firstName" ng-model-options="{ updateOn: 'mousedown blur' }" ng-required="true")
-                td
+                td(style="width:125px")
                   input.form-control(type="text" placeholder="Last Name" ng-model="member.lastName" ng-model-options="{ updateOn: 'mousedown blur' }" ng-required="true")
-                td
+                td(style="width:175px")
                   input.form-control(type="email" placeholder="Email" ng-model="member.email" ng-model-options="{ updateOn: 'mousedown blur' }" ng-required="false")
-                td(style="width:150px")
+                td(style="width:125px")
+                  input.form-control(type="text" placeholder="Phone" ng-model="member.phone" ng-model-options="{ updateOn: 'mousedown blur' }" ng-required="false")
+                td(style="width:80px")
+                  select.form-control(ng-options="item for (itemKey, item) in ['email','phone']", ng-model="member.preferContactVia")
+                td(style="width:115px")
                   select.form-control(ng-options="item for (itemKey, item) in statusTypes", ng-model="member.status", required)
                 td
+                  button.btn.btn-default(ng-click="addMember()" style="margin-right:10px") Add
                   button.btn.btn-primary(ng-click="removeMember(member)") Remove
-              tr
-                td
-                td
-                td
-                td
-                td
-                  button.btn.btn-default(ng-click="addMember()") Add Member
       .form-group
         .col-md-10.col-md-offset-2
           .pull-left

@@ -62,6 +62,11 @@ angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $rout
       for (var i = 0; i < $scope.leaderIds.length; i++) {
         $scope.group.leaders.push($scope.leaderIds[i]);
       }
+      $scope.group.members.forEach((member, idx, memberArray) => {
+           member.phone = member.phone.replace(/\D/g,''); //Normalize Phone #'s
+           memberArray[idx] = member;
+
+      });
       groupService.saveGroup($scope.group).then(function(group) {
         if ($scope.group._id) {
           notifierService.notify('Group ' + $scope.group.title + ' has been updated');
