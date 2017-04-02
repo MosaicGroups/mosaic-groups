@@ -68,6 +68,8 @@
               tr
                 th First Name
                 th Last Name
+                th Gender
+                th Campus
                 th Email
                 th Phone
                 th Prefers
@@ -79,6 +81,10 @@
                   input.form-control(type="text" placeholder="First Name" ng-model="member.firstName" ng-model-options="{ updateOn: 'mousedown blur' }" ng-required="true")
                 td(style="width:125px")
                   input.form-control(type="text" placeholder="Last Name" ng-model="member.lastName" ng-model-options="{ updateOn: 'mousedown blur' }" ng-required="true")
+                td(style="width:100px")
+                  select.form-control(ng-options="item for (itemKey, item) in genders", ng-model="member.gender")
+                td(style="width:115px")
+                  select.form-control(ng-options="item for (itemKey, item) in campuses", ng-model="member.campus")
                 td(style="width:175px")
                   input.form-control(type="email" placeholder="Email" ng-model="member.email" ng-model-options="{ updateOn: 'mousedown blur' }" ng-required="false")
                 td(style="width:125px")

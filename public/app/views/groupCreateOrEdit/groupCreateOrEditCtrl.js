@@ -1,4 +1,4 @@
-angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $route, $location, $modal, audienceTypes, daysOfTheWeek, availableTopics, statusTypes, groupService, notifierService, identityService, userService, meetingTimes) {
+angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $route, $location, $modal, audienceTypes, daysOfTheWeek, availableTopics, statusTypes, groupService, notifierService, identityService, userService, meetingTimes, campuses, genders) {
   var groupId = $route.current.params.id;
   $scope.identity = identityService;
   $scope.group = {};
@@ -10,6 +10,8 @@ angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $rout
   $scope.availableTopics = availableTopics;
   $scope.meetingTimes = meetingTimes;
   $scope.statusTypes = statusTypes;
+  $scope.campuses = campuses;
+  $scope.genders = genders;
 
   if (groupId) {
     groupService.getGroup(groupId).$promise.then(function(data) {
