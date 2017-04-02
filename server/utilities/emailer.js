@@ -23,6 +23,8 @@ exports.sendAddedMemberEMail = function (group, newMemberData, callback) {
         let message = `Mosaic Group: ${group.title} has a new member request from: 
         ${newMemberData.firstName} ${newMemberData.lastName}  <br/>
         
+        Gender: ${newMemberData.gender}. <br/>
+        Campus: ${newMemberData.campus}. <br/>
         Email Address: &lt;${newMemberData.email}&gt;. <br/>
         Phone Number: ${newMemberData.phone}.<br/>
         Preferred Contact Method: ${newMemberData.preferContactVia} <br/>
