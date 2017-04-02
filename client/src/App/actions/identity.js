@@ -17,6 +17,9 @@ export const authenticate = (username, password) => dispatch => {
     dispatch(requestAuthentication());
     return request.post('/login')
         .send({ username, password })
-        .then(response => dispatch(receiveAuthentication(response)));
+        .then(response => {
+            console.log('response', response);
+            return dispatch(receiveAuthentication(response));
+        });
 };
 

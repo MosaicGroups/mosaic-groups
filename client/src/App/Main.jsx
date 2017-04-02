@@ -16,20 +16,21 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const store = createStore(
-  reducer,
-  applyMiddleware(...middleware)
+    reducer,
+    applyMiddleware(...middleware)
 );
 
-const App = () => (
-  <Router history={Router.hashHistory}>
-    <div >
-      <Header />
+const App = () => {
+    return (
+        <Router history={Router.hashHistory}>
+            <div >
+                <Header />
 
-      <div className="content">
-        <Route exact={true} path="/" component={GroupListSurface} />
-       
-        <Route path="/login" component={LoginSurface} />
-       {/*  
+                <div className="content">
+                    <Route exact={true} path="/" component={GroupListSurface} />
+
+                    <Route path="/login" component={LoginSurface} />
+                    {/*  
       <Route path="/profile" component="" />
       <Route path="/group-create-or-edit" component="" />
       <Route path="/group-create-or-edit/:id" component="" />
@@ -39,9 +40,10 @@ const App = () => (
       <Route path="/group-list" component="" />
       <Route path="/group-join/:id" component="" />
       <Route path="/group-full/:id" component="" />*/}
-      </div>
-    </div>
-  </Router>
-);
+                </div>
+            </div>
+        </Router>
+    );
+};
 
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
