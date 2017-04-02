@@ -21,7 +21,12 @@ exports.sendAddedMemberEMail = function (group, newMemberData, callback) {
         }, '');
  
         let message = `Mosaic Group: ${group.title} has a new member request from: 
-        ${newMemberData.firstName} ${newMemberData.lastName}  &lt;${newMemberData.email}&gt;. <br/>
+        ${newMemberData.firstName} ${newMemberData.lastName}  <br/>
+        
+        Email Address: &lt;${newMemberData.email}&gt;. <br/>
+        Phone Number: ${newMemberData.phone}.<br/>
+        Preferred Contact Method: ${newMemberData.preferContactVia} <br/>
+
         <br/>
         Note: This is an automated email from the mosaicgroups.org website. When you reach out to the new member, please contact them directly - do not reply to this email.`;
 

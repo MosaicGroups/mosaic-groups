@@ -1,0 +1,8 @@
+div
+  .modal-header
+    h3 {{title}}
+  .modal-body
+    span(ng-repeat="member in group.members" style="border-width:1px") {{member.firstName}} {{member.lastName}}: {{member.prettyPhone}} <br>
+  .modal-footer
+    button.btn.btn-primary(ng-click="ok()") OK
+
