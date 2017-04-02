@@ -75,7 +75,64 @@ describe('Groups Manipulation', function () {
             });
 
     });
-    
+    var studentMember = {
+        firstName: 'Little Bobby',
+        lastName: 'Jones',
+        email: 'lilbobby@isp.test',
+        phone: '1112223333',
+        status: 'PENDING',
+        gender: 'male',
+        campus: 'Elkridge',
+        joinDate: new Date(),
+        preferContactVia: 'email',
+        emergency_contact: {
+            firstName: 'Concerned',
+            lastName: 'Parent',
+            email: 'helicopter@parent.com',
+            phone: '5556667777',
+        }
+    };
+
+    it('Should add a group with emergency contact', function (done) {
+        group.title = 'sGroup'; //Fix from previous test that breaks group
+        group.members = [studentMember];
+        Group.create(group, function (err, g) {
+            if (err) throw err;
+            expect(g.members[0].emergency_contact.firstName).to.equal('Concerned');
+            done();
+        });
+    });
+
+    it('Should not add broken contact', function (done) {
+        group.members[0].firstName = undefined;
+        Group.create(group, function (err, g) {
+            expect(err.name).to.be('ValidationError');
+            done();
+        });
+    });
+
+    it('Should archive groups when a new semester is added', function (done) {
+        semesterService.addSemester('DummySemester2')
+            .then(semester => {
+                expect(semester.name).to.be('DummySemester2');
+
+                request(app)
+                    .get('/api/groups/')
+                    .expect(200)
+                    .end(function (err, res) {
+                        if (err) throw err;
+                        expect(res.body.length).to.equal(0);
+                        done();
+                    });
+            })
+            .catch(err => {
+                throw err;
+            });
+
+    });
+
+
+
 });
 
 describe('Anthenticated Group Member Manipulation', function () {
@@ -96,7 +153,9 @@ describe('Anthenticated Group Member Manipulation', function () {
         lastName: 'Jones',
         email: 'lilbobby@isp.test2',
         phone: '1112223333',
-        preferContactVia: 'phone',
+        gender: 'male',
+        campus: 'Elkridge',
+        preferContactVia: 'phone'
     };
 
 
@@ -171,6 +230,8 @@ describe('Group Member Schema Testing', function() {
         email: 'boringbobby@isp.limo',
         phone: '5554445555',
         preferContactVia: 'phone',
+        gender: 'male',
+        campus: 'Elkridge'
     };
 
     it('Should fail on missing member phone', () => {

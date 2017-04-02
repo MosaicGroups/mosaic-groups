@@ -66,6 +66,14 @@
                 div(ng-show="groupJoinForm.emailConfirm.$error.mismatch")
                   span.msg-error Email and Confirm Email must match.
             .form-group
+              label.col-md-4.control-label(for="gender") Gender
+              .col-md-8
+                select.form-control(name="gender", ng-options="item for (itemKey, item) in genders", ng-model="group.newMember.gender", required)
+            .form-group
+              label.col-md-4.control-label(for="campus") Campus
+              .col-md-8
+                select.form-control(name="campus", ng-options="item for (itemKey, item) in campuses", ng-model="group.newMember.campus", required)
+            .form-group
               label.col-md-4.control-label(for="phone") Phone Number
               .col-md-8
                 input.form-control(name="phone", type="text", placeholder="Phone Number", ng-model="group.newMember.phone", required, autocomplete="off" )              
@@ -80,7 +88,6 @@
                   label.radio-inline
                     input(type="radio", name="preferEmail", value="email" ng-model="group.newMember.preferContactVia")
                     | Email
-
 
 
             .div(ng-if="group.audienceType === 'Couples'")
@@ -103,6 +110,14 @@
                   input.form-control(name="emailConfirmSpouse", type="email", placeholder="Retype Email", ng-model="spouseEmailConfirmed", required, autocomplete="off" ng-match="group.newMemberSpouse.email" )
                   div(ng-show="groupJoinForm.emailConfirmSpouse.$error.mismatch")
                     span.msg-error Email and Confirm Email must match.
+              .form-group
+                label.col-md-4.control-label(for="gender") Gender
+                .col-md-8
+                  select.form-control(name="gender", ng-options="item for (itemKey, item) in genders", ng-model="group.newMemberSpouse.gender", required)
+              .form-group
+                label.col-md-4.control-label(for="campus") Campus
+                .col-md-8
+                  select.form-control(name="campus", ng-options="item for (itemKey, item) in campuses", ng-model="group.newMemberSpouse.campus", required)
               .form-group
                 label.col-md-4.control-label(for="phoneSpouse") Phone Number
                 .col-md-8
