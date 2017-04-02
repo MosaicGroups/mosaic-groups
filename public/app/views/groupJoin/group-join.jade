@@ -73,6 +73,21 @@
               label.col-md-4.control-label(for="campus") Campus
               .col-md-8
                 select.form-control(name="campus", ng-options="item for (itemKey, item) in campuses", ng-model="group.newMember.campus", required)
+            .form-group
+              label.col-md-4.control-label(for="phone") Phone Number
+              .col-md-8
+                input.form-control(name="phone", type="text", placeholder="Phone Number", ng-model="group.newMember.phone", required, autocomplete="off" )              
+            .form-group
+              label.col-md-4.control-label() Preferred Contact Method
+              .col-md-8
+                .col-md-6
+                  label.radio-inline
+                    input(type="radio", name="preferPhone", value="phone", ng-model="group.newMember.preferContactVia", checked)
+                    | Phone
+                .col-md-6
+                  label.radio-inline
+                    input(type="radio", name="preferEmail", value="email" ng-model="group.newMember.preferContactVia")
+                    | Email
 
 
             .div(ng-if="group.audienceType === 'Couples'")
@@ -103,7 +118,21 @@
                 label.col-md-4.control-label(for="campus") Campus
                 .col-md-8
                   select.form-control(name="campus", ng-options="item for (itemKey, item) in campuses", ng-model="group.newMemberSpouse.campus", required)
-
+              .form-group
+                label.col-md-4.control-label(for="phoneSpouse") Phone Number
+                .col-md-8
+                  input.form-control(name="phoneSpouse", type="text", placeholder="Phone Number", ng-model="group.newMemberSpouse.phone", required, autocomplete="off" )              
+              .form-group
+                label.col-md-4.control-label() Preferred Contact Method
+                .col-md-8
+                  .col-md-6
+                    label.radio-inline
+                      input(type="radio", name="preferPhoneSpouse", value="phone", ng-model="group.newMemberSpouse.preferContactVia", checked)
+                      | Phone
+                  .col-md-6
+                    label.radio-inline
+                      input(type="radio", name="preferEmailSpouse", value="email" ng-model="group.newMemberSpouse.preferContactVia")
+                      | Email
 
             .div(ng-if="group.audienceType === 'Middle School Students' || group.audienceType === 'High School Students'")
               .h3 Emergency Contact:

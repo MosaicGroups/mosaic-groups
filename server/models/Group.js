@@ -50,6 +50,15 @@ let memberSchema = new mongoose.Schema({
         type: String,
         required: '{PATH} is required!'
     },
+    phone: {
+        type: String,
+        required: '"Phone Number" is required!'
+    },
+    preferContactVia: {
+        type: String,
+        enum: ['email', 'phone'],
+        required: '"Preferred Contact Method" is required!'
+    },
     emergency_contact: {
         type: contactSchema
     },
@@ -115,7 +124,8 @@ groupSchema.methods = {
 };
 
 let Member = mongoose.model('Member', memberSchema);
-let Group = mongoose.model('Group', groupSchema);
+let Group = mongoose.model('Group', groupSchema); //eslint-disable-line
+
 
 function removeHashStr() {
     Member.update(
