@@ -11,3 +11,7 @@
 
 }
 body { padding-top: 75px; }
+
+.jumbotron {
+    padding: 5px;
+}

@@ -16,7 +16,7 @@ class GroupListSurface extends React.Component {
         let settings = this.props.settings || {};
         return (
             <div>
-                {settings.hasSettings ? <SubHeader settings={this.props.settings} /> : null}
+                {settings.hasSettings ? <SubHeader settings={this.props.settings} identity={this.props.identity}/> : null}
             </div>
         );
     }
@@ -26,7 +26,10 @@ GroupListSurface.propTypes = {
 };
 
 const mapStateToProps = state => {
-    return { settings: state.settings };
+    return {
+        settings: state.settings,
+        identity: state.identity
+    };
 };
 
 export default connect(mapStateToProps)(GroupListSurface);
