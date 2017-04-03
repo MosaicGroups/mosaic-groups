@@ -64,22 +64,36 @@ angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $rout
       for (var i = 0; i < $scope.leaderIds.length; i++) {
         $scope.group.leaders.push($scope.leaderIds[i]);
       }
-      $scope.group.members.forEach((member, idx, memberArray) => {
-           member.phone = member.phone.replace(/\D/g,''); //Normalize Phone #'s
-           memberArray[idx] = member;
-
-      });
-      groupService.saveGroup($scope.group).then(function(group) {
-        if ($scope.group._id) {
-          notifierService.notify('Group ' + $scope.group.title + ' has been updated');
-          $location.path('/views/groupList/group-list');
-        } else {
-          notifierService.notify('Group ' + $scope.group.title + ' has been created');
-          $location.path('/views/groupList/group-list');
+      if(typeof $scope.group.members !== 'undefined') {
+          $scope.group.members.forEach((member, idx, memberArray) => {
+               member.phone = member.phone.replace(/\D/g,''); //Normalize Phone #'s
+               memberArray[idx] = member;
+          });
+      }
+      
+      var modalInstance = $modal.open({
+        templateUrl: '/partials/groupCreateOrEdit/create-group-confirm-modal',
+        controller: confirmCreateGroupCtrl,
+        resolve: {
+          group: function () {
+            return $scope.group;
+          }
         }
-      }, function(reason) {
-        notifierService.error(reason);
-      })
+      });
+            
+      modalInstance.result.then(function() {
+          groupService.saveGroup($scope.group).then(function(group) {
+            if ($scope.group._id) {
+              notifierService.notify('Group ' + $scope.group.title + ' has been updated');
+              $location.path('/views/groupList/group-list');
+            } else {
+              notifierService.notify('Group ' + $scope.group.title + ' has been created');
+              $location.path('/views/groupList/group-list');
+            }
+          }, function(reason) {
+            notifierService.error(reason);
+          })
+     }); 
     }
   }
 
@@ -197,6 +211,15 @@ var listPhonesCtrl = function($scope, $modalInstance, title, group) {
     $modalInstance.close();
   };
 };
+
+var confirmCreateGroupCtrl = function($scope, $modalInstance, group) {
+  $scope.confirm = function () {
+    $modalInstance.close();
+  };
+  $scope.cancel = function () {
+    $modalInstance.dismiss();
+  };
+}
 
 var confirmRemoveMemberCtrl = function($scope, $modalInstance, group, memberToRemove) {
   $scope.memberToRemove = memberToRemove;
