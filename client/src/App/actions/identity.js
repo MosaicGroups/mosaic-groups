@@ -23,3 +23,14 @@ export const authenticate = (username, password) => dispatch => {
         });
 };
 
+export const getCurrentUser = (username, password) => dispatch => {
+    dispatch(requestAuthentication());
+    return request.get('/api/user')
+        .then(response => {
+            console.log('response', response);
+            return dispatch(receiveAuthentication(response));
+        });
+};
+
+
+

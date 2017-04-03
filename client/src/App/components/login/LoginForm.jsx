@@ -16,7 +16,6 @@ const validate = values => {
 
 const LoginForm = (props) => {
     const { handleSubmit, pristine, submitting, invalid} = props;
-    console.log('errors', props);
     return (
         <div className="container">
             <div className="well">

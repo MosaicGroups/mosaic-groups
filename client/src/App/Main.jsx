@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware } from 'redux';
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
 import thunk from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import reducer from './reducers';
+import { getCurrentUser } from './actions/identity';
 import Header from './components/common/Header.jsx';
 import GroupListSurface from './components/groups/list/GroupListSurface.jsx';
 import LoginSurface from './components/login/LoginSurface.jsx';
@@ -20,17 +21,25 @@ const store = createStore(
     applyMiddleware(...middleware)
 );
 
-const App = () => {
-    return (
-        <Router history={Router.hashHistory}>
-            <div >
-                <Header />
+class App extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    componentWillMount() {
+        const { dispatch } = this.props;
+        dispatch(getCurrentUser());
+    }
+    render() {
+        return (
+            <Router history={Router.hashHistory}>
+                <div >
+                    <Header />
 
-                <div className="content">
-                    <Route exact={true} path="/" component={GroupListSurface} />
+                    <div className="content">
+                        <Route exact={true} path="/" component={GroupListSurface} />
 
-                    <Route path="/login" component={LoginSurface} />
-                    {/*  
+                        <Route path="/login" component={LoginSurface} />
+                        {/*  
       <Route path="/profile" component="" />
       <Route path="/group-create-or-edit" component="" />
       <Route path="/group-create-or-edit/:id" component="" />
@@ -40,10 +49,12 @@ const App = () => {
       <Route path="/group-list" component="" />
       <Route path="/group-join/:id" component="" />
       <Route path="/group-full/:id" component="" />*/}
+                    </div>
                 </div>
-            </div>
-        </Router>
-    );
-};
+            </Router>
+        );
+    }
+}
+let ReduxApp = connect()(App);
 
-ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
+ReactDOM.render(<Provider store={store}><ReduxApp /></Provider>, document.getElementById('root'));

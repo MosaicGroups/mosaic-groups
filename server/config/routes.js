@@ -29,7 +29,7 @@ let secureRedirect = function () {
 //routes
 module.exports = function (app) {
 
-
+    app.get('/api/user', cache.disableBrowserCache, users.getAuthenticatedUser);
     app.get('/api/users/:id', cache.disableBrowserCache, auth.requiresRole('admin'), users.getUser);
     app.get('/api/users', cache.disableBrowserCache, users.getUsers);
     app.post('/api/users/:id', auth.requiresApiLogin, users.updateUser);
