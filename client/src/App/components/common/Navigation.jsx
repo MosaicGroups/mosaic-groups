@@ -20,7 +20,7 @@ const Navigation = ({ identity }) => (
                     {identity.roles.includes('admin') ? (<li className="divider "></li>) : null}
 
 
-                    <li><a href="/views/groupList/group-list">List Groups</a></li>
+                    <li><a href="/">List Groups</a></li>
 
                     <li><a href="/views/groupCreateOrEdit/group-create-or-edit">Create Group</a></li>
                     <li className="divider"></li>
