@@ -1,15 +1,29 @@
+// react
 import React from 'react';
 import ReactDOM from 'react-dom';
+
+//boilerplate redux
 import { createStore, applyMiddleware } from 'redux';
 import { Provider, connect } from 'react-redux';
 import thunk from 'redux-thunk';
 import { createLogger } from 'redux-logger';
+
+//react router
+import { Route } from 'react-router';
+import createHistory from 'history/createBrowserHistory';
+import { ConnectedRouter, routerMiddleware } from 'react-router-redux';
+
+//react actions and reducers
 import reducer from './reducers';
 import { getCurrentUser } from './actions/identity';
+
+//page components
 import Header from './components/common/Header.jsx';
 import GroupListSurface from './components/groups/list/GroupListSurface.jsx';
 import LoginSurface from './components/login/LoginSurface.jsx';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+
+
+const history = createHistory();
 
 const middleware = [thunk];
 if (process.env.NODE_ENV !== 'production') {
@@ -18,26 +32,26 @@ if (process.env.NODE_ENV !== 'production') {
 
 const store = createStore(
     reducer,
-    applyMiddleware(...middleware)
+    applyMiddleware(...middleware, routerMiddleware(history))
 );
 
 class App extends React.Component {
     constructor(props) {
         super(props);
     }
+    // every time the app loads, we want to query the server for a currently logged in user
     componentWillMount() {
         const { dispatch } = this.props;
         dispatch(getCurrentUser());
     }
     render() {
         return (
-            <Router history={Router.hashHistory}>
+            <ConnectedRouter history={history}>
                 <div >
                     <Header />
 
                     <div className="content">
                         <Route exact={true} path="/" component={GroupListSurface} />
-
                         <Route path="/login" component={LoginSurface} />
                         {/*  
       <Route path="/profile" component="" />
@@ -51,10 +65,12 @@ class App extends React.Component {
       <Route path="/group-full/:id" component="" />*/}
                     </div>
                 </div>
-            </Router>
+            </ConnectedRouter>
         );
     }
 }
-let ReduxApp = connect()(App);
+let ConnectedApp = connect()(App);
 
-ReactDOM.render(<Provider store={store}><ReduxApp /></Provider>, document.getElementById('root'));
+ReactDOM.render(<Provider store={store}>
+    <ConnectedApp />
+</Provider>, document.getElementById('root'));

@@ -1,5 +1,5 @@
 import * as request from 'superagent';
-
+import { push } from 'react-router-redux';
 export const REQUEST_AUTHENTICATION = 'REQUEST_AUTHENTICATION';
 export const RECEIVE_AUTHENTICATION = 'RECEIVE_AUTHENTICATION';
 
@@ -19,6 +19,7 @@ export const authenticate = (username, password) => dispatch => {
         .send({ username, password })
         .then(response => {
             console.log('response', response);
+            dispatch(push('/'));
             return dispatch(receiveAuthentication(response));
         });
 };

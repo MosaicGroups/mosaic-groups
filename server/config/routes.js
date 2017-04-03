@@ -54,7 +54,7 @@ module.exports = function (app) {
 
     app.post('/login', auth.login);
 
-    app.post('/logout', auth.logout);
+    app.get('/logout', auth.logout);
 
     app.get('/build*', function (req, res) {
         res.sendFile(req.path, config);

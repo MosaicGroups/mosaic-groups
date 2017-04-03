@@ -26,7 +26,7 @@ const Navigation = ({ identity }) => (
                     <li className="divider"></li>
 
                     <li><a href="/views/profile/profile">Profile</a></li>
-                    <li><a href="" ng-click="signout()">Sign Out</a></li>
+                    <li><a href="/logout">Sign Out</a></li>
                 </ul>
             </li>
         </ul>
