@@ -1,27 +1,27 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { updateSettings } from '../../../../actions/settings.js';
+import { Field, reduxForm } from 'redux-form';
 
-const EditDatesMessage = ({ settings }) => {
+const EditDatesMessage = ({ settings, handleSubmit }) => {
+  
     return (
         <div className="row">
-            <div className="col-md-6 col-md-offset-3">
-            <label htmlFor="msgDates" className="col-md-4 control-label">Update Dates Message:</label>
-            <div className="col-md-6">
-                <input name="msgDates" className="form-control" value={settings.datesMsg} />
-            </div>
-            <div className="col-md-2">
-                <button  className="btn">Save</button>
+            <form name="datesMsgForm" className="form-horizontal" onSubmit={handleSubmit}>
+                <div className="col-md-6 col-md-offset-3">
+                    <label htmlFor="msgDates" className="col-md-4 control-label">Update Dates Message:</label>
+                    <div className="col-md-6">
+                        <Field component="input" name="msgDates" className="form-control" value={settings.datesMsg} />
+                    </div>
+                    <div className="col-md-2">
+                        <button type="submit" className="btn">Save</button>
+                    </div>
                 </div>
-            </div>    
+            </form>
         </div>
     );
 
 };
 
-EditDatesMessage.propTypes = {
-    dispatch: React.PropTypes.func.isRequired
-};
+export default reduxForm({
+    form: 'modifydatesmessage',  // a unique identifier for this form
 
-
-export default connect()(EditDatesMessage);
+})(EditDatesMessage);

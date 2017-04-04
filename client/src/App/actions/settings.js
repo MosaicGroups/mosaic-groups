@@ -1,5 +1,8 @@
+import * as request from 'superagent';
+
 export const REQUEST_SETTINGS = 'REQUEST_SETTINGS';
 export const RECEIVE_SETTINGS = 'RECEIVE_SETTINGS';
+export const UPDATE_SETTINGS = 'UPDATE_SETTINGS';
 
 
 export const requestSettings = () => ({
@@ -13,14 +16,13 @@ export const receiveSettings = json => ({
 
 const fetchSettings = () => dispatch => {
     dispatch(requestSettings());
-    return fetch('/api/settings')
-        .then(response => response.json())
-        .then(json => dispatch(receiveSettings(json)));
+    return request.get('/api/settings')
+        .then(response => dispatch(receiveSettings(response.body)));
 };
 
 const shouldFetchSettings = (state) => {
     const settings = state.settings;
- 
+
     if (settings && (settings.hasSettings || settings.isFetching)) {
         return false;
     }
@@ -31,4 +33,15 @@ export const fetchSettingsIfNeeded = () => (dispatch, getState) => {
     if (shouldFetchSettings(getState())) {
         return dispatch(fetchSettings());
     }
+};
+
+export const updateSettings = (key, value) => (dispatch, getState) => {
+   
+    dispatch({
+        type: UPDATE_SETTINGS
+    });
+    let settings = Object.assign({}, getState().settings, { [key]: value });
+    return request.post('/api/settings')
+        .send(settings)
+        .then(dispatch(fetchSettings()));
 };

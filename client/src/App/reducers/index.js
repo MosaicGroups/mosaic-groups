@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 import { routerReducer } from 'react-router-redux';
 import {
-    REQUEST_SETTINGS, RECEIVE_SETTINGS
+    REQUEST_SETTINGS, RECEIVE_SETTINGS, UPDATE_SETTINGS
 } from '../actions/settings.js';
 
 import {
@@ -14,6 +14,8 @@ const settings = (state = {
     hasSettings: false
 }, action) => {
     switch (action.type) {
+        case UPDATE_SETTINGS:
+            return state;
         case REQUEST_SETTINGS:
             return {
                 ...state,
