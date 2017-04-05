@@ -8,31 +8,43 @@ import {
     availableTopics
 } from '../../../constants';
 
-const CheckboxGroup = ({ label, required, name, options, input, meta }) => (
-    <FormGroup controlId={name}>
-        {options.map((option, index) => (
-            <div className="checkbox" key={index}>
-                <label>
-                    <input type="checkbox"
-                        name={`${name}[${index}]`}
-                        value={option._id}
-                        checked={input.value.indexOf(option._id) !== -1}
-                        onChange={event => {
-                            const newValue = [...input.value];
-                            if (event.target.checked) {
-                                newValue.push(option._id);
-                            } else {
-                                newValue.splice(newValue.indexOf(option._id), 1);
-                            }
+const CheckboxGroup = ({ label, required, name, options, input, identity }) => {
+    const isChecked = (option) => {
+        if (input.value.indexOf(option._id) !== -1)
+            return true;
+        
+        if (!identity.roles.includes('admin') && option._id === identity._id)
+            return true;
+        
+        return false;
+    };
+    return (
+        <FormGroup controlId={name}>
+            {options.map((option, index) => (
+                <div className="checkbox" key={index}>
+                    <label>
+                        <input type="checkbox"
+                            name={`${name}[${index}]`}
+                            disabled={option._id === identity._id && !identity.roles.includes('admin')}
+                            value={option._id}
+                            checked={isChecked(option)}
+                            onChange={event => {
+                                const newValue = [...input.value];
+                                if (event.target.checked) {
+                                    newValue.push(option._id);
+                                } else {
+                                    newValue.splice(newValue.indexOf(option._id), 1);
+                                }
 
-                            return input.onChange(newValue);
-                        }} />
-                    {`${option.firstName} ${option.lastName}`}
-                </label>
-            </div>))
-        }
-    </FormGroup>
-);
+                                return input.onChange(newValue);
+                            }} />
+                        {`${option.firstName} ${option.lastName}`}
+                    </label>
+                </div>))
+            }
+        </FormGroup>
+    );
+};
 
 const Input = ({ label, children }) => {
     return (
@@ -46,7 +58,7 @@ const Input = ({ label, children }) => {
 };
 
 const CreateEditForm = (props) => {
-    const { handleSubmit, users } = props;
+    const { handleSubmit, users, identity } = props;
     return (
         <div className="container">
             <Well>
@@ -56,7 +68,7 @@ const CreateEditForm = (props) => {
                         <Field component="input" name="title" type="text" placeholder="Title" required="required" autoComplete="off" className="form-control" />
                     </Input>
                     <Input label="Group Leader(s)">
-                        <Field options={users} name="leaders" component={CheckboxGroup} />
+                        <Field options={users} name="leaders" identity={identity} component={CheckboxGroup} />
                     </Input>
                     <Input label="City">
                         <Field component="input" name="city" type="text" placeholder="City" required="required" autoComplete="off" className="form-control" />
