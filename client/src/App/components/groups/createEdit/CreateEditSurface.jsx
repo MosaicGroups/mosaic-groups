@@ -12,11 +12,12 @@ class CreateEditSurface extends React.Component {
         dispatch(fetchUsersIfNeeded());
     }
     render() {
-        return (<CreateEditForm users={this.props.users} identity={this.props.identity}/>);
+        return (<CreateEditForm users={this.props.users} identity={this.props.identity} initialValues={this.props.initialValues}/>);
     }
 }
 const mapStateToProps = state => {
     return {
+        initialValues: state.group || {},
         users: state.users.users || [],
         identity: state.identity
     };

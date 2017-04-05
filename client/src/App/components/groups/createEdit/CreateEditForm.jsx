@@ -1,6 +1,32 @@
 import React from 'react';
-import { Field, FieldArray, reduxForm } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 import { Well, FormGroup, ControlLabel } from 'react-bootstrap';
+
+const CheckboxGroup = ({ label, required, name, options, input, meta }) => (
+    <FormGroup controlId={name}>
+        {options.map((option, index) => (
+            <div className="checkbox" key={index}>
+                <label>
+                    <input type="checkbox"
+                        name={`${name}[${index}]`}
+                        value={option._id}
+                        checked={input.value.indexOf(option._id) !== -1}
+                        onChange={event => {
+                            const newValue = [...input.value];
+                            if (event.target.checked) {
+                                newValue.push(option._id);
+                            } else {
+                                newValue.splice(newValue.indexOf(option._id), 1);
+                            }
+
+                            return input.onChange(newValue);
+                        }} />
+                    {`${option.firstName} ${option.lastName}`} 
+                </label>
+            </div>))
+        }
+    </FormGroup>
+);
 
 const Input = ({ label, children }) => {
     return (
@@ -14,7 +40,7 @@ const Input = ({ label, children }) => {
 };
 
 const CreateEditForm = (props) => {
-    const { handleSubmit, pristine, submitting, invalid, users } = props;
+    const { handleSubmit,  users } = props;
     return (
         <div className="container">
             <Well>
@@ -24,15 +50,7 @@ const CreateEditForm = (props) => {
                         <Field component="input" name="title" type="text" placeholder="Title" required="required" autoComplete="off" className="form-control " />
                     </Input>
                     <Input label="Group Leader(s)">
-                        <FieldArray name="leaders" component={() => (
-                            <div>
-                                {users.map(u => (
-                                    <label key={u._id}>
-                                        <Field name={`leader[${u._id}]`} component="input" type="checkbox" value={u._id} />{`${u.firstName} ${u.lastName}`}
-                                    </label>
-                                ))}
-                            </div>
-                        )} />
+                        <Field options={users} name="leaders" component={CheckboxGroup} />
 
 
                     </Input>
