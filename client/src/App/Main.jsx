@@ -19,7 +19,8 @@ import { getCurrentUser } from './actions/identity';
 
 //page components
 import Header from './components/common/Header.jsx';
-import GroupListSurface from './components/groups/list/GroupListSurface.jsx';
+import GroupListSurface from './components/groups/list/ListSurface.jsx';
+import CreateEditSurface from './components/groups/createEdit/CreateEditSurface.jsx';
 import LoginSurface from './components/login/LoginSurface.jsx';
 
 
@@ -53,9 +54,10 @@ class App extends React.Component {
                     <div className="content">
                         <Route exact={true} path="/" component={GroupListSurface} />
                         <Route path="/login" component={LoginSurface} />
+                       <Route path="/group/createEdit" component={CreateEditSurface} />
                         {/*  
       <Route path="/profile" component="" />
-      <Route path="/group-create-or-edit" component="" />
+      
       <Route path="/group-create-or-edit/:id" component="" />
       <Route path="/user-edit/:id" component="" />
       <Route path="/user-list" component="" />

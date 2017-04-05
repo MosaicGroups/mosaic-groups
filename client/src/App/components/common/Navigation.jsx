@@ -23,7 +23,7 @@ const Navigation = ({ identity }) => (
 
                         <li><a href="/">List Groups</a></li>
 
-                        <li><a href="/views/groupCreateOrEdit/group-create-or-edit">Create Group</a></li>
+                        <li><a href="/group/createEdit">Create Group</a></li>
                         <li className="divider"></li>
 
                         <li><a href="/views/profile/profile">Profile</a></li>

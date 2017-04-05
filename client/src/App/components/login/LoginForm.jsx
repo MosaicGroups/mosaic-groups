@@ -1,5 +1,6 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
+import { Well } from 'react-bootstrap';
 
 const validate = values => {
     const errors = {};
@@ -15,10 +16,10 @@ const validate = values => {
 };
 
 const LoginForm = (props) => {
-    const { handleSubmit, pristine, submitting, invalid} = props;
+    const { handleSubmit, pristine, submitting, invalid } = props;
     return (
         <div className="container">
-            <div className="well">
+            <Well>
                 <form name="loginForm" className="form-horizontal" onSubmit={handleSubmit}>
                     <fieldset>
                         <legend>Log In</legend>
@@ -44,7 +45,7 @@ const LoginForm = (props) => {
                         </div>
                     </fieldset>
                 </form>
-            </div>
+            </Well>
         </div>
     );
 };
