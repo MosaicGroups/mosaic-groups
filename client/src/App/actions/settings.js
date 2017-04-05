@@ -36,7 +36,6 @@ export const fetchSettingsIfNeeded = () => (dispatch, getState) => {
 };
 
 export const updateSettings = (key, value) => (dispatch, getState) => {
-   
     dispatch({
         type: UPDATE_SETTINGS
     });

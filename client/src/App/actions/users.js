@@ -1,5 +1,4 @@
 import * as request from 'superagent';
-import { push } from 'react-router-redux';
 export const REQUEST_USERS = 'REQUEST_USERS';
 export const RECEIVE_USERS = 'RECEIVE_USERS';
 

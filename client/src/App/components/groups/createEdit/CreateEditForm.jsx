@@ -7,44 +7,7 @@ import {
     audienceTypes,
     availableTopics
 } from '../../../constants';
-
-const CheckboxGroup = ({ label, required, name, options, input, identity }) => {
-    const isChecked = (option) => {
-        if (input.value.indexOf(option._id) !== -1)
-            return true;
-        
-        if (!identity.roles.includes('admin') && option._id === identity._id)
-            return true;
-        
-        return false;
-    };
-    return (
-        <FormGroup controlId={name}>
-            {options.map((option, index) => (
-                <div className="checkbox" key={index}>
-                    <label>
-                        <input type="checkbox"
-                            name={`${name}[${index}]`}
-                            disabled={option._id === identity._id && !identity.roles.includes('admin')}
-                            value={option._id}
-                            checked={isChecked(option)}
-                            onChange={event => {
-                                const newValue = [...input.value];
-                                if (event.target.checked) {
-                                    newValue.push(option._id);
-                                } else {
-                                    newValue.splice(newValue.indexOf(option._id), 1);
-                                }
-
-                                return input.onChange(newValue);
-                            }} />
-                        {`${option.firstName} ${option.lastName}`}
-                    </label>
-                </div>))
-            }
-        </FormGroup>
-    );
-};
+import LeaderCheckboxGroup from './LeaderCheckboxGroup.jsx';
 
 const Input = ({ label, children }) => {
     return (
@@ -68,10 +31,10 @@ const CreateEditForm = (props) => {
                         <Field component="input" name="title" type="text" placeholder="Title" required="required" autoComplete="off" className="form-control" />
                     </Input>
                     <Input label="Group Leader(s)">
-                        <Field options={users} name="leaders" identity={identity} component={CheckboxGroup} />
+                        <Field options={users} name="leaders" identity={identity} component={LeaderCheckboxGroup} />
                     </Input>
                     <Input label="City">
-                        <Field component="input" name="city" type="text" placeholder="City" required="required" autoComplete="off" className="form-control" />
+                        <Field component="input" name="location" type="text" placeholder="City" required="required" autoComplete="off" className="form-control" />
                     </Input>
                     <Input label="Day Of The Week">
                         <Field name="dayOfTheWeek" component="select" className="form-control">
@@ -110,6 +73,14 @@ const CreateEditForm = (props) => {
                     <Input label="Group Is Disabled">
                         <Field component="input" name="disabled" type="checkbox" />
                     </Input>
+                    <div className="form-group">
+                    <div className="col-md-10 col-md-offset-2">
+                        <div className="pull-right">
+                            <button className="btn btn-primary">{null ?'Update Group' :'Create Group'}</button>
+                    &nbsp;<a href="/" className="btn btn-default">Cancel</a>
+                        </div>
+                        </div>
+                     </div>    
                 </form>
             </Well>
         </div>
