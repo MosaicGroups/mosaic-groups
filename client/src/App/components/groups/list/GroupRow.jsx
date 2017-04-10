@@ -13,7 +13,7 @@ const GroupRow = ({ group }) => {
                         {group.description}
                     </Popover>
                 )}>
-                    <a href="" >Details...</a>
+                    <a >Details...</a>
                 </OverlayTrigger>
             </td>
             <td>
