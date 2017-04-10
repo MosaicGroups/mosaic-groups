@@ -3,11 +3,11 @@ import SubHeader from './subHeader/SubHeader.jsx';
 import { connect } from 'react-redux';
 import { fetchSettingsIfNeeded, } from '../../../actions/settings';
 import { fetchGroupsIfNeeded, } from '../../../actions/groups';
-
+import { OverlayTrigger, Popover } from 'react-bootstrap';
 const Table = ({ groups }) => {
     return (
         <div className="container">
-            <table className="">
+            <table className="table table-condensed table-bordered">
                 <thead >
                     <tr >
                         <th className="header ">
@@ -40,70 +40,78 @@ const Table = ({ groups }) => {
                     {
                         groups.map(group => {
                             return (
-                                <tr className="row" key={group._id}>
+                                <tr key={group._id}>
                                     <td>
                                         {group.title}
                                     </td>
                                     <td>
-                                        {group.description}
+                                        <OverlayTrigger  placement="right" overlay={(
+                                            <Popover id={group._id} >
+                                                {group.description}
+                                            </Popover>
+                                        )}>
+                                            <a href="" >Details...</a>
+                                         </OverlayTrigger>
                                     </td>
-                                    <td>
-                                        {group.audienceType}
+                                        <td>
+                                            {group.audienceType}
+                                        </td>
+                                        <td>
+                                            leaders
                                     </td>
-                                    <td>
-                                    leaders
+                                        <td>
+                                            {group.location}
+                                        </td>
+                                        <td>
+                                            {group.meetingTime}
+                                        </td>
+                                        <td>
+                                            {group.childcare}
+                                        </td>
+                                        <td>
+                                            topics
                                     </td>
-                                    <td>
-                                        {group.location}
+                                        <td>
+                                            actions
                                     </td>
-                                    <td>
-                                        {group.meetingTime}
-                                    </td>
-                                    <td>
-                                        {group.childcare}
-                                    </td>
-                                    <td>
-                                     topics
-                                    </td>
-
                                 </tr>
-                            );
+                                    );
                         })
                     }
                 </tbody>
             </table>
         </div>
-    );
+                );
 };
 
 class GroupListSurface extends React.Component {
-    constructor(props) {
-        super(props);
+                    constructor(props) {
+                super(props);
     }
     componentDidMount() {
-        const { dispatch } = this.props;
+        const {dispatch} = this.props;
         dispatch(fetchSettingsIfNeeded());
         dispatch(fetchGroupsIfNeeded());
     }
 
     render() {
-        let groups = this.props.groups || {};
+                    let groups = this.props.groups || {};
         let settings = this.props.settings || {};
         return (
             <div>
-                {settings.hasSettings ? <SubHeader settings={settings} identity={this.props.identity} /> : null}
-                {groups.hasGroups ? <Table groups={groups.groups} identity={this.props.identity} /> : null}
-            </div>
-        );
+                    {settings.hasSettings ? <SubHeader settings={settings} identity={this.props.identity} /> : null}
+                    {groups.hasGroups ? <Table groups={groups.groups} identity={this.props.identity} /> : null}
+                </div>
+                );
     }
 }
 GroupListSurface.propTypes = {
-    dispatch: React.PropTypes.func.isRequired
+                    dispatch: React.PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
     return {
-        settings: state.settings,
+                    settings: state.settings,
         identity: state.identity,
         groups: state.groups
     };
