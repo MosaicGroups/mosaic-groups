@@ -3,11 +3,41 @@ import SubHeader from './subHeader/SubHeader.jsx';
 import { connect } from 'react-redux';
 import { fetchSettingsIfNeeded, } from '../../../actions/settings';
 import { fetchGroupsIfNeeded, } from '../../../actions/groups';
-import GroupRow from './GroupRow.jsx';
-import  'react-table/react-table.css';
+import 'react-table/react-table.css';
 import ReactTable from 'react-table';
 
+const sortedDays = row => {
+    switch (row.dayOfTheWeek) {
+        case '6-Week Groups':
+            return 1;
+        case 'Sunday':
+            return 2;
+        case 'Monday':
+            return 3;
+        case 'Tuesday':
+            return 4;
+        case 'Wednesday':
+            return 5;
+        case 'Thursday':
+            return 6;
+        case 'Friday':
+            return 7;
+        case 'Saturday':
+            return 8;
+        default:
+            return 9;    
+    }
+};
+
 const columns = [
+    {
+        id: 'dayOTW',
+        header: 'Day',
+        accessor: sortedDays,
+        render: ({ row }) => {
+            return <em>{row.value}</em>;
+        }
+    },
     {
         header: 'Title',
         accessor: 'title'
@@ -47,6 +77,8 @@ const Table = ({ groups }) => {
         <ReactTable
             data={groups}
             columns={columns}
+            className='-striped -highlight'
+            pivotBy={['dayOTW']}
         />
     );
 };
