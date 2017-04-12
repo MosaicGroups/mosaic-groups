@@ -3,84 +3,52 @@ import SubHeader from './subHeader/SubHeader.jsx';
 import { connect } from 'react-redux';
 import { fetchSettingsIfNeeded, } from '../../../actions/settings';
 import { fetchGroupsIfNeeded, } from '../../../actions/groups';
-import 'react-table/react-table.css';
-import ReactTable from 'react-table';
+import GroupRow from './GroupRow.jsx';
 
-const sortedDays = row => {
-    switch (row.dayOfTheWeek) {
-        case '6-Week Groups':
-            return 1;
-        case 'Sunday':
-            return 2;
-        case 'Monday':
-            return 3;
-        case 'Tuesday':
-            return 4;
-        case 'Wednesday':
-            return 5;
-        case 'Thursday':
-            return 6;
-        case 'Friday':
-            return 7;
-        case 'Saturday':
-            return 8;
-        default:
-            return 9;    
-    }
-};
-
-const columns = [
-    {
-        id: 'dayOTW',
-        header: 'Day',
-        accessor: sortedDays,
-        render: ({ row }) => {
-            console.log('TEST Row', row)
-            return <span>{row.value}</span>;
-        }
-    },
-    {
-        header: 'Title',
-        accessor: 'title'
-    },
-    {
-        header: 'Details',
-        accessor: 'description'
-    },
-    {
-        header: 'Audience',
-        accessor: 'audienceType'
-    },
-    {
-        header: 'Location',
-        accessor: 'location'
-    },
-    {
-        header: 'Time',
-        accessor: 'meetingTime'
-    },
-    {
-        header: 'Childcare',
-        accessor: 'childcare'
-    },
-    {
-        header: 'Topic',
-        accessor: 'topic'
-    },
-    {
-        header: 'Actions',
-        accessor: 'actions'
-    },
-];
-
+const days = ['6-Week Groups', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const columns = ['Title', 'Details', 'Audience', 'Leader', 'Location', 'Time', 'Childcare', 'Topic', 'Action'];
 const Table = ({ groups }) => {
     return (
-        <ReactTable
-            data={groups}
-            columns={columns}
-            className='-striped -highlight'
-            pivotBy={['dayOTW']}
-        />
+        <div className="container">
+            <table className="table table-condensed table-bordered">
+                <thead >
+                    <tr >
+                        {columns.map(column => (
+                            <th className="header" key={column}>
+                                {column}
+                            </th>
+                        ))}
+
+                    </tr>
+                </thead>
+                {days
+                    // remove days for which there are no groups    
+                    .filter(day => groups.filter(group => group.dayOfTheWeek === day).length > 0)
+                    .map(day => (
+                        <tbody key={day}>
+                            <tr className="ng-table-group groups-group-row">
+                                <td colSpan="9" className="groups-group-cell">
+                                    <span className="groups-group-title">
+                                        <span className="glyphicon glyphicon-chevron-down">
+                                        </span>&nbsp;<span>{day}
+                                        </span>
+                                    </span>
+                                </td>
+                            </tr>
+                            {groups
+                                // now we want all groups for a given day    
+                                .filter(group => group.dayOfTheWeek === day)
+                                .map(group => {
+                                    return (
+                                        <GroupRow group={group} key={group._id} />
+                                    );
+                                })
+                            }
+                        </tbody>
+                    )
+                    )}
+            </table>
+        </div>
     );
 };
 
