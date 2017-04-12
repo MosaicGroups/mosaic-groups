@@ -35,7 +35,8 @@ const columns = [
         header: 'Day',
         accessor: sortedDays,
         render: ({ row }) => {
-            return <em>{row.value}</em>;
+            console.log('TEST Row', row)
+            return <span>{row.value}</span>;
         }
     },
     {
