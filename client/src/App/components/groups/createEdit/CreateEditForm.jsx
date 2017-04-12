@@ -1,5 +1,5 @@
 import React from 'react';
-import { Field, reduxForm } from 'redux-form';
+import { Field, FieldArray, reduxForm } from 'redux-form';
 import { Well, FormGroup, ControlLabel } from 'react-bootstrap';
 import {
     daysOfTheWeek,
@@ -8,36 +8,78 @@ import {
     availableTopics
 } from '../../../constants';
 import LeaderCheckboxGroup from './LeaderCheckboxGroup.jsx';
-/*
+
+
 const renderMembers = ({ fields, meta: { touched, error, submitFailed } }) => (
-  <ul>
-    <li>
-      <button type="button" onClick={() => fields.push({})}>Add Member</button>
-      {(touched || submitFailed) && error && <span>{error}</span>}
-    </li>
-    {fields.map((member, index) =>
-      <li key={index}>
-        <button
-          type="button"
-          title="Remove Member"
-          onClick={() => fields.remove(index)}/>
-        <h4>Member #{index + 1}</h4>
-        <Field
-          name={`${member}.firstName`}
-          type="text"
-          component={renderField}
-          label="First Name"/>
-        <Field
-          name={`${member}.lastName`}
-          type="text"
-          component={renderField}
-          label="Last Name"/>
-        <FieldArray name={`${member}.hobbies`} component={renderHobbies}/>
-      </li>
-    )}
-  </ul>
-)
-*/
+    <div className="form-group">
+        <label htmlFor="members" className="col-md-2 control-label">Members</label>
+        <div className="col-md-10">
+            <table name="members" className="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {fields.map((member, index) =>
+                        <tr key={index}>
+                            <td>
+                                <Field
+                                    name={`${member}.firstName`}
+                                    type="text"
+                                    component="input"
+                                    placeholder="First Name"
+                                    className="form-control" />
+                            </td>
+                            <td>
+                                <Field
+                                    name={`${member}.lastName`}
+                                    type="text"
+                                    component="input"
+                                    placeholder="Last Name"
+                                    className="form-control" />
+                            </td>
+                            <td><Field
+                                name={`${member}.email`}
+                                component="input"
+                                type="text"
+                                placeholder="Email"
+                                className="form-control" />
+                            </td>
+                            <td style={{ width: '150px' }}>
+                                <Field name={`${member}.status`} required="required" value="PENDING" className="form-control" component="select">
+                                    <option value="PENDING" label="PENDING" >PENDING</option>
+                                    <option value="APPROVED" label="APPROVED">APPROVED</option>
+
+                                </Field>
+                            </td>
+                            <td><button onClick={() => fields.remove(index)} className="btn btn-primary">Remove</button></td>
+                        </tr>
+
+                    )}
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <button onClick={() => fields.push({})} className="btn btn-default">
+                                Add Member
+                        </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+);
+
 const Input = ({ label, children }) => {
     return (
         <FormGroup>
@@ -51,6 +93,7 @@ const Input = ({ label, children }) => {
 
 const CreateEditForm = (props) => {
     const { handleSubmit, users, identity } = props;
+
     return (
         <div className="container">
             <Well>
@@ -102,14 +145,15 @@ const CreateEditForm = (props) => {
                     <Input label="Group Is Disabled">
                         <Field component="input" name="disabled" type="checkbox" />
                     </Input>
+                    <FieldArray name="leaders" component={renderMembers} />
                     <div className="form-group">
-                    <div className="col-md-10 col-md-offset-2">
-                        <div className="pull-right">
-                            <button className="btn btn-primary">{null ?'Update Group' :'Create Group'}</button>
-                    &nbsp;<a href="/" className="btn btn-default">Cancel</a>
+                        <div className="col-md-10 col-md-offset-2">
+                            <div className="pull-right">
+                                <button className="btn btn-primary">{null ? 'Update Group' : 'Create Group'}</button>
+                                &nbsp;<a href="/" className="btn btn-default">Cancel</a>
+                            </div>
                         </div>
-                        </div>
-                     </div>    
+                    </div>
                 </form>
             </Well>
         </div>
