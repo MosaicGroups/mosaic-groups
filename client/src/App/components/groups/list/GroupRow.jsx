@@ -20,8 +20,8 @@ const GroupRow = ({ group }) => {
                 {group.audienceType}
             </td>
             <td>
-                leaders
-                                    </td>
+                {group.leaders.map(leader => <span className="row" key={leader._id}>{leader.firstName} {leader.lastName} </span>)}
+            </td>
             <td>
                 {group.location}
             </td>
@@ -29,10 +29,10 @@ const GroupRow = ({ group }) => {
                 {group.meetingTime}
             </td>
             <td>
-                {group.childcare}
+                {group.childcare ? 'Yes' : 'No'}
             </td>
             <td>
-                topics
+                {group.topics.map(topic => <span className="row" key={topic}>{topic} </span>)}
                                     </td>
             <td>
                 actions
