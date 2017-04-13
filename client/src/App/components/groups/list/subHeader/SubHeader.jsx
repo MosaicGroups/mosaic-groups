@@ -17,7 +17,7 @@ const SubHeader = ({ settings, identity , dispatch}) => {
                     </div>    
                     
                     <DatesMessage settings={settings} />
-                    {identity.roles.includes('admin') ? <EditDatesMessage settings={settings} onSubmit={updateDatesMsg} />:null}
+                    {identity.username && identity.roles.includes('admin') ? <EditDatesMessage settings={settings} onSubmit={updateDatesMsg} />:null}
                 </div>
             )}
             
