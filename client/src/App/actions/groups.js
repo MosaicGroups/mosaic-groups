@@ -38,20 +38,20 @@ export const fetchGroupsIfNeeded = () => (dispatch, getState) => {
 
 export const addGroup = (group) => (dispatch, getState) => {
     dispatch({
-        type: ADD_GROUP
+        type: ADD_GROUP,
+        group
     });
     return request.post('/api/groups')
         .send(group)
-        .then(dispatch(getGroups()))
         .then(dispatch(push('/')));
 };
 export const updateGroup = (group) => (dispatch, getState) => {
     dispatch({
-        type: UPDATE_GROUP
+        type: UPDATE_GROUP,
+        group
     });
     return request.post(`/api/groups/${group._id}`)
         .send(group)
-        .then(dispatch(getGroups()))
         .then(dispatch(push('/')));
 };
 

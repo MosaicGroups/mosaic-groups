@@ -135,7 +135,7 @@ const CreateEditForm = (props) => {
                         <Field component="input" name="childcare" type="checkbox" />
                     </Input>
                     <Input label="Topic">
-                        <Field name="topic" component="select" className="form-control">
+                        <Field name="topics" component="select" className="form-control">
                             <option></option>
                             {availableTopics.map(t => (<option key={t} value={t}>{t}</option>))}
                         </Field>
