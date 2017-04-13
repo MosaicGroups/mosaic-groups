@@ -92,7 +92,8 @@ const Input = ({ label, children }) => {
 };
 
 const CreateEditForm = (props) => {
-    const { handleSubmit, users, identity } = props;
+    
+    const { handleSubmit, users, identity, isUpdate} = props;
 
     return (
         <div className="container">
@@ -149,7 +150,7 @@ const CreateEditForm = (props) => {
                     <div className="form-group">
                         <div className="col-md-10 col-md-offset-2">
                             <div className="pull-right">
-                                <button className="btn btn-primary">{null ? 'Update Group' : 'Create Group'}</button>
+                                <button className="btn btn-primary">{isUpdate ? 'Update Group' : 'Create Group'}</button>
                                 &nbsp;<a href="/" className="btn btn-default">Cancel</a>
                             </div>
                         </div>

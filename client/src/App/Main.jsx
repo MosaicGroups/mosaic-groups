@@ -54,7 +54,8 @@ class App extends React.Component {
                     <div className="content">
                         <Route exact={true} path="/" component={GroupListSurface} />
                         <Route path="/login" component={LoginSurface} />
-                       <Route path="/group/createEdit" component={CreateEditSurface} />
+                        <Route exact={true} path="/group/createEdit" component={CreateEditSurface} />
+                       <Route path="/group/createEdit/:id" component={CreateEditSurface} /> 
                         {/*  
       <Route path="/profile" component="" />
       

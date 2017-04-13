@@ -1,7 +1,10 @@
 import * as request from 'superagent';
+import { push } from 'react-router-redux';
+
 export const REQUEST_GROUPS = 'REQUEST_GROUPS';
 export const RECEIVE_GROUPS = 'RECEIVE_GROUPS';
 export const ADD_GROUP = 'ADD_GROUP';
+export const UPDATE_GROUP = 'UPDATE_GROUP';
 
 export const requestGroups = () => ({
     type: REQUEST_GROUPS
@@ -20,9 +23,8 @@ const getGroups = () => dispatch => {
         });
 };
 const shouldFetchGroups = (state) => {
-    const users = state.users;
-
-    if (users && (users.hasUsers || users.isFetching)) {
+    const groups = state.groups;
+    if (groups && (groups.hasUsers || groups.isFetching)) {
         return false;
     }
     return true;
@@ -40,7 +42,18 @@ export const addGroup = (group) => (dispatch, getState) => {
     });
     return request.post('/api/groups')
         .send(group)
-        .then(dispatch(getGroups()));
+        .then(dispatch(getGroups()))
+        .then(dispatch(push('/')));
 };
+export const updateGroup = (group) => (dispatch, getState) => {
+    dispatch({
+        type: UPDATE_GROUP
+    });
+    return request.post(`/api/groups/${group._id}`)
+        .send(group)
+        .then(dispatch(getGroups()))
+        .then(dispatch(push('/')));
+};
+
 
 

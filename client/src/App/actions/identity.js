@@ -18,7 +18,6 @@ export const authenticate = (username, password) => dispatch => {
     return request.post('/login')
         .send({ username, password })
         .then(response => {
-            console.log('response', response);
             dispatch(push('/'));
             return dispatch(receiveAuthentication(response));
         });
@@ -28,7 +27,6 @@ export const getCurrentUser = (username, password) => dispatch => {
     dispatch(requestAuthentication());
     return request.get('/api/user')
         .then(response => {
-            console.log('response', response);
             return dispatch(receiveAuthentication(response));
         });
 };
