@@ -1,7 +1,7 @@
 import React from 'react';
 import { OverlayTrigger, Popover } from 'react-bootstrap';
 
-const GroupRow = ({ group }) => {
+const GroupRow = ({ group, children }) => {
     return (
         <tr >
             <td>
@@ -33,10 +33,10 @@ const GroupRow = ({ group }) => {
             </td>
             <td>
                 {group.topics.map(topic => <span className="row" key={topic}>{topic} </span>)}
-                                    </td>
+            </td>
             <td>
-                actions
-                                    </td>
+                {children}
+            </td>
         </tr>
     );
 };
