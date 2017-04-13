@@ -1,5 +1,6 @@
 import React from 'react';
 import { Field } from 'redux-form';
+
 const MembersForm = ({ fields, meta: { touched, error, submitFailed } }) => (
     <div className="form-group">
         <label htmlFor="members" className="col-md-2 control-label">Members</label>
@@ -57,9 +58,12 @@ const MembersForm = ({ fields, meta: { touched, error, submitFailed } }) => (
                         <td></td>
                         <td></td>
                         <td>
-                            <button onClick={() => fields.push({})} className="btn btn-default">
+                            <button onClick={(e) => {
+                                e.preventDefault();
+                                fields.push({});
+                            }} className="btn btn-default">
                                 Add Member
-                        </button>
+                            </button>
                         </td>
                     </tr>
                 </tbody>
@@ -68,4 +72,4 @@ const MembersForm = ({ fields, meta: { touched, error, submitFailed } }) => (
     </div>
 );
 
-export default MembersForm
+export default MembersForm;
