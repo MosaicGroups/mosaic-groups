@@ -77,7 +77,7 @@ const CreateEditForm = (props) => {
                     <Input label="Group Is Disabled">
                         <Field component="input" name="disabled" type="checkbox" />
                     </Input>
-                    <FieldArray name="leaders" component={MembersForm} />
+                    <FieldArray name="members" component={MembersForm} />
                     <div className="form-group">
                         <div className="col-md-10 col-md-offset-2">
                             <div className="pull-right">

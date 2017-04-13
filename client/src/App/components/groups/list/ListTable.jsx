@@ -37,9 +37,9 @@ const ListTable = ({ groups }) => {
                             {groups
                                 // now we want all groups for a given day    
                                 .filter(group => group.dayOfTheWeek === day)
-                                .map(group => {
+                                .map((group, idx) => {
                                     return (
-                                        <GroupRow group={group} key={group._id} >
+                                        <GroupRow group={group} key={idx} >
                                             <ActionLinks group={group} />
                                         </GroupRow>
                                     );

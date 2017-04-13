@@ -1,14 +1,17 @@
 import React from 'react';
 import { FormGroup } from 'react-bootstrap';
-
-const LeaderCheckboxGroup = ({ label, required, name, options, input, identity }) => {
+const LeaderCheckboxGroup = (props) => {
+    console.log(props);
+    let { label, name, options, input, identity } = props;
     const isChecked = (option) => {
-        if (input.value.indexOf(option._id) !== -1)
+        //console.log(option, input.value, input.value.indexOf(option._id) !== -1)
+
+        if (input.value  && input.value.map(o=> o._id).indexOf(option._id) !== -1)
             return true;
-        
+
         if (!identity.roles.includes('admin') && option._id === identity._id)
             return true;
-        
+
         return false;
     };
     return (
@@ -16,17 +19,19 @@ const LeaderCheckboxGroup = ({ label, required, name, options, input, identity }
             {options.map((option, index) => (
                 <div className="checkbox" key={index}>
                     <label>
-                        <input type="checkbox"
+                        <input
+                            type="checkbox"
                             name={`${name}[${index}]`}
                             disabled={option._id === identity._id && !identity.roles.includes('admin')}
                             value={option._id}
                             checked={isChecked(option)}
                             onChange={event => {
+                                
                                 const newValue = [...input.value];
                                 if (event.target.checked) {
-                                    newValue.push(option._id);
+                                    newValue.push(option);
                                 } else {
-                                    newValue.splice(newValue.indexOf(option._id), 1);
+                                    newValue.splice(newValue.indexOf(option), 1);
                                 }
 
                                 return input.onChange(newValue);

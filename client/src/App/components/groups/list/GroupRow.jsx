@@ -3,13 +3,13 @@ import { OverlayTrigger, Popover } from 'react-bootstrap';
 
 const GroupRow = ({ group, children }) => {
     return (
-        <tr >
+        <tr>
             <td>
                 {group.title}
             </td>
             <td>
                 <OverlayTrigger placement="right" overlay={(
-                    <Popover id={group._id} >
+                    <Popover id={group._id||group.title} >
                         {group.description}
                     </Popover>
                 )}>
@@ -20,7 +20,7 @@ const GroupRow = ({ group, children }) => {
                 {group.audienceType}
             </td>
             <td>
-                {group.leaders.map(leader => <span className="row" key={leader._id}>{leader.firstName} {leader.lastName} </span>)}
+                {group.leaders.map((leader, idx) => <div className="row" key={idx}>{leader.firstName} {leader.lastName} </div>)}
             </td>
             <td>
                 {group.location}

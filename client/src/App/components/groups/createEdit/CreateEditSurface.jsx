@@ -17,6 +17,9 @@ class CreateEditSurface extends React.Component {
     }
     submit(group) {
         const { dispatch, initialValues } = this.props;
+        
+        // topics get passed from the form as a single string value, 
+        // but must be passed to the server as an array
         group.topics = [group.topics];
         if (initialValues) {
             group._id = initialValues._id;
@@ -44,8 +47,16 @@ const mapStateToProps = (state, ownProps) => {
     if (state.groups.groups) {
         matchingGroups = state.groups.groups.filter(group => group._id == groupId);
     }
+
+    let initialValues;
+    if (matchingGroups.length === 1){
+        initialValues = matchingGroups[0];
+        console.log('LEADERS', initialValues.leaders)
+    // for the forms group, we really only want the leader ids, not the full leader object
+        //initialValues.leaders = initialValues.leaders.map(l => l._id);
+    }    
     return {
-        initialValues: (matchingGroups.length === 1 ? matchingGroups[0] : null),
+        initialValues,
         users: state.users.users || [],
         identity: state.identity
     };
