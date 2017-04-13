@@ -7,7 +7,7 @@ const Navigation = ({ identity }) => (
             <ul className="nav navbar-nav navbar-right">
                 <li className="dropdown">
 
-                    <a href="" data-toggle="dropdown" className="logged-in dropdown-toggle">
+                    <a href="" data-toggle="dropdown" className="logged-in dropdown-toggle" style={{lineHeight:'45px'}}> {/* match win-width 75px from reset.css */}
                         <b className="logged-in">
                             {`${identity.firstName} ${identity.lastName}`}
                             <div className="caret"></div>
