@@ -63,15 +63,16 @@ const ActionLinks = ({ identity, group, settings }) => {
         }
         return canEditGroup;
     };
+   
 
-    return (<div>{canEdit() ? 'EDIT' : 'false'}</div>);
+    return (<div>{canEdit() ? <a href={`/group/createEdit/${group._id}`}>Edit</a> : 'false'}</div>);
 };
 
 const mapStateToProps = state => {
 
     return {
         settings: state.settings,
-        identity: state.identity || {}
+        identity: state.identity 
     };
 };
 export default connect(mapStateToProps)(ActionLinks);
