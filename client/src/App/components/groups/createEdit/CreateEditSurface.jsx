@@ -17,6 +17,7 @@ class CreateEditSurface extends React.Component {
     }
     submit(group) {
         const { dispatch, initialValues } = this.props;
+        group.topics = [group.topics];
         if (initialValues) {
             group._id = initialValues._id;
             dispatch(updateGroup(group));
