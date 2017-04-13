@@ -15,10 +15,18 @@ const validate = values => {
     return errors;
 };
 
+const loginContainerStyle = {
+    paddingTop: '30px'
+};
+
+const loginButtonStyle = {
+    marginRight: '10px'
+};
+
 const LoginForm = (props) => {
     const { handleSubmit, pristine, submitting, invalid } = props;
     return (
-        <div className="container">
+        <div className="container" style={loginContainerStyle}>
             <Well>
                 <form name="loginForm" className="form-horizontal" onSubmit={handleSubmit}>
                     <fieldset>
@@ -38,7 +46,7 @@ const LoginForm = (props) => {
                         <div className="form-group">
                             <div className="col-md-10 col-md-offset-2">
                                 <div className="pull-right">
-                                    <button type="submit" disabled={pristine || invalid || submitting} className="btn btn-primary">Log In</button>
+                                    <button type="submit" disabled={pristine || invalid || submitting} className="btn btn-primary" style={loginButtonStyle}>Log In</button>
                                     <a href="/" className="btn btn-default">Cancel</a>
                                 </div>
                             </div>
