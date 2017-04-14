@@ -36,10 +36,12 @@ export const fetchSettingsIfNeeded = () => (dispatch, getState) => {
 };
 
 export const updateSettings = (key, value) => (dispatch, getState) => {
-    dispatch({
-        type: UPDATE_SETTINGS
-    });
     let settings = Object.assign({}, getState().settings, { [key]: value });
+    dispatch({
+        type: UPDATE_SETTINGS,
+        settings
+    });
+
     return request.post('/api/settings')
         .send(settings)
         .then(dispatch(fetchSettings()));

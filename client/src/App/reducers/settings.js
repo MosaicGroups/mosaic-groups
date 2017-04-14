@@ -8,7 +8,10 @@ const settings = (state = {
 }, action) => {
     switch (action.type) {
         case UPDATE_SETTINGS:
-            return state;
+            return {
+                ...state,
+                settings: action.settings
+            };
         case REQUEST_SETTINGS:
             return {
                 ...state,
