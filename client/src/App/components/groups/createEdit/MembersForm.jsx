@@ -8,8 +8,7 @@ class RemoveUserButton extends React.Component {
     }
     render() {
         let fields = this.props.fields;
-        let memberIndex = this.props.memberIndex;
-        console.log(fields[memberIndex]);        
+        let memberIndex = this.props.memberIndex;      
         return (<div>
             <button onClick={(e) => {
                 e.preventDefault();
@@ -71,7 +70,9 @@ const MembersForm = ({ fields, meta: { touched, error, submitFailed } }) => (
                                     <option value="APPROVED" label="APPROVED">APPROVED</option>
                                 </Field>
                             </td>
-                            <td><RemoveUserButton fields={fields} member={{firstName: `${member}.firstName`, lastName:`${member}.lastName`}} memberIndex={index} /></td>
+                            <td>
+                                <RemoveUserButton fields={fields} memberIndex={index} />
+                            </td>
                         </tr>
 
                     )}
