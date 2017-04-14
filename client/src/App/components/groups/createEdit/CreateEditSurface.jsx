@@ -51,9 +51,6 @@ const mapStateToProps = (state, ownProps) => {
     let initialValues;
     if (matchingGroups.length === 1){
         initialValues = matchingGroups[0];
-        console.log('LEADERS', initialValues.leaders)
-    // for the forms group, we really only want the leader ids, not the full leader object
-        //initialValues.leaders = initialValues.leaders.map(l => l._id);
     }    
     return {
         initialValues,

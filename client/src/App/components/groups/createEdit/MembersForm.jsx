@@ -1,6 +1,30 @@
 import React from 'react';
 import { Field } from 'redux-form';
 
+import Confirm from '../../common/modal/Confirm.jsx';
+class RemoveUserButton extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        let fields = this.props.fields;
+        let memberIndex = this.props.memberIndex;
+        console.log(fields[memberIndex]);        
+        return (<div>
+            <button onClick={(e) => {
+                e.preventDefault();
+                this.refs.confirm.show()
+                    .then(() => fields.remove(memberIndex))
+                    .catch(() => { });
+            }} className="btn btn-primary">Remove</button>
+            <Confirm ref="confirm">
+                <span>Are you sure you want to delete this user from your group?</span>
+            </Confirm>
+        </div>);
+    }
+}
+
+
 const MembersForm = ({ fields, meta: { touched, error, submitFailed } }) => (
     <div className="form-group">
         <label htmlFor="members" className="col-md-2 control-label">Members</label>
@@ -45,10 +69,9 @@ const MembersForm = ({ fields, meta: { touched, error, submitFailed } }) => (
                                 <Field name={`${member}.status`} required="required" value="PENDING" className="form-control" component="select">
                                     <option value="PENDING" label="PENDING" >PENDING</option>
                                     <option value="APPROVED" label="APPROVED">APPROVED</option>
-
                                 </Field>
                             </td>
-                            <td><button onClick={() => fields.remove(index)} className="btn btn-primary">Remove</button></td>
+                            <td><RemoveUserButton fields={fields} member={{firstName: `${member}.firstName`, lastName:`${member}.lastName`}} memberIndex={index} /></td>
                         </tr>
 
                     )}
@@ -69,6 +92,7 @@ const MembersForm = ({ fields, meta: { touched, error, submitFailed } }) => (
                 </tbody>
             </table>
         </div>
+
     </div>
 );
 
