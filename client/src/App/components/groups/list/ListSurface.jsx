@@ -10,7 +10,7 @@ import FilterWell from './FilterWell.jsx';
 class ListSurface extends React.Component {
     constructor(props) {
         super(props);
-        
+        this.state = { filteredGroups: this.props.groups.groups };
         this.updateFilter = this.updateFilter.bind(this);
     }
     componentDidMount() {
@@ -18,12 +18,18 @@ class ListSurface extends React.Component {
         dispatch(fetchSettingsIfNeeded());
         dispatch(fetchGroupsIfNeeded());
     }
+    componentWillReceiveProps(nextProps) {
+        if (this.props.groups.groups !== nextProps.groups.groups) {
+            this.setState({ filteredGroups: nextProps.groups.groups });
+        }
+    }
     updateFilter(groups) {
-        this.setState({ groups });
+        this.setState({ filteredGroups: groups });
     }
 
     render() {
-        let groups = this.props.groups || {};
+        let groups = this.state.filteredGroups || {};
+        let hasGroups = this.props.groups.hasGroups;
         let settings = this.props.settings || {};
         return (
             <div>
@@ -31,10 +37,10 @@ class ListSurface extends React.Component {
                 <div className="container-fluid">
                     <Row>
                         <Col md={3} >
-                            <FilterWell groups={groups.groups} updateFilter={this.updateFilter} />
+                            <FilterWell groups={this.props.groups.groups} updateFilter={this.updateFilter} />
                         </Col>
                         <Col md={9} >
-                            {groups.hasGroups ? <ListTable groups={groups.groups} /> : null}
+                            {hasGroups ? <ListTable groups={groups} /> : null}
                         </Col>
                     </Row>
                 </div>
