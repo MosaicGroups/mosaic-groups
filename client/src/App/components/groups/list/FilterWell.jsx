@@ -76,7 +76,7 @@ class FilterWell extends React.Component {
                 }} />
             </FilterElement>
             <FilterElement label="Day">
-                <Multiselect
+                <Multiselect  
                     onChange={(option, checked) => {
                         // if the checkbox is being checked, and its not already in the list, then add it
                         if (checked && !dotwChecked.includes(option.val())) {
