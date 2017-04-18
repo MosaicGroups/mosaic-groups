@@ -4,7 +4,6 @@ import Multiselect from 'react-bootstrap-multiselect';
 import 'react-bootstrap-multiselect/css/bootstrap-multiselect.css';
 import {
     daysOfTheWeek,
-    meetingTimes,
     audienceTypes,
     availableTopics
 } from '../../../constants';
@@ -34,33 +33,39 @@ class FilterWell extends React.Component {
 
     }
     doFilter(key, filterValue) {
-
         let filterdGroups = this.props.groups || [];
-        // if a key is passed along with an empty value, then we need to delete that filter
-        if (!filterValue || (filterValue && filterValue.length == 0)) {
+
+        if ((!filterValue === undefined && !filterValue === null) || filterValue.length === 0) {
             this.filters.delete(key);
         }
+        else {
+            switch (key) {
+                case 'title':
+                case 'location':
+                    this.filters.set(key, key => g => g[key].toLowerCase().includes(filterValue.toLowerCase()));
+                    break;
+                case 'dayOfTheWeek':
+                case 'audienceType':
+                    this.filters.set(key, key => g => {
+                        return filterValue.filter(element => g[key].toLowerCase() === element.toLowerCase()).length > 0;
+                    });
+                    break;
+                case 'topics':
+                    this.filters.set(key, key => g => {
+                        return filterValue.filter(element => {
+                            return g[key].filter(i => i.toLowerCase() === element.toLowerCase()).length > 0;
 
-        // if the filter is an array (ie. the dropdowns) --
-        else if (Array.isArray(filterValue)) {
-            this.filters.set(key, key => g => {
-
-                return filterValue.filter(element => {
-                    if (Array.isArray(g[key])) {
-                        // some values are an array, such as the group.topics
-                        return g[key].filter(i => i.toLowerCase() === element.toLowerCase()).length > 0;
-                    } else {
-                        // and some are flat like audience
-                        return g[key].toLowerCase() === element.toLowerCase();
-                    }
-                }).length > 0;
+                        }).length > 0;
+                    });
+                    break;
+                case 'childcare':
+                    this.filters.set(key, key => g => g[key] === (filterValue === 'Yes'));
+                    break;
+                default:
+                    break;
 
 
-            });
-        }
-        // if the filter is a string (ie. the input boxes)   
-        else if (filterValue.length > 0) {
-            this.filters.set(key, key => g => g[key].toLowerCase().includes(filterValue.toLowerCase()));
+            }
         }
 
         // apply all filters
@@ -119,6 +124,19 @@ class FilterWell extends React.Component {
                 }} >
                     <option value=""></option>
                     {audienceTypes.map(a => <option key={a} value={a}>{a}</option>)}
+                </select>
+            </FilterElement>
+            <FilterElement label="Childcare">
+                <select name="topicFilter" className="form-control" onChange={(e) => {
+                    if (e.target.value && e.target.value.length > 0) {
+                        this.doFilter('childcare', e.target.value);
+                    }
+                    else {
+                        this.doFilter('childcare', '');
+                    }
+                }} >
+                    <option value=""></option>
+                    {['Yes', 'No'].map(a => <option key={a} value={a}>{a}</option>)}
                 </select>
             </FilterElement>
             <FilterElement label="Topic">
