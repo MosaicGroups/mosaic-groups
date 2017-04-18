@@ -9,7 +9,7 @@ const GroupRow = ({ group, children }) => {
             </td>
             <td>
                 <OverlayTrigger placement="right" overlay={(
-                    <Popover id={group._id||group.title} >
+                    <Popover id={group._id || group.title} >
                         {group.description}
                     </Popover>
                 )}>
@@ -20,7 +20,7 @@ const GroupRow = ({ group, children }) => {
                 {group.audienceType}
             </td>
             <td>
-                {group.leaders.map((leader, idx) => <div className="row" key={idx}>{leader.firstName} {leader.lastName} </div>)}
+                {group.leaders && group.leaders.map((leader, idx) => <div className="row" key={idx}>{leader.firstName} {leader.lastName} </div>)}
             </td>
             <td>
                 {group.location}

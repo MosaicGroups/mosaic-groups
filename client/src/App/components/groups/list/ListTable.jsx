@@ -8,48 +8,47 @@ const columns = ['Title', 'Details', 'Audience', 'Leader', 'Location', 'Time', '
 
 const ListTable = ({ groups }) => {
     return (
-        <div className="container">
-            <table className="table table-condensed table-bordered">
-                <thead >
-                    <tr >
-                        {columns.map(column => (
-                            <th className="header" key={column}>
-                                {column}
-                            </th>
-                        ))}
+        <table className="table table-condensed table-bordered">
+            <thead >
+                <tr >
+                    {columns.map(column => (
+                        <th className="header" key={column}>
+                            {column}
+                        </th>
+                    ))}
 
-                    </tr>
-                </thead>
-                {days
-                    // remove days for which there are no groups    
-                    .filter(day => groups.filter(group => group.dayOfTheWeek === day).length > 0)
-                    .map(day => (
-                        <tbody key={day}>
-                            <tr className="ng-table-group groups-group-row">
-                                <td colSpan="9" className="groups-group-cell">
-                                    <span className="groups-group-title">
-                                        <span className="glyphicon glyphicon-chevron-down">
-                                        </span>&nbsp;<span>{day}
-                                        </span>
+                </tr>
+            </thead>
+            {days
+                // remove days for which there are no groups    
+                .filter(day => groups.filter(group => group.dayOfTheWeek === day).length > 0)
+                .map(day => (
+                    <tbody key={day}>
+                        <tr className="ng-table-group groups-group-row">
+                            <td colSpan="9" className="groups-group-cell">
+                                <span className="groups-group-title">
+                                    <span className="glyphicon glyphicon-chevron-down">
+                                    </span>&nbsp;<span>{day}
                                     </span>
-                                </td>
-                            </tr>
-                            {groups
-                                // now we want all groups for a given day    
-                                .filter(group => group.dayOfTheWeek === day)
-                                .map((group, idx) => {
-                                    return (
-                                        <GroupRow group={group} key={idx} >
-                                            <ActionLinks group={group} />
-                                        </GroupRow>
-                                    );
-                                })
-                            }
-                        </tbody>
-                    )
-                    )}
-            </table>
-        </div>
+                                </span>
+                            </td>
+                        </tr>
+                        {groups
+                            // now we want all groups for a given day    
+                            .filter(group => group.dayOfTheWeek === day)
+                            .map((group, idx) => {
+                                return (
+                                    <GroupRow group={group} key={idx} >
+                                        <ActionLinks group={group} />
+                                    </GroupRow>
+                                );
+                            })
+                        }
+                    </tbody>
+                )
+                )}
+        </table>
+
     );
 };
 

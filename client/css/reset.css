@@ -27,3 +27,10 @@ body { padding-top: 75px; }
   background-color: #d3d3d3;
   cursor: pointer;
 }
+
+ span.multiselect-native-select > div.btn-group{
+   width: 100%;
+ }
+button.multiselect {
+  width: 100%;
+}
