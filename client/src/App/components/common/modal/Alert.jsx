@@ -13,7 +13,7 @@ class Alert extends React.Component {
         return (
             <Modal show={this.state.show}>
                 <Modal.Header>
-                    <Modal.Title>Alert</Modal.Title>
+                    <Modal.Title>{this.props.title || 'Alert'}</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>

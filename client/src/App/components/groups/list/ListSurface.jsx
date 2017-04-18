@@ -7,6 +7,7 @@ import { fetchGroupsIfNeeded, } from '../../../actions/groups';
 import ListTable from './ListTable.jsx';
 import FilterWell from './FilterWell.jsx';
 import VideoWell from './VideoWell.jsx';
+import InfoWell from './InfoWell.jsx';
 
 class ListSurface extends React.Component {
     constructor(props) {
@@ -40,6 +41,7 @@ class ListSurface extends React.Component {
                         <Col md={3} >
                             <VideoWell />
                             <FilterWell groups={this.props.groups.groups} updateFilter={this.updateFilter} />
+                            <InfoWell />
                         </Col>
                         <Col md={9} >
                             {hasGroups ? <ListTable groups={groups} /> : null}
