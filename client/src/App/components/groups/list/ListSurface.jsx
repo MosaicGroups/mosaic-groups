@@ -6,6 +6,7 @@ import { fetchSettingsIfNeeded, } from '../../../actions/settings';
 import { fetchGroupsIfNeeded, } from '../../../actions/groups';
 import ListTable from './ListTable.jsx';
 import FilterWell from './FilterWell.jsx';
+import VideoWell from './VideoWell.jsx';
 
 class ListSurface extends React.Component {
     constructor(props) {
@@ -37,6 +38,7 @@ class ListSurface extends React.Component {
                 <div className="container-fluid">
                     <Row>
                         <Col md={3} >
+                            <VideoWell />
                             <FilterWell groups={this.props.groups.groups} updateFilter={this.updateFilter} />
                         </Col>
                         <Col md={9} >
