@@ -35,7 +35,7 @@ class FilterWell extends React.Component {
     doFilter(key, filterValue) {
         let filterdGroups = this.props.groups || [];
 
-        if ((!filterValue === undefined && !filterValue === null) || filterValue.length === 0) {
+        if ((!filterValue) || filterValue.length === 0) {
             this.filters.delete(key);
         }
         else {
@@ -60,6 +60,9 @@ class FilterWell extends React.Component {
                     break;
                 case 'childcare':
                     this.filters.set(key, key => g => g[key] === (filterValue === 'Yes'));
+                    break;
+                case 'full':
+                    this.filters.set(key, () => g => g.members.length < g.memberLimit);
                     break;
                 default:
                     break;
@@ -151,6 +154,12 @@ class FilterWell extends React.Component {
                     <option value=""></option>
                     {availableTopics.map(a => <option key={a} value={a}>{a}</option>)}
                 </select>
+            </FilterElement>
+            <FilterElement label="Hide Full Groups">
+                <input name="fullFilter" type="checkbox" className="form-control" onChange={(e) => {
+
+                    this.doFilter('full', e.target.checked);
+                }} />
             </FilterElement>
         </Well>);
     }
