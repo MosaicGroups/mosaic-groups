@@ -35,15 +35,13 @@ $scope.deleteGroup = function (group) {
 
 
 const ActionLinks = ({ identity, group, settings }) => {
-    const groupIsDisabled = () => {
-        return group.disabled;
+    const disabled = () => {
+        return group.disabled || settings.disableGroups;
     };
     const groupIsFull = () => {
         return group.members.length >= group.memberLimit;
     };
-    const groupsDisabled = () => {
-        return settings.disableGroups;
-    };
+
 
     const userIsLeaderOfGroup = () => {
 
@@ -63,16 +61,19 @@ const ActionLinks = ({ identity, group, settings }) => {
         }
         return canEditGroup;
     };
-   
 
-    return (<div>{canEdit() ? <a href={`/group/createEdit/${group._id}`}>Edit</a> : 'false'}</div>);
+
+    return (<div>
+        {canEdit() ? <a href={`/group/createEdit/${group._id}`}>Edit</a> : null}
+        {!groupIsFull() && !disabled() ? <a href={`/group/join/${group._id}`}>Join</a> : null}
+    </div>);
 };
 
 const mapStateToProps = state => {
 
     return {
         settings: state.settings,
-        identity: state.identity 
+        identity: state.identity
     };
 };
 export default connect(mapStateToProps)(ActionLinks);
