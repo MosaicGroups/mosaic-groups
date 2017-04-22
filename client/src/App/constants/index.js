@@ -20,7 +20,8 @@ exports.availableTopics = [
 ];
 
 exports.campuses = [
-    'Arundel', 'Elkridge'
+    'Arundel',
+    'Elkridge'
 ];
 
 exports.daysOfTheWeek = [
