@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { fetchUsersIfNeeded } from '../../../actions/users';
 import { fetchGroupsIfNeeded } from '../../../actions/groups';
+import { Jumbotron, Row, Col } from 'react-bootstrap';
+import DescriptionWell from './DescriptionWell.jsx';
 
 class JoinSurface extends React.Component {
     constructor(props) {
@@ -14,10 +16,27 @@ class JoinSurface extends React.Component {
     }
     render() {
         let { group } = this.props;
+        if (group.title) {
+            return (
+                <div className="container">
+                    <Jumbotron>
+                        <h1>{group.title}</h1>
+                    </Jumbotron>
+                    <Row>
+                        <Col md={6}>
+                        <DescriptionWell group={group} />
+                        </Col>
+                    </Row>
+                </div>
+            );
+        }
+        else {
+            return <span>loading...</span>;
+        }
 
-        return (<span>Joining {group.title || 'group is invalide'}</span>);
     }
 }
+
 const mapStateToProps = (state, ownProps) => {
     const groupId = ownProps.match.params.id || '';
 
@@ -25,7 +44,6 @@ const mapStateToProps = (state, ownProps) => {
     if (state.groups.groups) {
         matchingGroups = state.groups.groups.filter(group => group._id == groupId);
     }
-
 
     let group;
     if (matchingGroups.length === 1) {
