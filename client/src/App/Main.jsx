@@ -2,6 +2,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+
+import 'bootstrap';
 //boilerplate redux
 import { createStore, applyMiddleware } from 'redux';
 import { Provider, connect } from 'react-redux';
