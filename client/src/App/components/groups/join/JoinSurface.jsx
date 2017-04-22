@@ -57,9 +57,7 @@ const mapStateToProps = (state, ownProps) => {
         group = {};
     }
     return {
-        group,
-        users: state.users.users || [],
-        identity: state.identity
+        group
     };
 };
 export default connect(mapStateToProps)(JoinSurface);
