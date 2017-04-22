@@ -1,5 +1,5 @@
 import React from 'react';
-import { Well, Row, Col } from 'react-bootstrap';
+import { Well, Row } from 'react-bootstrap';
 import Multiselect from 'react-bootstrap-multiselect';
 import 'react-bootstrap-multiselect/css/bootstrap-multiselect.css';
 import {
@@ -7,18 +7,7 @@ import {
     audienceTypes,
     availableTopics
 } from '../../../constants';
-const FilterElement = ({ label, children }) => {
-    return (
-        <Row>
-            <Col md={4}>
-                <label className="control-label">{label}</label>
-            </Col>
-            <Col md={8}>
-                {children}
-            </Col>
-        </Row>
-    );
-};
+import LabeledRow from '../../common/LabeledRow.jsx';
 
 class FilterWell extends React.Component {
     constructor(props) {
@@ -87,17 +76,17 @@ class FilterWell extends React.Component {
             <Row>
                 <div className="h3">Filter The Groups By:</div>
             </Row>
-            <FilterElement label="Title">
+            <LabeledRow label="Title">
                 <input name="titleFilter" placeholder="Filter Title" type="text" autoComplete="off" className="form-control" onChange={(e) => {
                     this.doFilter('title', e.target.value);
                 }} />
-            </FilterElement>
-            <FilterElement label="Location">
+            </LabeledRow>
+            <LabeledRow label="Location">
                 <input name="locationFilter" placeholder="Filter Location" type="text" autoComplete="off" className="form-control" onChange={(e) => {
                     this.doFilter('location', e.target.value);
                 }} />
-            </FilterElement>
-            <FilterElement label="Day">
+            </LabeledRow>
+            <LabeledRow label="Day">
                 <Multiselect
                     onChange={(option, checked) => {
                         // if the checkbox is being checked, and its not already in the list, then add it
@@ -114,8 +103,8 @@ class FilterWell extends React.Component {
                     }}
                     data={this.daysOfTheWeekOptions} multiple />
 
-            </FilterElement>
-            <FilterElement label="Audience">
+            </LabeledRow>
+            <LabeledRow label="Audience">
                 <select name="audienceFilter" className="form-control" onChange={(e) => {
 
                     if (e.target.value && e.target.value.length > 0) {
@@ -128,8 +117,8 @@ class FilterWell extends React.Component {
                     <option value=""></option>
                     {audienceTypes.map(a => <option key={a} value={a}>{a}</option>)}
                 </select>
-            </FilterElement>
-            <FilterElement label="Childcare">
+            </LabeledRow>
+            <LabeledRow label="Childcare">
                 <select name="topicFilter" className="form-control" onChange={(e) => {
                     if (e.target.value && e.target.value.length > 0) {
                         this.doFilter('childcare', e.target.value);
@@ -141,8 +130,8 @@ class FilterWell extends React.Component {
                     <option value=""></option>
                     {['Yes', 'No'].map(a => <option key={a} value={a}>{a}</option>)}
                 </select>
-            </FilterElement>
-            <FilterElement label="Topic">
+            </LabeledRow>
+            <LabeledRow label="Topic">
                 <select name="topicFilter" className="form-control" onChange={(e) => {
                     if (e.target.value && e.target.value.length > 0) {
                         this.doFilter('topics', [e.target.value]);
@@ -154,13 +143,13 @@ class FilterWell extends React.Component {
                     <option value=""></option>
                     {availableTopics.map(a => <option key={a} value={a}>{a}</option>)}
                 </select>
-            </FilterElement>
-            <FilterElement label="Hide Full Groups">
+            </LabeledRow>
+            <LabeledRow label="Hide Full Groups">
                 <input name="fullFilter" type="checkbox" className="form-control" onChange={(e) => {
 
                     this.doFilter('full', e.target.checked);
                 }} />
-            </FilterElement>
+            </LabeledRow>
         </Well>);
     }
 }
