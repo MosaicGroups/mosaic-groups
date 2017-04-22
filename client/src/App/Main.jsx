@@ -61,8 +61,6 @@ class App extends React.Component {
                         <Route path="/group/join/:id" component={JoinSurface} /> 
                         {/*  
       <Route path="/profile" component="" />
-      
-      <Route path="/group-create-or-edit/:id" component="" />
       <Route path="/user-edit/:id" component="" />
       <Route path="/user-list" component="" />
       <Route path="/user-create" component="" />
