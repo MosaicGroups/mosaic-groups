@@ -10,7 +10,7 @@ angular.module('app').factory('groupService', function ($http, $q, Group) {
             return $http.post('/api/groups/addSemester', { semesterName: name });
         },
         emailGroupReportToSelf: function () {
-            return $http.emailGroupReportToSelf();
+            return Group.emailGroupReportToSelf();
         },
         emailUniqueReportToSelf: function () {
             return Group.emailUniqueReportToSelf();
