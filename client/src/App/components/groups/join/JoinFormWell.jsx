@@ -1,6 +1,6 @@
 import React from 'react';
 import { reduxForm } from 'redux-form';
-import { Well } from 'react-bootstrap';
+import { Well, FormGroup, Col, Button } from 'react-bootstrap';
 import MemberForm from './MemberForm.jsx';
 
 
@@ -25,6 +25,12 @@ const JoinForm = (props) => {
         <Well>
             <form name="joinForm" className="form-horizontal" onSubmit={handleSubmit}>
                 <MemberForm />
+                <FormGroup>
+                    <Col md={10} mdOffset={2} className="pull-right">
+                        <Button></Button>
+                    </Col>    
+
+    </FormGroup>                
             </form>
         </Well>
     );

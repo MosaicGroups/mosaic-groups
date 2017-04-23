@@ -35,7 +35,7 @@ const DescriptionWell = ({ group }) => (
         <Row>
             <Col md={12}>
                 <i>
-                    <span>If you have any questions about this group send an email to:</span>
+                    <span>If you have any questions about this group send an email to: </span>
                     {group.leaders.map(l => <span key={l.username}>{`${l.firstName} ${l.lastName} <${l.username}>`}<br /></span>)}
                     
                 </i>
