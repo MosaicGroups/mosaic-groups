@@ -11,9 +11,6 @@ import {
 import LeaderCheckboxGroup from './LeaderCheckboxGroup.jsx';
 import MembersForm from './MembersForm.jsx';
 
-
-
-
 const CreateEditForm = (props) => {
 
     const { handleSubmit, users, identity, isUpdate } = props;

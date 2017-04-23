@@ -4,7 +4,7 @@ import { fetchUsersIfNeeded } from '../../../actions/users';
 import { fetchGroupsIfNeeded } from '../../../actions/groups';
 import { Jumbotron, Row, Col } from 'react-bootstrap';
 import DescriptionWell from './DescriptionWell.jsx';
-import JoinForm from './JoinForm.jsx';
+import JoinFormWell from './JoinFormWell.jsx';
 
 class JoinSurface extends React.Component {
     constructor(props) {
@@ -28,7 +28,7 @@ class JoinSurface extends React.Component {
                             <DescriptionWell group={group} />
                         </Col>
                         <Col md={6}>
-                            <JoinForm group={group} />
+                            <JoinFormWell group={group} />
                         </Col>
                     </Row>
                 </div>
