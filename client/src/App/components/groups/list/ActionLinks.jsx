@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { groupDisabled, groupIsFull, userCanEditGroup } from '../../../utils/index.js';
 /*
 $scope.joinGroup = function (group) {
     $location.path('/views/groupJoin/group-join/' + group._id);
@@ -35,37 +36,11 @@ $scope.deleteGroup = function (group) {
 
 
 const ActionLinks = ({ identity, group, settings }) => {
-    const disabled = () => {
-        return group.disabled || settings.disableGroups;
-    };
-    const groupIsFull = () => {
-        return group.members.length >= group.memberLimit;
-    };
-
-
-    const userIsLeaderOfGroup = () => {
-
-        // filter leaders to see if the logged in user is a leader of the group
-        return group.leaders
-            .filter(leader => identity._id === leader._id)
-            .length > 0;
-    };
-    const canEdit = () => {
-        let canEditGroup = false;
-        if (!identity.username) {
-            canEditGroup = false;
-        } else if (identity.roles.includes('admin')) {
-            canEditGroup = true;
-        } else if (userIsLeaderOfGroup()) {
-            canEditGroup = true;
-        }
-        return canEditGroup;
-    };
-
+   
 
     return (<div>
-        {canEdit() ? <a href={`/group/createEdit/${group._id}`}>Edit</a> : null}
-        {!groupIsFull() && !disabled() ? <a href={`/group/join/${group._id}`}>Join</a> : null}
+        {userCanEditGroup(group, identity) ? <a href={`/group/createEdit/${group._id}`}>Edit</a> : null}
+        {!groupIsFull(group) && !groupDisabled(group, settings) ? <a href={`/group/join/${group._id}`}>Join</a> : null}
     </div>);
 };
 
