@@ -80,11 +80,13 @@ exports.deleteGroup = function (groupDeleteId, callback) {
 exports.emailGroupReportToSelf = async function (user, callback) {
 
     let mostRecentSemester = await semesterService.getMostRecentSemesterSingleton();
-    Group.find({ semesterId: mostRecentSemester._id }).populate('leaders').exec(function (err, collection) {
-        emailer.sendGroupsReport(user);
-        emailer.sendAuditMessageEMail(user.username + ' requested an on demand daily report email');
-        callback(err, collection);
-    });
+    Group.find({ semesterId: mostRecentSemester._id })
+        .populate('leaders')
+        .exec(function (err, collection) {
+            emailer.sendGroupsReport(user);
+            emailer.sendAuditMessageEMail(user.username + ' requested an on demand daily report email');
+            callback(err, collection);
+        });
 };
 
 exports.emailUniqueReportToSelf = async function (user, callback) {
