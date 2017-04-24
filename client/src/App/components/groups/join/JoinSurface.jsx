@@ -16,7 +16,7 @@ class JoinSurface extends React.Component {
         dispatch(fetchGroupsIfNeeded());
     }
     render() {
-        let { group } = this.props;
+        let { group, settings } = this.props;
         if (group.title) {
             return (
                 <div className="container">
@@ -28,7 +28,7 @@ class JoinSurface extends React.Component {
                             <DescriptionWell group={group} />
                         </Col>
                         <Col md={6}>
-                            <JoinFormWell group={group} />
+                            <JoinFormWell group={group} settings={settings} />
                         </Col>
                     </Row>
                 </div>
@@ -57,6 +57,7 @@ const mapStateToProps = (state, ownProps) => {
         group = {};
     }
     return {
+        settings: state.settings,
         group
     };
 };
