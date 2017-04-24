@@ -59,12 +59,6 @@ const validate = (values, props) => {
             errors.firstName = 'Required';
         }
     }
-    console.log('requiredFields', requiredFields);
-    console.log('values', values);
-
-
-
-    console.log('errors', errors);
 
     return errors;
 };
