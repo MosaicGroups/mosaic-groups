@@ -41,6 +41,7 @@ const ActionLinks = ({ identity, group, settings }) => {
     return (<div>
         {userCanEditGroup(group, identity) ? <a href={`/group/createEdit/${group._id}`}>Edit</a> : null}
         {!groupIsFull(group) && !groupDisabled(group, settings) ? <a href={`/group/join/${group._id}`}>Join</a> : null}
+        ({`${group.members.length} of ${group.memberLimit}`})
     </div>);
 };
 
