@@ -4,6 +4,7 @@ var nodemailer = require('nodemailer'),
     Group = require('mongoose').model('Group'),
     reportGenerator = require('../utilities/reportGenerator'),
     config = require('../config/config');
+let semesterService = require('../services/semesterService');
 
 var emailSubjectPrefix = '[mosaic-groups]';
 
@@ -17,9 +18,9 @@ exports.sendAddedMemberEMail = function (group, newMemberData, callback) {
             superadminTos += (superadminTos.length === 0) ? superadmins[i].username : ',' + superadmins[i].username;
         }
         tos = group.leaders.reduce((reducer, leader) => {
-            return (reducer.length === 0) ?leader.username : ',' + leader.username;
+            return (reducer.length === 0) ? leader.username : ',' + leader.username;
         }, '');
- 
+
         let message = `Mosaic Group: ${group.title} has a new member request from: 
         ${newMemberData.firstName} ${newMemberData.lastName}  <br/>
         
@@ -71,28 +72,31 @@ exports.sendErrorMessageEmail = function (message, callback) {
     });
 };
 
-exports.sendGroupsReport = function (currUser, callback) {
-    Group.find({}).populate('leaders').exec(function (err, groups) {
-        var report = reportGenerator.createDailyReport(groups);
-        var adminTos = '';
-        if (currUser) {
-            sendEmail(currUser.username, [], 'Daily Report', report, null, callback);
-        } else {
-            User.find({
-                'roles': 'admin'
-            }).exec(function (err, admins) {
-                for (var i = 0; i < admins.length; i++) {
-                    adminTos += (adminTos.length === 0) ? admins[i].username : ',' + admins[i].username;
-                }
-                sendEmail(adminTos, [], 'Daily Report', report, null, callback);
-            });
-        }
-    });
+exports.sendGroupsReport = async function (currUser, callback) {
+    let mostRecentSemester = await semesterService.getMostRecentSemesterSingleton();
+    Group.find({ semesterId: mostRecentSemester._id })
+        .populate('leaders')
+        .exec(function (err, groups) {
+            var report = reportGenerator.createDailyReport(groups);
+            var adminTos = '';
+            if (currUser) {
+                sendEmail(currUser.username, [], 'Daily Report', report, null, callback);
+            } else {
+                User.find({
+                    'roles': 'admin'
+                }).exec(function (err, admins) {
+                    for (var i = 0; i < admins.length; i++) {
+                        adminTos += (adminTos.length === 0) ? admins[i].username : ',' + admins[i].username;
+                    }
+                    sendEmail(adminTos, [], 'Daily Report', report, null, callback);
+                });
+            }
+        });
 };
 
 exports.emailUniqueReportToSelf = function (currUser, callback) {
     reportGenerator.generateDistinctUsersReport(Group, function (report) {
-       
+
         var attachment = {
             filename: 'distinctmembers.csv',
             contents: report,
