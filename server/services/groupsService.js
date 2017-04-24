@@ -39,7 +39,7 @@ exports.addMembers = async function (groupId, members, userIsAuthenticated) {
     for (const member of members) {
         let count = await Group.count({ 'members.email': member.email, semesterId: mostRecentSemester._id });
         if (count >= 2) {
-            throw new Error(`You (${member.firstName} ${member.lastName} <${member.email}> ) have signed up for the maximum number of groups.`, group);
+            throw new Error(`You (${member.firstName} ${member.lastName} < ${member.email} > ) have signed up for the maximum number of groups.`, group);
 
         }
     }
