@@ -25,7 +25,7 @@ const getGroups = () => dispatch => {
 };
 const shouldFetchGroups = (state) => {
     const groups = state.groups;
-    if ( groups.isFetching) {
+    if (groups.isFetching) {
         return false;
     }
     return true;
@@ -55,13 +55,18 @@ export const updateGroup = (group) => (dispatch, getState) => {
         .send(group)
         .then(dispatch(push('/')));
 };
-export const joinGroup = (member, groupId) => (dispatch, getState) => {
+export const joinGroup = ({ member, spouse }, groupId) => (dispatch, getState) => {
     dispatch({
         type: JOIN_GROUP
     });
-    console.log('pushing', member, groupId);
+    let data = { newMember: member };
+    if (spouse) {
+        data.newMemberSpouse = spouse;
+    }
+
+
     return request.post(`/api/groups/${groupId}/add-member`)
-        .send({newMember:member})
+        .send(data)
         .then(dispatch(push('/')));
 };
 

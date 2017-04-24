@@ -7,6 +7,7 @@ import DescriptionWell from './DescriptionWell.jsx';
 import JoinFormWell from './JoinFormWell.jsx';
 import { joinGroup, } from '../../../actions/groups';
 
+
 class JoinSurface extends React.Component {
     constructor(props) {
         super(props);
@@ -17,9 +18,19 @@ class JoinSurface extends React.Component {
         dispatch(fetchUsersIfNeeded());
         dispatch(fetchGroupsIfNeeded());
     }
-    doJoin(member) {
-        const { dispatch , group} = this.props;
-        dispatch(joinGroup(member, group._id));
+    doJoin(memberForm) {
+        const { dispatch, group } = this.props;
+        if (group.audienceType === 'Couples') {
+            // if the audience type is Couples, then we've got to split the form into two objects   
+            let spouse = memberForm.spouse;
+            delete memberForm.spouse;
+            let member = memberForm;
+
+            dispatch(joinGroup({ member, spouse }, group._id));
+        }
+        else {
+            dispatch(joinGroup({ member: memberForm }, group._id));
+        }
     }
     render() {
         let { group, settings } = this.props;
