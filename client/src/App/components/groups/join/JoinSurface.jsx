@@ -5,15 +5,21 @@ import { fetchGroupsIfNeeded } from '../../../actions/groups';
 import { Jumbotron, Row, Col } from 'react-bootstrap';
 import DescriptionWell from './DescriptionWell.jsx';
 import JoinFormWell from './JoinFormWell.jsx';
+import { joinGroup, } from '../../../actions/groups';
 
 class JoinSurface extends React.Component {
     constructor(props) {
         super(props);
+        this.doJoin = this.doJoin.bind(this);
     }
     componentWillMount() {
         const { dispatch } = this.props;
         dispatch(fetchUsersIfNeeded());
         dispatch(fetchGroupsIfNeeded());
+    }
+    doJoin(member) {
+        const { dispatch , group} = this.props;
+        dispatch(joinGroup(member, group._id));
     }
     render() {
         let { group, settings } = this.props;
@@ -28,7 +34,7 @@ class JoinSurface extends React.Component {
                             <DescriptionWell group={group} />
                         </Col>
                         <Col md={6}>
-                            <JoinFormWell group={group} settings={settings} />
+                            <JoinFormWell onSubmit={this.doJoin} group={group} settings={settings} />
                         </Col>
                     </Row>
                 </div>

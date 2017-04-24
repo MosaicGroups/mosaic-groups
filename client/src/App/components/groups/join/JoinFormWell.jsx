@@ -56,7 +56,7 @@ const JoinForm = (props) => {
                 <MemberForm />
                 <FormGroup>
                     <Col md={10} mdOffset={2} className="pull-right">
-                        <Button className="btn-primary" disabled={pristine || invalid || submitting || groupIsFull(group) || groupDisabled(group, settings)}>
+                        <Button type="submit" className="btn-primary" disabled={pristine || invalid || submitting || groupIsFull(group) || groupDisabled(group, settings)}>
                             {groupIsFull(group) ? 'Group Is Full' : 'Join'}
                         </Button>
                         &nbsp;
