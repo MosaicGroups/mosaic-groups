@@ -1,15 +1,19 @@
-var logger = require('../config/logger');
-var hash = require('ys-hash');
-var config = require('../config/config');
-var json2csv = require('json2csv');
+let logger = require('../config/logger');
+let hash = require('ys-hash');
+let config = require('../config/config');
+let json2csv = require('json2csv');
+let semesterService = require('../services/semesterService');
 
-exports.generateDistinctUsersReport = function (Groups, callback) {
-    var allMembers = [];
-    var fields = ['first', 'last'];
+exports.generateDistinctUsersReport = async function (Groups, callback) {
+    let allMembers = [];
+    let fields = ['first', 'last'];
+
+    let mostRecentSemester = await semesterService.getMostRecentSemesterSingleton();
     Groups.aggregate()
         //we dont want to include disabled groups
         .match({
-            disabled: false
+            disabled: false,
+            semesterId: mostRecentSemester._id
         })
         //explode all groups by member
         .unwind('members')
@@ -50,21 +54,21 @@ exports.generateDistinctUsersReport = function (Groups, callback) {
 };
 
 exports.createDailyReport = function (groups) {
-    var today = new Date();
-    var yesterday = new Date();
+    let today = new Date();
+    let yesterday = new Date();
     yesterday.setDate(today.getDate() - 1);
-    var numMembers = 0;
-    var numNewMembers = 0;
-    var numUniqueMembers = 0;
-    var reportHtml = '',
+    let numMembers = 0;
+    let numNewMembers = 0;
+    let numUniqueMembers = 0;
+    let reportHtml = '',
         membersHtml = '';
     var uniqueMembers = [];
 
     reportHtml += '<h3>Mosaic Groups Daily Report for ' + today.toDateString() + '</h3>';
 
     membersHtml += '<ul>';
-    for (var i = 0; i < groups.length; i++) {
-        var group = groups[i];
+    for (let i = 0; i < groups.length; i++) {
+        let group = groups[i];
         membersHtml += '<li>';
         if (group.members.length >= group.memberLimit) {
             membersHtml += '<b>(FULL)</b> ';
@@ -73,7 +77,7 @@ exports.createDailyReport = function (groups) {
         membersHtml += ' with <b>' + group.members.length + ' members</b>';
         membersHtml += ' lead by: ';
         for (let j = 0; j < group.leaders.length; j++) {
-            var leader = group.leaders[j];
+            let leader = group.leaders[j];
             membersHtml += leader.firstName + ' ' + leader.lastName + ' &lt;' + leader.username + '&gt; ';
             if (j + 1 < group.leaders.length) membersHtml += ', ';
         }
@@ -82,19 +86,19 @@ exports.createDailyReport = function (groups) {
         membersHtml += '<ul>';
         for (let j = 0; j < group.members.length; j++) {
             numMembers++;
-            var member = groups[i].members[j];
-            var memberHashStr = generateUniqueMemberId(member);
+            let member = groups[i].members[j];
+            let memberHashStr = generateUniqueMemberId(member);
             if (uniqueMembers.indexOf(memberHashStr) < 0) {
                 uniqueMembers.push(memberHashStr);
                 numUniqueMembers++;
             }
-            var joinDate;
+            let joinDate;
             try {
                 joinDate = member.joinDate.toDateString();
             } catch (err) {
                 joinDate = '<span  style=\'color:red\'><b> -ERROR getting join date value is: \'' + member.joinDate + '\'- </b></span>';
             }
-            var memberHtml = member.firstName + ' ' + member.lastName + ' &lt;' + member.email + '&gt; joined on ' + joinDate + '</li>';
+            let memberHtml = member.firstName + ' ' + member.lastName + ' &lt;' + member.email + '&gt; joined on ' + joinDate + '</li>';
             if (member.joinDate > yesterday) {
                 numNewMembers++;
                 membersHtml += '<li style=\'color:green\'><b>' + memberHtml + '</b></li>';
@@ -115,8 +119,8 @@ exports.createDailyReport = function (groups) {
     return reportHtml;
 };
 
-var generateUniqueMemberId = function (member) {
-    var uniqueString = member.firstName.trim().toLowerCase() + member.lastName.trim().toLowerCase() + member.email.trim().toLowerCase();
-    var memberHashStr = hash.hash_str(uniqueString);
+let generateUniqueMemberId = function (member) {
+    let uniqueString = member.firstName.trim().toLowerCase() + member.lastName.trim().toLowerCase() + member.email.trim().toLowerCase();
+    let memberHashStr = hash.hash_str(uniqueString);
     return memberHashStr;
 };
