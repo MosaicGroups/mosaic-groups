@@ -2,66 +2,12 @@ import React from 'react';
 import { reduxForm } from 'redux-form';
 import { Well, FormGroup, Col, Button } from 'react-bootstrap';
 import MemberForm from './MemberForm.jsx';
+import ContactForm from './ContactForm.jsx';
 import { groupDisabled, groupIsFull } from '../../../utils/index.js';
+import joinFormValidation from './joinFormValidation';
 
 const spousePrefix = 'spouse';
 
-const validateEmail = email => {
-    let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email);
-};
-
-const validate = (values, props) => {
-    const errors = {};
-
-    //basic required fields
-    let requiredFields = [
-        'firstName',
-        'lastName',
-        'email',
-        'emailConfirmed',
-        'gender',
-        'campus',
-        'phone',
-        'preferContactVia'
-    ];
-
-    requiredFields.map(f => {
-
-        if (!values[f]) {
-            errors[f] = 'Required';
-        }
-    });
-    if (!validateEmail(values.email)) {
-        errors.email = 'Email address must be valid';
-    }
-    if (!(values.email === values.emailConfirmed)) {
-        errors.email = 'Email addresses must match';
-    }
-    //coupls groups have to be handled differently
-    if (props.group.audienceType === 'Couples') {
-        if (values.spouse) {
-            requiredFields.map(f => {
-
-                if (!values.spouse[f]) {
-                    errors[f] = 'Required';
-                }
-            });
-
-            if (!validateEmail(values.spouse.email)) {
-                errors.email = 'Email address must be valid';
-            }
-            if (!(values.spouse.email === values.spouse.emailConfirmed)) {
-                errors.email = 'Email addresses must match';
-            }
-        }
-        else {
-            errors.firstName = 'Required';
-        }
-    }
-
-    return errors;
-};
 
 const JoinForm = (props) => {
 
@@ -77,6 +23,12 @@ const JoinForm = (props) => {
                         <MemberForm namePrefix={spousePrefix + '.'} />
                     </div>
                 ) : null}
+                {(group.audienceType === 'Middle School Students' || group.audienceType === 'High School Students') ? (
+                   <div>
+                        <h3>Emergency Contact:</h3>
+                        <ContactForm />
+                    </div>    
+                ):null}
                 <FormGroup>
                     <Col md={10} mdOffset={2} className="pull-right">
                         <Button type="submit" className="btn-primary" disabled={pristine || invalid || submitting || groupIsFull(group) || groupDisabled(group, settings)}>
@@ -96,5 +48,5 @@ const JoinForm = (props) => {
 
 export default reduxForm({
     form: 'joinForm',  // a unique identifier for this form
-    validate
+    validate: joinFormValidation
 })(JoinForm);
