@@ -65,8 +65,10 @@ angular.module('app').controller('groupCreateOrEditCtrl', function($scope, $rout
         $scope.group.leaders.push($scope.leaderIds[i]);
       }
       if(typeof $scope.group.members !== 'undefined') {
-          $scope.group.members.forEach((member, idx, memberArray) => {
-               member.phone = member.phone.replace(/\D/g,''); //Normalize Phone #'s
+        $scope.group.members.forEach((member, idx, memberArray) => {
+          if (member.phone) {
+            member.phone = member.phone.replace(/\D/g, ''); //Normalize Phone #'s
+          }
                memberArray[idx] = member;
           });
       }
