@@ -14,7 +14,8 @@
         }
     },
     "extends": [
-        "eslint:recommended"
+        "eslint:recommended",
+        "react/jsx-uses-react"
     ],
     "plugins": [
         "react"

@@ -24,7 +24,7 @@ import Header from './components/common/Header.jsx';
 import ListSurface from './components/groups/list/ListSurface.jsx';
 import JoinSurface from './components/groups/join/JoinSurface.jsx';
 import CreateEditSurface from './components/groups/createEdit/CreateEditSurface.jsx';
-
+import UserListSurface from './components/users/ListSurface.jsx';
 import LoginSurface from './components/login/LoginSurface.jsx';
 
 
@@ -61,10 +61,11 @@ class App extends React.Component {
                         <Route exact={true} path="/group/createEdit" component={CreateEditSurface} />
                         <Route path="/group/createEdit/:id" component={CreateEditSurface} /> 
                         <Route path="/group/join/:id" component={JoinSurface} /> 
+                        <Route path="/user/list" component={UserListSurface}/>
+
                         {/*  
       <Route path="/profile" component="" />
       <Route path="/user-edit/:id" component="" />
-      <Route path="/user-list" component="" />
       <Route path="/user-create" component="" />
       <Route path="/group-list" component="" />
      
