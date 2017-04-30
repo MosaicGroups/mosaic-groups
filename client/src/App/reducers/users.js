@@ -1,5 +1,5 @@
 import {
-    REQUEST_USERS, RECEIVE_USERS
+    REQUEST_USERS, RECEIVE_USERS, DELETE_USER
 } from '../actions/users';
 
 
@@ -13,6 +13,12 @@ const users = (state = {
                 ...state,
                 isFetching: true
             };
+        case DELETE_USER:
+            const userId = action.user._id;
+            return Object.assign({},
+                state, { users: state.users.filter(user => user._id !== userId)}
+            );
+            return state;
         case RECEIVE_USERS:
             return Object.assign({}, state, {
                 isFetching: false,
