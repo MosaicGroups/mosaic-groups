@@ -32,9 +32,9 @@ class ListSurface extends React.Component {
     }
 }
 
-//ListSurface.propTypes = {
-//    dispatch: React.PropTypes.func.isRequired
-//};
+ListSurface.propTypes = {
+    dispatch: React.PropTypes.func.isRequired
+};
 
 const mapStateToProps = state => {
     return {
