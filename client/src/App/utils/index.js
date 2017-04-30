@@ -2,7 +2,12 @@ const groupDisabled = (group, settings) => {
     return group.disabled || settings.disableGroups;
 };
 const groupIsFull = (group) => {
-    return group.members.length >= group.memberLimit;
+    let currentMemberCount = 0;
+    if (group.members)
+    {
+        currentMemberCount = group.members.length;
+    }    
+    return currentMemberCount >= group.memberLimit;
 };
 
 

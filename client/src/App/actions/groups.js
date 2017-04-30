@@ -38,6 +38,9 @@ export const fetchGroupsIfNeeded = () => (dispatch, getState) => {
 };
 
 export const addGroup = (group) => (dispatch, getState) => {
+    //initialize the group members array
+
+    group.members = [];
     dispatch({
         type: ADD_GROUP,
         group
