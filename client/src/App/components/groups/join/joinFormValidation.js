@@ -1,3 +1,4 @@
+import { couplesGroups } from '../../../constants/index.js';
 
 const validateEmail = email => {
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -28,7 +29,7 @@ const joinFormValidation = (values, props) => {
         errors.email = 'Email addresses must match';
     }
     //couples groups have to be handled differently
-    if (['Couples', 'Married Couples'].includes(props.group.audienceType)) {
+    if (couplesGroups.includes(props.group.audienceType)) {
         if (values.spouse) {
             requiredFields.map(f => {
 

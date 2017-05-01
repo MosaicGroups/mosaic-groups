@@ -4,6 +4,7 @@ import { Well, FormGroup, Col, Button } from 'react-bootstrap';
 import MemberForm from './MemberForm.jsx';
 import ContactForm from './ContactForm.jsx';
 import { groupDisabled, groupIsFull } from '../../../utils/index.js';
+import { couplesGroups } from '../../../constants/index.js';
 import joinFormValidation from './joinFormValidation';
 
 const spousePrefix = 'spouse';
@@ -17,7 +18,7 @@ const JoinForm = (props) => {
         <Well>
             <form name="joinForm" className="form-horizontal" onSubmit={handleSubmit}>
                 <MemberForm />
-                {['Couples','Married Couples'].includes(group.audienceType) ? (
+                {couplesGroups.includes(group.audienceType) ? (
                     <div>
                         <h3>Spouse Info: </h3>
                         <MemberForm namePrefix={spousePrefix + '.'} />

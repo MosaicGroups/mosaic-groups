@@ -11,6 +11,11 @@ exports.audienceTypes = [
     'Young Adults'
 ];
 
+exports.couplesGroups = [
+    'Couples',
+    'Married Couples'
+];
+
 exports.availableTopics = [
     'Bible Study',
     'Book Study',

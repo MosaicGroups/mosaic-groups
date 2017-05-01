@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { fetchUsersIfNeeded } from '../../../actions/users';
 import { fetchGroupsIfNeeded } from '../../../actions/groups';
+import { couplesGroups } from '../../../constants/index.js';
 import { Jumbotron, Row, Col } from 'react-bootstrap';
 import DescriptionWell from './DescriptionWell.jsx';
 import JoinFormWell from './JoinFormWell.jsx';
@@ -20,7 +21,7 @@ class JoinSurface extends React.Component {
     }
     doJoin(memberForm) {
         const { dispatch, group } = this.props;
-        if (['Couples', 'Married Couples'].includes(group.audienceType)){
+        if (couplesGroups.includes(group.audienceType)){
             // if the audience type is Couples, then we've got to split the form into two objects   
             let spouse = memberForm.spouse;
             delete memberForm.spouse;
