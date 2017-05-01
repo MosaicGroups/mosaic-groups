@@ -28,7 +28,7 @@ const joinFormValidation = (values, props) => {
         errors.email = 'Email addresses must match';
     }
     //couples groups have to be handled differently
-    if (props.group.audienceType === 'Couples') {
+    if (['Couples', 'Married Couples'].includes(props.group.audienceType)) {
         if (values.spouse) {
             requiredFields.map(f => {
 

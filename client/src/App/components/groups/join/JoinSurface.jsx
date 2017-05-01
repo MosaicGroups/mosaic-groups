@@ -20,7 +20,7 @@ class JoinSurface extends React.Component {
     }
     doJoin(memberForm) {
         const { dispatch, group } = this.props;
-        if (group.audienceType === 'Couples') {
+        if (['Couples', 'Married Couples'].includes(group.audienceType)){
             // if the audience type is Couples, then we've got to split the form into two objects   
             let spouse = memberForm.spouse;
             delete memberForm.spouse;

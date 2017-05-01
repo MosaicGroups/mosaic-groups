@@ -17,7 +17,7 @@ const JoinForm = (props) => {
         <Well>
             <form name="joinForm" className="form-horizontal" onSubmit={handleSubmit}>
                 <MemberForm />
-                {group.audienceType === 'Couples' ? (
+                {['Couples','Married Couples'].includes(group.audienceType) ? (
                     <div>
                         <h3>Spouse Info: </h3>
                         <MemberForm namePrefix={spousePrefix + '.'} />
