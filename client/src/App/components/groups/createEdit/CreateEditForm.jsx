@@ -1,6 +1,7 @@
 import React from 'react';
 import { Field, FieldArray, reduxForm } from 'redux-form';
-import { Well, FormGroup, ControlLabel } from 'react-bootstrap';
+import { Well } from 'react-bootstrap';
+import InputRow from '../../common/InputRow.jsx';
 import {
     daysOfTheWeek,
     meetingTimes,
@@ -10,73 +11,63 @@ import {
 import LeaderCheckboxGroup from './LeaderCheckboxGroup.jsx';
 import MembersForm from './MembersForm.jsx';
 
-
-const Input = ({ label, children }) => {
-    return (
-        <FormGroup>
-            <ControlLabel className="col-md-2 control-label">{label}</ControlLabel>
-            <div className="col-md-10">
-                {children}
-            </div>
-        </FormGroup>
-    );
-};
-
 const CreateEditForm = (props) => {
-    
-    const { handleSubmit, users, identity, isUpdate} = props;
+
+    const { handleSubmit, users, identity, isUpdate } = props;
+
+    const spacing = { left: 2, right: 10 };
 
     return (
         <div className="container">
             <Well>
                 <form name="createEditForm" className="form-horizontal" onSubmit={handleSubmit}>
                     <h3>Create/Edit Group</h3>
-                    <Input label="Title">
+                    <InputRow {...spacing} label="Title">
                         <Field component="input" name="title" type="text" placeholder="Title" required="required" autoComplete="off" className="form-control" />
-                    </Input>
-                    <Input label="Group Leader(s)">
+                    </InputRow>
+                    <InputRow {...spacing} label="Group Leader(s)">
                         <Field options={users} name="leaders" identity={identity} component={LeaderCheckboxGroup} />
-                    </Input>
-                    <Input label="City">
+                    </InputRow>
+                    <InputRow {...spacing} label="City">
                         <Field component="input" name="location" type="text" placeholder="City" required="required" autoComplete="off" className="form-control" />
-                    </Input>
-                    <Input label="Day Of The Week">
+                    </InputRow>
+                    <InputRow {...spacing} label="Day Of The Week">
                         <Field name="dayOfTheWeek" component="select" className="form-control">
                             <option></option>
                             {daysOfTheWeek.map(day => (<option key={day} value={day}>{day}</option>))}
                         </Field>
-                    </Input>
-                    <Input label="Time">
+                    </InputRow>
+                    <InputRow  {...spacing} label="Time">
                         <Field name="meetingTime" component="select" className="form-control">
                             <option></option>
                             {meetingTimes.map(time => (<option key={time} value={time}>{time}</option>))}
                         </Field>
-                    </Input>
-                    <Input label="Member Limit">
+                    </InputRow>
+                    <InputRow   {...spacing} label="Member Limit">
                         <Field component="input" name="memberLimit" type="number" min="0" placeholder="20" required="required" autoComplete="off" className="form-control" />
-                    </Input>
-                    <Input label="Audience">
+                    </InputRow>
+                    <InputRow   {...spacing} label="Audience">
                         <Field name="audienceType" component="select" className="form-control">
                             <option></option>
                             {audienceTypes.map(a => (<option key={a} value={a}>{a}</option>))}
                         </Field>
                         <div className="help-block">* select "Group Leaders" to create a group that is only visible when a group leader is logged in</div>
-                    </Input>
-                    <Input label="Childcare">
+                    </InputRow>
+                    <InputRow   {...spacing} label="Childcare">
                         <Field component="input" name="childcare" type="checkbox" />
-                    </Input>
-                    <Input label="Topic">
+                    </InputRow>
+                    <InputRow   {...spacing} label="Topic">
                         <Field name="topics" component="select" className="form-control">
                             <option></option>
                             {availableTopics.map(t => (<option key={t} value={t}>{t}</option>))}
                         </Field>
-                    </Input>
-                    <Input label="Description">
+                    </InputRow>
+                    <InputRow  {...spacing} label="Description">
                         <Field component="input" name="description" type="textarea" required="required" autoComplete="off" className="form-control" />
-                    </Input>
-                    <Input label="Group Is Disabled">
+                    </InputRow>
+                    <InputRow   {...spacing} label="Group Is Disabled">
                         <Field component="input" name="disabled" type="checkbox" />
-                    </Input>
+                    </InputRow>
                     <FieldArray name="members" component={MembersForm} />
                     <div className="form-group">
                         <div className="col-md-10 col-md-offset-2">

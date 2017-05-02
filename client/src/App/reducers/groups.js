@@ -5,7 +5,7 @@ import {
 
 const groups = (state = {
     isFetching: false,
-    hasUsers: false
+    hasGroups: false
 }, action) => {
     let stateGroups;
     switch (action.type) {

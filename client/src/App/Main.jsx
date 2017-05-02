@@ -2,6 +2,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+
+import 'bootstrap';
 //boilerplate redux
 import { createStore, applyMiddleware } from 'redux';
 import { Provider, connect } from 'react-redux';
@@ -19,8 +21,10 @@ import { getCurrentUser } from './actions/identity';
 
 //page components
 import Header from './components/common/Header.jsx';
-import GroupListSurface from './components/groups/list/ListSurface.jsx';
+import ListSurface from './components/groups/list/ListSurface.jsx';
+import JoinSurface from './components/groups/join/JoinSurface.jsx';
 import CreateEditSurface from './components/groups/createEdit/CreateEditSurface.jsx';
+import UserListSurface from './components/users/ListSurface.jsx';
 import LoginSurface from './components/login/LoginSurface.jsx';
 
 
@@ -52,19 +56,19 @@ class App extends React.Component {
                     <Header />
 
                     <div className="content">
-                        <Route exact={true} path="/" component={GroupListSurface} />
+                        <Route exact={true} path="/" component={ListSurface} />
                         <Route path="/login" component={LoginSurface} />
                         <Route exact={true} path="/group/createEdit" component={CreateEditSurface} />
-                       <Route path="/group/createEdit/:id" component={CreateEditSurface} /> 
+                        <Route path="/group/createEdit/:id" component={CreateEditSurface} /> 
+                        <Route path="/group/join/:id" component={JoinSurface} /> 
+                        <Route path="/user/list" component={UserListSurface}/>
+
                         {/*  
       <Route path="/profile" component="" />
-      
-      <Route path="/group-create-or-edit/:id" component="" />
       <Route path="/user-edit/:id" component="" />
-      <Route path="/user-list" component="" />
       <Route path="/user-create" component="" />
       <Route path="/group-list" component="" />
-      <Route path="/group-join/:id" component="" />
+     
       <Route path="/group-full/:id" component="" />*/}
                     </div>
                 </div>
