@@ -14,7 +14,13 @@ class UserCreateEditSurface extends React.Component {
     }
     submit(user) {
         const { dispatch, initialValues } = this.props;
-
+        let roles = [];
+        if (user.admin) {
+            roles.push('admin');
+        }
+        if (user.superadmin) {
+            roles.push('superadmin');
+        }
         if (initialValues) {
             user._id = initialValues._id;
             dispatch(updateUser(user));
@@ -26,8 +32,10 @@ class UserCreateEditSurface extends React.Component {
     render() {
         return (
             <CreateEditForm
+                allowRoleFields={true}
                 initialValues={this.props.initialValues}
                 onSubmit={this.submit}
+                identity={this.props.identity}
                 labels={{
                     title: 'Create/Edit User',
                     submit: 'Submit'
@@ -49,6 +57,7 @@ const mapStateToProps = (state, ownProps) => {
     }
     return {
         initialValues,
+        identity: state.identity
     };
 };
 export default connect(mapStateToProps)(UserCreateEditSurface);
