@@ -24,7 +24,7 @@ import Header from './components/common/Header.jsx';
 import ListSurface from './components/groups/list/ListSurface.jsx';
 import JoinSurface from './components/groups/join/JoinSurface.jsx';
 import CreateEditSurface from './components/groups/createEdit/CreateEditSurface.jsx';
-import UserListSurface from './components/users/ListSurface.jsx';
+import UserListSurface from './components/users/list/ListSurface.jsx';
 import LoginSurface from './components/login/LoginSurface.jsx';
 
 
