@@ -65,7 +65,8 @@ class ListTable extends React.Component {
                                     <td>{user.roles.includes('admin') ? 'Yes' : 'No'}</td>
                                     <td>{user.roles.includes('superadmin') ? 'Yes' : 'No'}</td>
                                     <td>
-                                        <Button>Edit</Button>
+                                        <a href={`/user/createEdit/${user._id}`} className="btn btn-default">Edit</a>
+                           
                                         <RemoveUserButton user={user} onClick={this.removeUser}/>
                                     </td>
                                 </tr>
