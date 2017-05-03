@@ -1,5 +1,5 @@
 import {
-    REQUEST_USERS, RECEIVE_USERS, DELETE_USER, ADD_USER
+    REQUEST_USERS, RECEIVE_USERS, DELETE_USER, ADD_USER, UPDATE_USER
 } from '../actions/users';
 
 
@@ -26,6 +26,14 @@ const users = (state = {
             } else {
                 stateUsers = [action.user];
             }
+            return {
+                ...state,
+                users: stateUsers
+            };
+        case UPDATE_USER:
+            stateUsers = state.users;
+            let updateIndex = stateUsers.findIndex(u => u._id == action.user._id);
+            stateUsers[updateIndex] = action.user;
             return {
                 ...state,
                 users: stateUsers

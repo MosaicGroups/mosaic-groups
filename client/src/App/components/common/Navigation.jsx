@@ -16,7 +16,7 @@ const Navigation = ({ identity }) => (
                     <ul className="dropdown-menu">
                         {identity.roles.includes('admin') ? (<li ><a href="/user/list">List Users</a></li>) : null}
 
-                        {identity.roles.includes('admin') ? (<li ><a href="/views/userCreate/user-create">Create User</a></li>) : null}
+                        {identity.roles.includes('admin') ? (<li ><a href="/user/createEdit">Create User</a></li>) : null}
 
                         {identity.roles.includes('admin') ? (<li className="divider "></li>) : null}
 

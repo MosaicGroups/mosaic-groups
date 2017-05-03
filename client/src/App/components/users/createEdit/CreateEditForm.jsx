@@ -18,7 +18,6 @@ const validate = values => {
         errors.password = 'Required';
     }
 
-
     return errors;
 };
 
