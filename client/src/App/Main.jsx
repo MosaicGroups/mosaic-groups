@@ -27,6 +27,7 @@ import GroupCreateEditSurface from './components/groups/createEdit/GroupCreateEd
 import UserCreateEditSurface from './components/users/createEdit/UserCreateEditSurface.jsx';
 import UserListSurface from './components/users/list/ListSurface.jsx';
 import LoginSurface from './components/login/LoginSurface.jsx';
+import ProfileSurface from './components/profile/ProfileSurface.jsx';
 
 
 const history = createHistory();
@@ -65,6 +66,7 @@ class App extends React.Component {
                         <Route path="/user/list" component={UserListSurface} />
                         <Route exact={true} path="/user/createEdit" component={UserCreateEditSurface} />
                         <Route path="/user/createEdit/:id" component={UserCreateEditSurface} />
+                        <Route path="/profile" component={ProfileSurface} />
 
                         {/*  
       <Route path="/profile" component="" />

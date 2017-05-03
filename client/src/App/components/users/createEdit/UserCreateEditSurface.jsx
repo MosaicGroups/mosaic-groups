@@ -14,13 +14,7 @@ class UserCreateEditSurface extends React.Component {
     }
     submit(user) {
         const { dispatch, initialValues } = this.props;
-        let roles = [];
-        if (user.admin) {
-            roles.push('admin');
-        }
-        if (user.superadmin) {
-            roles.push('superadmin');
-        }
+       
         if (initialValues) {
             user._id = initialValues._id;
             dispatch(updateUser(user));
