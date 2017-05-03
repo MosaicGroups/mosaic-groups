@@ -2,65 +2,8 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { Well } from 'react-bootstrap';
 import InputRow from '../../common/InputRow.jsx';
-
-
-const RolesCheckboxes = (props) => {
-
-    let { name, input, spacing = {}, identity = {} } = props;
-
-    let identityRoles = identity.roles || [];
-
-    return (
-        <div>
-            {identityRoles.includes('admin') || identityRoles.includes('superadmin') ? (
-                <InputRow {...spacing} label="Admin">
-                    <input
-                        type="checkbox"
-                        name={`${name}[0]`}
-                        value={'admin'}
-                        checked={input.value.includes('admin')}
-                        onChange={event => {
-
-                            const newValue = [...input.value];
-                            if (event.target.checked) {
-                                newValue.push('admin');
-                            } else {
-                                newValue.splice(newValue.indexOf('admin'), 1);
-                            }
-
-                            return input.onChange(newValue);
-                        }} />
-                </InputRow>
-            ) : null}
-            {identityRoles.includes('superadmin') ? (
-                <InputRow {...spacing} label="Super Admin">
-                    <input
-                        type="checkbox"
-                        name={`${name}[1]`}
-                        value={'superadmin'}
-                        checked={input.value.includes('superadmin')}
-                        onChange={event => {
-
-                            const newValue = [...input.value];
-                            if (event.target.checked) {
-                                newValue.push('superadmin');
-                            } else {
-                                newValue.splice(newValue.indexOf('superadmin'), 1);
-                            }
-
-                            return input.onChange(newValue);
-                        }} />
-
-
-                </InputRow>
-            ) : null}
-
-        </div>
-    );
-};
-
-
-const validate = values => {
+import RolesCheckboxes from './RolesCheckboxes.jsx';
+const validate = (values, props) => {
     const errors = {};
     if (!values.username) {
         errors.username = 'Required';
@@ -71,10 +14,9 @@ const validate = values => {
     if (!values.lastName) {
         errors.lastName = 'Required';
     }
-    if (!values.password) {
+    if (!props.isUpdate && !values.password) {
         errors.password = 'Required';
     }
-
     return errors;
 };
 
@@ -121,7 +63,7 @@ const CreateEditForm = (props) => {
                         <Field component="input" name="lastName" type="text" placeholder="Last Name" required="required" autoComplete="off" className="form-control" />
                     </InputRow>
                     <InputRow {...spacing} label="Password">
-                        <Field component="input" name="password" type="password" placeholder="Password" required="required" autoComplete="off" className="form-control" />
+                        <Field component="input" name="password" type="password" placeholder="Password" autoComplete="off" className="form-control" />
                     </InputRow>
 
                     {displayRoleFields()}

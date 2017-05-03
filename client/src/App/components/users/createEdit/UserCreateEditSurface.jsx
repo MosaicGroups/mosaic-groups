@@ -36,6 +36,7 @@ class UserCreateEditSurface extends React.Component {
                 initialValues={this.props.initialValues}
                 onSubmit={this.submit}
                 identity={this.props.identity}
+                isUpdate={this.props.initialValues}
                 labels={{
                     title: 'Create/Edit User',
                     submit: 'Submit'
