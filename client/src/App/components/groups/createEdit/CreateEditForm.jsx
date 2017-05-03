@@ -84,5 +84,5 @@ const CreateEditForm = (props) => {
 };
 
 export default reduxForm({
-    form: 'createEditForm',  // a unique identifier for this form
+    form: 'createEditFormGroup',  // a unique identifier for this form
 })(CreateEditForm);

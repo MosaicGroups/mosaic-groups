@@ -39,7 +39,7 @@ const LoginForm = (props) => {
                         <InputRow {...spacing} label="Username (Email)">
                             <Field component="input" name="username" type="email" placeholder="Username (Email)" required="required" autoComplete="off" className="form-control " />
                         </InputRow>
-                        < InputRow {...spacing} label="Password">
+                        <InputRow {...spacing} label="Password">
                             <Field component="input" name="password" type="password" placeholder="Password" required="required" autoComplete="off" className="form-control " />
                         </InputRow>
                         <div className="form-group">
