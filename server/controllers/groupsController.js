@@ -21,6 +21,15 @@ exports.emailUniqueReportToSelf = function (req, res) {
 exports.getGroups = function (req, res) {
     groupsService.getGroups()
         .then(groups => {
+
+            //if the user is not authenticated, then we dont want to return the full member object
+            if (!req.user && groups) {
+                groups.forEach(group => {
+                    if (group.members) {
+                        group.members = group.members.map(m => m._id);
+                    }
+                });
+            }
             res.send(groups);
         })
         .catch(err => {
@@ -34,6 +43,10 @@ exports.getGroup = function (req, res) {
     groupsService.getGroup(groupId, function (err, group) {
         if (err) errorHandler.sendError(req, res, err);
         else {
+            //if the user is not authenticated, then we dont want to return the full member object
+            if (!req.user && group.members) {
+                group.members = group.members.map(m => m._id);
+            }
             res.send(group);
         }
     });
