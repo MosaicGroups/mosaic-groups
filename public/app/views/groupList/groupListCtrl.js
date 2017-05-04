@@ -169,6 +169,11 @@ angular.module('app').controller('groupListCtrl', function ($scope, $window, $lo
                         $filter('orderBy')(data, $scope.tableParams.sorting()) :
                         data;
 
+                    if (!identityService.isAdmin()) {
+                        orderedData = orderedData.filter(function (group) {
+                            return !$scope.groupIsFull(group);
+                        });
+                    }
                     // apply filtering/searching based on any text in the given column
                     orderedData = params.filter() ?
                         $filter('filter')(orderedData, $scope.tableFilter, "false") :
