@@ -169,7 +169,7 @@ angular.module('app').controller('groupListCtrl', function ($scope, $window, $lo
                         $filter('orderBy')(data, $scope.tableParams.sorting()) :
                         data;
 
-                    if (!identityService.isAdmin()) {
+                    if (!identityService.isAuthenticated()) {
                         orderedData = orderedData.filter(function (group) {
                             return !$scope.groupIsFull(group);
                         });
