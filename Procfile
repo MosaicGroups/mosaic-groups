@@ -1,1 +1,1 @@
-web: npm run webpack && npm start
+web: npm start
