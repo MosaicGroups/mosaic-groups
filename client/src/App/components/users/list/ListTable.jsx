@@ -1,9 +1,10 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
-import Confirm from '../common/modal/Confirm.jsx';
-import { deleteUser } from '../../actions/users.js';
-const columns = ['Username (Email)', 'Name', 'Admin', 'Super Admin', 'Actions'];
+import Confirm from '../../common/modal/Confirm.jsx';
+import { deleteUser } from '../../../actions/users.js';
 import { connect } from 'react-redux';
+
+const columns = ['Username (Email)', 'Name', 'Admin', 'Super Admin', 'Actions'];
 
 class RemoveUserButton extends React.Component {
     
@@ -15,7 +16,6 @@ class RemoveUserButton extends React.Component {
         'marginLeft' : '5px',
         'display' : 'inline'
     }
-    
     
     render() {
         const user = this.props.user;
@@ -65,7 +65,8 @@ class ListTable extends React.Component {
                                     <td>{user.roles.includes('admin') ? 'Yes' : 'No'}</td>
                                     <td>{user.roles.includes('superadmin') ? 'Yes' : 'No'}</td>
                                     <td>
-                                        <Button>Edit</Button>
+                                        <a href={`/user/createEdit/${user._id}`} className="btn btn-default">Edit</a>
+                           
                                         <RemoveUserButton user={user} onClick={this.removeUser}/>
                                     </td>
                                 </tr>
