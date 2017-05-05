@@ -2,13 +2,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-
 import 'bootstrap';
 //boilerplate redux
 import { createStore, applyMiddleware } from 'redux';
 import { Provider, connect } from 'react-redux';
 import thunk from 'redux-thunk';
 import { createLogger } from 'redux-logger';
+
+// toastr
+import ReduxToastr from 'react-redux-toastr';
+import 'react-redux-toastr/src/styles/index.scss';
 
 //react router
 import { Route } from 'react-router';
@@ -26,6 +29,8 @@ import JoinSurface from './components/groups/join/JoinSurface.jsx';
 import CreateEditSurface from './components/groups/createEdit/CreateEditSurface.jsx';
 import UserListSurface from './components/users/ListSurface.jsx';
 import LoginSurface from './components/login/LoginSurface.jsx';
+
+
 
 
 const history = createHistory();
@@ -59,19 +64,20 @@ class App extends React.Component {
                         <Route exact={true} path="/" component={ListSurface} />
                         <Route path="/login" component={LoginSurface} />
                         <Route exact={true} path="/group/createEdit" component={CreateEditSurface} />
-                        <Route path="/group/createEdit/:id" component={CreateEditSurface} /> 
-                        <Route path="/group/join/:id" component={JoinSurface} /> 
-                        <Route path="/user/list" component={UserListSurface}/>
-
-                        {/*  
-      <Route path="/profile" component="" />
-      <Route path="/user-edit/:id" component="" />
-      <Route path="/user-create" component="" />
-      <Route path="/group-list" component="" />
-     
-      <Route path="/group-full/:id" component="" />*/}
+                        <Route path="/group/createEdit/:id" component={CreateEditSurface} />
+                        <Route path="/group/join/:id" component={JoinSurface} />
+                        <Route path="/user/list" component={UserListSurface} />
                     </div>
+                    <ReduxToastr
+                        timeOut={3000}
+                        newestOnTop={false}
+                        preventDuplicates
+                        position="bottom-center"
+                        transitionIn="fadeIn"
+                        transitionOut="fadeOut"
+                        progressBar />
                 </div>
+
             </ConnectedRouter>
         );
     }
