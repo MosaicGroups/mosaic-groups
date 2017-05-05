@@ -10,8 +10,8 @@
     "webpack-watch": "./node_modules/webpack/bin/webpack.js --watch --config webpack.config.dev.js"
   },
   "engines": {
-    "node": "4.2.x",
-    "npm": "3.5.x"
+    "node": "6.10.0",
+    "npm": "3.10.10"
   },
   "author": "Patrick Blair, Jeff Klassen, and Brandon Kreisel",
   "license": "ISC",
