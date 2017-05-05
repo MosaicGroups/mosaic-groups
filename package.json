@@ -53,6 +53,7 @@
     "react-router-dom": "^4.0.0",
     "react-router-redux": "^5.0.0-alpha.4",
     "redux": "^3.6.0",
+    "redux-logger": "^3.0.1",
     "redux-form": "^6.6.1",
     "redux-thunk": "^2.2.0",
     "sass-loader": "^6.0.3",
@@ -85,7 +86,7 @@
     "mocha": "^1.14.0",
     "mock-require": "^2.0.1",
     "mockgoose": "^7.0.6",
-    "redux-logger": "^3.0.1",
+    
     "requirejs": "~2.1.10",
     "supertest": "^1.1.0",
     "supertest-session": "^3.0.0",
