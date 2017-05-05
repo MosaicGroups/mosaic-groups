@@ -1,4 +1,6 @@
 import * as request from 'superagent';
+import { toastr } from 'react-redux-toastr';
+
 export const REQUEST_USERS = 'REQUEST_USERS';
 export const RECEIVE_USERS = 'RECEIVE_USERS';
 export const DELETE_USER = 'DELETE_USER';
@@ -33,8 +35,13 @@ export const deleteUser = (user) => (dispatch, getState) => {
         type: DELETE_USER,
         user: user
     });
-    return request.delete(`/api/users/${user._id}`).
-    then(response => {});
+    return request.delete(`/api/users/${user._id}`)
+        .then(response => {
+            toastr.success('Success', `${user.firstName} ${user.lastName} has been deleted`);
+        })
+        .catch(err => {
+            toastr.error('Error', `There was an error deleting ${user.firstName} ${user.lastName}`);
+        });
 };
 
 
