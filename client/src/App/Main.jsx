@@ -65,17 +65,17 @@ class App extends React.Component {
                     <div className="content">
                         <Route exact={true} path="/" component={GroupListSurface} />
                         <Route path="/login" component={LoginSurface} />
-                        <Route exact={true} path="/group/createEdit" component={CreateEditSurface} />
-                        <Route path="/group/createEdit/:id" component={CreateEditSurface} />
-                        <Route path="/group/join/:id" component={JoinSurface} />
-                        <Route path="/user/list" component={UserListSurface} />
-                        <Route exact={true} path="/group/createEdit" component={GroupCreateEditSurface} />
-                        <Route path="/group/createEdit/:id" component={GroupCreateEditSurface} />
-                        <Route path="/group/join/:id" component={JoinSurface} />
+                        <Route path="/profile" component={ProfileSurface} />
+
+                        
                         <Route path="/user/list" component={UserListSurface} />
                         <Route exact={true} path="/user/createEdit" component={UserCreateEditSurface} />
                         <Route path="/user/createEdit/:id" component={UserCreateEditSurface} />
-                        <Route path="/profile" component={ProfileSurface} />
+
+                        <Route exact={true} path="/group/createEdit" component={GroupCreateEditSurface} />
+                        <Route path="/group/createEdit/:id" component={GroupCreateEditSurface} />
+                        <Route path="/group/join/:id" component={JoinSurface} />
+
                     </div>
                     <ReduxToastr
                         timeOut={3000}
