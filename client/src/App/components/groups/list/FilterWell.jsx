@@ -50,13 +50,8 @@ class FilterWell extends React.Component {
                 case 'childcare':
                     this.filters.set(key, key => g => g[key] === (filterValue === 'Yes'));
                     break;
-                case 'full':
-                    this.filters.set(key, () => g => g.members.length < g.memberLimit);
-                    break;
                 default:
                     break;
-
-
             }
         }
 
@@ -143,12 +138,6 @@ class FilterWell extends React.Component {
                     <option value=""></option>
                     {availableTopics.map(a => <option key={a} value={a}>{a}</option>)}
                 </select>
-            </LabeledRow>
-            <LabeledRow label="Hide Full Groups">
-                <input name="fullFilter" type="checkbox" className="form-control" onChange={(e) => {
-
-                    this.doFilter('full', e.target.checked);
-                }} />
             </LabeledRow>
         </Well>);
     }

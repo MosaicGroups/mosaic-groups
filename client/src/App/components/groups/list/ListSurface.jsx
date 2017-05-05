@@ -32,6 +32,20 @@ class ListSurface extends React.Component {
     render() {
         let groups = this.state.filteredGroups || {};
         let hasGroups = this.props.groups.hasGroups;
+
+        // if the user is not authenticated, we dont want to show full groups        
+        if (hasGroups && !this.props.identity.username) {
+            groups = groups.filter(group => {
+
+                // if the members array has not been initialized for some reason, show the group
+                if (!group.members) {
+                    return true;
+                }
+
+                // only show groups that arent yet full
+                return group.members.length < group.memberLimit;
+            });
+        }
         let settings = this.props.settings || {};
         return (
             <div>
