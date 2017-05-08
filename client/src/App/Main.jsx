@@ -24,11 +24,13 @@ import { getCurrentUser } from './actions/identity';
 
 //page components
 import Header from './components/common/Header.jsx';
-import ListSurface from './components/groups/list/ListSurface.jsx';
+import GroupListSurface from './components/groups/list/ListSurface.jsx';
 import JoinSurface from './components/groups/join/JoinSurface.jsx';
-import CreateEditSurface from './components/groups/createEdit/CreateEditSurface.jsx';
-import UserListSurface from './components/users/ListSurface.jsx';
+import GroupCreateEditSurface from './components/groups/createEdit/GroupCreateEditSurface.jsx';
+import UserCreateEditSurface from './components/users/createEdit/UserCreateEditSurface.jsx';
+import UserListSurface from './components/users/list/ListSurface.jsx';
 import LoginSurface from './components/login/LoginSurface.jsx';
+import ProfileSurface from './components/profile/ProfileSurface.jsx';
 
 
 
@@ -61,12 +63,19 @@ class App extends React.Component {
                     <Header />
 
                     <div className="content">
-                        <Route exact={true} path="/" component={ListSurface} />
+                        <Route exact={true} path="/" component={GroupListSurface} />
                         <Route path="/login" component={LoginSurface} />
-                        <Route exact={true} path="/group/createEdit" component={CreateEditSurface} />
-                        <Route path="/group/createEdit/:id" component={CreateEditSurface} />
-                        <Route path="/group/join/:id" component={JoinSurface} />
+                        <Route path="/profile" component={ProfileSurface} />
+
+                        
                         <Route path="/user/list" component={UserListSurface} />
+                        <Route exact={true} path="/user/createEdit" component={UserCreateEditSurface} />
+                        <Route path="/user/createEdit/:id" component={UserCreateEditSurface} />
+
+                        <Route exact={true} path="/group/createEdit" component={GroupCreateEditSurface} />
+                        <Route path="/group/createEdit/:id" component={GroupCreateEditSurface} />
+                        <Route path="/group/join/:id" component={JoinSurface} />
+
                     </div>
                     <ReduxToastr
                         timeOut={3000}

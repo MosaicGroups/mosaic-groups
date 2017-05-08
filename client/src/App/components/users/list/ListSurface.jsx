@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ListTable from './ListTable.jsx';
-import { fetchUsersIfNeeded } from '../../actions/users';
+import { fetchUsersIfNeeded } from '../../../actions/users';
 
 class ListSurface extends React.Component {
     constructor(props) {

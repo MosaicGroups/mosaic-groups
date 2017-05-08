@@ -5,7 +5,7 @@ import { fetchUsersIfNeeded } from '../../../actions/users';
 import { fetchGroupsIfNeeded } from '../../../actions/groups';
 import { addGroup, updateGroup } from '../../../actions/groups';
 
-class CreateEditSurface extends React.Component {
+class GroupCreateEditSurface extends React.Component {
     constructor(props) {
         super(props);
         this.submit = this.submit.bind(this);
@@ -58,4 +58,4 @@ const mapStateToProps = (state, ownProps) => {
         identity: state.identity
     };
 };
-export default connect(mapStateToProps)(CreateEditSurface);
+export default connect(mapStateToProps)(GroupCreateEditSurface);

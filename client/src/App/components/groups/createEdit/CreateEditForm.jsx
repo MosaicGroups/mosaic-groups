@@ -26,7 +26,12 @@ const CreateEditForm = (props) => {
                         <Field component="input" name="title" type="text" placeholder="Title" required="required" autoComplete="off" className="form-control" />
                     </InputRow>
                     <InputRow {...spacing} label="Group Leader(s)">
-                        <Field options={users} name="leaders" identity={identity} component={LeaderCheckboxGroup} />
+                        <Field
+                            options={users}
+                            name="leaders"
+                            identity={identity}
+                            component={LeaderCheckboxGroup}
+                        />
                     </InputRow>
                     <InputRow {...spacing} label="City">
                         <Field component="input" name="location" type="text" placeholder="City" required="required" autoComplete="off" className="form-control" />
@@ -84,5 +89,5 @@ const CreateEditForm = (props) => {
 };
 
 export default reduxForm({
-    form: 'createEditForm',  // a unique identifier for this form
+    form: 'createEditFormGroup',  // a unique identifier for this form
 })(CreateEditForm);
