@@ -1,6 +1,7 @@
 import * as request from 'superagent';
 import { toastr } from 'react-redux-toastr';
 import { push } from 'react-router-redux';
+import { updateAuthUser } from './identity';
 
 export const REQUEST_USERS = 'REQUEST_USERS';
 export const RECEIVE_USERS = 'RECEIVE_USERS';
@@ -45,6 +46,9 @@ export const addUser = (newUser) => (dispatch, getState) => {
         .then(dispatch(push('/')));
 };
 export const updateUser = (user) => (dispatch, getState) => {
+    if (getState().identity._id && getState().identity._id === user._id) {
+        dispatch(updateAuthUser(user));
+    }
     dispatch({
         type: UPDATE_USER,
         user
