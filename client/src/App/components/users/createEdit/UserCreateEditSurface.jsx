@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import CreateEditForm from './CreateEditForm.jsx';
 import { fetchUsersIfNeeded, addUser, updateUser } from '../../../actions/users';
-import { updateAuthUser } from '../../../actions/identity';
 
 
 class UserCreateEditSurface extends React.Component {
@@ -20,7 +19,6 @@ class UserCreateEditSurface extends React.Component {
         if (initialValues) {
             user._id = initialValues._id;
             dispatch(updateUser(user));
-            dispatch(updateAuthUser(user));
         }
         else {
             dispatch(addUser(user));
