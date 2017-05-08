@@ -1,5 +1,6 @@
 import * as request from 'superagent';
 import { push } from 'react-router-redux';
+import { toastr } from 'react-redux-toastr';
 
 export const REQUEST_GROUPS = 'REQUEST_GROUPS';
 export const RECEIVE_GROUPS = 'RECEIVE_GROUPS';
@@ -38,7 +39,7 @@ export const fetchGroupsIfNeeded = () => (dispatch, getState) => {
 };
 
 export const addGroup = (group) => (dispatch, getState) => {
-    //initialize the group members array
+
 
     group.members = [];
     dispatch({
@@ -47,7 +48,14 @@ export const addGroup = (group) => (dispatch, getState) => {
     });
     return request.post('/api/groups')
         .send(group)
-        .then(dispatch(push('/')));
+        .then(response => {
+            toastr.success('Success', `You have successfully added ${group.title}`);
+            dispatch(push('/'));
+        })
+        .catch(err => {
+            toastr.error('Error', `There was an error adding ${group.title}`);
+        });
+
 };
 export const updateGroup = (group) => (dispatch, getState) => {
     dispatch({
@@ -56,7 +64,13 @@ export const updateGroup = (group) => (dispatch, getState) => {
     });
     return request.post(`/api/groups/${group._id}`)
         .send(group)
-        .then(dispatch(push('/')));
+        .then(response => {
+            toastr.success('Success', `You have successfully updated ${group.title}`);
+            dispatch(push('/'));
+        })
+        .catch(err => {
+            toastr.error('Error', `There was an error updating ${group.title}`);
+        });
 };
 export const joinGroup = ({ member, spouse }, groupId) => (dispatch, getState) => {
     dispatch({
@@ -70,7 +84,14 @@ export const joinGroup = ({ member, spouse }, groupId) => (dispatch, getState) =
 
     return request.post(`/api/groups/${groupId}/add-member`)
         .send(data)
-        .then(dispatch(push('/')));
+        .then(response => {
+            toastr.success('Success', `You're request to join this group has been submitted. 
+            You will recieve an email from the group leader confirming your membership.`);
+            dispatch(push('/'));
+        })
+        .catch(err => {
+            toastr.error('Error', `There was an error joining this group`);
+        });
 };
 
 

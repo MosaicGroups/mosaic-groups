@@ -2,13 +2,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-
 import 'bootstrap';
 //boilerplate redux
 import { createStore, applyMiddleware } from 'redux';
 import { Provider, connect } from 'react-redux';
 import thunk from 'redux-thunk';
 import { createLogger } from 'redux-logger';
+
+// toastr
+import ReduxToastr from 'react-redux-toastr';
+import 'react-redux-toastr/src/styles/index.scss';
 
 //react router
 import { Route } from 'react-router';
@@ -28,6 +31,8 @@ import UserCreateEditSurface from './components/users/createEdit/UserCreateEditS
 import UserListSurface from './components/users/list/ListSurface.jsx';
 import LoginSurface from './components/login/LoginSurface.jsx';
 import ProfileSurface from './components/profile/ProfileSurface.jsx';
+
+
 
 
 const history = createHistory();
@@ -60,23 +65,28 @@ class App extends React.Component {
                     <div className="content">
                         <Route exact={true} path="/" component={GroupListSurface} />
                         <Route path="/login" component={LoginSurface} />
-                        <Route exact={true} path="/group/createEdit" component={GroupCreateEditSurface} />
-                        <Route path="/group/createEdit/:id" component={GroupCreateEditSurface} />
-                        <Route path="/group/join/:id" component={JoinSurface} />
+                        <Route path="/profile" component={ProfileSurface} />
+
+                        
                         <Route path="/user/list" component={UserListSurface} />
                         <Route exact={true} path="/user/createEdit" component={UserCreateEditSurface} />
                         <Route path="/user/createEdit/:id" component={UserCreateEditSurface} />
-                        <Route path="/profile" component={ProfileSurface} />
 
-                        {/*  
-      <Route path="/profile" component="" />
-      <Route path="/user-edit/:id" component="" />
-      <Route path="/user-create" component="" />
-      <Route path="/group-list" component="" />
-     
-      <Route path="/group-full/:id" component="" />*/}
+                        <Route exact={true} path="/group/createEdit" component={GroupCreateEditSurface} />
+                        <Route path="/group/createEdit/:id" component={GroupCreateEditSurface} />
+                        <Route path="/group/join/:id" component={JoinSurface} />
+
                     </div>
+                    <ReduxToastr
+                        timeOut={3000}
+                        newestOnTop={false}
+                        preventDuplicates
+                        position="bottom-center"
+                        transitionIn="fadeIn"
+                        transitionOut="fadeOut"
+                        progressBar />
                 </div>
+
             </ConnectedRouter>
         );
     }
