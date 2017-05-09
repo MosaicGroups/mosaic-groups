@@ -55,7 +55,7 @@ class ListSurface extends React.Component {
                 <div className="container-fluid">
                     <Row>
                         <Col md={3} >
-                            {identity.roles && identity.roles.includes('admin') ? <AdminWell /> : null}
+                            {identity.roles && identity.roles.includes('admin') ? <AdminWell settings={settings} /> : null}
                             <VideoWell />
                             <FilterWell groups={this.props.groups.groups} updateFilter={this.updateFilter} />
                             <InfoWell />
