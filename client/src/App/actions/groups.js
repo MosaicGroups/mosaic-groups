@@ -7,6 +7,7 @@ export const RECEIVE_GROUPS = 'RECEIVE_GROUPS';
 export const ADD_GROUP = 'ADD_GROUP';
 export const UPDATE_GROUP = 'UPDATE_GROUP';
 export const JOIN_GROUP = 'JOIN_GROUP';
+export const NEW_SEMESTER= 'NEW_SEMESTER';
 
 export const requestGroups = () => ({
     type: REQUEST_GROUPS
@@ -30,6 +31,24 @@ const shouldFetchGroups = (state) => {
         return false;
     }
     return true;
+};
+
+export const startNewSemester = (name) => (dispatch, getState) => {
+    dispatch({
+        type: NEW_SEMESTER,
+        name
+    });
+    
+    request.post('/api/groups/addSemester')
+        .send({'semesterName':name})
+        
+        .then(response => {
+            toastr.success('Success', `Started New Semester: "${name}"`);
+            dispatch(push('/'));
+        })
+        .catch(err => {
+            toastr.error('Error', `Could Not Start Semester "${name}"`);
+        });
 };
 
 export const fetchGroupsIfNeeded = () => (dispatch, getState) => {
