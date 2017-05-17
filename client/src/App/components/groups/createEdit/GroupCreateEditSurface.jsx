@@ -1,10 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Button } from 'react-bootstrap';
 import CreateEditForm from './CreateEditForm.jsx';
 import { fetchUsersIfNeeded } from '../../../actions/users';
 import { fetchGroupsIfNeeded } from '../../../actions/groups';
 import { addGroup, updateGroup } from '../../../actions/groups';
 import Confirm from '../../common/modal/Confirm.jsx';
+import Alert from '../../common/modal/Alert.jsx';
 
 class GroupCreateEditSurface extends React.Component {
     constructor(props) {
@@ -36,15 +38,30 @@ class GroupCreateEditSurface extends React.Component {
 
     }
     render() {
+        const isUpdate = this.props.initialValues ? true : false;
+        const group = this.props.initialValues;
         return (
             <div>
                 <CreateEditForm
                     users={this.props.users}
                     identity={this.props.identity}
-                    isUpdate={this.props.initialValues ? true : false}
-                    initialValues={this.props.initialValues}
+                    isUpdate={isUpdate}
+                    initialValues={group}
                     onSubmit={this.submit}
-                />
+                >
+                    <Button onClick={() => {
+                        this.refs.emailAddressesAlert.show();
+                    }}>Export Email Addresses</Button>
+                </CreateEditForm>
+                {isUpdate ? (
+                    < Alert ref="emailAddressesAlert">
+                        <div>
+                            <span>Copy and paste this list of email addresses to create an email that can be sent to all the members of our group. </span>
+                       <br/>
+                       {group.members.map((m, idx) => <span key={idx}>"{m.firstName} {m.lastName}" &lt;{m.email}&gt;, </span>)}
+                        </div>
+                    </Alert>)
+                    : null}    
                 <Confirm ref="confirm">
                     <span>Hey! Thanks so much for entering your group's information into the website! <br /><br />
 
