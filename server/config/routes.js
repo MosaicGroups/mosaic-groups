@@ -39,6 +39,7 @@ module.exports = function (app) {
     app.get('/api/groups', cache.disableBrowserCache, groups.getGroups);
     app.post('/api/groups/:id/add-member', settings.requiresGroupsEnabled, groups.addMember);
 
+    app.post('/api/groups/addSemester', cache.disableBrowserCache, auth.requiresRole('admin'), groups.addSemester);
     app.post('/api/groups/emailGroupReportToSelf', cache.disableBrowserCache, auth.requiresRole('admin'), groups.emailGroupReportToSelf);
     app.post('/api/groups/emailUniqueReportToSelf', cache.disableBrowserCache, auth.requiresRole('admin'), groups.emailUniqueReportToSelf);
     app.post('/api/groups', cache.disableBrowserCache, auth.requiresApiLogin, groups.saveGroup);
