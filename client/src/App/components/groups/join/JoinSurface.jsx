@@ -21,13 +21,28 @@ class JoinSurface extends React.Component {
     }
     doJoin(memberForm) {
         const { dispatch, group } = this.props;
-        if (couplesGroups.includes(group.audienceType)){
+        if (couplesGroups.includes(group.audienceType)) {
             // if the audience type is Couples, then we've got to split the form into two objects   
             let spouse = memberForm.spouse;
             delete memberForm.spouse;
             let member = memberForm;
 
             dispatch(joinGroup({ member, spouse }, group._id));
+        }
+        else if (group.audienceType === 'Middle School Students' || group.audienceType === 'High School Students') {
+            let member = memberForm;
+            member.emergency_contact = {
+                email: member.contactEmail,
+                firstName: member.contactFirstName,
+                lastName: member.contactLastName,
+                phone: member.contactPhone
+            };
+
+            delete member.contactEmail;
+            delete member.contactFirstName;
+            delete member.contactLastName;
+            delete member.contactPhone;
+            dispatch(joinGroup({ member }, group._id));
         }
         else {
             dispatch(joinGroup({ member: memberForm }, group._id));

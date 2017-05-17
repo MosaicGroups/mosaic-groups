@@ -1,5 +1,9 @@
 import React from 'react';
 import { Field } from 'redux-form';
+import {
+    campuses,
+    genders
+} from '../../../constants';
 
 import Confirm from '../../common/modal/Confirm.jsx';
 class RemoveUserButton extends React.Component {
@@ -8,7 +12,7 @@ class RemoveUserButton extends React.Component {
     }
     render() {
         let fields = this.props.fields;
-        let memberIndex = this.props.memberIndex;      
+        let memberIndex = this.props.memberIndex;
         return (<div>
             <button onClick={(e) => {
                 e.preventDefault();
@@ -33,7 +37,11 @@ const MembersForm = ({ fields, meta: { touched, error, submitFailed } }) => (
                     <tr>
                         <th>First Name</th>
                         <th>Last Name</th>
+                        <th>Gender</th>
+                        <th>Campus</th>
                         <th>Email</th>
+                        <th>Phone</th>
+                        <th>Prefers</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -57,12 +65,39 @@ const MembersForm = ({ fields, meta: { touched, error, submitFailed } }) => (
                                     placeholder="Last Name"
                                     className="form-control" />
                             </td>
-                            <td><Field
-                                name={`${member}.email`}
-                                component="input"
-                                type="text"
-                                placeholder="Email"
-                                className="form-control" />
+                            <td>
+                                <Field name={`${member}.gender`} component="select" className="form-control">
+                                    <option></option>
+                                    {genders.map(g => (<option key={g} value={g}>{g}</option>))}
+                                </Field>
+                            </td>
+                            <td>
+                                <Field name={`${member}.campus`} component="select" className="form-control">
+                                    <option></option>
+                                    {campuses.map(c => (<option key={c} value={c}>{c}</option>))}
+                                </Field>
+                            </td>
+                            <td>
+                                <Field
+                                    name={`${member}.email`}
+                                    component="input"
+                                    type="text"
+                                    placeholder="Email"
+                                    className="form-control" />
+                            </td>
+                            <td>
+                                <Field
+                                    name={`${member}.phone`}
+                                    type="text"
+                                    component="input"
+                                    placeholder="Phone"
+                                    className="form-control" />
+                            </td>
+                            <td style={{ width: '150px' }}>
+                                <Field name={`${member}.preferContactVia`} required="required" value="PENDING" className="form-control" component="select">
+                                    <option value="phone" label="PENDING" >Phone</option>
+                                    <option value="email" label="APPROVED">Email</option>
+                                </Field>
                             </td>
                             <td style={{ width: '150px' }}>
                                 <Field name={`${member}.status`} required="required" value="PENDING" className="form-control" component="select">
@@ -77,6 +112,10 @@ const MembersForm = ({ fields, meta: { touched, error, submitFailed } }) => (
 
                     )}
                     <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                         <td></td>
                         <td></td>
                         <td></td>

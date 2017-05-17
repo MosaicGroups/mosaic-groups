@@ -13,7 +13,7 @@ import MembersForm from './MembersForm.jsx';
 
 const CreateEditForm = (props) => {
 
-    const { handleSubmit, users, identity, isUpdate } = props;
+    const { handleSubmit, users, identity, isUpdate, children } = props;
 
     const spacing = { left: 2, right: 10 };
 
@@ -76,6 +76,9 @@ const CreateEditForm = (props) => {
                     <FieldArray name="members" component={MembersForm} />
                     <div className="form-group">
                         <div className="col-md-10 col-md-offset-2">
+                            <div className="pull-left">
+                                {children}
+                            </div>
                             <div className="pull-right">
                                 <button className="btn btn-primary">{isUpdate ? 'Update Group' : 'Create Group'}</button>
                                 &nbsp;<a href="/" className="btn btn-default">Cancel</a>
