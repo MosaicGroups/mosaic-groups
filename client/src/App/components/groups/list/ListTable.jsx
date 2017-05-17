@@ -2,8 +2,9 @@ import React from 'react';
 
 import GroupRow from './GroupRow.jsx';
 import ActionLinks from './ActionLinks.jsx';
+import { daysOfTheWeek } from '../../../constants';
 
-const days = ['6-Week Groups', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const days = daysOfTheWeek;
 const columns = ['Title', 'Details', 'Audience', 'Leader', 'Location', 'Time', 'Childcare', 'Topic', 'Action'];
 
 const ListTable = ({ groups }) => {
