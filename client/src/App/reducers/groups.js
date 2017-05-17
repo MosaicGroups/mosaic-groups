@@ -1,5 +1,5 @@
 import {
-    REQUEST_GROUPS, RECEIVE_GROUPS, ADD_GROUP, UPDATE_GROUP
+    REQUEST_GROUPS, RECEIVE_GROUPS, ADD_GROUP, UPDATE_GROUP, NEW_SEMESTER
 } from '../actions/groups';
 
 
@@ -34,6 +34,12 @@ const groups = (state = {
                 ...state,
                 groups: stateGroups
             };
+        case NEW_SEMESTER:
+            return {
+                ...state,
+                groups: []
+            };
+
         default:
             return state;
     }
