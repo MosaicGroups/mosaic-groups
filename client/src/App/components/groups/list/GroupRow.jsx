@@ -1,5 +1,5 @@
 import React from 'react';
-import { OverlayTrigger, Popover } from 'react-bootstrap';
+import { OverlayTrigger, Popover, Row, Col } from 'react-bootstrap';
 
 const GroupRow = ({ group, children }) => {
     return (
@@ -20,7 +20,9 @@ const GroupRow = ({ group, children }) => {
                 {group.audienceType}
             </td>
             <td>
-                {group.leaders && group.leaders.map((leader, idx) => <div className="row" key={idx}>{leader.firstName} {leader.lastName} </div>)}
+                 <Row>
+                    {group.leaders && group.leaders.map((leader, idx) => <Col md={12} key={idx}>{leader.firstName} {leader.lastName} </Col>)}
+                 </Row>    
             </td>
             <td>
                 {group.location}
@@ -32,7 +34,11 @@ const GroupRow = ({ group, children }) => {
                 {group.childcare ? 'Yes' : 'No'}
             </td>
             <td>
-                {group.topics.map(topic => <span className="row" key={topic}>{topic} </span>)}
+                <Row>
+
+                    {group.topics.map(topic => <Col md={12} key={topic}> {topic} </Col>)}
+
+                </Row>
             </td>
             <td>
                 {children}
