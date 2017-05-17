@@ -1,48 +1,43 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { groupDisabled, groupIsFull, userCanEditGroup } from '../../../utils/index.js';
-/*
-$scope.joinGroup = function (group) {
-    $location.path('/views/groupJoin/group-join/' + group._id);
-};
+import { Row, Col } from 'react-bootstrap';
+import{deleteGroup} from '../../../actions/groups'
 
-$scope.showGroupFull = function (group) {
-    $location.path('/views/groupJoin/group-full/' + group._id);
-};
-
-$scope.editGroup = function (group) {
-    $location.path('/views/groupCreateOrEdit/group-create-or-edit/' + group._id);
-};
-
-$scope.deleteGroup = function (group) {
-    var modalInstance = $modal.open({
-        templateUrl: '/partials/groupList/confirm-delete-group-modal',
-        controller: confirmDeleteGroupCtrl,
-        resolve: {
-            group: function () {
-                return group;
-            }
-        }
-    });
-    modalInstance.result.then(function () {
-        $scope.tableParams.reload();
-    });
-};*/
-
-
-
-
-
-
-
+import Confirm from '../../common/modal/Confirm.jsx';
+class DeleteLink extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        const { dispatch } = this.props;
+        return (<div>
+            <a href onClick={(e) => {
+                e.preventDefault();
+                this.refs.confirm.show()
+                    .then(() => dispatch(deleteGroup(this.props.group)))
+                    .catch(() => { });
+            }} >Delete</a>
+            <Confirm ref="confirm">
+                <span>Are you sure you want to delete the group: {this.props.group.title}?</span>
+            </Confirm>
+        </div>);
+    }
+}
+const ConnDeleteLink = connect()(DeleteLink);
 const ActionLinks = ({ identity, group, settings }) => {
-   
-
-    return (<div>
-        {userCanEditGroup(group, identity) ? <a href={`/group/createEdit/${group._id}`}>Edit</a> : null}
-        {!groupIsFull(group) && !groupDisabled(group, settings) ? <a href={`/group/join/${group._id}`}>Join</a> : null}
-        ({`${group.members.length} of ${group.memberLimit}`})
-    </div>);
+    return (
+        <Row className="text-right">
+            {
+                !groupIsFull(group) && !groupDisabled(group, settings) ? <Col md={12}><a href={`/group/join/${group._id}`}>Join</a> </Col> : (
+                    (groupDisabled(group, settings) ? <Col md={12}> <b>Group is Disabled</b> </Col> :
+                        groupIsFull(group) ? <Col md={12}><b>Group is Full</b> </Col> : null)
+                )
+            }
+            {userCanEditGroup(group, identity) ? <Col md={12}><a href={`/group/createEdit/${group._id}`}>Manage</a> </Col> : null}
+            {identity.roles.includes('admin') ? (<Col md={12}><ConnDeleteLink group={group}/> </Col>) : null}
+            <Col md={12}> {`(${group.members.length} of ${group.memberLimit})`}</Col>
+        </Row>);
 };
 
 const mapStateToProps = state => {
