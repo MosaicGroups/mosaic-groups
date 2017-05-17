@@ -48,6 +48,7 @@ export const startNewSemester = (name) => (dispatch, getState) => {
         .catch(err => {
             toastr.error('Error', `Could Not Start Semester "${name}"`);
         })
+        // because semester changes affect the groups, we need to repull groups.
         .then(() => {
             dispatch(getGroups());
         });
