@@ -8,6 +8,7 @@ export const ADD_GROUP = 'ADD_GROUP';
 export const UPDATE_GROUP = 'UPDATE_GROUP';
 export const JOIN_GROUP = 'JOIN_GROUP';
 export const NEW_SEMESTER = 'NEW_SEMESTER';
+export const DELETE_GROUP = 'DELETE_GROUP';
 
 export const requestGroups = () => ({
     type: REQUEST_GROUPS
@@ -77,6 +78,20 @@ export const addGroup = (group) => (dispatch, getState) => {
         });
 
 };
+export const deleteGroup = (group) => (dispatch, getState) => {
+    dispatch({
+        type: DELETE_GROUP,
+        group
+    });
+    return request.delete(`/api/groups/${group._id}`)
+        .then(response => {
+            toastr.success('Success', `${group.title} has been deleted`);
+        })
+        .catch(err => {
+            toastr.error('Error', `There was an error deleting ${group.title} `);
+        });
+};
+
 export const updateGroup = (group) => (dispatch, getState) => {
     dispatch({
         type: UPDATE_GROUP,
