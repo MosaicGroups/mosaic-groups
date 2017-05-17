@@ -1,7 +1,6 @@
 import React from 'react';
 import { FormGroup } from 'react-bootstrap';
 const LeaderCheckboxGroup = (props) => {
-    console.log(props);
     let { label, name, options, input, identity } = props;
     const isChecked = (option) => {
         //console.log(option, input.value, input.value.indexOf(option._id) !== -1)
