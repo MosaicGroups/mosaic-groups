@@ -2,7 +2,7 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { Col, Button } from 'react-bootstrap';
 
-const SemesterForm = ({ handleSubmit, pristine, submitting }) => {
+const SemesterForm = ({ handleSubmit, pristine, submitting, reset }) => {
 
     const semesterStyle = {
         'marginBottom': '10px',
@@ -22,7 +22,10 @@ const SemesterForm = ({ handleSubmit, pristine, submitting }) => {
                 />
             </Col>
             <Col md={12}>
-                <Button type="submit" disabled={pristine || submitting}>
+                <Button type="submit" disabled={pristine || submitting} onClick={() =>{
+                    handleSubmit();
+                    reset();
+                }}>
                     Start New Semester
                 </Button>
             </Col>
