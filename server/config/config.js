@@ -19,7 +19,7 @@ var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 // we need to default to the hosted dev DB is there is a username and password vars configured
 var devDBConnection;
 if (typeof (process.env.MOSAICGROUPS_USERNAME) != 'undefined' && typeof (process.env.MOSAICGROUPS_PASSWORD) != 'undefined') {
-    devDBConnection = 'mongodb://' + process.env.MOSAICGROUPS_USERNAME + ':' + process.env.MOSAICGROUPS_PASSWORD + '@ds061288.mongolab.com:61288/mosaicgroups-dev';
+    devDBConnection = 'mongodb://' + process.env.MOSAICGROUPS_USERNAME + ':' + process.env.MOSAICGROUPS_PASSWORD + '@ds061288.mlab.com:61288/mosaicgroups-dev';
 } else {
     if (typeof (process.env.DEV_HOST) != 'undefined') {
         devDBConnection = 'mongodb://' + process.env.DEV_HOST + ':27017/mosaicgroups';
