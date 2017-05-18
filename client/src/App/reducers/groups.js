@@ -1,5 +1,5 @@
 import {
-    REQUEST_GROUPS, RECEIVE_GROUPS, ADD_GROUP, UPDATE_GROUP
+    DELETE_GROUP, REQUEST_GROUPS, RECEIVE_GROUPS, ADD_GROUP, UPDATE_GROUP, NEW_SEMESTER
 } from '../actions/groups';
 
 
@@ -15,6 +15,11 @@ const groups = (state = {
                 ...state,
                 isFetching: true
             };
+        case DELETE_GROUP:
+            const groupId = action.group._id;
+            return Object.assign({},
+                state, { groups: state.groups.filter(g => g._id !== groupId) }
+            );
         case RECEIVE_GROUPS:
             return Object.assign({}, state, {
                 isFetching: false,
@@ -34,6 +39,12 @@ const groups = (state = {
                 ...state,
                 groups: stateGroups
             };
+        case NEW_SEMESTER:
+            return {
+                ...state,
+                groups: []
+            };
+
         default:
             return state;
     }

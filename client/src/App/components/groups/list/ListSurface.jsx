@@ -8,6 +8,7 @@ import ListTable from './ListTable.jsx';
 import FilterWell from './FilterWell.jsx';
 import VideoWell from './VideoWell.jsx';
 import InfoWell from './InfoWell.jsx';
+import AdminWell from './AdminWell.jsx';
 
 class ListSurface extends React.Component {
     constructor(props) {
@@ -47,12 +48,14 @@ class ListSurface extends React.Component {
             });
         }
         let settings = this.props.settings || {};
+        let identity = this.props.identity || {};
         return (
             <div>
-                {settings.hasSettings ? <SubHeader settings={settings} identity={this.props.identity} /> : null}
+                {settings.hasSettings ? <SubHeader settings={settings} identity={identity} /> : null}
                 <div className="container-fluid">
                     <Row>
                         <Col md={3} >
+                            {identity.roles && identity.roles.includes('admin') ? <AdminWell settings={settings} /> : null}
                             <VideoWell />
                             <FilterWell groups={this.props.groups.groups} updateFilter={this.updateFilter} />
                             <InfoWell />

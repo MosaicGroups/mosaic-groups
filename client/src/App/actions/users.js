@@ -43,7 +43,13 @@ export const addUser = (newUser) => (dispatch, getState) => {
     });
     return request.post('/api/users')
         .send(newUser)
-        .then(dispatch(push('/')));
+        .then(() => {
+            toastr.success('Success', `You have successfully added ${newUser.firstName} ${newUser.lastName}`);
+            dispatch(push('/'));
+        })
+        .catch(err => {
+            toastr.error('Error', `There was an error adding ${newUser.firstName} ${newUser.lastName}`);
+        });
 };
 export const updateUser = (user) => (dispatch, getState) => {
     if (getState().identity._id && getState().identity._id === user._id) {
@@ -55,7 +61,13 @@ export const updateUser = (user) => (dispatch, getState) => {
     });
     return request.post(`/api/users/${user._id}`)
         .send(user)
-        .then(dispatch(push('/')));
+        .then(response => {
+            toastr.success('Success', `You have successfully updated ${user.firstName} ${user.lastName}`);
+            dispatch(push('/'));
+        })
+        .catch(err => {
+            toastr.error('Error', `There was an error updating ${user.firstName} ${user.lastName}`);
+        });
 };
 
 export const deleteUser = (user) => (dispatch, getState) => {
