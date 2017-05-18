@@ -37,10 +37,10 @@ const LoginForm = (props) => {
                     <fieldset>
                         <legend>Log In</legend>
                         <InputRow {...spacing} label="Username (Email)">
-                            <Field component="input" name="username" type="email" placeholder="Username (Email)" required="required" autoComplete="off" className="form-control " />
+                            <Field component="input" name="username" type="email" required="required" autoComplete="off" className="form-control " />
                         </InputRow>
                         <InputRow {...spacing} label="Password">
-                            <Field component="input" name="password" type="password" placeholder="Password" required="required" autoComplete="off" className="form-control " />
+                            <Field component="input" name="password" type="password" required="required" autoComplete="off" className="form-control " />
                         </InputRow>
                         <div className="form-group">
                             <div className="col-md-10 col-md-offset-2">

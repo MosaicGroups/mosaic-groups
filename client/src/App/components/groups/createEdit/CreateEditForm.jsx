@@ -23,7 +23,7 @@ const CreateEditForm = (props) => {
                 <form name="createEditForm" className="form-horizontal" onSubmit={handleSubmit}>
                     <h3>Create/Edit Group</h3>
                     <InputRow {...spacing} label="Title">
-                        <Field component="input" name="title" type="text" placeholder="Title" required="required" autoComplete="off" className="form-control" />
+                        <Field component="input" name="title" type="text" required="required" autoComplete="off" className="form-control" />
                     </InputRow>
                     <InputRow {...spacing} label="Group Leader(s)">
                         <Field
@@ -34,38 +34,41 @@ const CreateEditForm = (props) => {
                         />
                     </InputRow>
                     <InputRow {...spacing} label="City">
-                        <Field component="input" name="location" type="text" placeholder="City" required="required" autoComplete="off" className="form-control" />
+                        <Field component="input" name="location" type="text" required="required" autoComplete="off" className="form-control" />
                     </InputRow>
                     <InputRow {...spacing} label="Day Of The Week">
-                        <Field name="dayOfTheWeek" component="select" className="form-control">
+                        <Field name="dayOfTheWeek" component="select" className="form-control" required>
                             <option></option>
                             {daysOfTheWeek.map(day => (<option key={day} value={day}>{day}</option>))}
                         </Field>
                     </InputRow>
                     <InputRow  {...spacing} label="Time">
-                        <Field name="meetingTime" component="select" className="form-control">
+                        <Field name="meetingTime" component="select" className="form-control" required>
                             <option></option>
                             {meetingTimes.map(time => (<option key={time} value={time}>{time}</option>))}
                         </Field>
                     </InputRow>
                     <InputRow   {...spacing} label="Member Limit">
-                        <Field component="input" name="memberLimit" type="number" min="0" placeholder="20" required="required" autoComplete="off" className="form-control" />
+                        <Field component="input" name="memberLimit" type="number" min="0" required="required" autoComplete="off" className="form-control" />
+                        <small className="help-block">Example: <strong>20</strong></small>
                     </InputRow>
                     <InputRow   {...spacing} label="Audience">
-                        <Field name="audienceType" component="select" className="form-control">
+                        <Field name="audienceType" component="select" className="form-control" required>
                             <option></option>
                             {audienceTypes.map(a => (<option key={a} value={a}>{a}</option>))}
                         </Field>
-                        <div className="help-block">* select "Group Leaders" to create a group that is only visible when a group leader is logged in</div>
+                        <small className="help-block">Select <strong>Group Leaders</strong>  to create a group that is only visible when a group leader is logged in</small>
                     </InputRow>
                     <InputRow   {...spacing} label="Childcare">
                         <Field component="input" name="childcare" type="checkbox" />
                     </InputRow>
                     <InputRow   {...spacing} label="Topic">
-                        <Field name="topics" component="select" className="form-control">
-                            <option></option>
-                            {availableTopics.map(t => (<option key={t} value={t}>{t}</option>))}
-                        </Field>
+                        <Field name="topics" component={props =>
+                            <select className={'form-control' + (props.input.value ? '' : ' placeholder')} {...props.input}>
+                                <option value="">(Optional)</option>
+                                {availableTopics.map(t => (<option key={t} value={t}>{t}</option>))}
+                            </select>
+                        }/>
                     </InputRow>
                     <InputRow  {...spacing} label="Description">
                         <Field component="input" name="description" type="textarea" required="required" autoComplete="off" className="form-control" />
