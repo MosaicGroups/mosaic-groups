@@ -9,19 +9,19 @@ import { Col } from 'react-bootstrap';
 const MemberForm = ({ namePrefix = '' }) => (
     <div>
         <InputRow label="First Name">
-            <Field component="input" name={`${namePrefix}firstName`} type="text" placeholder="First Name" required="required" autoComplete="off" className="form-control" />
+            <Field component="input" name={`${namePrefix}firstName`} type="text" required="required" autoComplete="off" className="form-control" />
         </InputRow>
 
         <InputRow label="Last Name">
-            <Field component="input" name={`${namePrefix}lastName`} type="text" placeholder="Last Name" required="required" autoComplete="off" className="form-control" />
+            <Field component="input" name={`${namePrefix}lastName`} type="text" required="required" autoComplete="off" className="form-control" />
         </InputRow>
 
         <InputRow label="Email">
-            <Field component="input" name={`${namePrefix}email`} type="email" placeholder="Email" required="required" autoComplete="off" className="form-control" />
+            <Field component="input" name={`${namePrefix}email`} type="email" required="required" autoComplete="off" className="form-control" />
         </InputRow>
 
         <InputRow label="Retype Email">
-            <Field component="input" name={`${namePrefix}emailConfirmed`} placeholder="Retype Email" type="email" required="required" autoComplete="off" className="form-control" />
+            <Field component="input" name={`${namePrefix}emailConfirmed`} type="email" required="required" autoComplete="off" className="form-control" />
         </InputRow>
         <InputRow label="Gender">
             <Field name={`${namePrefix}gender`} component="select" className="form-control">
@@ -36,7 +36,7 @@ const MemberForm = ({ namePrefix = '' }) => (
             </Field>
         </InputRow>
         <InputRow label="Phone Number">
-            <Field name={`${namePrefix}phone`} component="input" type="text" placeholder="Phone Number" required="required" autoComplete="off" className="form-control" />
+            <Field name={`${namePrefix}phone`} component="input" type="text" required="required" autoComplete="off" className="form-control" />
         </InputRow>
         <InputRow label="Preferred Contact Method">
             <Col md={6}>

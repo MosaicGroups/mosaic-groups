@@ -2,8 +2,7 @@
 .navbar{
 	min-height: 75px;
 }
-.headerLogoImage { 
-	
+.headerLogoImage {
 	height: auto;
 	max-height: 100px;
 	width: auto;
@@ -33,4 +32,7 @@ body { padding-top: 75px; }
  }
 button.multiselect {
   width: 100%;
+}
+select.placeholder {
+	color: #999;
 }

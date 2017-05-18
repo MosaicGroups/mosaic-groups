@@ -54,16 +54,16 @@ const CreateEditForm = (props) => {
                 <form name="createEditForm" className="form-horizontal" onSubmit={handleSubmit}>
                     <legend>{labels.title}</legend>
                     <InputRow {...spacing} label="Username (Email)">
-                        <Field component="input" name="username" type="email" placeholder="Username (Email)" required="required" autoComplete="off" className="form-control" />
+                        <Field component="input" name="username" type="email" required="required" autoComplete="off" className="form-control" />
                     </InputRow>
                     <InputRow {...spacing} label="First Name">
-                        <Field component="input" name="firstName" type="text" placeholder="First Name" required="required" autoComplete="off" className="form-control" />
+                        <Field component="input" name="firstName" type="text" required="required" autoComplete="off" className="form-control" />
                     </InputRow>
                     <InputRow {...spacing} label="Last Name">
-                        <Field component="input" name="lastName" type="text" placeholder="Last Name" required="required" autoComplete="off" className="form-control" />
+                        <Field component="input" name="lastName" type="text" required="required" autoComplete="off" className="form-control" />
                     </InputRow>
                     <InputRow {...spacing} label="Password">
-                        <Field component="input" name="password" type="password" placeholder="Password" autoComplete="off" className="form-control" />
+                        <Field component="input" name="password" type="password" autoComplete="off" className="form-control" />
                     </InputRow>
 
                     {displayRoleFields()}
