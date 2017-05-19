@@ -6,12 +6,15 @@ class Alert extends React.Component {
         super(props);
         this.state = { show: false };
         this.show = show.bind(this);
+        this.hideModal = this.hideModal.bind(this);
     }
-
+    hideModal() {
+        this.setState({ show: false });
+    }
     render() {
 
         return (
-            <Modal show={this.state.show}>
+            <Modal show={this.state.show} keyboard={true} onHide={this.hideModal}>
                 <Modal.Header>
                     <Modal.Title>{this.props.title || 'Alert'}</Modal.Title>
                 </Modal.Header>
