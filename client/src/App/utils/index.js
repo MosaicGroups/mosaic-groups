@@ -22,7 +22,7 @@ const userCanEditGroup = (group, identity) => {
     let canEditGroup = false;
     if (!identity.username) {
         canEditGroup = false;
-    } else if (identity.roles.includes('admin')) {
+    } else if (identity.roles && identity.roles.includes('admin')) {
         canEditGroup = true;
     } else if (userIsLeaderOfGroup(group, identity)) {
         canEditGroup = true;

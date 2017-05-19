@@ -35,7 +35,7 @@ const ActionLinks = ({ identity, group, settings }) => {
                 )
             }
             {userCanEditGroup(group, identity) ? <Col md={12}><a href={`/group/createEdit/${group._id}`}>Manage</a> </Col> : null}
-            {identity.roles.includes('admin') ? (<Col md={12}><ConnDeleteLink group={group}/> </Col>) : null}
+            {identity.roles&&identity.roles.includes('admin') ? (<Col md={12}><ConnDeleteLink group={group}/> </Col>) : null}
             <Col md={12}> {`(${group.members.length} of ${group.memberLimit})`}</Col>
         </Row>);
 };
