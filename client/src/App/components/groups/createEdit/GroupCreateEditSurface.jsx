@@ -5,6 +5,7 @@ import CreateEditForm from './CreateEditForm.jsx';
 import { fetchUsersIfNeeded } from '../../../actions/users';
 import { fetchGroupsIfNeeded } from '../../../actions/groups';
 import { addGroup, updateGroup } from '../../../actions/groups';
+import { studentGroups } from '../../../constants/index.js';
 import Confirm from '../../common/modal/Confirm.jsx';
 import Alert from '../../common/modal/Alert.jsx';
 
@@ -38,9 +39,10 @@ class GroupCreateEditSurface extends React.Component {
 
     }
     render() {
-        const isUpdate = this.props.initialValues ? true : false;
         const group = this.props.initialValues;
-
+        const isUpdate = this.props.initialValues ? true : false;
+        const isStudentGroup = group != undefined ? studentGroups.includes(group.audienceType) : false;
+    
         return (
             <div>
                 <CreateEditForm
@@ -59,10 +61,11 @@ class GroupCreateEditSurface extends React.Component {
                             this.refs.phoneNumberAlert.show();
                         }}>Export Phone Numbers
                             </Button>
-                        <Button onClick={() => {
-                            this.refs.contactAlert.show();
-                        }}>Show Emergency Contacts
-                        </Button>
+                        {isStudentGroup ? (
+                            <Button onClick={() => {
+                                this.refs.contactAlert.show();
+                            }}>Show Emergency Contacts</Button>
+                        ) : null}
 
                         <Alert ref="emailAddressesAlert" title="Member Email Addresses">
                             <div>
@@ -77,33 +80,35 @@ class GroupCreateEditSurface extends React.Component {
                                 {group.members.map((m, idx) => <span key={idx}>"{m.firstName} {m.lastName}": {m.phone} <br /> </span>)}
                             </div>
                         </Alert>
-                        <Alert ref="contactAlert" title="Emergency Contacts">
-                            <table name="EmergencyContacts" className="table table-hover table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Student</th>
-                                        <th>Emergency Contact</th>
-                                        <th>Contact Email</th>
-                                        <th>Contact Phone</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {group.members.map((m, idx) => (
+                        {isStudentGroup ? (
+                            <Alert ref="contactAlert" title="Emergency Contacts">
+                                <table name="EmergencyContacts" className="table table-hover table-striped">
+                                    <thead>
                                         <tr>
-                                            <td>
-                                                {m.firstName} {m.lastName}</td>
-                                            <td >
-                                                {m.emergency_contact.firstName} {m.emergency_contact.lastName}</td>
-                                            <td >
-                                                {m.emergency_contact.email}</td>
-                                            <td >
-                                                {m.emergency_contact.phone}
-                                            </td>
+                                            <th>Student</th>
+                                            <th>Emergency Contact</th>
+                                            <th>Contact Email</th>
+                                            <th>Contact Phone</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </Alert>
+                                    </thead>
+                                    <tbody>
+                                        {group.members.map((m, idx) => (
+                                            <tr>
+                                                <td>
+                                                    {m.firstName} {m.lastName}</td>
+                                                <td >
+                                                    {m.emergency_contact.firstName} {m.emergency_contact.lastName}</td>
+                                                <td >
+                                                    {m.emergency_contact.email}</td>
+                                                <td >
+                                                    {m.emergency_contact.phone}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </Alert>
+                        ): null }
                     </div>
 
                 ) : null}
