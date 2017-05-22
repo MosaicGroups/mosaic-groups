@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { fetchUsersIfNeeded } from '../../../actions/users';
 import { fetchGroupsIfNeeded } from '../../../actions/groups';
-import { couplesGroups } from '../../../constants/index.js';
+import { couplesGroups, studentGroups } from '../../../constants/index.js';
 import { Jumbotron, Row, Col } from 'react-bootstrap';
 import DescriptionWell from './DescriptionWell.jsx';
 import JoinFormWell from './JoinFormWell.jsx';
@@ -29,7 +29,7 @@ class JoinSurface extends React.Component {
 
             dispatch(joinGroup({ member, spouse }, group._id));
         }
-        else if (group.audienceType === 'Middle School Students' || group.audienceType === 'High School Students') {
+        else if (studentGroups.includes(group.audienceType)) {
             let member = memberForm;
             member.emergency_contact = {
                 email: member.contactEmail,

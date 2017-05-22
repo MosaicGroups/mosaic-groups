@@ -16,6 +16,11 @@ exports.couplesGroups = [
     'Married Couples'
 ];
 
+exports.studentGroups = [
+    'High School Students',
+    'Middle School Students'
+];
+
 exports.availableTopics = [
     'Bible Study',
     'Book Study',
