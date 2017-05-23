@@ -20,7 +20,7 @@ const JoinForm = (props) => {
                 <MemberForm />
                 {couplesGroups.includes(group.audienceType) ? (
                     <div>
-                        <h3>Spouse Info: </h3>
+                        <h3>Significant Other Info: </h3>
                         <MemberForm namePrefix={spousePrefix + '.'} />
                     </div>
                 ) : null}
