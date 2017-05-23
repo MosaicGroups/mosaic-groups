@@ -51,6 +51,7 @@ const MembersForm = ({ fields, meta: { touched, error, submitFailed } }) => (
                         <tr key={index}>
                             <td>
                                 <Field
+                                 required="required"    
                                     name={`${member}.firstName`}
                                     type="text"
                                     component="input"
@@ -59,6 +60,7 @@ const MembersForm = ({ fields, meta: { touched, error, submitFailed } }) => (
                             </td>
                             <td>
                                 <Field
+                                 required="required"    
                                     name={`${member}.lastName`}
                                     type="text"
                                     component="input"
@@ -66,19 +68,20 @@ const MembersForm = ({ fields, meta: { touched, error, submitFailed } }) => (
                                     className="form-control" />
                             </td>
                             <td>
-                                <Field name={`${member}.gender`} component="select" className="form-control">
+                                <Field  required="required" name={`${member}.gender`} component="select" className="form-control">
                                     <option></option>
                                     {genders.map(g => (<option key={g} value={g}>{g}</option>))}
                                 </Field>
                             </td>
                             <td>
-                                <Field name={`${member}.campus`} component="select" className="form-control">
+                                <Field  required="required" name={`${member}.campus`} component="select" className="form-control">
                                     <option></option>
                                     {campuses.map(c => (<option key={c} value={c}>{c}</option>))}
                                 </Field>
                             </td>
                             <td>
                                 <Field
+                                 required="required"    
                                     name={`${member}.email`}
                                     component="input"
                                     type="text"
@@ -87,6 +90,7 @@ const MembersForm = ({ fields, meta: { touched, error, submitFailed } }) => (
                             </td>
                             <td>
                                 <Field
+                                 required="required"    
                                     name={`${member}.phone`}
                                     type="text"
                                     component="input"
@@ -95,12 +99,14 @@ const MembersForm = ({ fields, meta: { touched, error, submitFailed } }) => (
                             </td>
                             <td style={{ width: '150px' }}>
                                 <Field name={`${member}.preferContactVia`} required="required" value="PENDING" className="form-control" component="select">
+                                    <option ></option>
                                     <option value="phone" label="PENDING" >Phone</option>
                                     <option value="email" label="APPROVED">Email</option>
                                 </Field>
                             </td>
                             <td style={{ width: '150px' }}>
                                 <Field name={`${member}.status`} required="required" value="PENDING" className="form-control" component="select">
+                                    <option ></option>
                                     <option value="PENDING" label="PENDING" >PENDING</option>
                                     <option value="APPROVED" label="APPROVED">APPROVED</option>
                                 </Field>

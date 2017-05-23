@@ -111,8 +111,10 @@ export const joinGroup = ({ member, spouse }, groupId) => (dispatch, getState) =
     dispatch({
         type: JOIN_GROUP
     });
+    member.status = 'PENDING';
     let data = { newMember: member };
     if (spouse) {
+        spouse.status = 'PENDING';
         data.newMemberSpouse = spouse;
     }
 

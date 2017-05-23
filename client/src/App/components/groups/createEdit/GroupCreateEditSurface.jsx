@@ -21,7 +21,18 @@ class GroupCreateEditSurface extends React.Component {
     }
     submit(group) {
         const { dispatch, initialValues } = this.props;
-
+       /* if (group.members) {
+            group.members = group.members.map(m => {
+                if (!m.status) {
+                    m.status = 'PENDING';
+                }
+                if (!m.preferContactVia)
+                {
+                    m.preferContactVia = 'email';
+                }   
+                return member
+            });
+        }*/
         // topics get passed from the form as a single string value, 
         // but must be passed to the server as an array
         group.topics = [group.topics];
