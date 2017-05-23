@@ -41,9 +41,14 @@ export const addUser = (newUser) => (dispatch, getState) => {
         type: ADD_USER,
         user: newUser
     });
+
     return request.post('/api/users')
         .send(newUser)
-        .then(() => {
+        .then((r) => {
+            if (!getState().identity._id ) {
+                dispatch(updateAuthUser(r.body));
+            }
+
             toastr.success('Success', `You have successfully added ${newUser.firstName} ${newUser.lastName}`);
             dispatch(push('/'));
         })
