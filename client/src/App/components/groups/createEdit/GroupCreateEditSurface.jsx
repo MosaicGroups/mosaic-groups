@@ -42,7 +42,7 @@ class GroupCreateEditSurface extends React.Component {
         const group = this.props.initialValues;
         const isUpdate = this.props.initialValues ? true : false;
         const isStudentGroup = group != undefined ? studentGroups.includes(group.audienceType) : false;
-    
+
         return (
             <div>
                 <CreateEditForm
@@ -97,18 +97,18 @@ class GroupCreateEditSurface extends React.Component {
                                                 <td>
                                                     {m.firstName} {m.lastName}</td>
                                                 <td >
-                                                    {m.emergency_contact.firstName} {m.emergency_contact.lastName}</td>
+                                                    {m.emergency_contact ? m.emergency_contact.firstName + ' ' + m.emergency_contact.lastName : 'No contact info. May have been added by group leader.'}</td>
                                                 <td >
-                                                    {m.emergency_contact.email}</td>
+                                                    {m.emergency_contact ? m.emergency_contact.email: null}</td>
                                                 <td >
-                                                    {m.emergency_contact.phone}
+                                                    {m.emergency_contact ? m.emergency_contact.phone: null}
                                                 </td>
                                             </tr>
                                         ))}
                                     </tbody>
                                 </table>
                             </Alert>
-                        ): null }
+                        ) : null}
                     </div>
 
                 ) : null}
