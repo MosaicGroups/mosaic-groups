@@ -4,7 +4,7 @@ import { Well, FormGroup, Col, Button } from 'react-bootstrap';
 import MemberForm from './MemberForm.jsx';
 import ContactForm from './ContactForm.jsx';
 import { groupDisabled, groupIsFull } from '../../../utils/index.js';
-import { couplesGroups } from '../../../constants/index.js';
+import { couplesGroups, studentGroups } from '../../../constants/index.js';
 import joinFormValidation from './joinFormValidation';
 
 const spousePrefix = 'spouse';
@@ -24,7 +24,7 @@ const JoinForm = (props) => {
                         <MemberForm namePrefix={spousePrefix + '.'} />
                     </div>
                 ) : null}
-                {(group.audienceType === 'Middle School Students' || group.audienceType === 'High School Students') ? (
+                {(studentGroups.includes(group.audienceType)) ? (
                    <div>
                         <h3>Emergency Contact:</h3>
                         <ContactForm />

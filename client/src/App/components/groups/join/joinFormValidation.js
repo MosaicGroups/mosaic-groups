@@ -1,4 +1,4 @@
-import { couplesGroups } from '../../../constants/index.js';
+import { couplesGroups, studentGroups } from '../../../constants/index.js';
 
 const validateEmail = email => {
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -51,7 +51,7 @@ const joinFormValidation = (values, props) => {
             errors.firstName = 'Required';
         }
     }
-    else if (props.group.audienceType === 'Middle School Students' || props.group.audienceType === 'High School Students') {
+    else if (studentGroups.includes(props.group.audienceType)) {
         const contactRequiredFields = ['contactFirstName', 'contactLastName', 'contactPhone', 'contactEmail', 'contactEmailConfirm'];
         requiredFields = requiredFields.concat(contactRequiredFields);
 
