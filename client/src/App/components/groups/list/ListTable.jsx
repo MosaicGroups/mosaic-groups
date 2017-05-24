@@ -28,9 +28,7 @@ const ListTable = ({ groups }) => {
                         <tr className="ng-table-group groups-group-row">
                             <td colSpan="9" className="groups-group-cell">
                                 <span className="groups-group-title">
-                                    <span className="glyphicon glyphicon-chevron-down">
                                     </span>&nbsp;<span>{day}
-                                    </span>
                                 </span>
                             </td>
                         </tr>
