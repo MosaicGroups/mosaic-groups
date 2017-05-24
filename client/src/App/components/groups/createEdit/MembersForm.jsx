@@ -100,8 +100,8 @@ const MembersForm = ({ fields, meta: { touched, error, submitFailed } }) => (
                             <td style={{ width: '150px' }}>
                                 <Field name={`${member}.preferContactVia`} required="required" value="PENDING" className="form-control" component="select">
                                     <option ></option>
-                                    <option value="phone" label="PENDING" >Phone</option>
-                                    <option value="email" label="APPROVED">Email</option>
+                                    <option value="phone" label="Phone" >Phone</option>
+                                    <option value="email" label="Email">Email</option>
                                 </Field>
                             </td>
                             <td style={{ width: '150px' }}>
