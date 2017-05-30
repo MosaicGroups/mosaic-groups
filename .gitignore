@@ -1,6 +1,9 @@
 .idea
+.DS_Store
 node_modules
 newrelic_agent.log
 tsd.d.ts
 typings/
 npm-debug.log
+public/bundle.js
+client/build/

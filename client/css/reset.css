@@ -1,0 +1,36 @@
+
+.navbar{
+	min-height: 75px;
+}
+.headerLogoImage {
+	height: auto;
+	max-height: 100px;
+	width: auto;
+	max-width: 100%;
+
+}
+body { padding-top: 75px; }
+
+.jumbotron {
+    padding: 5px;
+}
+
+
+.groups-group-row,
+.groups-group-row:hover {
+  background-color: #f5f5f5;
+}
+.groups-group-cell,
+.groups-group-cell:hover {
+  background-color: #d3d3d3;
+}
+
+ span.multiselect-native-select > div.btn-group{
+   width: 100%;
+ }
+button.multiselect {
+  width: 100%;
+}
+select.placeholder {
+	color: #999;
+}

@@ -20,18 +20,21 @@
   * See the group members for all groups
   * Delete groups
 
-## How to set up on you local environment
+## How to set up your local environment
 
 * Install Node.js
 * Install the dependencies - run `$ npm install`
 * For any development environment, you will need a version of MongoDB running on localhost. Installation and configuration of MongoDB is outside the scope of this README. Every major OS has an installer for mongo. Default settings should work fine.
+* Run webpack to bundle the resources - `$ npm run webpack`
 * Run the application - `$ npm start`
-* In your browser, go to http://localhost:3030. 
+* In your browser, go to http://localhost:3030.
 
+### Notes
+* To make the application rerun the `webpack` command when a JavaScript file is changed, run `$ npm run webpack-watch`
+* Upon starting up, the application will make a default user with email **pblair12@gmail.com** and password **p**. To login, go to http://localhost:3030/login
 
 ## Environments
 
 ### Production
 
 Our production environment runs in heroku and can be found here: https://www.mosaicgroups.org/. Any push or merged pull-request to `master` will trigger a re-deploy to heroku. We still need to configure CI, so make sure all tests run before merging from `dev` to `master`!
-

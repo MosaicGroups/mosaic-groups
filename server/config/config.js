@@ -11,26 +11,24 @@
  *   GITHUB_USERNAME: joesmith
  *   OTHER_VAR:       production
  */
-var logger = require('./logger');
 var path = require('path');
-var fs = require('fs');
-var rootPath = path.normalize(__dirname + '/../../');
+var rootPath = path.normalize(__dirname + '/../../client/');
 
 var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 // we need to default to the hosted dev DB is there is a username and password vars configured
 var devDBConnection;
-if (typeof (process.env.MOSAICGROUPS_USERNAME) != "undefined" && typeof (process.env.MOSAICGROUPS_PASSWORD) != "undefined") {
-    devDBConnection = 'mongodb://' + process.env.MOSAICGROUPS_USERNAME + ':' + process.env.MOSAICGROUPS_PASSWORD + '@ds061288.mongolab.com:61288/mosaicgroups-dev';
+if (typeof (process.env.MOSAICGROUPS_USERNAME) != 'undefined' && typeof (process.env.MOSAICGROUPS_PASSWORD) != 'undefined') {
+    devDBConnection = 'mongodb://' + process.env.MOSAICGROUPS_USERNAME + ':' + process.env.MOSAICGROUPS_PASSWORD + '@ds061288.mlab.com:61288/mosaicgroups-dev';
 } else {
-    if (typeof (process.env.DEV_HOST) != "undefined") {
+    if (typeof (process.env.DEV_HOST) != 'undefined') {
         devDBConnection = 'mongodb://' + process.env.DEV_HOST + ':27017/mosaicgroups';
     }
     else {
         devDBConnection = 'mongodb://localhost:27017/mosaicgroups';
     }
 }
-var envs = {
+const envs = {
     development: {
         env: env,
         domain: 'localhost',
@@ -38,7 +36,7 @@ var envs = {
             url: devDBConnection,
             debugMode: true
         },
-        rootPath: rootPath,
+        root: rootPath,
         http: {
             port: process.env.PORT || 3030
         },
@@ -64,7 +62,7 @@ var envs = {
             url: 'mongodb://' + process.env.MOSAICGROUPS_USERNAME + ':' + process.env.MOSAICGROUPS_PASSWORD + '@ds027489.mongolab.com:27489/mosaicgroups',
             debugMode: false
         },
-        rootPath: rootPath,
+        root: rootPath,
         http: {
             port: process.env.PORT || 80
         },
@@ -85,7 +83,7 @@ var envs = {
             password: process.env.MOSAIC_GROUPS_EMAIL_PASSWORD
         }
     }
-}
+};
 envs.test = envs.development;
 
 module.exports = envs[env];
