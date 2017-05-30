@@ -19,7 +19,8 @@ module.exports = function (app) {
     app.set('views', config.rootPath + '/server/views');
     app.set('view engine', 'jade');
     if (config.env !== 'test') {
-        app.use(morgan('combined'));
+        let requestLogFormat = '\x1b[34mRequest:\x1b[0m [:date[iso]](:remote-addr): ":method :url HTTP/:http-version" :status :res[content-length]';
+        app.use(morgan(requestLogFormat));
     }
     app.use(forceSsl);
     app.use(bodyParser());

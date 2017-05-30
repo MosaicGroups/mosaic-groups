@@ -14,18 +14,11 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js',
-      'https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-resource.min.js',
-      'https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-mocks.js',
-      'test/karma/test-app.js',
-      'public/app/**/*.js',
-      'test/karma/tests/**/*.js'
     ],
 
 
     // list of files to exclude
     exclude: [
-      'public/app/app.js'
     ],
 
 
