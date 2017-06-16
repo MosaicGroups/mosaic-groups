@@ -1,10 +1,11 @@
+require('newrelic');
 var tracer = require('tracer');
 var logger = require('./server/config/logger');
 var express = require('express');
 var https = require('https');
 var http = require('http');
 var config = require('./server/config/config');
-require('newrelic');
+
 
 var app = express();
 
