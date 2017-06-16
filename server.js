@@ -1,4 +1,3 @@
-require('newrelic');
 var tracer = require('tracer');
 var logger = require('./server/config/logger');
 var express = require('express');
