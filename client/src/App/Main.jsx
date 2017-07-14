@@ -78,7 +78,7 @@ class App extends React.Component {
 
                     </div>
                     <ReduxToastr
-                        timeOut={3000}
+                        timeOut={5000}
                         newestOnTop={false}
                         preventDuplicates
                         position="bottom-center"
