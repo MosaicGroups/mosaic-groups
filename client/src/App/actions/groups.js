@@ -74,7 +74,7 @@ export const addGroup = (group) => (dispatch, getState) => {
             dispatch(push('/'));
         })
         .catch(err => {
-            toastr.error('Error', `There was an error adding ${group.title}`);
+            toastr.error('Error', `There was an error adding ${group.title}, Please send this error to the group coordinator:  ${err}`);
         });
 
 };
@@ -88,7 +88,7 @@ export const deleteGroup = (group) => (dispatch, getState) => {
             toastr.success('Success', `${group.title} has been deleted`);
         })
         .catch(err => {
-            toastr.error('Error', `There was an error deleting ${group.title} `);
+            toastr.error('Error', `There was an error deleting ${group.title}, Please send this error to the group coordinator:  ${err}`);
         });
 };
 
@@ -104,7 +104,7 @@ export const updateGroup = (group) => (dispatch, getState) => {
             dispatch(push('/'));
         })
         .catch(err => {
-            toastr.error('Error', `There was an error updating ${group.title}`);
+            toastr.error('Error', `There was an error updating ${group.title}, Please send this error to the group coordinator:  ${err}`);
         });
 };
 export const joinGroup = ({ member, spouse }, groupId) => (dispatch, getState) => {
@@ -127,7 +127,7 @@ export const joinGroup = ({ member, spouse }, groupId) => (dispatch, getState) =
             dispatch(push('/'));
         })
         .catch(err => {
-            toastr.error('Error', `There was an error joining this group`);
+            toastr.error('Error', `There was an error joining this group, Please send this error to the group coordinator:  ${err}`);
         });
 };
 
