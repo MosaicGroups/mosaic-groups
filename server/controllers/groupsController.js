@@ -112,7 +112,13 @@ exports.updateGroup = function (req, res) {
     delete groupUpdates['_id'];
 
     // if this is not an admin then the group must contain the current user as one of its leaders
-    if (!req.user.hasRole('admin') && groupUpdates.leaders.indexOf(req.user.id) < 0) {
+    if (!req.user.hasRole('admin') &&
+        groupUpdates.leaders.indexOf(req.user.id) < 0 && groupUpdates.leaders.map(l => l._id).indexOf(req.user.id) < 0) {
+        console.log(`Group was attempted to be updated by a non-admin, non-leader
+        User: ${req.user.id}
+        Leaders: ${groupUpdates.leaders.map(l => l._id)}
+        `);
+
         res.status(403);
         return res.end();
     }

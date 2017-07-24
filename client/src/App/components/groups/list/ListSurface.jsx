@@ -61,7 +61,7 @@ class ListSurface extends React.Component {
                             <InfoWell />
                         </Col>
                         <Col md={9} >
-                            {hasGroups && (!settings.showNextSemesterMsg || identity.roles.includes('admin')) ? <ListTable groups={groups} /> : null}
+                            {hasGroups && (!settings.showNextSemesterMsg || (identity._id)) ? <ListTable groups={groups} /> : null}
                         </Col>
                     </Row>
                 </div>

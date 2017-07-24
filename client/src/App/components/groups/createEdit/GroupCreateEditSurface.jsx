@@ -21,21 +21,25 @@ class GroupCreateEditSurface extends React.Component {
     }
     submit(group) {
         const { dispatch, initialValues } = this.props;
-       /* if (group.members) {
-            group.members = group.members.map(m => {
-                if (!m.status) {
-                    m.status = 'PENDING';
-                }
-                if (!m.preferContactVia)
-                {
-                    m.preferContactVia = 'email';
-                }   
-                return member
-            });
-        }*/
+        /* if (group.members) {
+             group.members = group.members.map(m => {
+                 if (!m.status) {
+                     m.status = 'PENDING';
+                 }
+                 if (!m.preferContactVia)
+                 {
+                     m.preferContactVia = 'email';
+                 }   
+                 return member
+             });
+         }*/
         // topics get passed from the form as a single string value, 
         // but must be passed to the server as an array
         group.topics = [group.topics];
+        if (!group.leaders) {
+            group.leaders = [];
+        }
+
         this.refs.confirm.show()
             .then(() => {
                 if (initialValues) {
@@ -110,9 +114,9 @@ class GroupCreateEditSurface extends React.Component {
                                                 <td >
                                                     {m.emergency_contact ? m.emergency_contact.firstName + ' ' + m.emergency_contact.lastName : 'No contact info. May have been added by group leader.'}</td>
                                                 <td >
-                                                    {m.emergency_contact ? m.emergency_contact.email: null}</td>
+                                                    {m.emergency_contact ? m.emergency_contact.email : null}</td>
                                                 <td >
-                                                    {m.emergency_contact ? m.emergency_contact.phone: null}
+                                                    {m.emergency_contact ? m.emergency_contact.phone : null}
                                                 </td>
                                             </tr>
                                         ))}
