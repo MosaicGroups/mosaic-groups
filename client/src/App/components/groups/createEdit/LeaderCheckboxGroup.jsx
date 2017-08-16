@@ -21,7 +21,7 @@ const LeaderCheckboxGroup = (props) => {
                         <input
                             type="checkbox"
                             name={`${name}[${index}]`}
-                            disabled={option._id === identity._id && !identity.roles.includes('admin')}
+                            disabled={!identity.roles.includes('admin')}
                             value={option._id}
                             checked={isChecked(option)}
                             onChange={event => {
