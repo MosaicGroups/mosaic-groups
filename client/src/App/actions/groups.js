@@ -44,7 +44,7 @@ export const startNewSemester = (name) => (dispatch, getState) => {
         .send({ 'semesterName': name })
         .then(response => {
             toastr.success('Success', `Started New Semester: "${name}"`);
-            
+
         })
         .catch(err => {
             toastr.error('Error', `Could Not Start Semester "${name}"`);
@@ -63,6 +63,10 @@ export const fetchGroupsIfNeeded = () => (dispatch, getState) => {
 
 export const addGroup = (group) => (dispatch, getState) => {
     group.members = [];
+    if (!group.leaders || group.leaders.length <= 0 || !getState().identity.roles.includes('admin')) {
+        group.leaders = [getState().identity._id];
+    }
+
     dispatch({
         type: ADD_GROUP,
         group
