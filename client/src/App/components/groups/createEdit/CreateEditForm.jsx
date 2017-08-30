@@ -71,7 +71,7 @@ const CreateEditForm = (props) => {
                         }/>
                     </InputRow>
                     <InputRow  {...spacing} label="Description">
-                        <Field component="input" name="description" type="textarea" required="required" autoComplete="off" className="form-control" />
+                        <Field component="textarea" style={{resize:'vertical',height:'100px'}} name="description" type="textarea" required="required" autoComplete="off" className="form-control" />
                     </InputRow>
                     <InputRow   {...spacing} label="Group Is Disabled">
                         <Field component="input" name="disabled" type="checkbox" />
