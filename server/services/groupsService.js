@@ -1,5 +1,4 @@
 let Group = require('mongoose').model('Group');
-let errorHandler = require('../utilities/errorHandler');
 
 let emailer = require('../utilities/emailer');
 let semesterService = require('./semesterService');
