@@ -2,18 +2,18 @@ import React from 'react';
 import { Well, Row, Col } from 'react-bootstrap';
 import Alert from '../../common/modal/Alert.jsx';
 const moreInfoSections = [{
-    label: 'Host',
-    details: 'Hey! Not ready to lead a group, but you\'ve got space to host one? Awesome! Let us know by emailing <a href="mailto:jessica@mosaicchristian.org"> jessica@mosaicchristian.org</a>'
+    label: 'Interested in Hosting a Growth Group in your Home?',
+    details: 'Hey! Not ready to lead a group, but you\'ve got space to host one? Awesome! Let us know by emailing <a href="mailto:amanda@mosaicchristian.org"> amanda@mosaicchristian.org</a>'
 },
 {
-    label: 'Lead',
+    label: 'Interested in leading a Growth Group?',
     details: 'Hey! Interested in leading a growth group? Awesome! Fill out the application here: <br />' +
     '<a href="https://www.mosaicchristian.org/leadagroup"> www.mosaicchristian.org/leadagroup </a>' +
     '<br />We\'re looking forward to hearing from you!'
 },
 {
-    label: 'Childcare',
-    details: 'Hey! Looking to make some extra cash on the side? Join our team of background checked babysitters, and help make it possible for parents to connect each and every semester! Let us know by emailing <a href="mailto:jessica@mosaicchristian.org"> jessica@mosaicchristian.org</a>'
+    label: 'Love working with kids?',
+    details: 'Hey! Looking to make some extra cash on the side? Join our team of background checked babysitters, and help make it possible for parents to connect each and every semester! Let us know by emailing <a href="mailto:amanda@mosaicchristian.org"> amanda@mosaicchristian.org</a>'
 }];
 
 class InfoWell extends React.Component {
@@ -33,7 +33,7 @@ class InfoWell extends React.Component {
                 <Row>
                     <Col md={12}>
                         {moreInfoSections.map(section => (
-                            <Row key={section.label} className="text-center ">
+                            <Row key={section.label} style={{marginTop: 10}} className="text-center ">
                                 <button onClick={()=> this.handleClick(section.details, section.label)}className="btn ">{section.label}</button>
                             </Row>
                         ))}
