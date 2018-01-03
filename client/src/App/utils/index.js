@@ -1,23 +1,22 @@
 const groupDisabled = (group, settings) => {
     return group.disabled || settings.disableGroups;
 };
+
 const groupIsFull = (group) => {
     let currentMemberCount = 0;
-    if (group.members)
-    {
+    if (group.members) {
         currentMemberCount = group.members.length;
-    }    
+    }
     return currentMemberCount >= group.memberLimit;
 };
 
-
 const userIsLeaderOfGroup = (group, identity) => {
-
     // filter leaders to see if the logged in user is a leader of the group
     return group.leaders
         .filter(leader => identity._id === leader._id)
         .length > 0;
 };
+
 const userCanEditGroup = (group, identity) => {
     let canEditGroup = false;
     if (!identity.username) {
@@ -30,5 +29,6 @@ const userCanEditGroup = (group, identity) => {
     return canEditGroup;
 };
 
+const apiPath = process.env.NODE_ENV === 'production' ? 'http://default-environment.yyrucqjvma.us-east-1.elasticbeanstalk.com/' : '';
 
-export { groupDisabled, groupIsFull, userIsLeaderOfGroup, userCanEditGroup };
+export { groupDisabled, groupIsFull, userIsLeaderOfGroup, userCanEditGroup, apiPath };

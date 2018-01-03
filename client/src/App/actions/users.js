@@ -2,6 +2,7 @@ import * as request from 'superagent';
 import { toastr } from 'react-redux-toastr';
 import { push } from 'react-router-redux';
 import { updateAuthUser } from './identity';
+import { apiPath } from '../utils/index.js';
 
 export const REQUEST_USERS = 'REQUEST_USERS';
 export const RECEIVE_USERS = 'RECEIVE_USERS';
@@ -20,7 +21,7 @@ export const receiveUsers = response => ({
 
 const listUsers = () => dispatch => {
     dispatch(requestUsers());
-    return request.get('/api/users')
+    return request.get(apiPath + '/api/users')
         .then(response => {
             return dispatch(receiveUsers(response));
         });
@@ -42,7 +43,7 @@ export const addUser = (newUser) => (dispatch, getState) => {
         user: newUser
     });
 
-    return request.post('/api/users')
+    return request.post(apiPath + '/api/users')
         .send(newUser)
         .then((r) => {
             if (!getState().identity._id ) {
@@ -64,7 +65,7 @@ export const updateUser = (user) => (dispatch, getState) => {
         type: UPDATE_USER,
         user
     });
-    return request.post(`/api/users/${user._id}`)
+    return request.post(apiPath + `/api/users/${user._id}`)
         .send(user)
         .then(response => {
             toastr.success('Success', `You have successfully updated ${user.firstName} ${user.lastName}`);
@@ -80,7 +81,7 @@ export const deleteUser = (user) => (dispatch, getState) => {
         type: DELETE_USER,
         user: user
     });
-    return request.delete(`/api/users/${user._id}`)
+    return request.delete(apiPath + `/api/users/${user._id}`)
         .then(response => {
             toastr.success('Success', `${user.firstName} ${user.lastName} has been deleted`);
         })

@@ -32,9 +32,6 @@ import UserListSurface from './components/users/list/ListSurface.jsx';
 import LoginSurface from './components/login/LoginSurface.jsx';
 import ProfileSurface from './components/profile/ProfileSurface.jsx';
 
-
-
-
 const history = createHistory();
 
 const middleware = [thunk];
@@ -67,7 +64,6 @@ class App extends React.Component {
                         <Route path="/login" component={LoginSurface} />
                         <Route path="/profile" component={ProfileSurface} />
 
-                        
                         <Route path="/user/list" component={UserListSurface} />
                         <Route exact={true} path="/user/createEdit" component={UserCreateEditSurface} />
                         <Route path="/user/createEdit/:id" component={UserCreateEditSurface} />
