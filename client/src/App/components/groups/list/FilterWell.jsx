@@ -42,7 +42,7 @@ class FilterWell extends React.Component {
                 case 'topics':
                     this.filters.set(key, key => g => {
                         return filterValue.filter(element => {
-                            return g[key].filter(i => i.toLowerCase() === element.toLowerCase()).length > 0;
+                            return g[key].filter(i => !!i && i.toLowerCase() === element.toLowerCase()).length > 0;
 
                         }).length > 0;
                     });
