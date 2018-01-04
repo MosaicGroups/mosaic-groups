@@ -29,22 +29,7 @@ let secureRedirect = function () {
 
 //routes
 module.exports = function (app) {
-    if (config.env !== 'production') {
-        app.get('/build*', function (req, res) {
-            res.sendFile(req.path, config);
-        });
-        app.get('/img*', function (req, res) {
-            res.sendFile(req.path, config);
-        });
-        app.get('/css*', function (req, res) {
-            res.sendFile(req.path, config);
-        });
-
-        // ensure that the client side application does ALL of the routing
-        app.get('/*', function (req, res) {
-            res.sendFile('index.html', config);
-        });
-    } else {
+    if (config.env === 'production') {
         app.use(cors({origin: 'http://mosaicchristian-org.s3-website-us-east-1.amazonaws.com'}));
     }
 
@@ -72,4 +57,21 @@ module.exports = function (app) {
 
     app.post('/login', auth.login);
     app.get('/logout', auth.logout);
+
+    if (config.env !== 'production') {
+        app.get('/build*', function (req, res) {
+            res.sendFile(req.path, config);
+        });
+        app.get('/img*', function (req, res) {
+            res.sendFile(req.path, config);
+        });
+        app.get('/css*', function (req, res) {
+            res.sendFile(req.path, config);
+        });
+
+        // ensure that the client side application does ALL of the routing
+        app.get('/*', function (req, res) {
+            res.sendFile('index.html', config);
+        });
+    }
 };

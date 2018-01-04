@@ -14,14 +14,13 @@ export const receiveAuthentication = response => ({
     user: response.body.user
 });
 
-
 export const updateAuthUser = user => dispatch => {
     dispatch(receiveAuthentication({ body: { user } }));
 };
 
 export const authenticate = (username, password) => dispatch => {
     dispatch(requestAuthentication());
-    return request.post('/login')
+    return request.post(apiPath + '/login')
         .send({ username, password })
         .then(response => {
             if (response.body.success) {
