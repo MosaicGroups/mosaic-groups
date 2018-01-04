@@ -9,10 +9,9 @@ var config = require('./server/config/config');
 var app = express();
 
 if (process.env.NODE_ENV !== 'test') {
-  tracer.setLevel('log');
-}
-else {
-  tracer.setLevel('warn');
+    tracer.setLevel('log');
+} else {
+    tracer.setLevel('warn');
 }
 logger.log('configuring express');
 require('./server/config/express')(app);
@@ -39,6 +38,6 @@ http.createServer(app).listen(config.http.port);
 //  https.createServer(config.https.options, app).listen(config.https.port);
 //}
 
-logger.log("Listening on port " + config.http.port);
+logger.log('Listening on port ' + config.http.port);
 
 module.exports = app;
