@@ -3,6 +3,7 @@ let passport = require('passport');
 let morgan = require('morgan');
 let bodyParser = require('body-parser');
 let cookieSession = require('cookie-session');
+let cors = require('cors');
 let config = require('./config');
 let logger = require('./logger');
 
@@ -27,7 +28,9 @@ module.exports = function (app) {
     app.use(passport.initialize());
     app.use(passport.session());
 
-    if (config.env !== 'production') {
+    if (config.env === 'production') {
+        app.use(cors({origin: 'http://mosaicchristian-org.s3-website-us-east-1.amazonaws.com'}));
+    } else {
         app.set('views', config.rootPath + '/server/views');
 
         // ensure that all public requests go to the /public directory

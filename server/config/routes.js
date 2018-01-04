@@ -45,8 +45,7 @@ module.exports = function (app) {
             res.sendFile('index.html', config);
         });
     } else {
-        app.use(cors());
-        // app.use(cors({origin: 'http://mosaicchristian-org.s3-website-us-east-1.amazonaws.com'}));
+        app.use(cors({origin: 'http://mosaicchristian-org.s3-website-us-east-1.amazonaws.com'}));
     }
 
     app.get('/api/user', cache.disableBrowserCache, users.getAuthenticatedUser);

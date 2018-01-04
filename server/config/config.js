@@ -12,7 +12,7 @@
  *   OTHER_VAR:       production
  */
 var path = require('path');
-var rootPath = path.normalize(__dirname + '/../../client/');
+// var rootPath = path.normalize(__dirname + '/../../client/');
 
 var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
@@ -36,7 +36,7 @@ const envs = {
             url: devDBConnection,
             debugMode: true
         },
-        root: rootPath,
+        // root: rootPath,
         http: {
             port: process.env.PORT || 3030
         },
@@ -62,7 +62,7 @@ const envs = {
             url: 'mongodb://' + process.env.MOSAICGROUPS_USERNAME + ':' + process.env.MOSAICGROUPS_PASSWORD + '@ds027489.mongolab.com:27489/mosaicgroups',
             debugMode: false
         },
-        root: rootPath,
+        // root: rootPath,
         http: {
             port: process.env.PORT || 80
         },
