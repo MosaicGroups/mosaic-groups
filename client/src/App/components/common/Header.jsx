@@ -8,7 +8,7 @@ const Header = ({ identity }) => (
         <div className="container-fluid">
             <div className="navbar-header">
                 <a href="/" className="navbar-brand col-md-6">
-                    <img className="headerLogoImage" src="img/navbarBrand.png" />
+                    <img className="headerLogoImage" src="/img/navbarBrand.png" />
                 </a>
             </div>
             {identity.username ? <Navigation identity={identity} /> : null}
