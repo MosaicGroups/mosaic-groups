@@ -7,16 +7,16 @@ import { connect } from 'react-redux';
 const columns = ['Username (Email)', 'Name', 'Admin', 'Super Admin', 'Actions'];
 
 class RemoveUserButton extends React.Component {
-    
+
     constructor(props) {
         super(props);
     }
-    
+
     style = {
         'marginLeft' : '5px',
         'display' : 'inline'
     }
-    
+
     render() {
         const user = this.props.user;
         return (<div style={this.style}>
@@ -27,23 +27,23 @@ class RemoveUserButton extends React.Component {
                     .catch(() => { });
             }} className="btn btn-primary">Delete</Button>
             <Confirm ref="confirm">
-                <span>Are you sure you want to delete the user: {user.username}</span>
+                <span>Are you sure you want to delete the user: {user.username}?</span>
             </Confirm>
         </div>);
     }
 }
 
-class ListTable extends React.Component {    
-    
+class ListTable extends React.Component {
+
     constructor(props) {
         super(props);
     }
-    
+
     removeUser = (user) => {
         const { dispatch } = this.props;
         dispatch(deleteUser(user));
     }
-    
+
     render() {
         let users = this.props.users;
         return (
@@ -66,7 +66,7 @@ class ListTable extends React.Component {
                                     <td>{user.roles.includes('superadmin') ? 'Yes' : 'No'}</td>
                                     <td>
                                         <a href={`/user/createEdit/${user._id}`} className="btn btn-default">Edit</a>
-                           
+
                                         <RemoveUserButton user={user} onClick={this.removeUser}/>
                                     </td>
                                 </tr>
