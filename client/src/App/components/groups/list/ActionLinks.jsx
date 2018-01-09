@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { groupDisabled, groupIsFull, userCanEditGroup } from '../../../utils/index.js';
 import { Row, Col } from 'react-bootstrap';
-import{deleteGroup} from '../../../actions/groups'
+import { deleteGroup } from '../../../actions/groups';
 
 import Confirm from '../../common/modal/Confirm.jsx';
 class DeleteLink extends React.Component {
