@@ -8,12 +8,12 @@ const GroupRow = ({ group, children }) => {
                 {group.title}
             </td>
             <td>
-                <OverlayTrigger placement="right" overlay={(
+                <OverlayTrigger placement="right" trigger="click" rootClose="true" overlay={(
                     <Popover id={group._id || group.title} >
                         {group.description}
                     </Popover>
                 )}>
-                    <a >Details...</a>
+                    <a style={{cursor: 'pointer'}}>Details...</a>
                 </OverlayTrigger>
             </td>
             <td>
@@ -22,7 +22,7 @@ const GroupRow = ({ group, children }) => {
             <td>
                  <Row>
                     {group.leaders && group.leaders.map((leader, idx) => <Col md={12} key={idx}>{leader.firstName} {leader.lastName} </Col>)}
-                 </Row>    
+                 </Row>
             </td>
             <td>
                 {group.location}
@@ -35,9 +35,7 @@ const GroupRow = ({ group, children }) => {
             </td>
             <td>
                 <Row>
-
                     {group.topics.map(topic => <Col md={12} key={topic}> {topic} </Col>)}
-
                 </Row>
             </td>
             <td>

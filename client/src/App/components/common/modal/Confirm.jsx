@@ -14,7 +14,7 @@ class Confirm extends React.Component {
         return (
             <Modal show={this.state.show}>
                 <Modal.Header>
-                <button type="button" className="close" onClick={this.cancel}  aria-hidden="true">&times;</button>    
+                <button type="button" className="close" onClick={this.cancel}  aria-hidden="true">&times;</button>
                     <Modal.Title>{title}</Modal.Title>
                 </Modal.Header>
 
@@ -28,7 +28,7 @@ class Confirm extends React.Component {
                         Cancel
                     </Button>)}
                     <Button bsStyle="primary" onClick={this.accept}>
-                        Ok
+                        Yes
                     </Button>
                 </Modal.Footer>
 

@@ -130,9 +130,9 @@ class GroupCreateEditSurface extends React.Component {
                 </CreateEditForm>
 
                 <Confirm ref="confirm">
-                    <span>Hey! Thanks so much for entering your group's information into the website! <br /><br />
+                    <span>Thanks so much for entering your group's information! <br /><br />
 
-                        Are there any edits you would like to make to ensure your group's description is free of spelling and grammatical errors before you continue?</span>
+                        Please be sure your group's description is free of spelling and grammatical errors. Are you sure you want to submit?</span>
                 </Confirm>
             </div>
 

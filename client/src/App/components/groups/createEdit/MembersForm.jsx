@@ -51,7 +51,7 @@ const MembersForm = ({ fields, meta: { touched, error, submitFailed } }) => (
                         <tr key={index}>
                             <td>
                                 <Field
-                                 required="required"    
+                                 required="required"
                                     name={`${member}.firstName`}
                                     type="text"
                                     component="input"
@@ -60,7 +60,7 @@ const MembersForm = ({ fields, meta: { touched, error, submitFailed } }) => (
                             </td>
                             <td>
                                 <Field
-                                 required="required"    
+                                 required="required"
                                     name={`${member}.lastName`}
                                     type="text"
                                     component="input"
@@ -81,7 +81,7 @@ const MembersForm = ({ fields, meta: { touched, error, submitFailed } }) => (
                             </td>
                             <td>
                                 <Field
-                                 required="required"    
+                                 required="required"
                                     name={`${member}.email`}
                                     component="input"
                                     type="text"
@@ -90,7 +90,7 @@ const MembersForm = ({ fields, meta: { touched, error, submitFailed } }) => (
                             </td>
                             <td>
                                 <Field
-                                 required="required"    
+                                 required="required"
                                     name={`${member}.phone`}
                                     type="text"
                                     component="input"
