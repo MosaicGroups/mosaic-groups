@@ -22,7 +22,7 @@ module.exports = function (app) {
         let requestLogFormat = '\x1b[34mRequest:\x1b[0m [:date[iso]](:remote-addr): ":method :url HTTP/:http-version" :status :res[content-length]';
         app.use(morgan(requestLogFormat));
     }
-    // app.use(forceSsl);
+    app.use(forceSsl);
     app.use(bodyParser());
     app.use(cookieSession({ secret: 'mosaic groups unicorns' }));
     app.use(passport.initialize());
