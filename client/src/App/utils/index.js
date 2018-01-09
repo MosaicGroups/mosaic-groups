@@ -29,6 +29,6 @@ const userCanEditGroup = (group, identity) => {
     return canEditGroup;
 };
 
-const apiPath = process.env.NODE_ENV === 'production' ? 'http://default-environment.yyrucqjvma.us-east-1.elasticbeanstalk.com' : '';
+const apiPath = process.env.NODE_ENV === 'production' ? 'https://default-environment.yyrucqjvma.us-east-1.elasticbeanstalk.com' : '';
 
 export { groupDisabled, groupIsFull, userIsLeaderOfGroup, userCanEditGroup, apiPath };
