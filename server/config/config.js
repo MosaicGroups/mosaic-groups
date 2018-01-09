@@ -15,6 +15,10 @@ var path = require('path');
 var rootPath = path.normalize(__dirname + '/../../client/');
 
 var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+var corsOrigins = [];
+if (env === 'production' && process.env.MOSAIC_ORIGINS) {
+    corsOrigins = process.env.MOSAIC_ORIGINS.split(';');
+}
 
 // we need to default to the hosted dev DB is there is a username and password vars configured
 var devDBConnection;
@@ -53,7 +57,8 @@ const envs = {
         },
         emailer: {
             password: process.env.MOSAIC_GROUPS_EMAIL_PASSWORD
-        }
+        },
+        origins: corsOrigins
     },
     production: {
         env: env,
@@ -81,7 +86,8 @@ const envs = {
         },
         emailer: {
             password: process.env.MOSAIC_GROUPS_EMAIL_PASSWORD
-        }
+        },
+        origins: corsOrigins
     }
 };
 envs.test = envs.development;

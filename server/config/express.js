@@ -29,7 +29,7 @@ module.exports = function (app) {
     app.use(passport.session());
 
     if (config.env === 'production') {
-        app.use(cors({origin: 'http://mosaicchristian-org.s3-website-us-east-1.amazonaws.com'}));
+        app.use(cors({origin: config.origins}));
     } else {
         app.set('views', config.rootPath + '/server/views');
 
