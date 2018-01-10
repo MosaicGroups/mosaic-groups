@@ -29,10 +29,6 @@ let secureRedirect = function () {
 
 //routes
 module.exports = function (app) {
-    /*if (config.env === 'production') {
-        app.use(cors({origin: 'http://mosaicchristian-org.s3-website-us-east-1.amazonaws.com'}));
-    }*/
-
     app.get('/api/user', cache.disableBrowserCache, users.getAuthenticatedUser);
     app.get('/api/users/:id', cache.disableBrowserCache, auth.requiresRole('admin'), users.getUser);
     app.get('/api/users', cache.disableBrowserCache, users.getUsers);
