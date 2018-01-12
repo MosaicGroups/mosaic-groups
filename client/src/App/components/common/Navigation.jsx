@@ -28,7 +28,7 @@ const Navigation = ({ identity }) => (
                         <li className="divider"></li>
 
                         <li><a href="/profile">Profile</a></li>
-                        <li><a href="{apiPath + '/logout'}">Sign Out</a></li>
+                        <li><a href={apiPath + '/logout'}>Sign Out</a></li>
                     </ul>
                 </li>
             </ul>
