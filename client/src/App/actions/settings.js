@@ -1,6 +1,7 @@
 import * as request from 'superagent';
 
 import { toastr } from 'react-redux-toastr';
+import { apiPath } from '../utils/index.js';
 
 export const REQUEST_SETTINGS = 'REQUEST_SETTINGS';
 export const RECEIVE_SETTINGS = 'RECEIVE_SETTINGS';
@@ -17,7 +18,7 @@ export const receiveSettings = json => ({
 
 const fetchSettings = () => dispatch => {
     dispatch(requestSettings());
-    return request.get('/api/settings')
+    return request.get(apiPath + '/api/settings')
         .then(response => dispatch(receiveSettings(response.body)));
 };
 
@@ -43,7 +44,7 @@ export const updateSettings = (key, value) => (dispatch, getState) => {
         settings
     });
 
-    return request.post('/api/settings')
+    return request.post(apiPath + '/api/settings')
         .send(settings)
         .then(response => {
             toastr.success('Success', 'Your changes have been saved');

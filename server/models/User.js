@@ -1,26 +1,26 @@
 var logger =  require('../config/logger');
 var mongoose = require('mongoose'),
-  encrypt = require('../utilities/encryption');
+    encrypt = require('../utilities/encryption');
 
 //mongoose schema for User collection
 var userSchema = new mongoose.Schema({
-  firstName: {
-    type:String,
-    required:'{PATH} is required!'},
-  lastName: {
-    type:String,
-    required:'{PATH} is required!'},
-  username: {
-    type: String,
-    required: '{PATH} is required!',
-    unique:true},
-  salt: {
-    type:String,
-    required:'{PATH} is required!'},
-  hashed_pwd: {
-    type:String,
-    required:'{PATH} is required!'},
-  roles: [String]
+    firstName: {
+        type:String,
+        required:'{PATH} is required!'},
+    lastName: {
+        type:String,
+        required:'{PATH} is required!'},
+    username: {
+        type: String,
+        required: '{PATH} is required!',
+        unique:true},
+    salt: {
+        type:String,
+        required:'{PATH} is required!'},
+    hashed_pwd: {
+        type:String,
+        required:'{PATH} is required!'},
+    roles: [String]
 });
 
 userSchema.methods = {

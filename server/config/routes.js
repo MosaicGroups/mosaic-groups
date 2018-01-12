@@ -1,3 +1,4 @@
+// let cors = require('cors');
 var auth = require('./auth');
 var cache = require('./cache');
 var config = require('./config');
@@ -28,7 +29,6 @@ let secureRedirect = function () {
 
 //routes
 module.exports = function (app) {
-
     app.get('/api/user', cache.disableBrowserCache, users.getAuthenticatedUser);
     app.get('/api/users/:id', cache.disableBrowserCache, auth.requiresRole('admin'), users.getUser);
     app.get('/api/users', cache.disableBrowserCache, users.getUsers);
@@ -51,24 +51,23 @@ module.exports = function (app) {
     app.get('/api/settings', cache.disableBrowserCache, settings.getSettings);
     app.post('/api/settings', auth.requiresRole('admin'), settings.updateSettings);
 
-
-
     app.post('/login', auth.login);
-
     app.get('/logout', auth.logout);
 
-    app.get('/build*', function (req, res) {
-        res.sendFile(req.path, config);
-    });
-    app.get('/img*', function (req, res) {
-        res.sendFile(req.path, config);
-    });
-    app.get('/css*', function (req, res) {
-        res.sendFile(req.path, config);
-    });
+    if (config.env !== 'production') {
+        app.get('/build*', function (req, res) {
+            res.sendFile(req.path, config);
+        });
+        app.get('/img*', function (req, res) {
+            res.sendFile(req.path, config);
+        });
+        app.get('/css*', function (req, res) {
+            res.sendFile(req.path, config);
+        });
 
-    // ensure that the client side application does ALL of the routing
-    app.get('/*', function (req, res) {
-        res.sendFile('index.html', config);
-    });
+        // ensure that the client side application does ALL of the routing
+        app.get('/*', function (req, res) {
+            res.sendFile('index.html', config);
+        });
+    }
 };

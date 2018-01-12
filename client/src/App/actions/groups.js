@@ -1,6 +1,7 @@
 import * as request from 'superagent';
 import { push } from 'react-router-redux';
 import { toastr } from 'react-redux-toastr';
+import { apiPath } from '../utils/index.js';
 
 export const REQUEST_GROUPS = 'REQUEST_GROUPS';
 export const RECEIVE_GROUPS = 'RECEIVE_GROUPS';
@@ -21,7 +22,7 @@ export const receiveGroups = response => ({
 
 const getGroups = () => dispatch => {
     dispatch(requestGroups());
-    return request.get('/api/groups')
+    return request.get(apiPath + '/api/groups')
         .then(response => {
             return dispatch(receiveGroups(response));
         });
@@ -40,7 +41,7 @@ export const startNewSemester = (name) => (dispatch, getState) => {
         name
     });
 
-    request.post('/api/groups/addSemester')
+    request.post(apiPath + '/api/groups/addSemester')
         .send({ 'semesterName': name })
         .then(response => {
             toastr.success('Success', `Started New Semester: "${name}"`);
@@ -71,7 +72,7 @@ export const addGroup = (group) => (dispatch, getState) => {
         type: ADD_GROUP,
         group
     });
-    return request.post('/api/groups')
+    return request.post(apiPath + '/api/groups')
         .send(group)
         .then(response => {
             toastr.success('Success', `You have successfully added ${group.title}`);
@@ -80,14 +81,14 @@ export const addGroup = (group) => (dispatch, getState) => {
         .catch(err => {
             toastr.error('Error', `There was an error adding ${group.title}, Please send this error to the group coordinator:  ${err}`);
         });
-
 };
+
 export const deleteGroup = (group) => (dispatch, getState) => {
     dispatch({
         type: DELETE_GROUP,
         group
     });
-    return request.delete(`/api/groups/${group._id}`)
+    return request.delete(apiPath + `/api/groups/${group._id}`)
         .then(response => {
             toastr.success('Success', `${group.title} has been deleted`);
         })
@@ -101,7 +102,7 @@ export const updateGroup = (group) => (dispatch, getState) => {
         type: UPDATE_GROUP,
         group
     });
-    return request.post(`/api/groups/${group._id}`)
+    return request.post(apiPath + `/api/groups/${group._id}`)
         .send(group)
         .then(response => {
             toastr.success('Success', `You have successfully updated ${group.title}`);
@@ -111,6 +112,7 @@ export const updateGroup = (group) => (dispatch, getState) => {
             toastr.error('Error', `There was an error updating ${group.title}, Please send this error to the group coordinator:  ${err}`);
         });
 };
+
 export const joinGroup = ({ member, spouse }, groupId) => (dispatch, getState) => {
     dispatch({
         type: JOIN_GROUP
@@ -122,8 +124,7 @@ export const joinGroup = ({ member, spouse }, groupId) => (dispatch, getState) =
         data.newMemberSpouse = spouse;
     }
 
-
-    return request.post(`/api/groups/${groupId}/add-member`)
+    return request.post(apiPath + `/api/groups/${groupId}/add-member`)
         .send(data)
         .then(response => {
             toastr.success('Success', `You're request to join this group has been submitted. 
@@ -134,6 +135,3 @@ export const joinGroup = ({ member, spouse }, groupId) => (dispatch, getState) =
             toastr.error('Error', `There was an error joining this group, Please send this error to the group coordinator:  ${err}`);
         });
 };
-
-
-

@@ -3,6 +3,7 @@ import { push } from 'react-router-redux';
 export const REQUEST_AUTHENTICATION = 'REQUEST_AUTHENTICATION';
 export const RECEIVE_AUTHENTICATION = 'RECEIVE_AUTHENTICATION';
 import { toastr } from 'react-redux-toastr';
+import { apiPath } from '../utils/index.js';
 
 export const requestAuthentication = () => ({
     type: REQUEST_AUTHENTICATION
@@ -13,14 +14,13 @@ export const receiveAuthentication = response => ({
     user: response.body.user
 });
 
-
 export const updateAuthUser = user => dispatch => {
     dispatch(receiveAuthentication({ body: { user } }));
 };
 
 export const authenticate = (username, password) => dispatch => {
     dispatch(requestAuthentication());
-    return request.post('/login')
+    return request.post(apiPath + '/login')
         .send({ username, password })
         .then(response => {
             if (response.body.success) {
@@ -42,11 +42,8 @@ export const authenticate = (username, password) => dispatch => {
 
 export const getCurrentUser = (username, password) => dispatch => {
     dispatch(requestAuthentication());
-    return request.get('/api/user')
+    return request.get(apiPath + '/api/user')
         .then(response => {
             return dispatch(receiveAuthentication(response));
         });
 };
-
-
-

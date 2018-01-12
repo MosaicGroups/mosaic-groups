@@ -1,4 +1,5 @@
 import React from 'react';
+import { apiPath } from '../../utils/index.js';
 
 const Navigation = ({ identity }) => (
     <div className="container-fluid">
@@ -27,7 +28,7 @@ const Navigation = ({ identity }) => (
                         <li className="divider"></li>
 
                         <li><a href="/profile">Profile</a></li>
-                        <li><a href="/logout">Sign Out</a></li>
+                        <li><a href={apiPath + '/logout'}>Sign Out</a></li>
                     </ul>
                 </li>
             </ul>

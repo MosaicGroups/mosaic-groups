@@ -6,6 +6,7 @@ import { toastr } from 'react-redux-toastr';
 import { updateSettings } from '../../../actions/settings.js';
 import { startNewSemester } from '../../../actions/groups.js';
 import  SemesterForm from './SemesterForm.jsx';
+import { apiPath } from '../../../utils/index.js';
 
 const rowStyle = {
     'marginTop' : '15px'
@@ -25,7 +26,7 @@ const AdminWell = ({ settings, dispatch }) => {
             <Row>
                 <Col md={12}>
                     <Button onClick={(e) => {
-                        request.post('/api/groups/emailGroupReportToSelf')
+                        request.post(apiPath + '/api/groups/emailGroupReportToSelf')
                             .then(res => {
                                 toastr.success('Success', 'Group Report email sent');
                             })
@@ -39,7 +40,7 @@ const AdminWell = ({ settings, dispatch }) => {
             <Row style={rowStyle}>
                 <Col md={12}>
                     <Button onClick={(e) => {
-                        request.post('/api/groups/emailUniqueReportToSelf')
+                        request.post(apiPath + '/api/groups/emailUniqueReportToSelf')
                             .then(res => {
                                 toastr.success('Success', 'Unique Members Report email sent');
                             })

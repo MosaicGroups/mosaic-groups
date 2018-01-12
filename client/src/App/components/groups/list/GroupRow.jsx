@@ -8,7 +8,7 @@ const GroupRow = ({ group, children }) => {
                 {group.title}
             </td>
             <td>
-                <OverlayTrigger placement="right" trigger="click" rootClose="true" overlay={(
+                <OverlayTrigger placement="right" trigger="click" rootClose overlay={(
                     <Popover id={group._id || group.title} >
                         {group.description}
                     </Popover>
