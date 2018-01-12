@@ -29,7 +29,7 @@ module.exports = function (app) {
     app.use(passport.session());
 
     if (config.env === 'production') {
-        app.use(cors({origin: config.origins}));
+        app.use(cors({origin: config.origins, credentials: true}));
     } else {
         app.set('views', config.rootPath + '/server/views');
 
