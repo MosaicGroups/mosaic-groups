@@ -23,6 +23,7 @@ export const receiveGroups = response => ({
 const getGroups = () => dispatch => {
     dispatch(requestGroups());
     return request.get(apiPath + '/api/groups')
+        .withCredentials()
         .then(response => {
             return dispatch(receiveGroups(response));
         });

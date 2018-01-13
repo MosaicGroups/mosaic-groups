@@ -22,6 +22,7 @@ export const receiveUsers = response => ({
 const listUsers = () => dispatch => {
     dispatch(requestUsers());
     return request.get(apiPath + '/api/users')
+        .withCredentials()
         .then(response => {
             return dispatch(receiveUsers(response));
         });
