@@ -36,9 +36,9 @@ const envs = {
             debugMode: true
         },
         root: rootPath,
-        http: { port: process.env.PORT || 3030 },
+        http: { port: 3030 },
         https: {
-            port: process.env.SSLPORT || 3031,
+            port: 3031,
             options: {
                 key: fs.readFileSync(constants.DEV_KEY_PATH),
                 cert: fs.readFileSync(constants.DEV_CERT_PATH)
