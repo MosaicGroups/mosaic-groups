@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from 'fs';
-import { exec }from 'child_process';
+import { execSync }from 'child_process';
 import logger from './logger';
 import * as constants from './constants';
 
@@ -21,9 +21,12 @@ if (env === constants.DEV) {
             openssl genrsa -out ${constants.DEV_KEY_PATH} 1024 &&
             openssl req -new -key ${constants.DEV_KEY_PATH} -out ${constants.DEV_CSR_PATH} -subj ${constants.DEV_CERT_SUBJ}
             openssl x509 -req -in ${constants.DEV_CSR_PATH} -signkey ${constants.DEV_KEY_PATH} -out ${constants.DEV_CERT_PATH}`;
-        exec(command, (err) => {
-            if (err) { logger.error('Failed to Generate HTTPS Key and Certificate.');}
-        }); 
+        try {
+            execSync(command, {stdio: ['ignore', 'ignore', 'ignore']});
+        } catch (error) {
+            logger.error('Failed to Generate HTTPS Key and Certificate.');
+            logger.error(error.message);
+        }
     } else { logger.log('Located Development HTTPS Key and Certificate');}
 }
   
